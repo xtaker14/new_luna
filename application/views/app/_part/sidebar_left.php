@@ -1,0 +1,134 @@
+<style type="text/css">
+	.dwn-btn{
+		padding: 12px 0px !important;
+	}
+	#srv_status{
+	  background-image: url("<?= base_url('assets/frontpage/img/server_npc.png') ?>");
+	  background-size: 110px auto;
+	  min-height: 70px;
+	  background-position: bottom right;
+	  background-repeat: no-repeat;
+	}
+
+	#srv_status ul li{
+		background-color: transparent !important;
+	}
+</style>
+<div class="d-block">
+	<div class="main_left_section">
+		<div class="text-center mb-2 p-0 main_child_left_section">
+			
+			<!-- <a class="dwn-btn btn btn-primary btn-block btn-lg" href="<?= base_url('p/download-page') ?>"><b><i class="fas fa-cloud-download-alt mr-1"></i> Clients Download</b></a> -->
+			<rs-module-wrap data-source="gallery" style="padding:0;">
+				<rs-module id="rev_main_logo" style="" data-version="6.2.8">
+					<rs-slides>
+						<rs-slide data-key="rs-8" data-title="Slide" data-thumb="#" data-anim="ei:d;eo:d;s:d;r:0;t:fade;sl:d;" data-p1="1">
+							<img src="#" data-bg="f:100% 100%;" data-parallax="off" class="rev-slidebg" data-no-retina>	
+						</rs-slide> 
+					</rs-slides>
+					<rs-static-layers> 
+						<rs-layer  
+							class="rs-pxl-1 rs-layer-static"
+							data-type="image"
+							data-xy="x:c;y:m;yo:0,0,0,-80px;"
+							data-text="w:normal;"
+							/*data-dim="w:662px,490px,460px,260px;h:205px,152px,142px,81px;"*/
+							data-basealign="slide"
+							data-rsp_o="off"
+							data-rsp_bd="off"
+							data-onslides="s:1;"
+							data-frame_0="rX:70deg;oZ:-50;" 
+							/*data-frame_1="oZ:-20;e:power2.in;st:710;sp:600;sR:710;"*/
+							data-frame_999="o:0;st:w;sR:7260;"
+							style="z-index:10;"
+							>
+								<a href="<?= base_url(); ?>">
+									<img src="<?= base_url('assets/frontpage/img/luna_logo3.png'); ?>" class="img-fluid image_logo" data-no-retina />
+								</a>
+						</rs-layer> 
+					</rs-static-layers>
+				</rs-module> 
+			</rs-module-wrap>
+
+			<script type="text/javascript"> 
+				$(document).ready(function(){
+					setREVStartSize({
+						c: 'rev_main_logo',
+						rl: [1240, 991, 980, 950, 700],
+						el: [900, 900, 910, 850, 610],
+						// gw: [1300, 1100, 600, 300],
+						gh: [900, 900, 910, 850, 610],
+						type: 'standard',
+						justify: '',
+						layout: false,
+						offsetContainer: '',
+						offset: '',
+						mh: "0"
+					});
+
+					var revapi7,
+					tpj;
+					jQuery(function () {
+						tpj = jQuery;
+						revapi7 = tpj("#rev_main_logo")
+						if (revapi7 == undefined || revapi7.revolution == undefined) {
+							revslider_showDoubleJqueryError("rev_main_logo");
+						} else {
+							revapi7.revolution({
+								// sliderLayout: "fullscreen",
+								// perspectiveType: "local",
+								visibilityLevels: "1240, 991, 980, 950, 700",
+								responsiveLevels: "1240, 991, 980, 950, 700",
+								editorheight: "900, 900, 910, 850, 610",
+								// gridwidth: "1300, 1100, 600, 300",
+								gridheight: "900, 900, 910, 850, 610",
+								progressBar: {
+									disableProgressBar: true
+								}, 
+								parallax: {
+									levels: [5, 10, 15, 20, 25, 30, 35, 40, 45, 46, 47, 48, 49, 50, 51, 20],
+									type: "3D",
+									origo: "slidercenter",
+									disable_onmobile: true,
+									ddd_bgfreeze: true,
+									ddd_z_correction: 10
+								},
+								// fallbacks: {
+								// 	allowHTML5AutoPlayOnAndroid:true
+								// }, 
+							});
+						}
+					});
+				});
+			</script>
+		</div>
+		
+		<?php
+		//$this->load->view("app/_part/sess_flash.php");
+		$user_panel = "user_menu";
+
+		if(!empty($usr_session)){
+			$user_panel = "user_info";	
+		}
+
+		$this->load->view("app/_part/_sidebar/".$user_panel.".php");
+		$this->load->view("app/_part/_sidebar/hot_items.php");
+
+		if($php_name=='homepage'){		
+			$this->load->view("app/_part/_sidebar/server_stat.php");
+			$this->load->view("app/_part/_sidebar/rank.php");
+		}
+		?>
+	</div>	
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	$(document).on('click','#btn_userpanel',function(){
+		$('#mod_userpanel').modal('show');
+	})
+
+	$(document).on('click','#go_logout',function(){
+		window.location.href = baseURL+ "go_logout";
+	})
+})
+</script>

@@ -1,0 +1,66 @@
+<style type="text/css">
+.category-menu{
+    list-style: none;
+    /* margin: 14px 0; */
+    margin: 0;
+    width: 100%;
+    text-align: center;
+    padding: 0;
+}
+.category-menu li{
+    font-size: 12px;
+    display: inline-block;
+    width: 88px;
+    height: 66px;
+    padding: 0;
+    text-align: center;
+    border: 0 solid #9b9b9b;
+}
+.category-menu a{color: #7b7b7b;}
+.category-menu a:hover{color: #cc7e30;}
+.category-menu li.active{
+    border-bottom-width: 4px;
+    font-weight:bold;
+}
+.category-image{
+    width: 55px;
+    height: 42px;
+    margin: 0 auto;
+    background: url("<?= base_url('assets/frontpage/img/shop/im-category.png') ?>") no-repeat;
+}
+.category-image.cat1{background-position: 0 -42px;}
+.category-image.cat2{background-position: 0 -84px;}
+.category-image.cat3{background-position: 0 -252px;}
+.category-image.cat4{background-position: 0 -168px;}
+.category-image.cat5{background-position: 0 -210px;}
+.category-image.cat6{background-position: 0 0;}
+.category-menu li.active .category-image.cat1,
+.category-menu li:hover .category-image.cat1{background-position: -55px -42px;}
+.category-menu li.active .category-image.cat2,
+.category-menu li:hover .category-image.cat2{background-position: -55px -84px;}
+.category-menu li.active .category-image.cat3,
+.category-menu li:hover .category-image.cat3{background-position: -55px -252px;}
+.category-menu li.active .category-image.cat4,
+.category-menu li:hover .category-image.cat4{background-position: -55px -168px;}
+.category-menu li.active .category-image.cat5,
+.category-menu li:hover .category-image.cat5{background-position: -55px -210px;}
+.category-menu li.active .category-image.cat6,
+.category-menu li:hover .category-image.cat6{background-position: -55px 0;}
+
+</style>
+<div class="box_header_title" style="top:initial; transform: translate(-50%);">
+    <span></span>
+    <span></span> 
+    <div class="content_header_title">
+        <h2> 
+            <ul class="category-menu">
+                <li class="cat_icon pointer active" data-id="6" data-category="Featured"><div class="category-image cat2"></div>Featured</li>
+                <li class="cat_icon pointer" data-id="4" data-category="Consumable"><div class="category-image cat1"></div>Consumables</li>
+                <li class="cat_icon pointer" data-id="1" data-category="Equipment"><div class="category-image cat5"></div>Equipment</label></li>
+                <li class="cat_icon pointer" data-id="2" data-category="Costume"><div class="category-image cat3"></div>Costumes</li> 
+                <li class="cat_icon pointer" data-id="3" data-category="Accesories"><div class="category-image cat4"></div>Accessories</li>
+                <li class="cat_icon pointer" data-id="5" data-category="Back Gear"><div class="category-image cat6"></div>Back Gear</li>
+            </ul>
+        </h2> 
+    </div>
+</div>

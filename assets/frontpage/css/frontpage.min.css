@@ -1,0 +1,129 @@
+.opt-box {
+    margin-left: 5px;
+    font-size: 13px;
+    color: #33ff33;
+    background-color: rgb(0,0,0,0.7);
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.mini-notice {
+    width: 114px;
+    height: 120px;
+    margin: -3px auto 12px auto;
+}
+
+.bg-pink {
+    background-color: #E91E63 !important;
+}
+
+.nav-item:hover{
+background: #0000001a;
+}
+
+.bg-purple {
+background-image: linear-gradient(to right, #ff00ff, #ea00f9, #d500f2, #c000eb, #ab00e4, #8741f3, #5b5bfc, #006cff, #0090ff, #00adff, #00c7ff, #00deff);
+}
+
+.disabled {
+    pointer-events: none;
+    cursor: default
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+tbody.small td{
+    padding: 5px!important;
+    font-size: 12px
+}
+
+.table-bordered td,
+.table-bordered th {
+    border: 1px solid #565757!important
+}
+
+.ui-autocomplete {
+    position: absolute;
+    z-index: 2147483647;
+    cursor: default;
+    padding: 0;
+    margin-top: 2px;
+    list-style: none;
+    background-color: #fff;
+    border: 1px solid #ccc -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .2)
+}
+
+.ui-autocomplete>li {
+    padding: 3px 10px
+}
+
+.ui-autocomplete>li.ui-state-focus {
+    background-color: #ddd
+}
+
+.ui-helper-hidden-accessible {
+    display: none
+}
+
+.ui-autocomplete { height: 250px; overflow-y: hidden; overflow-x: hidden;}
+
+/* Navigation */
+.list_none, nav.navigation ol,
+nav.navigation ul {
+    list-style: none;
+    margin: 0;
+    padding: 0
+}
+
+nav.navigation {
+    background-color: #0f0e0e;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 50px;
+    position: fixed;
+    bottom: 0;
+    z-index: 99
+}
+
+nav.navigation ul {
+    margin: auto;
+    height: 100%
+}
+
+nav.navigation ul li {
+    height: 100%;
+    float: left
+}
+
+nav.navigation ul li:hover a {
+    color: #fff
+}
+
+nav.navigation ul li a {
+    font-family: proxima-nova_bold, sans-serif;
+    text-transform: uppercase;
+    color: #a6a6a6;
+    height: 100%;
+    display: inline-block;
+    width: 100%;
+    margin: 10px 0 10px 0!important;
+    text-align: center;
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 450
+}

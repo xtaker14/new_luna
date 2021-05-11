@@ -1,0 +1,51 @@
+.list_none, nav.navigation ol,
+nav.navigation ul {
+    list-style: none;
+    margin: 0;
+    padding: 0
+}
+
+nav.navigation {
+    
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 50px;
+    position: fixed;
+    bottom: 0;
+    z-index: 99
+}
+
+nav.navigation ul {
+    margin: auto;
+    height: 100%
+}
+
+nav.navigation ul li {
+    height: 100%;
+    float: left
+}
+
+nav.navigation ul li:hover a {
+    color: #fff
+}
+
+nav.navigation ul li a {
+    font-family: proxima-nova_bold, sans-serif;
+    text-transform: uppercase;
+    color: #a6a6a6;
+    height: 100%;
+    display: inline-block;
+    width: 100%;
+    margin: 10px 0 10px 0!important;
+    text-align: center;
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 450
+}
