@@ -24,8 +24,8 @@ class AdminController extends CI_Controller {
 	}
 
 	protected function getConfigWeb(){
-		$this->load->model("frontpage_model");
-		$data = $this->frontpage_model->getConfigWeb(1); 
+		$this->load->model("admin_model");
+		$data = $this->admin_model->getConfigWeb(1); 
 		$dec_account_number = json_decode($data['account_number'], true);
 		// $account_number=array();
 		// foreach($exp_account_number as $key => $val){

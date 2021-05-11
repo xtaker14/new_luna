@@ -1,17 +1,17 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Frontpage_model extends CI_Model{
+class Frontpage_model extends MY_Model{
 	public function __construct(){
 		parent::__construct();
 		error_reporting(0);
 	}
 
-	function getConfigWeb($id=1){
-		$this->db = dbloader("default");
-		return $this->db->get_where('web_config',array(
-			'id'=>$id
-		))->row_array();
-	}
+	// function getConfigWeb($id=1){
+	// 	$this->db = dbloader("default");
+	// 	return $this->db->get_where('web_config',array(
+	// 		'id'=>$id
+	// 	))->row_array();
+	// }
 
 	function top_news(){
 		$do = $this->db->query("SELECT * FROM news WHERE category != 'Page' ORDER BY id DESC LIMIT 4")->result_array();
@@ -26,12 +26,8 @@ class Frontpage_model extends CI_Model{
 	function page($url){
 		$do = $this->db->query("SELECT * FROM news WHERE url = '$url' AND category = 'Page' ")->row_array();
 		return $do;
-	}
-
-	function donate_price_list(){
-		$this->db = dbloader("default");
-		return $this->db->get_where('donate_price_list',array('is_deleted'=>'no'))->result_array();
-	}
+	} 
+	
 	function donate_list($user_id,$where_data=false){
 		$this->db = dbloader("default");
 		$this->db->select('dl.price as bill, dl.currency, d.*');

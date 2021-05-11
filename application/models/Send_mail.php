@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Send_mail extends CI_Model{
+class Send_mail extends MY_Model{
     
     function  __construct(){
         parent::__construct();

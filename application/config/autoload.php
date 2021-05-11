@@ -7,7 +7,7 @@ $autoload['libraries'] = array('database', 'session', 'user_agent', 'email');
 
 $autoload['drivers'] = array();
 
-$autoload['helper'] = array('url', 'string', 'file', 'luna', 'dump');
+$autoload['helper'] = array('url', 'string', 'file', 'luna');
 
 $autoload['config'] = array();
 

@@ -1,6 +1,6 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Admin_login_model extends CI_Model
+class Admin_login_model extends MY_Model
 {
 
     public function __construct(){

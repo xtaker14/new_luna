@@ -28,6 +28,23 @@
                     </thead>
                     <tbody>
                         <?php foreach ($donate_list as $key => $val) : ?>
+                            <?php 
+                                $order_status = 0;
+                                switch ($val['status']) {
+                                    case 'paid':
+                                        $order_status = 1;
+                                        break;
+                                    case 'pending':
+                                        $order_status = 2;
+                                        break;
+                                    case 'complete':
+                                        $order_status = 3;
+                                        break;
+                                    case 'canceled':
+                                        $order_status = 4;
+                                        break;
+                                }    
+                            ?>
                             <tr> 
                                 <td><?= $val['id']; ?></td>
                                 <td><?= $val['admin_id']; ?></td>
@@ -44,7 +61,7 @@
                                     ?>
                                 </td> 
                                 <td><?= $val['payment_method']; ?></td>
-                                <td>
+                                <td data-order="<?= $order_status; ?>">
                                     <?php if($val['status'] == 'pending'): ?>
                                         <span style="color:cadetblue;"><?= ucwords($val['status']); ?></span>
                                     <?php endif; ?>
@@ -83,13 +100,14 @@ $(document).ready(function(){
     var donate_table = $('#donate_table').DataTable( {
         lengthChange: true,
         info: true,
-        aaSorting: [],
+        aaSorting: [
+            [ 7, "asc" ],
+        ],
         columnDefs: [
             { responsivePriority: 1, targets: 0 },
             { responsivePriority: 2, targets: 2 },
-            { searchable: false, targets: 0 },
-            { searchable: false, targets: 1 },
-            { searchable: false, targets: 3 },
+            // { searchable: false, targets: 0 },
+            // { searchable: false, targets: 1 }, 
         ],
         responsive: {
             details: {
@@ -145,6 +163,7 @@ function popPaidDonate(id){
                             .then((value) => {
                                 switch (value) {
                                     default:
+                                        window.location.reload();
                                         break;
                                     }
                             }); 

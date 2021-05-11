@@ -44,10 +44,9 @@ class Admin extends AdminController {
 	    $this->loadPage();
 	}
 	
-	function donate(){ 
-		$this->load->model("frontpage_model");
+	function donate(){
 		$this->load->model("admin_model");
-      	$this->global['donate_price_list'] = $this->frontpage_model->donate_price_list();
+      	$this->global['donate_price_list'] = $this->admin_model->donate_price_list();
       	$this->global['donate_list'] = $this->admin_model->donate_list();
 		$this->global['config_web'] = $this->getConfigWeb();
 		$this->global['php_name'] = 'donate';
