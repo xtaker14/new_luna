@@ -80,11 +80,11 @@
                                         <span style="color:red;"><?= ucwords($val['status']); ?></span>
                                     <?php endif; ?>
                                 </td>
-                                <td><?= date('d M Y H:i:s', strtotime($val['created_date'])); ?></td>
-                                <td><?= date('d M Y H:i:s', strtotime($val['paid_date'])); ?></td>
-                                <td><?= date('d M Y H:i:s', strtotime($val['recheck_date'])); ?></td>
-                                <td><?= date('d M Y H:i:s', strtotime($val['complete_date'])); ?></td>
-                                <td><?= date('d M Y H:i:s', strtotime($val['canceled_date'])); ?></td>
+                                <td><?= (!empty($val['created_date'])) ? date('d M Y H:i:s', strtotime($val['created_date'])) : '-- Empty --'; ?></td>
+                                <td><?= (!empty($val['paid_date'])) ? date('d M Y H:i:s', strtotime($val['paid_date'])) : '-- Empty --'; ?></td>
+                                <td><?= (!empty($val['recheck_date'])) ? date('d M Y H:i:s', strtotime($val['recheck_date'])) : '-- Empty --'; ?></td>
+                                <td><?= (!empty($val['complete_date'])) ? date('d M Y H:i:s', strtotime($val['complete_date'])) : '-- Empty --'; ?></td>
+                                <td><?= (!empty($val['canceled_date'])) ? date('d M Y H:i:s', strtotime($val['canceled_date'])) : '-- Empty --'; ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

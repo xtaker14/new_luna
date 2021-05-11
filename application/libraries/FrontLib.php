@@ -45,23 +45,41 @@ class FrontLib extends CI_Controller {
     }
 
 	function send_email($pars_data, $show_error = false){  
-        $config = Array(
-            'protocol' => 'smtp',
-            'smtp_host' => 'smtp.mailtrap.io',
-            'smtp_port' => 2525,
-            'smtp_user' => 'a397adb76f2d71',
-            'smtp_pass' => 'eaaad2b1d161a2',
-            'mailtype'  => 'html',
-            'charset'   => 'iso-8859-1',
-            // 'charset'   => 'utf-8',
-            // 'crlf'   => '\r\n',
-            // 'newline'   => '\r\n',
-            // 'wordwrap'   => true,
-        ); 
+        // $config = Array(
+        //     'protocol' => 'smtp',
+        //     'smtp_host' => 'smtp.mailtrap.io',
+        //     'smtp_port' => 2525,
+        //     'smtp_user' => 'a397adb76f2d71',
+        //     'smtp_pass' => 'eaaad2b1d161a2',
+        //     'mailtype'  => 'html',
+        //     'charset'   => 'iso-8859-1',
+        //     // 'charset'   => 'utf-8',
+        //     // 'crlf'   => '\r\n',
+        //     // 'newline'   => '\r\n',
+        //     // 'wordwrap'   => true,
+        // ); 
+        $config['useragent'] = 'CodeIgniter';
+		$config['protocol'] = 'smtp';
+		//$config['mailpath'] = '/usr/sbin/sendmail';
+		$config['smtp_host'] = 'ssl://smtp.googlemail.com';
+		$config['smtp_user'] = 'pinstarluna@gmail.com';
+		$config['smtp_pass'] = 'blacklist007008009';
+		$config['smtp_port'] = 465; 
+		$config['smtp_timeout'] = 5;
+		$config['wordwrap'] = TRUE;
+		$config['wrapchars'] = 76;
+		$config['mailtype'] = 'html';
+		$config['charset'] = 'utf-8';
+		$config['validate'] = FALSE;
+		$config['priority'] = 3;
+		$config['crlf'] = "\r\n";
+		$config['newline'] = "\r\n";
+		$config['bcc_batch_mode'] = FALSE;
+		$config['bcc_batch_size'] = 200;
 		
         echo '<script>f_main.loading(true);</script>';
         // $this->load->library('email', $config);
-        $this->email->set_newline("\r\n");
+        // $this->email->set_newline("\r\n");
 		$this->email->initialize($config);
 
         $this->email->from($pars_data['from'], $pars_data['title']);

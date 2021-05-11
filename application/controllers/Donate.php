@@ -39,7 +39,7 @@ class Donate extends FrontLib {
 
                 $date_now = date('d M Y');
                 if(!empty($get_donate[0]['recheck_date'])){
-                    $recheck_again_date = $this->plus_min_date($get_donate[0]['recheck_date'],["+1 day","Y-m-d H:i:s"]);
+                    $recheck_again_date = $this->plus_min_date($get_donate[0]['recheck_date'],["+1 day","d M Y"]);
                     if($date_now !== $recheck_again_date){
                         setFlashData('error', 'Error: This is not the time to recheck');
                         redirect(base_url('donate'));
