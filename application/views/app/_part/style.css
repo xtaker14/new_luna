@@ -1,0 +1,29 @@
+/* footer */
+.footer{
+    height: 80px;
+    width: 100%;
+    background: #818181;
+}
+.footer .grid{
+    position: relative;
+}
+.footer a{
+    margin: 0 10px 0 0;
+    color: #818181;
+}
+.logo-small{
+    width: 100%;
+    height: 100%;
+    line-height: 80px;
+    padding: 0;
+    text-align: center;
+}
+.doge{
+    background: url("/static/css/image/doge.png?d28d93941d09") center no-repeat;
+    width: 66px;
+    height: 59px;
+    position: absolute;
+    top: -49px;
+    left: -105px;
+}
+
