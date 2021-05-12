@@ -101,7 +101,7 @@
                                             if(empty($val['referral_code'])){
                                                 echo '-';
                                             }else{
-                                                $val['referral_code'];
+                                                echo $val['referral_code'];
                                             }
                                         ?>
                                     </td> 
@@ -120,6 +120,12 @@
 
                                         <?php if($val['status'] == 'complete'): ?>
                                             <button class="btn-hover btn color-green" type="button">
+                                                <?= ucwords($val['status']); ?>
+                                            </button>
+                                        <?php endif; ?>
+
+                                        <?php if($val['status'] == 'canceled'): ?>
+                                            <button class="btn-hover btn color-darkred" type="button">
                                                 <?= ucwords($val['status']); ?>
                                             </button>
                                         <?php endif; ?>
@@ -175,7 +181,7 @@ $(document).ready(function(){
             "warning",
         {
             buttons: { 
-                button_1: "No", 
+                button_1: {text:'No', className:'btn-black'},
                 button_2: "Yes", 
             },
         })

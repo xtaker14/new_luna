@@ -84,6 +84,20 @@
                                     <span>Process</span>
                                 </a>
                             </li> 
+                           <li>
+                                <a href="<?php print_r(site_url('adm/referral')) ?>">
+                                    <!-- <i class="fa fa-coins text-primary"></i> -->
+                                    <i class="fas fa-list-ul"></i>
+                                    <span>Referral Code</span>
+                                </a>
+                            </li> 
+                           <li>
+                                <a href="<?php print_r(site_url('adm/referral_history')) ?>">
+                                    <!-- <i class="fa fa-coins text-primary"></i> -->
+                                    <i class="fas fa-list-ul"></i>
+                                    <span>Referral History</span>
+                                </a>
+                            </li> 
                         </ul>
                     </div>
                 </li>

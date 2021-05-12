@@ -1,18 +1,18 @@
 <?php defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' ); 
 
-class FrontLib extends CI_Controller {
+class FrontLib extends MY_Controller {
 	protected $global = array();
 	protected $usr_code = '';
 	protected $propid = '';
 	protected $id_email = '';
 	protected $id_loginid = '';
 	protected $star_point = '';
+	protected $silver_point = '';
 	protected $usr_session = '';
 
 	function __construct() {
 		parent::__construct();
-		date_default_timezone_set("Asia/Bangkok");
-		$this->global['date_now'] = date('Y-m-d H:i:00');
+		date_default_timezone_set("Asia/Bangkok"); 
 	}
 	
 	protected function onlyAllowAccessFromAjax(){
@@ -24,9 +24,12 @@ class FrontLib extends CI_Controller {
 		return $result;
 	}
 
-	protected function getConfigWeb(){
+	protected function getConfigWeb($alldata=false){
 		$this->load->model("frontpage_model");
-		$data = $this->frontpage_model->getConfigWeb(1); 
+		$data = $this->frontpage_model->getConfigWeb($this->id_config_web); 
+		if($alldata){
+			return $data;
+		}
 		$dec_account_number = json_decode($data['account_number'], true);
 		// $account_number=array();
 		// foreach($exp_account_number as $key => $val){
@@ -43,64 +46,6 @@ class FrontLib extends CI_Controller {
         $date = strtotime($res_date[0], $date);
         return date($res_date[1], $date);
     }
-
-	function send_email($pars_data, $show_error = false){  
-        // $config = Array(
-        //     'protocol' => 'smtp',
-        //     'smtp_host' => 'smtp.mailtrap.io',
-        //     'smtp_port' => 2525,
-        //     'smtp_user' => 'a397adb76f2d71',
-        //     'smtp_pass' => 'eaaad2b1d161a2',
-        //     'mailtype'  => 'html',
-        //     'charset'   => 'iso-8859-1',
-        //     // 'charset'   => 'utf-8',
-        //     // 'crlf'   => '\r\n',
-        //     // 'newline'   => '\r\n',
-        //     // 'wordwrap'   => true,
-        // ); 
-        $config['useragent'] = 'CodeIgniter';
-		$config['protocol'] = 'smtp';
-		//$config['mailpath'] = '/usr/sbin/sendmail';
-		$config['smtp_host'] = 'ssl://smtp.googlemail.com';
-		$config['smtp_user'] = 'pinstarluna@gmail.com';
-		$config['smtp_pass'] = 'blacklist007008009';
-		$config['smtp_port'] = 465; 
-		$config['smtp_timeout'] = 5;
-		$config['wordwrap'] = TRUE;
-		$config['wrapchars'] = 76;
-		$config['mailtype'] = 'html';
-		$config['charset'] = 'utf-8';
-		$config['validate'] = FALSE;
-		$config['priority'] = 3;
-		$config['crlf'] = "\r\n";
-		$config['newline'] = "\r\n";
-		$config['bcc_batch_mode'] = FALSE;
-		$config['bcc_batch_size'] = 200;
-		
-        echo '<script>f_main.loading(true);</script>';
-        // $this->load->library('email', $config);
-        // $this->email->set_newline("\r\n");
-		$this->email->initialize($config);
-
-        $this->email->from($pars_data['from'], $pars_data['title']);
-        $this->email->to($pars_data['to']);
-
-        $this->email->subject($pars_data['subject']);
-        $this->email->message($pars_data['msg']);  
-
-        $result = $this->email->send();
-        if ($result) {
-            echo '<script>f_main.loading(false);</script>';
-            return true;
-        }else{
-			if($show_error){
-				show_error($this->email->print_debugger());
-				exit; 
-			}else{
-				return false; 
-			}
-        }
-    }
 	
 	function is_login(){
 		$this->usr_code = $this->session->userdata ( 'usr_code' );
@@ -108,12 +53,14 @@ class FrontLib extends CI_Controller {
 		$this->id_email = $this->session->userdata ( 'id_email' );
 		$this->id_loginid = $this->session->userdata ( 'id_loginid' );
 		$this->star_point = $this->session->userdata ( 'star_point' );
+		$this->silver_point = $this->session->userdata ( 'silver_point' );
 		$this->usr_session = $this->session->userdata ( 'usr_session' );
 		$this->global['usr_code'] = $this->usr_code;
 		$this->global['propid'] = $this->propid;
 		$this->global['id_email'] = $this->id_email;
 		$this->global['id_loginid'] = $this->id_loginid;
 		$this->global['star_point'] = $this->star_point;
+		$this->global['silver_point'] = $this->silver_point;
 		$this->global['usr_session'] = $this->usr_session;
 	}
 
@@ -135,7 +82,9 @@ class FrontLib extends CI_Controller {
 	/*START CODE */
 	function loadViews(){
 		$this->load->model("im_model");
-		$this->global['hot_items'] = $this->im_model->im_list_by(8,'counter');
+		$this->global['hot_items'] = $this->im_model->im_list_by(8,'counter');	
+		$config_web = $this->getConfigWeb(true);
+		$this->global['config_web'] = $config_web;
         $this->load->view('app/overview', $this->global);
     }
     

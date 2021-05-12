@@ -53,8 +53,12 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-	// define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development'); // ini nampilin debug error klo buat masa develop
-	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'production'); // ini klo udh live, klo ada error jadi player gatau, tapi proses ke stop aja
+
+	// ini nampilin debug error klo buat masa develop
+	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development'); 
+
+	// ini klo udh live, klo ada error jadi player gatau, tapi proses ke stop aja
+	// define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'production'); 
 
 /*
  *---------------------------------------------------------------

@@ -41,6 +41,75 @@ class Admin_action extends AdminController {
 		}
 	}
 
+	function go_make_refferal_code(){
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+		}else{
+			$this->load->model('admin_model');
+			$this->db = dbloader("default"); 
+
+			$is_deleted = $this->input->post('is_deleted',true); 
+			$referral_code = $this->input->post('referral_code',true); 
+			$username = $this->input->post('username',true);
+			$silver_point = toggle_to_int($this->input->post('silver_point',true)); 
+			$admin_id = $this->userId;
+
+			if(isset($is_deleted)){
+				$is_deleted='no';
+			}else{
+				$is_deleted='yes';
+			}
+
+			$data_user = $this->admin_model->getWhereUser(array(
+				'username'=>$username
+			))->row_array();
+			if(empty($data_user)){
+				setFlashData('error', 'terjadi error data user tidak ditemukan..');
+				redirect('adm/new_referral');
+			}
+
+			$this->db->where('referral_code', $referral_code);
+			$this->db->or_where('user_id', $data_user['id']);
+			$data_referral = $this->db->get('referral_code')->row_array();
+			if(count($data_referral)>0){
+				setFlashData('error', 'terjadi error, username / refferal code sudah pernah di buat..');
+				redirect('adm/new_referral');
+			}
+			
+			$data = array(
+				'is_deleted'=>$is_deleted,
+				'referral_code'=>$referral_code,
+				'user_id'=>$data_user['id'],
+				'user_code'=>$data_user['code'],
+				'silver_point'=>$silver_point,
+				'admin_id'=>$admin_id,
+			);
+
+			$this->db->trans_begin();
+			$this->db->insert('referral_code',$data);
+			if($this->db->trans_status() === FALSE) {
+				$this->db->trans_rollback(); 
+				setFlashData('error', 'terjadi error saat simpan data referral..');
+				redirect('adm/new_referral');
+			}
+
+			$this->db->update('tbl_user',array(
+				'referral_code'=>$referral_code,
+				'silver_point'=>$silver_point,
+			),array(
+				'id'=>$data_user['id']
+			));
+			if($this->db->trans_status() === FALSE) {
+				$this->db->trans_rollback(); 
+				setFlashData('error', 'terjadi error saat update data user referral code..');
+				redirect('adm/new_referral');
+			}
+
+			$this->db->trans_commit();
+			setFlashData('success', 'berhasil insert');
+			redirect('adm/referral');
+		}
+	}
 	function go_make_im()
 	{
 		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){

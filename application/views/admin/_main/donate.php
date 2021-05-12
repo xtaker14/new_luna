@@ -17,7 +17,7 @@
                             <th scope="col">Bill</th>
                             <th scope="col">Diamonds</th>
                             <th scope="col">Referral</th> 
-                            <th scope="col">Referral</th> 
+                            <th scope="col">Payment</th> 
                             <th scope="col">Status</th>
                             <th scope="col">Created Date</th>
                             <th scope="col">Paid Date</th>
@@ -47,7 +47,7 @@
                             ?>
                             <tr> 
                                 <td><?= $val['id']; ?></td>
-                                <td><?= $val['admin_id']; ?></td>
+                                <td><?= !empty($val['admin_id']) ? $val['admin_id'] : '<small>Not Yet</small>' ; ?></td>
                                 <td><?= $val['username']; ?></td>
                                 <td><?= number_format($val['bill'],0,',','.'); ?></td>
                                 <td><?= number_format($val['donate_price'],0,',','.'); ?></td>
@@ -56,7 +56,7 @@
                                         if(empty($val['referral_code'])){
                                             echo '-';
                                         }else{
-                                            $val['referral_code'];
+                                            echo $val['referral_code'];
                                         }
                                     ?>
                                 </td> 
@@ -129,31 +129,66 @@ $(document).ready(function(){
 function popPaidDonate(id){
     let donate_popup = $("#donate_popup");
     let status = 'paid'; 
+    let to_status = '';
 
     // f_main.loading(true);
     swal("Question",
-        "Do you want to change the status to Complete?",
+        "Please choose what status you want to be!",
         "warning",
     {
         buttons: { 
-            button_1: "No", 
-            button_2: "Yes", 
+            button_1: {text:'Close Modal', className:'btn-black'}, 
+            button_2: {text:'Canceled', className:'btn-danger'}, 
+            button_3: {text:'Complete', className:'btn-success'}, 
         },
     })
     .then((value) => {
         switch (value) {
             case 'button_2':  
+                to_status = 'canceled';
                 $.ajax({
                     type : "POST",
                     dataType : "json",
                     data : {
                         donate_id : id, 
+                        to_status : to_status,
                     },
                     url : baseURL+"adm/donate_process/"+status,
                     success:function(res){  
                         if(res.result){
                             swal("Successfull",
-                                "Successfully sending Diamonds and changing status to Complete",
+                                "Successfully changing status to "+to_status,
+                                "success",
+                            {
+                                buttons: { 
+                                    button_1: "OK", 
+                                },
+                            })
+                            .then((value) => {
+                                switch (value) {
+                                    default:
+                                        window.location.reload();
+                                        break;
+                                    }
+                            }); 
+                        } 
+                    }
+                });
+                break;
+            case 'button_3': 
+                to_status = 'complete';
+                $.ajax({
+                    type : "POST",
+                    dataType : "json",
+                    data : {
+                        donate_id : id, 
+                        to_status : to_status,
+                    },
+                    url : baseURL+"adm/donate_process/"+status,
+                    success:function(res){  
+                        if(res.result){
+                            swal("Successfull",
+                                "Successfully sending Diamonds and changing status to "+to_status,
                                 "success",
                             {
                                 buttons: { 
@@ -176,3 +211,8 @@ function popPaidDonate(id){
 }
 
 </script>
+<style>
+    .btn-black{
+        background-color: #353333 !important;
+    }
+</style>

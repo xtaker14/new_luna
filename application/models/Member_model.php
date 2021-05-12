@@ -2,14 +2,6 @@
 
 class Member_model extends MY_Model
 {
-  function getWhereUser($data=false){
-    $where = array();
-    if($data){
-      $where = $data;
-    }
-    $this->db = dbloader("default");
-    return $this->db->get_where('tbl_user',$where);
-  }
   function insert_WebMember($d){
     $code = random_string('alnum', 50);
     $pw = getHashedPassword($d[2]);
@@ -66,7 +58,10 @@ class Member_model extends MY_Model
     }
     $res = $this->db->get_where('tbl_user',array('username'=>$username))->row();
     if($res){
-      return $res->star_point;
+      return array(
+        'star_point'=>$res->star_point,
+        'silver_point'=>$res->silver_point,
+      );
     }else{
       return false;
     }
@@ -79,7 +74,7 @@ class Member_model extends MY_Model
   }
   function login($username,$password){
     $this->db = dbloader("default");
-    $a = $this->db->query("SELECT id,code,email,password,star_point FROM tbl_user WHERE username = '$username'")->row();
+    $a = $this->db->query("SELECT id,code,email,password,star_point,silver_point FROM tbl_user WHERE username = '$username'")->row();
     if($a){
       if(verifyHashedPassword($password, $a->password)){
         return $a;

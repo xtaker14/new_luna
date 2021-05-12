@@ -5,73 +5,110 @@ class MY_Controller extends CI_Controller  {
 
 	protected $core_data;
 	protected $id_config_web;
-	protected $transfer_point_tax;
-	protected $min_transfer_point;
-	protected $change_nick_fee;
-	protected $change_gender_fee;
+    protected $referral_bonus_points;
 
 	function __construct() {
 		parent::__construct();
 		date_default_timezone_set("Asia/Bangkok");
 		$GLOBALS['date_now'] = date('Y-m-d H:i:00');
-		$this->id_config_web = 1;
+		$this->id_config_web = 1; 
 
-		// $this->transfer_point_tax = 15;
-		// $this->min_transfer_point = 800;
-		// $this->change_nick_fee = 1100;
-		// $this->change_gender_fee = 1700;
-		// $this->discount_item_mall = null;
+		$this->referral_bonus_points = 15; // percent
 
-        // $this->load->model('Model_main','main_m',TRUE);	
-		// $data_config_web = $this->main_m->checkConfigWeb(array(
-		// 	'id' => $this->id_config_web,
-		// ))->row_array();
-		// if (count($data_config_web) > 1) {
-		// 	$this->transfer_point_tax = $data_config_web['transfer_point_tax'];
-		// 	$this->min_transfer_point = $data_config_web['min_transfer_point'];
-		// 	$this->change_nick_fee = $data_config_web['change_nick_fee'];
-		// 	$this->change_gender_fee = $data_config_web['change_gender_fee'];
-		// 	$this->discount_item_mall = $data_config_web['discount_item_mall'];
-		// } 
-
-		// if(preg_match('/(Chrome|CriOS)\//i',$this->input->user_agent())
-		//  && !preg_match('/(Aviator|ChromePlus|coc_|Dragon|Edge|Flock|Iron|Kinza|Maxthon|MxNitro|Nichrome|OPR|Perk|Rockmelt|Seznam|Sleipnir|Spark|UBrowser|Vivaldi|WebExplorer|YaBrowser)/i',$this->input->user_agent())){
-		//     // Browser might be Google Chrome
-		// }
-		// "INSERT INTO table (title) VALUES(".$this->db->escape($omgomg).")";
-		// $get_browser = $this->getBrowser();
-		// switch ($get_browser['shortname']) {
-		// 	case 'firefox':
-		// 	case 'chrome':
-		// 		$get_mt_key = $this->secureGet('maintenance-key', true);
-		// 		$get_admin_key = $this->secureGet('admin-key', true);
-		// 		if($get_mt_key){
-		// 			$this->session->set_userdata('maintenance-key', $get_mt_key);
-		// 		}
-		// 		if($get_admin_key){
-		// 			$this->session->set_userdata('admin-key', $get_admin_key);
-		// 		}
-		// 		$this->routesAPI();
-		// 		$GLOBALS['check_allowed_ip'] = $this->checkAllowedIp();
-		// 		$this->isOtherLinkMT();
-		// 		$this->allowedAdmin(); 
+        $this->load->model('admin_model','main_m',TRUE);	
+		$data_config_web = $this->main_m->getConfigWeb($this->id_config_web);
+		if(count($data_config_web)>1){
+			$this->referral_bonus_points = $data_config_web['referral_bonus_points'];
+		}
+		
+		$get_browser = $this->getBrowser();
+		switch ($get_browser['shortname']) {
+			case 'firefox':
+			case 'chrome':
+				$get_mt_key = $this->secureGet('maintenance-key', true);
+				$get_admin_key = $this->secureGet('admin-key', true);
+				if($get_mt_key){
+					$this->session->set_userdata('maintenance-key', $get_mt_key);
+				}
+				if($get_admin_key){
+					$this->session->set_userdata('admin-key', $get_admin_key);
+				} 
+				$GLOBALS['check_allowed_ip'] = $this->checkAllowedIp();
+				$this->isOtherLinkMT();
+				$this->allowedAdmin(); 
 				
-		// 		return true;
-		// 		break;
-		// 	default:
-		// 		echo 'Use browser engine Firefox/Chrome';
-		// 		exit;
-		// 		break;
-		// }
+				return true;
+				break;
+			default:
+				echo 'Use browser engine Firefox/Chrome';
+				exit;
+				break;
+		}
 	}
+
+	public function send_email($pars_data, $show_error = false){
+        // $config['useragent'] = 'CodeIgniter';
+		// $config['protocol'] = 'smtp';
+		// $config['smtp_host'] = 'ssl://smtp.googlemail.com';
+		// $config['smtp_user'] = 'pinstarluna@gmail.com';
+		// $config['smtp_pass'] = 'blacklist007008009';
+		// $config['smtp_port'] = 465; 
+		// $config['smtp_timeout'] = 5;
+		// $config['wordwrap'] = TRUE;
+		// $config['wrapchars'] = 76;
+		// $config['mailtype'] = 'html';
+		// $config['charset'] = 'utf-8';
+		// $config['validate'] = FALSE;
+		// $config['priority'] = 3;
+		// $config['crlf'] = "\r\n";
+		// $config['newline'] = "\r\n";
+		// $config['bcc_batch_mode'] = FALSE;
+		// $config['bcc_batch_size'] = 200; 
+
+        $config = Array(
+            'protocol' => 'smtp',
+            'smtp_host' => 'smtp.mailtrap.io',
+            'smtp_port' => 2525,
+            'smtp_user' => 'a397adb76f2d71',
+            'smtp_pass' => 'eaaad2b1d161a2',
+            'mailtype'  => 'html',
+            'charset'   => 'iso-8859-1',
+            // 'charset'   => 'utf-8',
+            // 'crlf'   => '\r\n',
+            // 'newline'   => '\r\n',
+            // 'wordwrap'   => true,
+        );
+		
+        echo '<script>f_main.loading(true);</script>';
+        // $this->load->library('email', $config);
+		$this->email->initialize($config);
+
+        $this->email->from($pars_data['from'], $pars_data['title']);
+        $this->email->to($pars_data['to']);
+
+        $this->email->subject($pars_data['subject']);
+        $this->email->message($pars_data['msg']);  
+
+        $result = $this->email->send();
+        if ($result) {
+            echo '<script>f_main.loading(false);</script>';
+            return true;
+        }else{
+			if($show_error){
+				show_error($this->email->print_debugger());
+				exit; 
+			}else{
+				return false; 
+			}
+        }
+    }
 
 	public function allowedAdmin(){
 		$current_url = $this->uri->segment(1);
 		if(strtolower($current_url) === 'admin'){
+			$this->load->model('admin_model','main_m',TRUE);
 			$get_admin_key = $this->session->userdata('admin-key');
-			$data_config_web = $this->main_m->checkConfigWeb(array(
-				'id'=>$this->id_config_web,
-			))->row_array();
+			$data_config_web = $this->main_m->getConfigWeb($this->id_config_web);
 			if(count($data_config_web)>1){
 				if($get_admin_key){
 					if($get_admin_key == $data_config_web['admin_access_key']){
@@ -91,11 +128,9 @@ class MY_Controller extends CI_Controller  {
 	}
 
 	public function isMT($mt_name){
-        $this->load->model('Model_main','main_m',TRUE);	
+        $this->load->model('admin_model','main_m',TRUE);
 		$get_mt_key = $this->session->userdata('maintenance-key');
-		$data_config_web = $this->main_m->checkConfigWeb(array(
-			'id'=>$this->id_config_web,
-		))->row_array();
+		$data_config_web = $this->main_m->getConfigWeb($this->id_config_web);
 		if(count($data_config_web)>1){
 			if($data_config_web[$mt_name] == 'yes'){
 				if($get_mt_key){
@@ -114,11 +149,9 @@ class MY_Controller extends CI_Controller  {
 	}
 
 	public function isOtherLinkMT(){
-        $this->load->model('Model_main','main_m',TRUE);	
+        $this->load->model('admin_model','main_m',TRUE);	
 		$get_mt_key = $this->session->userdata('maintenance-key');
-		$data_config_web = $this->main_m->checkConfigWeb(array(
-			'id'=>$this->id_config_web,
-		))->row_array();
+		$data_config_web = $this->main_m->getConfigWeb($this->id_config_web);
 		if(count($data_config_web)>1){
 			if(!empty($data_config_web['other_maintenance'])){
 				$exp_link_mt = explode(',',str_replace(' ','', trim($data_config_web['other_maintenance'])));
@@ -144,264 +177,50 @@ class MY_Controller extends CI_Controller  {
 	}
 
 	public function checkAllowedIp(){
-		$this->load->library('Main', null, 'main_l');		
-		return $this->main_l->checkAllowedIp();
-	}
-
-	private function routesAPI() {
-		// $this->session->unset_userdata('ROUTES-API');
-		// $this->session->unset_userdata('TIMER-ROUTES-API');
-
-		$this->load->helper('funct_helper');
-		if(!$this->session->userdata('ROUTES-API')){
-			$routes_api = array(
-				// user ---
-				'refresh_point'=> array(
-					'encrypt' => 'user/api/'.randomNumber(), 
-					'decrypt' => 'user/api/refresh_point'
-				),
-				'fix_5101'=> array(
-					'encrypt' => 'user/api/'.randomNumber(), 
-					'decrypt' => 'user/api/fix_5101'
-				),
-				'reset_ui'=> array(
-					'encrypt' => 'user/api/'.randomNumber(), 
-					'decrypt' => 'user/api/reset_ui'
-				),
-				'signin_refresh_captcha'=> array(
-					'encrypt' => 'user/api/'.randomNumber(), 
-					'decrypt' => 'user/api/signin/refresh_captcha'
-				),
-				'signin_process'=> array(
-					'encrypt' => 'user/api/'.randomNumber(), 
-					'decrypt' => 'user/api/signin/process'
-				),
-				'signup_refresh_captcha'=> array(
-					'encrypt' => 'user/api/'.randomNumber(), 
-					'decrypt' => 'user/api/signup/refresh_captcha'
-				),
-				'signup_process'=> array(
-					'encrypt' => 'user/api/'.randomNumber(), 
-					'decrypt' => 'user/api/signup/process'
-				),
-				'change_password_refresh_captcha'=> array(
-					'encrypt' => 'user/api/'.randomNumber(), 
-					'decrypt' => 'user/api/change_password/refresh_captcha'
-				),
-				'change_password_process'=> array(
-					'encrypt' => 'user/api/'.randomNumber(), 
-					'decrypt' => 'user/api/change_password/process'
-				),
-				'change_pin_refresh_captcha'=> array(
-					'encrypt' => 'user/api/'.randomNumber(), 
-					'decrypt' => 'user/api/change_pin/refresh_captcha'
-				),
-				'change_pin_process'=> array(
-					'encrypt' => 'user/api/'.randomNumber(), 
-					'decrypt' => 'user/api/change_pin/process'
-				),
-				'shop_process'=> array(
-					'encrypt' => 'user/api/'.randomNumber(), 
-					'decrypt' => 'user/api/shop/process'
-				),
-				'transfer_point_refresh_captcha'=> array(
-					'encrypt' => 'user/api/'.randomNumber(), 
-					'decrypt' => 'user/api/transfer_point/refresh_captcha'
-				),
-				'transfer_point_process'=> array(
-					'encrypt' => 'user/api/'.randomNumber(), 
-					'decrypt' => 'user/api/transfer_point/process'
-				),
-				'change_nick_refresh_captcha'=> array(
-					'encrypt' => 'user/api/'.randomNumber(), 
-					'decrypt' => 'user/api/change_nick/refresh_captcha'
-				),
-				'change_nick_process'=> array(
-					'encrypt' => 'user/api/'.randomNumber(), 
-					'decrypt' => 'user/api/change_nick/process'
-				),
-				'change_gender_refresh_captcha'=> array(
-					'encrypt' => 'user/api/'.randomNumber(), 
-					'decrypt' => 'user/api/change_gender/refresh_captcha'
-				),
-				'change_gender_process'=> array(
-					'encrypt' => 'user/api/'.randomNumber(), 
-					'decrypt' => 'user/api/change_gender/process'
-				),
-
-				'spin' => array(
-					'encrypt' => 'user/api/' . randomNumber(),
-					'decrypt' => 'user/api/wheel/spin'
-				),
-				'wheel_refresh_captcha'=> array(
-					'encrypt' => 'user/api/'.randomNumber(), 
-					'decrypt' => 'user/api/wheel/refresh_captcha'
-				),
-				'wheel_load'=> array(
-					'encrypt' => 'user/api/'.randomNumber(), 
-					'decrypt' => 'user/api/wheel/load'
-				),
-				'spin_paid' => array(
-					'encrypt' => 'user/api/' . randomNumber(),
-					'decrypt' => 'user/api/wheel/spin_paid'
-				),
-				'wheel_refresh_captcha_paid'=> array(
-					'encrypt' => 'user/api/'.randomNumber(), 
-					'decrypt' => 'user/api/wheel/refresh_captcha_paid'
-				),
-				'wheel_load_paid'=> array(
-					'encrypt' => 'user/api/'.randomNumber(), 
-					'decrypt' => 'user/api/wheel/load_paid'
-				),
-
-				// admin ---
-				'admin_signin_process'=> array(
-					'encrypt' => 'admin/api/' . randomNumber(),
-					'decrypt' => 'admin/api/signin/process'
-				),
-				'admin_setting_process'=> array(
-					'encrypt' => 'admin/api/'.randomNumber(), 
-					'decrypt' => 'admin/api/setting/process'
-				),
-				'admin_mt_setting_process' => array(
-					'encrypt' => 'admin/api/' . randomNumber(),
-					'decrypt' => 'admin/api/mt_setting/process'
-				),
-
-				'admin_shop_best_seller' => array(
-					'encrypt' => 'admin/api/' . randomNumber(),
-					'decrypt' => 'admin/api/shop/best_seller'
-				),
-				'admin_shop_delete_item' => array(
-					'encrypt' => 'admin/api/' . randomNumber(),
-					'decrypt' => 'admin/api/shop/delete'
-				),
-				'admin_shop_process' => array(
-					'encrypt' => 'admin/api/' . randomNumber(),
-					'decrypt' => 'admin/api/shop/process'
-				),
-
-				'admin_wheel_delete_item' => array(
-					'encrypt' => 'admin/api/' . randomNumber(),
-					'decrypt' => 'admin/api/wheel/delete'
-				),
-				'admin_wheel_process' => array(
-					'encrypt' => 'admin/api/' . randomNumber(),
-					'decrypt' => 'admin/api/wheel/process'
-				),
-			);
-			$i=0;
-			foreach ($routes_api as $key => $val) {
-				$i++;
-				$GLOBALS['ROUTES-API'][$key]['encrypt'] = $val['encrypt'].$i;
-				$GLOBALS['ROUTES-API'][$key]['decrypt'] = $val['decrypt'];
+		$this->load->model("admin_model");
+		$data = $this->admin_model->getAllowedIp(array())->result_array();
+	
+		foreach($data as $key){
+			$pub_ip = $this->ci->input->ip_address();
+			switch($pub_ip){
+				case '127.0.0.1':
+				case '::1':
+					$pub_ip = $this->getClientIp();
+					break;
 			}
-			$this->session->set_userdata('ROUTES-API', $GLOBALS['ROUTES-API']);
-		}else{
-			$GLOBALS['ROUTES-API'] = $this->session->userdata('ROUTES-API');
-		}
-		if (
-			$this->session->userdata('TIMER-ROUTES-API') && 
-			(time() - $this->session->userdata('TIMER-ROUTES-API') > 1800)
-		) { // 30 min
-			$this->session->unset_userdata('ROUTES-API');
-		}
-		$this->session->set_userdata('TIMER-ROUTES-API', time());
-		// dump(array($GLOBALS['ROUTES-API']));
-	}
-
-	protected function afterAdminLogin($ajax=false){
-		if($ajax){
-			if(!$this->session->userdata('is_admin_login')){
-				return false;
+			if($key['admin_address'] == $pub_ip){
+				return true;
 			}
-			$this->adminLastOnline();
-			return true;
 		}
-		if(!$this->session->userdata('is_admin_login')){
-			$this->redirect(base_url('admin/signin'));
-		}
-		$this->adminLastOnline();
+		return false;
 	}
 
-	protected function adminLastOnline(){
-		$this->load->model('admin/Model_Signin');
-		$data_admin_user = $this->Model_Signin->getUserWhere("id = '".$this->session->userdata('admin_userid')."'")->row_array();
+	public function getClientIp() {
+		$ipaddress = '';
+		if (getenv('HTTP_CLIENT_IP'))
+			$ipaddress = getenv('HTTP_CLIENT_IP');
+		else if(getenv('HTTP_X_FORWARDED_FOR'))
+			$ipaddress = getenv('HTTP_X_FORWARDED_FOR');
+		else if(getenv('HTTP_X_FORWARDED'))
+			$ipaddress = getenv('HTTP_X_FORWARDED');
+		else if(getenv('HTTP_FORWARDED_FOR'))
+			$ipaddress = getenv('HTTP_FORWARDED_FOR');
+		else if(getenv('HTTP_FORWARDED'))
+			$ipaddress = getenv('HTTP_FORWARDED');
+		else if(getenv('REMOTE_ADDR'))
+			$ipaddress = getenv('REMOTE_ADDR');
+		else
+			$ipaddress = 'UNKNOWN';
 
-		// $time_online=strtotime($data_admin_user['logged_in_date']);
-		// $time=time();
-		// $last_online = date('i', $time-$time_online)." min ago";
-		$last_online = getTimeBetweenTwoDate($GLOBALS['date_now'], $data_admin_user['logged_in_date']);
-		$this->core_data['last_online'] = $last_online.' ago';
-	}
-
-	protected function beforeAdminLogin($ajax=false){
-		if($ajax){
-			if($this->session->userdata('is_admin_login')){
-				return false;
-			}
-			return true;
-		}
-		if($this->session->userdata('is_admin_login')){
-			$this->redirect(base_url('admin/dashboard'));
-		}
-	}
-
-	protected function afterLogin($ajax=false){
-		if($ajax){
-			if(!$this->session->userdata('is_login')){
-				return false;
-			}
-			return true;
-		}
-		if(!$this->session->userdata('is_login')){
-			$this->redirect(base_url('signin'));
-		}
-	}
-
-	protected function beforeLogin($ajax=false){
-		if($ajax){
-			if($this->session->userdata('is_login')){
-				return false;
-			}
-			return true;
-		}
-		if($this->session->userdata('is_login')){
-			$this->redirect(base_url('our_rules'));
-		}
-	}
+		return $ipaddress;
+	}  
 
 	protected function dd($data,$exit=false){
 		dump($data);
 		if(!$exit){
 			exit;
 		}
-	}
-
-	protected function configCaptcha($data=null){
-		$img_path = './assets/corporate/captcha/' . (!empty($data['img_path']) ? $data['img_path'] : '');
-		if (!is_dir($img_path)) {
-			mkdir($img_path, 0777, TRUE);
-		}
-
-		return array(
-            'img_path' => $img_path,
-            'img_url' => base_url() . $img_path,
-            'font_path' => './assets/corporate/Roboto-Black.ttf',
-            'word_length' => (!empty($data['word_length']) ? $data['word_length'] : 6),
-            'font_size' => (!empty($data['font_size']) ? $data['font_size'] : 40),
-            'img_width' => (!empty($data['img_width']) ? $data['img_width'] : '250'),
-            'img_height' => (!empty($data['img_height']) ? $data['img_height'] : 200),
-            'pool' => (!empty($data['pool']) ? $data['pool'] : '0123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ'),
-            'expiration' => (!empty($data['expiration']) ? $data['expiration'] : 7200),
-            'colors' => array(
-                'background' => array(17, 17, 17),
-                'border' => array(255, 255, 255),
-                'text' => array(251, 192, 45),
-                'grid' => array(238, 168, 96, 255)
-            )
-		);
-	}
+	} 
 
 	protected function xssClean($val,$exclude=false)
 	{
@@ -437,8 +256,7 @@ class MY_Controller extends CI_Controller  {
 		return $this->security->xss_clean($this->input->post($data));
 	}
 
-	protected function secureGet($data,$more=false,$exclude=false){
-		$this->load->helper('funct_helper');
+	protected function secureGet($data,$more=false,$exclude=false){ 
 		$convert_data = $this->input->get($data);
 		if($convert_data === 0 || $convert_data === '0'){
 			return 0;
@@ -467,26 +285,7 @@ class MY_Controller extends CI_Controller  {
 
 	protected function checkMyIp(){
 		return $this->input->ip_address();
-	}
-
-	protected function onlyAllowAccessFromWeb(){
-		$result = true;
-		if($this->input->is_ajax_request() || $this->input->is_cli_request())
-		{
-			$result = false;
-		}
-		if($this->input->method() != 'get'){
-			$result = false;
-		}
-		if($result == false){
-			return $this->dd(array(
-				'text' => 'Error 500',
-				'result' => false,
-				'type' => 'danger'
-			));
-		}
-		return $result;
-	}
+	} 
 
 	protected function onlyAllowAccessFromAjax(){
 		$result = true;

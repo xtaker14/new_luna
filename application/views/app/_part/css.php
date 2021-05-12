@@ -529,6 +529,9 @@ ul.social-icons li:nth-last-child(1) {
 	text-align: center;
 }
 
+.btn-black{
+	background-color: #353333 !important;
+}
 .btn-hover {
 	width: 100%;
     font-size: 14px !important;

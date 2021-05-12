@@ -23,12 +23,22 @@
 			        <td><?= $user_email ?></td>
 			    </tr>
 			    <tr>
-			        <td>Balance<span class="float-sm-right">:</span></td>
+			        <td>Diamond<span class="float-sm-right">:</span></td>
 			        <td>
 						<label title="<?= 'Balance : '.number_format($star_point,0,'','.'); ?>" class="text-primary">
 							<span class="star_point">
 								<?= number_format($star_point,0,'','.'); ?>
 							</span><i class="fas fa-gem ml-1" data-fa-transform="rotate-30"></i>
+						</label>
+					</td>
+			    </tr>
+			    <tr>
+			        <td>Silver<span class="float-sm-right">:</span></td>
+			        <td>
+						<label title="<?= 'Balance : '.number_format($silver_point,0,'','.'); ?>" class="">
+							<span class="silver_point">
+								<?= number_format($silver_point,0,'','.'); ?>
+							</span><i class="fa fa-coins ml-2" data-fa-transform="rotate-30"></i>
 						</label>
 					</td>
 			    </tr>
@@ -49,9 +59,14 @@
 			data : {},
 			url : baseURL+"api/refresh_point",
 			success:function(res){
+				let star_point = res.result.star_point;
+				let silver_point = res.result.silver_point;
 				// console.log(res);
-				$('.star_point').text(f_main.numberFormatAlias(res.result));
-				$(".star_point").parent().attr('title','Balance : '+f_main.formatNumber(res.result,'.'));
+				$(".star_point").text(f_main.numberFormatAlias(star_point));
+				$(".star_point").parent().attr('title','Balance : '+f_main.formatNumber(star_point,'.'));
+
+				$(".silver_point").text(f_main.numberFormatAlias(silver_point));
+				$(".silver_point").parent().attr('title','Balance : '+f_main.formatNumber(silver_point,'.'));
 			}
 		});
 	});

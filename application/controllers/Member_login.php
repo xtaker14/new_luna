@@ -100,6 +100,7 @@ class Member_login extends CI_Controller {
                         			   'usr_code'=>$result->code,
                                        'id_email'=>$result->email,
                                        'star_point'=>$result->star_point,
+                                       'silver_point'=>$result->silver_point,
                                        'id_loginid'=>$id_loginid,
                                        'usr_session' => TRUE
                                     );

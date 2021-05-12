@@ -39,7 +39,11 @@ class Frontpage_json extends FrontLib {
 
       $this->load->model("member_model"); 
       $username = $this->session->userdata('id_loginid');
-      $result = $this->member_model->refresh_point($username);
+      $refresh = $this->member_model->refresh_point($username);
+      $result = array(
+         'star_point'=>$refresh['star_point'],
+         'silver_point'=>$refresh['silver_point'],
+      );
 
       if($result){
          return $this->output
