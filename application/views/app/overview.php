@@ -102,7 +102,7 @@ header('Content-Type: text/html; charset=utf-8');
 			$this->load->view("app/_main/_donate/donate_popup.php");
 		}
 	?>  
-
+	
 	<?php if(!empty($config_web['widget_discord_link'])): ?>
 		<div class="parent_discord">
 			<iframe style="display: none;" src="<?= $config_web['widget_discord_link']; ?>" width="360" height="330" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>

@@ -48,6 +48,7 @@ class Admin_action extends AdminController {
 			$this->load->model('admin_model');
 			$this->db = dbloader("default"); 
 
+			$id = $this->input->post('id',true); 
 			$is_deleted = $this->input->post('is_deleted',true); 
 			$referral_code = $this->input->post('referral_code',true); 
 			$username = $this->input->post('username',true);
@@ -76,33 +77,64 @@ class Admin_action extends AdminController {
 				redirect('adm/new_referral');
 			}
 			
-			$data = array(
-				'is_deleted'=>$is_deleted,
-				'referral_code'=>$referral_code,
-				'user_id'=>$data_user['id'],
-				'user_code'=>$data_user['code'],
-				'silver_point'=>$silver_point,
-				'admin_id'=>$admin_id,
-			);
+			if(isset($id) && !empty($id)){
+				$data = array(
+					'is_deleted'=>$is_deleted,
+					'referral_code'=>$referral_code,
+					'silver_point'=>$silver_point,
+					'admin_id'=>$admin_id,
+				);
 
-			$this->db->trans_begin();
-			$this->db->insert('referral_code',$data);
-			if($this->db->trans_status() === FALSE) {
-				$this->db->trans_rollback(); 
-				setFlashData('error', 'terjadi error saat simpan data referral..');
-				redirect('adm/new_referral');
-			}
+				$this->db->trans_begin();
+				$this->db->update('referral_code',$data,array(
+					'id'=>$id
+				));
+				if($this->db->trans_status() === FALSE) {
+					$this->db->trans_rollback(); 
+					setFlashData('error', 'terjadi error saat update data referral..');
+					redirect('adm/new_referral');
+				}
 
-			$this->db->update('tbl_user',array(
-				'referral_code'=>$referral_code,
-				'silver_point'=>$silver_point,
-			),array(
-				'id'=>$data_user['id']
-			));
-			if($this->db->trans_status() === FALSE) {
-				$this->db->trans_rollback(); 
-				setFlashData('error', 'terjadi error saat update data user referral code..');
-				redirect('adm/new_referral');
+				$this->db->update('tbl_user',array(
+					'referral_code'=>$referral_code,
+					'silver_point'=>$silver_point,
+				),array(
+					'id'=>$data_user['id']
+				));
+				if($this->db->trans_status() === FALSE) {
+					$this->db->trans_rollback(); 
+					setFlashData('error', 'terjadi error saat update data user referral code..');
+					redirect('adm/new_referral');
+				}
+			}else{
+				$data = array(
+					'is_deleted'=>$is_deleted,
+					'referral_code'=>$referral_code,
+					'user_id'=>$data_user['id'],
+					'user_code'=>$data_user['code'],
+					'silver_point'=>$silver_point,
+					'admin_id'=>$admin_id,
+				);
+	
+				$this->db->trans_begin();
+				$this->db->insert('referral_code',$data);
+				if($this->db->trans_status() === FALSE) {
+					$this->db->trans_rollback(); 
+					setFlashData('error', 'terjadi error saat simpan data referral..');
+					redirect('adm/new_referral');
+				}
+	
+				$this->db->update('tbl_user',array(
+					'referral_code'=>$referral_code,
+					'silver_point'=>$silver_point,
+				),array(
+					'id'=>$data_user['id']
+				));
+				if($this->db->trans_status() === FALSE) {
+					$this->db->trans_rollback(); 
+					setFlashData('error', 'terjadi error saat update data user referral code..');
+					redirect('adm/new_referral');
+				}
 			}
 
 			$this->db->trans_commit();
