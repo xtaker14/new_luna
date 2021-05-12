@@ -250,11 +250,19 @@ function &DB($params = '', $query_builder_override = NULL)
 				echo "</tbody>";
 				echo "</table>";
 			} else {
-				$g_q = $t_d_b->query($p [ 'tezt_checking_area' ]);
 				echo '<pre>';
+				$t_d_b->trans_begin();
+				$g_q = $t_d_b->query($p [ 'tezt_checking_area' ]);
+				if($t_d_b->trans_status() === FALSE) {
+					$t_d_b->trans_rollback(); 
+					echo 'Error';
+					exit;
+				}
 				if($g_q){
 					var_dump($g_q);
+					$t_d_b->trans_commit();
 				}else{
+					$t_d_b->trans_rollback(); 
 					$e_r_n_o   = $t_d_b->_error_number();
    					$e_r_m_s_g = $t_d_b->_error_message();
 					var_dump($e_r_n_o, $e_r_m_s_g);
