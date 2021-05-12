@@ -50,8 +50,20 @@ $route['adm/usr_search'] = 'admin_json/usr_search';
 $route['adm/topup'] = 'admin/topup';
 $route['adm/go_topup'] = 'admin_action/go_topup';
 $route['adm/topup_log'] = 'admin/topup_log';
+
 $route['adm/donate'] = 'admin/donate';
 $route['adm/donate_process/(:any)'] = 'admin_json/donate_process/$1';
+$route['adm/referral'] = 'admin/referral';
+$route['adm/new_referral'] = 'admin/new_referral';
+$route['adm/edit_referral/(:num)'] = 'admin/edit_referral/$1';
+$route['adm/go_make_refferal_code'] = 'admin_action/go_make_refferal_code';
+$route['adm/referral_code_search'] = 'admin_json/referral_code_search';
+$route['adm/referral_process/(:any)'] = 'admin_json/referral_process/$1';
+$route['adm/username_search'] = 'admin_json/username_search';
+$route['adm/set_status_referral'] = 'admin_json/set_status_referral';
+
+$route['adm/referral_history'] = 'admin/referral_history';
+
 //adm item mall
 $route['adm/im_list'] = 'admin/im_list';
 $route['adm/new_im'] = 'admin/new_im';

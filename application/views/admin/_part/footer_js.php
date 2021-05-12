@@ -18,4 +18,8 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.min.js" integrity="sha256-jPK1ABk4CuFvSr31v4CLU7X7XCvixZSi8fTTCw/tsto=" crossorigin="anonymous"></script>
 
+<script type="text/javascript" src="<?= base_url('assets/frontpage/js/funct_main.js'); ?>"></script>
 <script src="<?php print_r(site_url('assets/admin/js/main.js')) ?>"></script>
+<script>
+    const f_main = new Funct_main();
+</script>

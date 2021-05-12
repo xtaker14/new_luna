@@ -2,7 +2,6 @@
 require APPPATH . '/libraries/FrontLib.php';
 
 class Donate extends FrontLib {
-    protected $referral_bonus_points;
 
 	public function __construct(){
 		parent::__construct();
@@ -10,7 +9,6 @@ class Donate extends FrontLib {
         $this->is_login();
         $this->xepo_secure();
         $this->load->library('form_validation');
-        $this->referral_bonus_points = 15; // percent
 	}
     
     private function sendEmailStatus($data_send,$status='paid',$show_error=false){
@@ -48,7 +46,7 @@ class Donate extends FrontLib {
 
                 $this->db = dbloader("default");
                 $donate_update = array(  
-                    'recheck_date' => $this->global['date_now'], 
+                    'recheck_date' => $GLOBALS['date_now'], 
                 ); 
                 $where_update = array(
                     'id'=>$donate_id
@@ -105,7 +103,7 @@ class Donate extends FrontLib {
                 $donate_update = array( 
                     'payment_method' => $input_account_number,
                     'status' => 'paid', 
-                    'paid_date' => $this->global['date_now'], 
+                    'paid_date' => $GLOBALS['date_now'], 
                 ); 
                 $where_update = array(
                     'id'=>$donate_id
@@ -130,7 +128,7 @@ class Donate extends FrontLib {
                     'to'=>$email_account_number,
                     'subject'=>'[Luna Zone] Payment has been sent',
                     'pars_view'=>array('get_donate'=>$get_donate[0])
-                ),'paid');
+                ),'paid', true);
 
                 if($send_email){
                     $this->db->trans_commit();
@@ -299,9 +297,10 @@ class Donate extends FrontLib {
  
                     $data_referral_code = null;
                     if(!empty($input_referral_code)){
-                        $data_referral_code = $this->db->get_where('referral_code',array(
-                            'referral_code'=>$input_referral_code
-                        ))->row_array();
+                        $this->db->where('referral_code', $input_referral_code);
+                        $this->db->where('is_deleted', 'no');
+                        $this->db->where('user_id !=', $user_id);
+                        $data_referral_code = $this->db->get('referral_code')->row_array();
                         if(count($data_referral_code)==0){
                             setFlashData('error', 'Referral Code is not found');
                             redirect(base_url('donate'));
@@ -317,7 +316,7 @@ class Donate extends FrontLib {
                         // 'referral_code' => $input_referral_code,
                         // 'payment_method' => '',
                         // 'status' => 'pending',
-                        'created_date' => $this->global['date_now'], 
+                        'created_date' => $GLOBALS['date_now'], 
                         // 'paid_date' => null,
                         // 'complete_date' => null,
                     );

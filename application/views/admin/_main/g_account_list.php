@@ -1,31 +1,31 @@
 <?php 
 $view_list = '';
 foreach ($account_list as $val) {
-$role = $val->UserLevel;
-$star = '<i class="fas fa-star text-warning"></i>';
-$rank = '';
+    $role = $val->UserLevel;
+    $star = '<i class="fas fa-star text-warning"></i>';
+    $rank = '';
 
-if($role==1){
-	$rank = $star.$star.$star.$star.$star;
-}elseif($role==2){
-	$rank = $star.$star.$star.$star;
-}elseif($role==3){
-	$rank = $star.$star.$star;
-}elseif($role==4){
-    $rank = $star.$star;
-}else{
-    $rank = $star;
+    if($role==1){
+        $rank = $star.$star.$star.$star.$star;
+    }elseif($role==2){
+        $rank = $star.$star.$star.$star;
+    }elseif($role==3){
+        $rank = $star.$star.$star;
+    }elseif($role==4){
+        $rank = $star.$star;
+    }else{
+        $rank = $star;
+    }
+
+    $view_list .='
+    <tr class="user_'.$val->id_idx.'">
+        <td >'.$val->id_loginid.'</td>
+        <td >'.$val->title.'</td>
+        <td >'.$rank.'</td>
+        <td>
+        <button class="account_delete btn btn-danger btm-tabel btn-sm" data-id="'.$val->id_idx.'" data-username="'.$val->id_loginid.'" ><i class="fas fa-times text-white"></i></button></td>
+    </tr>';
 }
-
-$view_list .='
-<tr class="user_'.$val->id_idx.'">
-    <td >'.$val->id_loginid.'</td>
-    <td >'.$val->title.'</td>
-    <td >'.$rank.'</td>
-    <td>
-    <button class="account_delete btn btn-danger btm-tabel btn-sm" data-id="'.$val->id_idx.'" data-username="'.$val->id_loginid.'" ><i class="fas fa-times text-white"></i></button></td>
-</tr>';
-	}
 ?>
 
 <div class="container-fluid mb-4 mt-2">

@@ -1,11 +1,46 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Admin_model extends CI_Model
+class Admin_model extends MY_Model
 {
 
     public function __construct(){
         parent::__construct();
     }
+
+    function referral_history_list($where_data=false){
+		$this->db = dbloader("default"); 
+		$this->db->select('uu.username as from_username, u.username as username, rch.*');
+        $this->db->join('tbl_user as u', 'u.referral_code = rch.referral_code', 'inner');
+        $this->db->join('tbl_user as uu', 'uu.id = rch.from_user_id', 'inner');
+        
+        $this->db->order_by('rch.created_date','DESC');
+        $this->db->order_by('u.username','ASC');
+
+		$where = array(); 
+		if($where_data && is_array($where_data)){
+			foreach ($where_data as $key => $val) {
+				$where[$key]=$val;
+			}
+		}
+		return $this->db->get_where('referral_code_history rch',$where)->result_array();
+	}
+
+    function referral_list($where_data=false){
+		$this->db = dbloader("default"); 
+		$this->db->select('u.username as username, rc.*');
+        $this->db->join('tbl_user as u', 'u.referral_code = rc.referral_code', 'inner');
+        
+        $this->db->order_by('rc.silver_point','DESC');
+        $this->db->order_by('u.username','ASC');
+
+		$where = array(); 
+		if($where_data && is_array($where_data)){
+			foreach ($where_data as $key => $val) {
+				$where[$key]=$val;
+			}
+		}
+		return $this->db->get_where('referral_code rc',$where)->result_array();
+	}
 
     function donate_list($where_data=false){
 		$this->db = dbloader("default");

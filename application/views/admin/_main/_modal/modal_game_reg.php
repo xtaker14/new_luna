@@ -1,9 +1,9 @@
 <?php 
 $list = '';
 foreach ($adm_list as $key => $v) {
-$id = $v->usr_role;
-$title = $v->title;
-$list .= '<option value="'.$id.'">'.$title.'</option>';
+  $id = $v->usr_role;
+  $title = $v->title;
+  $list .= '<option value="'.$id.'">'.$title.'</option>';
 }
  ?>
 <div id="mod_register" class="modal">

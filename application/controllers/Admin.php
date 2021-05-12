@@ -44,13 +44,54 @@ class Admin extends AdminController {
 	    $this->loadPage();
 	}
 	
-	function donate(){ 
-		$this->load->model("frontpage_model");
+	function donate(){
 		$this->load->model("admin_model");
-      	$this->global['donate_price_list'] = $this->frontpage_model->donate_price_list();
+      	$this->global['donate_price_list'] = $this->admin_model->donate_price_list();
       	$this->global['donate_list'] = $this->admin_model->donate_list();
 		$this->global['config_web'] = $this->getConfigWeb();
 		$this->global['php_name'] = 'donate';
+	    $this->loadPage();
+	}
+
+	function referral(){
+		$this->load->model("admin_model"); 
+      	$this->global['referral_list'] = $this->admin_model->referral_list();
+		$this->global['config_web'] = $this->getConfigWeb();
+		$this->global['php_name'] = 'referral';
+	    $this->loadPage();
+	}
+
+	function referral_history(){
+		$this->load->model("admin_model"); 
+      	$this->global['referral_history_list'] = $this->admin_model->referral_history_list();
+		$this->global['config_web'] = $this->getConfigWeb();
+		$this->global['php_name'] = 'referral_history';
+	    $this->loadPage();
+	}
+
+	function new_referral(){
+		$this->load->model("admin_model");
+		$this->global['config_web'] = $this->getConfigWeb();
+		$this->global['php_name'] = 'new_referral';
+	    $this->loadPage();
+	}
+
+	function edit_referral($id){
+		if(empty($id)){
+			setFlashData('error', 'ID tidak boleh kosong..');
+			redirect('adm/referral');
+		}
+		$this->load->model("admin_model");
+      	$get_referral = $this->admin_model->referral_list(array(
+			'rc.id'=>$id
+		));
+		if(empty($get_referral)){
+			setFlashData('error', 'Referral tidak ditemukan..');
+			redirect('adm/referral');
+		}
+		$this->global['get_referral'] = $get_referral[0];
+		$this->global['config_web'] = $this->getConfigWeb();
+		$this->global['php_name'] = 'new_referral';
 	    $this->loadPage();
 	}
 

@@ -1,6 +1,6 @@
 <?php defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' ); 
 
-class AdminController extends CI_Controller {
+class AdminController extends MY_Controller {
 	protected $role = '';
 	protected $userId = '';
 	protected $nama = '';
@@ -10,8 +10,7 @@ class AdminController extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
-		date_default_timezone_set("Asia/Bangkok");
-		$this->global['date_now'] = date('Y-m-d H:i:00'); 
+		date_default_timezone_set("Asia/Bangkok");  
 	} 
 
 	protected function onlyAllowAccessFromAjax(){
@@ -23,9 +22,12 @@ class AdminController extends CI_Controller {
 		return $result;
 	}
 
-	protected function getConfigWeb(){
-		$this->load->model("frontpage_model");
-		$data = $this->frontpage_model->getConfigWeb(1); 
+	protected function getConfigWeb($alldata=false){
+		$this->load->model("admin_model");
+		$data = $this->admin_model->getConfigWeb($this->id_config_web); 
+		if($alldata){
+			return $data;
+		}
 		$dec_account_number = json_decode($data['account_number'], true);
 		// $account_number=array();
 		// foreach($exp_account_number as $key => $val){
@@ -41,65 +43,6 @@ class AdminController extends CI_Controller {
         $date = strtotime($date);
         $date = strtotime($res_date[0], $date);
         return date($res_date[1], $date);
-    }
-
-	function send_email($pars_data, $show_error = false){  
-        // $config = Array(
-        //     'protocol' => 'smtp',
-        //     'smtp_host' => 'smtp.mailtrap.io',
-        //     'smtp_port' => 2525,
-        //     'smtp_user' => 'a397adb76f2d71',
-        //     'smtp_pass' => 'eaaad2b1d161a2',
-        //     'mailtype'  => 'html',
-        //     'charset'   => 'iso-8859-1',
-        //     // 'charset'   => 'utf-8',
-        //     // 'crlf'   => '\r\n',
-        //     // 'newline'   => '\r\n',
-        //     // 'wordwrap'   => true,
-        // );
-        
-        $config['useragent'] = 'CodeIgniter';
-		$config['protocol'] = 'smtp';
-		//$config['mailpath'] = '/usr/sbin/sendmail';
-		$config['smtp_host'] = 'ssl://smtp.googlemail.com';
-		$config['smtp_user'] = 'pinstarluna@gmail.com';
-		$config['smtp_pass'] = 'blacklist007008009';
-		$config['smtp_port'] = 465; 
-		$config['smtp_timeout'] = 5;
-		$config['wordwrap'] = TRUE;
-		$config['wrapchars'] = 76;
-		$config['mailtype'] = 'html';
-		$config['charset'] = 'utf-8';
-		$config['validate'] = FALSE;
-		$config['priority'] = 3;
-		$config['crlf'] = "\r\n";
-		$config['newline'] = "\r\n";
-		$config['bcc_batch_mode'] = FALSE;
-		$config['bcc_batch_size'] = 200; 
-		
-        echo '<script>f_main.loading(true);</script>';
-        // $this->load->library('email', $config);
-        // $this->email->set_newline("\r\n");
-		$this->email->initialize($config);
-
-        $this->email->from($pars_data['from'], $pars_data['title']);
-        $this->email->to($pars_data['to']);
-
-        $this->email->subject($pars_data['subject']);
-        $this->email->message($pars_data['msg']);  
-
-        $result = $this->email->send();
-        if ($result) {
-            echo '<script>f_main.loading(false);</script>';
-            return true;
-        }else{
-			if($show_error){
-				show_error($this->email->print_debugger());
-				exit; 
-			}else{
-				return false; 
-			}
-        }
     }
 
 	function isLoggedIn() {

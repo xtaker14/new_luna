@@ -1,6 +1,6 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Im_model extends CI_Model{
+class Im_model extends MY_Model{
 	public function __construct(){
 		parent::__construct();
 		error_reporting(0);

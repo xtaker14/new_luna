@@ -103,12 +103,15 @@ header('Content-Type: text/html; charset=utf-8');
 		}
 	?>  
 
-	<div class="parent_discord">
-		<iframe style="display: none;" src="https://discord.com/widget?id=758636976018292736&theme=dark" width="360" height="330" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
-		<button class="btn_open_discord">
-			<img src="<?= base_url('assets/frontpage/img/btn_discord.gif'); ?>" style="width: 110px; height: 35px;">
-		</button>  
-	</div>
+	<?php if(!empty($config_web['widget_discord_link'])): ?>
+		<div class="parent_discord">
+			<iframe style="display: none;" src="<?= $config_web['widget_discord_link']; ?>" width="360" height="330" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+			<button class="btn_open_discord">
+				<img src="<?= base_url('assets/frontpage/img/btn_discord.gif'); ?>" style="width: 110px; height: 35px;">
+			</button>  
+		</div>
+	<?php endif; ?>
+
 	<?php $this->load->view("app/_part/im_modal.php");?>
 	<?php $this->load->view("app/_part/sticky.icon.php") ?>
 	<?php $this->load->view("app/_part/footer.php") ?>
