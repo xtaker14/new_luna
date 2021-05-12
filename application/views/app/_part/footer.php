@@ -36,7 +36,7 @@
                         <div class="content_header_title">
                             <h2>
                                 <ul class="social-icons" style="float: right;">
-                                    <li><a class="facebook" data-original-title="facebook" href="javascript:;"></a></li>
+                                    <li><a class="facebook" data-original-title="facebook" href="https://www.facebook.com/groups/zoneluna"></a></li>
                                     <li><a class="twitter" data-original-title="twitter" href="javascript:;"></a></li>
                                     <li><a class="youtube" data-original-title="youtube" href="javascript:;"></a></li>
                                 </ul>
