@@ -309,6 +309,9 @@ class CI_Security {
 	{
 		return $this->_csrf_hash;
 	}
+	public function g_spost_hash(){
+		return $this->_csrf_hash;
+	}
 
 	// --------------------------------------------------------------------
 
@@ -320,6 +323,9 @@ class CI_Security {
 	 */
 	public function get_csrf_token_name()
 	{
+		return $this->_csrf_token_name;
+	}
+	public function g_spost_name(){
 		return $this->_csrf_token_name;
 	}
 
