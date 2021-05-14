@@ -69,12 +69,24 @@ class Admin_action extends AdminController {
 				redirect('adm/new_referral');
 			}
 
-			$this->db->where('referral_code', $referral_code);
-			$this->db->or_where('user_id', $data_user['id']);
-			$data_referral = $this->db->get('referral_code')->row_array();
-			if(count($data_referral)>0){
-				setFlashData('error', 'terjadi error, username / refferal code sudah pernah di buat..');
-				redirect('adm/new_referral');
+			$data_referral = array();
+			if(!empty($id)){
+				$data_referral = $this->db->query("
+					SELECT * FROM referral_code WHERE (referral_code = '$referral_code' OR user_id = ".$data_user['id'].") AND id != $id 
+				")->row_array();
+				if(count($data_referral)>0){
+					setFlashData('error', 'terjadi error, username / refferal code sudah pernah di buat..');
+					redirect('adm/new_referral');
+				}
+
+			}else{
+				$this->db->where('referral_code', $referral_code);
+				$this->db->or_where('user_id', $data_user['id']);
+				$data_referral = $this->db->get('referral_code')->row_array();
+				if(count($data_referral)>0){
+					setFlashData('error', 'terjadi error, username / refferal code sudah pernah di buat..');
+					redirect('adm/new_referral');
+				}
 			}
 			
 			if(isset($id) && !empty($id)){

@@ -5,7 +5,7 @@
     $username = '';
     $silver_point = '0';
     if(!empty($get_referral)){
-        $id = $get_referral['referral_code'];
+        $id = $get_referral['id'];
         $is_deleted = $get_referral['is_deleted'];
         $referral_code = $get_referral['referral_code'];
         $username = $get_referral['username'];
