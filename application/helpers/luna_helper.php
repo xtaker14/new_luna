@@ -42,28 +42,30 @@ if(!function_exists('luna_job4'))
 
 if(!function_exists('luna_job5'))
 {
-    function luna_job5($key)
-    {
-      $arr = array(
-        11 => 'Paladin',
-        12 => 'Panzer',
-        13 => 'Crusader',
-        14 => 'Destroyer',
-        15 => 'Sword Master',
-        16 => 'Magnus',
-        21 => 'Sniper',
-        22 => 'Intraper',
-        23 => 'Blade Taker',
-        24 => 'Templar Master',
-        25 => 'Arch Ranger',
-        26 => 'Storm Master',
-        31 => 'Cardinal',
-        32 => 'Soul Arbiter',
-        33 => 'Grand Master',
-        34 => 'Necromancer',
-        35 => 'RunicMaster'
-    );
-      return $arr[$key];
+    function luna_job5($key) {
+        $arr = array(
+            11 => array('fighter','Paladin'),
+            12 => array('fighter','Panzer'),
+            13 => array('fighter','Crusader'),
+            14 => array('fighter','Destroyer'),
+            15 => array('fighter','Sword Master'),
+            16 => array('fighter','Magnus'),
+
+            21 => array('rogue','Sniper'),
+            22 => array('rogue','Intraper'),
+            23 => array('rogue','Blade Taker'),
+            24 => array('rogue','Templar Master'),
+            25 => array('rogue','Arch Ranger'),
+            
+            26 => array('mage','Storm Master'),
+            31 => array('mage','Cardinal'),
+            32 => array('mage','Soul Arbiter'),
+            33 => array('mage','Grand Master'),
+            34 => array('mage','Necromancer'),
+            // 35 => array('mage','RunicMaster'),
+            35 => array('mage','Rune Master'),
+        );
+        return $arr[$key];
     }
 }
 

@@ -31,11 +31,17 @@ class FrontLib extends MY_Controller {
 			return $data;
 		}
 		$dec_account_number = json_decode($data['account_number'], true);
-		// $account_number=array();
-		// foreach($exp_account_number as $key => $val){
-		// 	$exp_val = explode('=>',$val);
-		// 	$account_number[$exp_val[0]] = $exp_val[1];
+
+		// echo '<pre>';
+		// foreach($dec_account_number as $key => $val){
+		// 	var_dump($key);
+		// 	echo "<br>";
+		// 	foreach($val as $key2 => $val2){
+		// 		var_dump($key2, $val2);
+		// 	}
 		// }
+		// exit;
+		
 		$data['account_number'] = $dec_account_number; 
 		return $data;
 	}

@@ -6,20 +6,22 @@
 			<span></span>
 			<span></span> 
 			<div class="content_header_title">
-				<h2><img src="<?= base_url('assets/frontpage/img/icon/cute3.png'); ?>" width="30">&nbsp;Player Ranking</h2> 
+				<h2><img src="<?= base_url('assets/frontpage/img/icon/cute3.png'); ?>" width="30">&nbsp;Level Rank</h2> 
 			</div>
 		</div>
 
 		<div class="table-responsive">
-			<table class="table table-responsive-md table-sm">
+			<table class="table table-responsive-md table-sm table_global_level_rank">
 				<thead>
 					<tr>
-					<th scope="col">Rank</th>
-					<th scope="col">Name</th>
-					<th scope="col">Level</th> 
+						<th scope="col">#</th>
+						<th scope="col">Job</th>
+						<th scope="col">Name</th>
+						<th scope="col">Lvl</th> 
+						<th scope="col">Exp</th>
 					</tr>
 				</thead>
-				<tbody id="side_rank"></tbody>
+				<tbody></tbody>
 			</table>
 		</div>
 		<div class="d-block p-2" align="center">
