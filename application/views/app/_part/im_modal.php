@@ -46,10 +46,39 @@
           <div class="d-block mb-3">
             <p id="item-desc" align="justify"></p>
           </div>
-          <label><b>Please Select Item bellow :</b></label><br>
-          <?php if(!empty($star_point)){ ?>
-            <label class="text-primary"><b>Your Balance : </b><span class="star_point"><?= $star_point ?></span><i class="fas fa-gem ml-1" data-fa-transform="rotate-30"></i></label>
+
+          <?php if(isset($star_point)){ ?>
+            <div style="text-align: left;">
+              <label><b>Please Select Payment Type bellow :</b></label>
+            </div>
+            <div style="text-align: left;margin-bottom:10px;">
+              <label class="text-primary">
+                <input checked type="radio" name="payment_type" value="diamond">
+                <b>Your Diamond : </b>
+                <span>
+                  <span class="star_point">
+                    <?= $star_point; ?>
+                  </span>
+                  <i class="fas fa-gem" data-fa-transform="rotate-30"></i>
+                </span>
+              </label><br>
+              <label style="color: #000 !important;">
+                <input type="radio" name="payment_type" value="silver">
+                <b>Your Silver : </b>
+                <span>
+                  <span class="silver_point">
+                    <?= $silver_point; ?>
+                  </span>
+                  <i class="fa fa-coins ml-1" data-fa-transform="rotate-30"></i>
+                </span>
+              </label>
+            </div>
           <?php } ?>
+
+          <div style="text-align: left;">
+            <label><b>Please Select Item bellow :</b></label>
+          </div>
+
           <div class="d-block border mb-3 p-2" align="left">
             <ul id="piece_list" class="list_none"></ul>
           </div>

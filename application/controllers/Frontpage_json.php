@@ -13,7 +13,73 @@ class Frontpage_json extends FrontLib {
       }
       $this->load->model("frontpage_model");
       $data['srv'] = $this->frontpage_model->server_stat();
-      $data['rank'] = $this->frontpage_model->top_char_rank();
+      $level_rank = $this->frontpage_model->getPlayerRank('level',5);
+      $res_level_rank = array();
+      $cntr = -1;
+      foreach ($level_rank as $key => $val){
+         $cntr++;
+         $job = ''; 
+         if($val['c4'] > 0 && $val['c5'] == 0){
+            if($val['c1'] == 4){
+               $job = 'Master';
+            }else{
+               $kw = intval($val['c1'].$val['c4']);
+               $job = luna_job4($kw);
+            }
+         }elseif($val['c5'] > 0  && $val['c6'] == 0){
+            if($val['c1'] == 4){
+               $job = 'Expand Road';
+            }else{
+               $kw = intval($val['c1'].$val['c5']);
+               $job = luna_job5($kw);
+            }
+         }elseif($val['c6'] > 0){
+            if($val['c1'] == 4){
+               $job = 'Tyrant';
+            }else{
+               $kw = intval($val['c1'].$val['c6']);
+               $job = luna_job6($kw);
+            }
+         }
+         $no = $key+1;
+         
+         if($no==1):
+            $no = '<img src="'. base_url('assets/frontpage/img/medal_1st.png'). '" style="width:24px;" alt="">';
+         elseif($no==2): 
+            $no = '<img src="'. base_url('assets/frontpage/img/medal_2nd.png'). '" style="width:24px;" alt="">';
+         elseif($no==3): 
+            $no = '<img src="'. base_url('assets/frontpage/img/medal_3rd.png'). '" style="width:24px;" alt="">';
+         endif;
+         $res_level_rank[$cntr]['no'] = $no;
+
+         $res_job = '';
+         if(is_array($job)):
+            if($job[0]=='fighter'):
+               $res_job = '<span class="pointer" role="button" title="'. $job[1] .'" data-toggle="tooltip" data-placement="bottom">
+                  <img src="' . base_url('assets/frontpage/img/basic_job_fighter.png') . '" style="width:24px;" alt="">
+               </span>';
+            elseif($job[0]=='rogue'):
+               $res_job = '<span class="pointer" role="button" title="'. $job[1] .'" data-toggle="tooltip" data-placement="bottom">
+                  <img src="' . base_url('assets/frontpage/img/basic_job_rogue.png') . '" style="width:24px;" alt="">
+               </span>';
+            elseif($job[0]=='mage'):
+               $res_job = '<span class="pointer" role="button" title="'. $job[1] .'" data-toggle="tooltip" data-placement="bottom">
+                  <img src="' . base_url('assets/frontpage/img/basic_job_mage.png') . '" style="width:24px;" alt="">
+               </span>';
+            endif;
+         else: 
+            $res_job = '<span class="pointer" role="button" title="'. $job .'" data-toggle="tooltip" data-placement="bottom">
+               <i class="fab fa-earlybirds"></i>
+            </span>';
+         endif;
+         $res_level_rank[$cntr]['job'] = $res_job;
+         
+
+         $res_level_rank[$cntr]['name'] = $val['a'];
+         $res_level_rank[$cntr]['lvl'] = $val['b'];
+         $res_level_rank[$cntr]['exp'] = number_format($val['exp'],0,',','.');
+      }
+      $data['level_rank'] = $res_level_rank;
       json($data);
    }
 

@@ -3,6 +3,54 @@
 <link rel='stylesheet' id='rs-plugin-settings-css'  href='<?= base_url(); ?>assets/plugins/revslider/public/assets/css/rs6.css?ver=6.2.8' type='text/css' media='all' />
 
 <style type="text/css">
+/* start tabs */
+.project-tab {
+	padding-top: 15px;
+}
+.project-tab #tabs{
+    background: #007b5e;
+    color: #eee;
+}
+.project-tab #tabs h6.section-title{
+    color: #eee;
+}
+.project-tab #tabs .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    color: #0062cc;
+    background-color: transparent;
+    border-color: transparent transparent #f3f3f3;
+    border-bottom: 3px solid !important;
+    font-size: 16px;
+    font-weight: bold;
+}
+.project-tab .nav-link {
+    border: 1px solid transparent;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+    color: #0062cc;
+    font-size: 16px;
+    font-weight: 600;
+}
+.project-tab .nav-link:hover {
+    border: none;
+}
+.project-tab thead{
+    background: #f3f3f3;
+    color: #333;
+}
+.project-tab a{
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+}
+.table-scroll{
+	padding-top: 10px;
+	height: 630px;
+	overflow-y: auto;
+	/* overflow-x: hidden; */
+}
+/* end tabs */
+
+
 #preloader {
 	background-color: #101010;
 	height: 100%;

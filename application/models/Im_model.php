@@ -64,17 +64,21 @@ class Im_model extends MY_Model{
 		return $do['itemtype'];
 	}
 
-	function get_IDstarPoint($usr_code,$user_idx,$pin_code){
+	function get_IDPoint($usr_code,$user_idx,$pin_code){
    		$this->db = dbloader("default");
-		$a = $this->db->query("SELECT pin_code,star_point FROM tbl_user WHERE code = '$usr_code'")->row_array();
+		$a = $this->db->query("SELECT pin_code,silver_point,star_point FROM tbl_user WHERE code = '$usr_code'")->row_array();
 	  if($a){
 	    if(verifyHashedPassword($pin_code, $a['pin_code'])){
-	      return array('status' => true, 'star_point' => $a['star_point']);
+	      	return array(
+			  	'status' => true, 
+				'star_point' => $a['star_point'],
+				'silver_point' => $a['silver_point'],
+			);
 	    }else{
-	      return array('status' => false, 'star_point' => 0);
+	      return array('status' => false, 'star_point' => 0, 'silver_point' => 0);
 	    }
 	  }else{
-	    return array('status' => false, 'star_point' => 0);
+	    return array('status' => false, 'star_point' => 0, 'silver_point' => 0);
 	  }
    	}
 
@@ -89,17 +93,17 @@ class Im_model extends MY_Model{
 		}
 	}
 
-	function update_idPoint($usr_code,$user_idx,$total_price){
+	function update_idPoint($usr_code,$user_idx,$total_price,$field='star_point'){
 		$this->db = dbloader("default");
-        $this->db->query("UPDATE tbl_user set star_point = star_point-$total_price where code = '$usr_code' AND id = $user_idx ");
+        $this->db->query("UPDATE tbl_user set $field = $field-$total_price where code = '$usr_code' AND id = $user_idx ");
 	}
 
-	function insert_IMlog($data){
+	function insert_IMlog($data,$field='counter'){
 		$this->db = dbloader("default");
 		$do = $this->db->insert('itemmall_log', $data);
 		// set counter
 		$itemid = $data['itemid'];
-		$this->db->query("UPDATE itemmall set counter = counter+1 where itemid = '$itemid'");
+		$this->db->query("UPDATE itemmall set $field = $field+1 where itemid = '$itemid'");
 	}
 
 	//Admin Panel (IM Service)

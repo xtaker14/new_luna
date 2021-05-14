@@ -51,22 +51,36 @@ class Item_mall extends FrontLib {
 
         $ar_price = array();
         $price = '';
+        $silver_price = '';
         
         foreach ($itemlist as $key => $value) {
             $price = $value['price'];
-            $ar_price[] = ['price'=>$price];
+            $silver_price = $value['silver_price'];
+            $ar_price[] = [
+                'price'=>$price,
+                'silver_price'=>$silver_price,
+            ];
         }
         if($val['itemtype'] == 4 && $val['isDiscount'] == 1 ){
             $dis = $this->im_model->discount_list();
             foreach ($dis as $value) {
                 $p = $price * $value['qty'];
+                $sp = $silver_price * $value['qty'];
                 $total_price = $p - ($p * $value['value'] / 100);
-                $ar_price[] = ['price'=>$total_price];
+                $total_silver_price = $sp - ($sp * $value['value'] / 100);
+                $ar_price[] = [
+                    'price'=>$total_price,
+                    'silver_price'=>$total_silver_price,
+                ];
             }
         }
         $price_min = min(array_column($ar_price, 'price'));
         $price_max = max(array_column($ar_price, 'price'));
         $price_range = $price_min .' to '. $price_max;
+
+        $silver_price_min = min(array_column($ar_price, 'silver_price'));
+        $silver_price_max = max(array_column($ar_price, 'silver_price'));
+        $silver_price_range = $silver_price_min .' to '. $silver_price_max;
 
         return '
             <div class="col-md-3 mb-2 p-1">
@@ -80,7 +94,9 @@ class Item_mall extends FrontLib {
                             <small class="text-primary">'.$val['itemname'].'</small>
                         </div>
                         <div class="d-block">
-                            <span style="color:#007bff !important; font-family:Tahoma, sans-serif;">'.$price_range.'<i class="fas fa-gem ml-1" data-fa-transform="rotate-30"></i></span>
+                            <span style="font-size: 14px; color:#007bff !important; font-family:Tahoma, sans-serif;">'.$price_range.'<i class="fas fa-gem ml-1" data-fa-transform="rotate-30"></i></span>
+                            <br>
+                            <span style="font-size: 14px; font-family:Tahoma, sans-serif;">'.$silver_price_range.'<i class="fa fa-coins ml-2" data-fa-transform="rotate-30"></i></span>
                         </div>
                         <button data-itemid="'.$val['itemid'].'" class="view_detail btn-buy-item btn-hover btn color-blue w-50"><b>Buy</b><i class="fas fa-gem ml-1" data-fa-transform="rotate-30"></i></button>
                     </div>
@@ -139,6 +155,7 @@ class Item_mall extends FrontLib {
 
         $id = '';
         $price = '';
+        $silver_price = '';
 
         foreach ($do as $key => $v) {
             $checked = '';
@@ -146,6 +163,7 @@ class Item_mall extends FrontLib {
 
             $id = $v['id'];
             $price = $v['price'];
+            $silver_price = $v['silver_price'];
             $name = $v['name'];
             $piece_opt = '';
             if(!empty($v['piece_opt'])){
@@ -159,26 +177,28 @@ class Item_mall extends FrontLib {
 
             $nor_id = $id.'|0';
 
-            $p_list .= $this->piece_html($nor_id,$name,$price,$img,$checked,$piece_opt);
+            $p_list .= $this->piece_html($nor_id,$name,$price,$silver_price,$img,$checked,$piece_opt);
         }
 
         if($im['itemtype'] == 4 && $im['isDiscount'] == 1 ){
             $dis = $this->im_model->discount_list();
             foreach ($dis as $val) {
                 $p = $price * $val['qty'];
+                $sp = $silver_price * $val['qty'];
                 $total_price = $p - ($p * $val['value'] / 100);
+                $total_silver_price = $sp - ($sp * $val['value'] / 100);
                 $n = 'X'.$val['qty'].' Deal <small class="text-success ml-1">'.$val['name'].'</small>';
                 $img = CDN_IMG.$val['img'];
                 $dis_id = $id.'|'.$val['id'];
 
-                $p_list .= $this->piece_html($dis_id,$n,$total_price,$img,'','');
+                $p_list .= $this->piece_html($dis_id,$n,$total_price,$total_silver_price,$img,'','');
             }
         }
 
         return $p_list;
     }
 
-    function piece_html($id,$name,$price,$img,$checked,$piece_opt){  
+    function piece_html($id,$name,$price,$silver_price,$img,$checked,$piece_opt){  
         if(empty($piece_opt)){
             $piece_opt = '<small style="color:silver;">-- Empty --</small>';
         }
@@ -202,7 +222,12 @@ class Item_mall extends FrontLib {
                         </tr>
                         <tr>
                             <td>
-                                Price : <small><span class="text-primary p-1">'.$price.'<i class="fas fa-gem ml-1" data-fa-transform="rotate-30"></i></span></small>
+                                Price : <br>
+                                <small>
+                                    <span class="text-primary p-1">'.$price.'<i class="fas fa-gem ml-1" data-fa-transform="rotate-30"></i></span> 
+                                    OR 
+                                    <span class="p-1">'.$silver_price.'<i class="fa fa-coins ml-1" data-fa-transform="rotate-30"></i></span>
+                                </small>
                             </td>
                         </tr>
                     </table>
@@ -221,6 +246,7 @@ class Item_mall extends FrontLib {
             $user_idx = $this->propid;
             $usr_code = $this->usr_code;
             $pin_code = $this->input->post('pin',true);
+            $payment_type = $this->input->post('payment_type',true);
             $piece_item = $this->input->post('piece_item',true);
 
             $this->form_validation->set_rules('pin', 'pin', 'required|numeric|min_length[6]|max_length[6]|regex_match[/^[0-9]+$/]');
@@ -236,9 +262,10 @@ class Item_mall extends FrontLib {
                     multi_flash($arr,'shop');
                     die;
                 }else{
-                    $get = $this->im_model->get_IDstarPoint($usr_code,$user_idx,$pin_code);
+                    $get = $this->im_model->get_IDPoint($usr_code,$user_idx,$pin_code);
 
                     $user_point = $get['star_point'];
+                    $user_silver_point = $get['silver_point'];
 
                     if($get['status'] == false){
                         $arr = array('popup' => 'pin incorrect or error.','shop' => 'error' );
@@ -251,19 +278,45 @@ class Item_mall extends FrontLib {
                         $qty = 1;
 
                         $p_i = $this->im_model->itemid_byPiece($piece_id);
+
                         $price = $p_i['price'];
+                        $silver_price = $p_i['silver_price'];
                         $bin_code = $p_i['bin_code'];
                         $im_type = $this->im_model->im_type($p_i['itemid']);
                         $total_price = 0;
+                        $total_silver_price = 0;
                         if($im_type == 4 && $dis_id > 0){
                             $d = $this->im_model->discount_byId($dis_id);
                             $qty = $d['qty'];//change quantity from discount_tbl;
+
                             $total_price = $price*$qty;
                             $total_price = $total_price - ($total_price * $d['value'] / 100);
+
+                            $total_silver_price = $silver_price*$qty;
+                            $total_silver_price = $total_silver_price - ($total_silver_price * $d['value'] / 100);
                         }else{
                             $total_price = $price*$qty;
+                            $total_silver_price = $silver_price*$qty;
                         }
-                        if($user_point < $total_price){
+
+                        $cost_item = 0;
+                        $my_point = 0;
+
+                        if($payment_type == 'diamond'){
+                            $cost_item = $total_price;
+                            $my_point = $user_point;
+                        }
+                        elseif($payment_type == 'silver'){
+                            $cost_item = $total_silver_price;
+                            $my_point = $user_silver_point;
+                        }else{
+                            $arr = array('popup' => 'Error: undefined Payment Type.','shop' => 'error' );
+                            multi_flash($arr,'shop');
+                            die;
+                        }
+
+                        // if($user_point < $total_price){
+                        if($my_point < $cost_item){
                             $arr = array('popup' => 'Your balance is not enough..','shop' => 'error' );
                             multi_flash($arr,'shop');
                             die;
@@ -271,16 +324,57 @@ class Item_mall extends FrontLib {
                             $qty = $im_type == 4 ? $qty : 1;
                             $insert = $this->im_model->insert_item($bin_code,$user_idx,$qty); 
                             if($insert== TRUE){
-                                $this->im_model->update_idPoint($usr_code,$user_idx,$total_price);
-                                $get = $this->im_model->get_IDstarPoint($usr_code,$user_idx,$pin_code);
-                                $last_point = $get['star_point'];
-                                $info = array("itemid" => $p_i['itemid'], "resourceid" => $bin_code, "price" => $price, "qty" => $qty, "discount_id" => $dis_id, "total_price" => $total_price, "user_idx" => $user_idx, "account_balance" => $user_point, "last_balance" => $last_point, "date" => date('Y-m-d H:i:s'));
-                                $this->im_model->insert_IMlog($info);
+                                $last_point = 0;
+                                if($payment_type == 'diamond'){
+                                    $this->im_model->update_idPoint($usr_code,$user_idx,$cost_item,'star_point');
+    
+                                    $get = $this->im_model->get_IDPoint($usr_code,$user_idx,$pin_code);
+                                    $last_point = $get['star_point'];
+                                }
+                                elseif($payment_type == 'silver'){
+                                    $this->im_model->update_idPoint($usr_code,$user_idx,$cost_item,'silver_point');
+    
+                                    $get = $this->im_model->get_IDPoint($usr_code,$user_idx,$pin_code);
+                                    $last_point = $get['silver_point'];
+                                }else{
+                                    $arr = array('popup' => 'Error: undefined Payment Type.','shop' => 'error' );
+                                    multi_flash($arr,'shop');
+                                    die;
+                                }
 
+                                $info = array(
+                                    "itemid" => $p_i['itemid'],
+                                    "resourceid" => $bin_code,
+                                    // "price" => $price,
+                                    "qty" => $qty,
+                                    "discount_id" => $dis_id,
+                                    "total_price" => $cost_item,
+                                    "payment_type" => $payment_type,
+                                    "user_idx" => $user_idx,
+                                    "account_balance" => $my_point,
+                                    "last_balance" => $last_point,
+                                    "date" => date('Y-m-d H:i:s')
+                                );
+                                
                                 //popup
-                                $this->session->set_userdata('star_point',$last_point);                        
-                                $arr = array('popup' => 'Success, check your item mall storage in game.',
-                                            'shop' => 'success' );
+                                if($payment_type == 'diamond'){
+                                    $info['price'] = $price;
+                                    $this->im_model->insert_IMlog($info,'counter');
+                                    $this->session->set_userdata('star_point',$last_point);
+                                }
+                                elseif($payment_type == 'silver'){
+                                    $info['price'] = $silver_price;
+                                    $this->im_model->insert_IMlog($info,'silver_counter');
+                                    $this->session->set_userdata('silver_point',$last_point);
+                                }else{
+                                    $arr = array('popup' => 'Error: undefined Payment Type.','shop' => 'error' );
+                                    multi_flash($arr,'shop');
+                                    die;
+                                }                       
+                                $arr = array(
+                                    'popup' => 'Success, check your item mall storage in game.',
+                                    'shop' => 'success'
+                                );
                                 multi_flash($arr,'shop');
                                 die;
                             }else{

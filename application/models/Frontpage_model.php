@@ -72,19 +72,87 @@ class Frontpage_model extends MY_Model{
 		return $do;
 	}
 
-	function top_100_rank($a='kill',$max=100){ 
+	function getPlayerRank($a='kill',$max=100){ 
 		$this->db = dbloader("LUNA_GAMEDB"); 
-		$on = "tmm.CHARACTER_IDX = tb.character_idx"; 
-		$kill = "tmm.KILL_POINT";	
 
-		//$play = "tmm.PlayTimeTotal"; 
-		$type = $kill;
-
-		if($a!=='kill'){ 
-			//$type = $play; 
+		$type = '';
+		$select = '';
+		$join = '';
+		$where = '';
+		$order = '';
+		if($a == 'kill'){
+			$type = 'tmm.KILL_POINT';
+			$select = "
+				TOP $max CHARACTER_NAME as a,
+				CHARACTER_MAXGRADE as b,
+				CHARACTER_JOB1 as c1,
+				CHARACTER_JOB2 as c2,
+				CHARACTER_JOB3 as c3,
+				CHARACTER_JOB4 as c4,
+				CHARACTER_JOB5 as c5,
+				CHARACTER_JOB6 as c6,
+				$type as k
+			";
+			$join = "
+				JOIN TB_KILL_POINT tmm on tmm.CHARACTER_IDX = tb.character_idx 
+			";
+			$where = "
+				WHERE CHARACTER_STANDINDEX < 5 AND CHARACTER_JOB4 > 0 
+			";
+			$order = "
+				ORDER BY $type DESC
+			";
+		}
+		else if($a == 'level'){
+			$type = '';
+			$select = "
+				TOP $max CHARACTER_NAME as a,
+				CHARACTER_MAXGRADE as b,
+				CHARACTER_JOB1 as c1,
+				CHARACTER_JOB2 as c2,
+				CHARACTER_JOB3 as c3,
+				CHARACTER_JOB4 as c4,
+				CHARACTER_JOB5 as c5,
+				CHARACTER_JOB6 as c6,
+				CHARACTER_EXPOINT as exp
+			";
+			$join = "";
+			$where = "
+				WHERE CHARACTER_STANDINDEX < 5 AND CHARACTER_JOB4 > 0 
+			";
+			$order = "
+				ORDER BY CHARACTER_MAXGRADE DESC, CHARACTER_EXPOINT DESC
+			";
+		}
+		else if($a == 'guild'){
+			$type = '';
+			$select = "
+				TOP $max 
+				GuildName,
+				MasterName,
+				GuildLevel,
+				CreateDate
+			";
+			$join = "
+				JOIN TB_GUILD tg on tg.MasterIdx = tb.character_idx
+			";
+			$where = "";
+			$order = "
+				ORDER BY GuildLevel DESC, CreateDate ASC
+			";
+		}else{
+			//$play = "CHARACTER_PLAYTIME";
 		}
 		
-		$do = $this->db->query("SELECT top $max CHARACTER_NAME as a,CHARACTER_MAXGRADE as b,CHARACTER_JOB1 as c1,CHARACTER_JOB2 as c2, CHARACTER_JOB3 as c3, CHARACTER_JOB4 as c4, CHARACTER_JOB5 as c5, CHARACTER_JOB6 as c6, $kill as k  FROM TB_CHARACTER tb JOIN TB_KILL_POINT tmm on $on WHERE CHARACTER_STANDINDEX < 5 AND CHARACTER_JOB4 > 0 ORDER BY $type DESC")->result_array();
+		$do = $this->db->query("
+			SELECT 
+				$select 
+			FROM 
+				TB_CHARACTER tb 
+			$join 
+			$where 
+			$order
+		")->result_array();
 
 		return $do;
 

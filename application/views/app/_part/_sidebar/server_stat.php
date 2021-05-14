@@ -45,6 +45,9 @@
 			</div>
 		</div>  
 	</li>
+	<li class="list-group-item border-0 py-2">
+		<h4 style="margin-bottom: 0px; margin-top: 5px; text-align:center; background: -webkit-linear-gradient(#90aef0, #36d1dc); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"><?= date('d M Y'); ?></h4>
+	</li>
 	<li class="list-group-item border-0 py-2"><hr></li>
 	<li class="list-group-item border-0 py-0">Server status : <span class="text-success"><b>Online</b></span></li>
 	<li class="list-group-item border-0 py-2">Player Online : <span class="p_online">1000</span></li>

@@ -116,6 +116,8 @@
 
 		if($php_name=='homepage'){		
 			$this->load->view("app/_part/_sidebar/server_stat.php");
+		}
+		if($php_name !=='rank'){		
 			$this->load->view("app/_part/_sidebar/rank.php");
 		}
 		?>
@@ -123,6 +125,30 @@
 </div>
 <script type="text/javascript">
 $(document).ready(function(){
+	$('html').removeClass('no-js');
+	$.getJSON(baseURL+"api/homepage", function(r){
+		$("#srv_status .p_online").html(r.srv.p_online);
+		$("#srv_status .account_reg").html(r.srv.account_reg);
+		$("#srv_status .char_count").html(r.srv.char_count);
+
+
+		$.each(r.level_rank, function (key, val) {
+			$("table.table_global_level_rank tbody").append(
+				'<tr><td>'+val.no+
+					'</td><td>'+val.job+
+					'</td><td>'+val.name+
+					'</td><td>'+val.lvl+
+					'</td><td>'+val.exp+
+				'</td></tr>'
+			);
+		});
+		$("table.table_global_level_rank tbody td span.pointer").tooltip();
+		
+		$("img").css({
+			visibility: 'visible',
+		});
+	});
+
 	$(document).on('click','#btn_userpanel',function(){
 		$('#mod_userpanel').modal('show');
 	})
