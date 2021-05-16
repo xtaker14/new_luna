@@ -29,8 +29,8 @@ $db['default'] = array(
 
 $sql_conf = array(
 	'dsn'	=> '', 
-	'hostname' => 'Driver={SQL Server};Server=NS525896\SQLEXPRESS;Database=LUNA_MEMBERDB;',
-	'username' => 'GameSrv',//username SQL
+	'hostname' => 'Driver={SQL Server};Server=.\NS525896;Database=LUNA_MEMBERDB;',
+	'username' => 'sa',//username SQL
 	'password' => 'luna',//password SQL
 	'database' => '',
 	'dbdriver' => 'odbc',
@@ -68,7 +68,7 @@ $sql_conf = array(
 // );
 
 $db['LUNA_MEMBERDB'] = $sql_conf;
-$sql_conf['hostname'] = 'Driver={SQL Server};Server=NS525896\SQLEXPRESS;Database=LUNA_GAMEDB;';
+$sql_conf['hostname'] = 'Driver={SQL Server};Server=.\NS525896;Database=LUNA_GAMEDB;';
 $db['LUNA_GAMEDB'] = $sql_conf;
 
 //Buat username password di SQL Server 2014

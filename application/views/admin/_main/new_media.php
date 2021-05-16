@@ -4,12 +4,14 @@
     $type = '';
     $no_order = '0';
     $is_hidden = '';
+    $img = '';
     if(!empty($get_media)){
         $id = $get_media['id'];
         $name = $get_media['name'];
         $type = $get_media['type'];
         $no_order = $get_media['no_order'];
         $is_hidden = $get_media['is_hidden'];
+        $img = $get_media['img'];
     }
 ?>
 <div class="col-md-10 offset-md-1">
@@ -46,7 +48,9 @@
 	        
 	        <div class="form-group">
 				<label for="input_image" >Image : </label>
-				<input type="file" id="input_image" name="input_image" />
+				<input accept="image/*" type="file" id="input_image" name="input_image" onchange="document.getElementById('preview_img').src = window.URL.createObjectURL(this.files[0])"/>
+                <hr>
+                <img id="preview_img" style="width: 100%;" src="<?= !empty($get_media) ? base_url().'assets/frontpage/img/media/'.$img : ''; ?>" alt="-- Preview Image --">
 			</div>
 			<!-- <div class="form-group">
 				<label for="content" >Content: </label>
