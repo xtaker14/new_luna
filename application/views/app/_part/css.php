@@ -166,9 +166,9 @@
 
 @media (max-width: 825px) {
 	.clock-container {
-		flex-direction: column;
-		padding-top: 40px;
-		padding-bottom: 40px;
+		/* flex-direction: column; */
+		padding-top: 10px;
+		padding-bottom: 10px;
 	}
 	.clock-col + .clock-col {
 		margin-top: 20px;
@@ -176,6 +176,16 @@
 	.clock-col:before,
 	.clock-col:after {
 		display: none!important;
+	}
+}
+@media (max-width: 520px) {
+	.clock-container {
+		flex-direction: column;
+		padding-top: 20px;
+		padding-bottom: 20px;
+	} 
+	.clock-container .clock-connector{
+		text-align: center;
 	}
 }
 /* end clock */

@@ -1,4 +1,4 @@
-<div id="srv_rank" class="card shadow-sm mb-3 p-1 mt-3">
+<div id="srv_rank" class="card shadow-sm mb-3 p-1 mt-3" data-aos="fade-left" data-aos-delay="400">
 	<div class="card-body pb-0">
         <div class="box_header_title" style="">
             <span></span>

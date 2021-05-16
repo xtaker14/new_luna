@@ -10,6 +10,7 @@ class Frontpage extends FrontLib {
 	function homepage(){
 		$a = $this->session->userdata('usr_code'); 
 		$this->load->model('frontpage_model');
+		$this->global['s_media'] = $this->frontpage_model->getMedia('s',4);
 		$this->global['news'] = $this->frontpage_model->top_news();
 		$this->global['php_name'] = "homepage";
 		$this->loadViews();
@@ -20,6 +21,13 @@ class Frontpage extends FrontLib {
 	}
 	function login(){
 		$this->global['php_name'] = "usr_login";
+		$this->loadViews();
+	}
+	function media(){
+		$this->load->model("frontpage_model");
+		$this->global['s_media'] = $this->frontpage_model->getMedia('s',8);
+      	$this->global['w_media'] = $this->frontpage_model->getMedia('w',8);
+		$this->global['php_name'] = "media";
 		$this->loadViews();
 	}
 	function dwn(){

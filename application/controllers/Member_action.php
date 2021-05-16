@@ -31,12 +31,27 @@ class Member_action extends FrontLib {
                     $reset_url = base_url('change_pin/'.$rand_code);
                     $mail_content = '<p>You have request new PIN for Zone Luna account.<br><br>Click this link : <a href="'.$reset_url.'" target="_blank">Click here</a><br>or,<br>Copy and paste this link to your browser : '.$reset_url.'</p>';
 
-                    $this->load->model('send_mail');
-                    $info = array('to' => $email,
-                                  'subject' => $subject,
-                                  'content' => $mail_content,
-                                  'from' => array('email' => 'noreply@Zoneluna.com', 'name' => SITE_NAME));
-                    $do = $this->send_mail->send($info);
+                    // $this->load->model('send_mail');
+                    // $info = array(
+                    //     'to' => $email,
+                    //     'subject' => $subject,
+                    //     'content' => $mail_content,
+                    //     'from' => array(
+                    //         'email' => 'noreply@Zoneluna.com', 
+                    //         'name' => SITE_NAME
+                    //     )
+                    // );
+                    // $do = $this->send_mail->send($info);
+
+                    $info = array(
+                        'title'=>'Request PIN',
+                        'from'=>'noreply@Zoneluna.com',
+                        'to'=>$email,
+                        'msg'=>$mail_content,
+                        'subject'=>$subject
+                    );
+                     
+                    $do = $this->send_email($info,false);
 
                     if($do){
                         $request_info = array('code' => $code, 'rand_code' => $rand_code, 'created' => date('Y-m-d-H-i-s'));

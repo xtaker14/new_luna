@@ -1,5 +1,5 @@
 
-<div class="card" style="margin-top: 30px;"> 
+<div class="card" style="margin-top: 30px;" data-aos="fade-left" data-aos-delay="400"> 
   <div class="card-header bg-white">
 		<div class="box_header_title" style="">
 			<span></span>

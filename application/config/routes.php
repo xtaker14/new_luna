@@ -11,6 +11,7 @@ $route['dwn'] = 'frontpage/dwn';
 $route['api/homepage'] = 'frontpage_json/homepage';
 $route['api/refresh_point'] = 'frontpage_json/refresh_point';
 //FRONTPAGE MEMBER
+$route['media'] = 'frontpage/media';
 $route['register'] = 'frontpage/register';
 $route['go_register'] = 'member_login/register';
 $route['login'] = 'frontpage/login';
@@ -86,6 +87,14 @@ $route['api/article_delete/(:any)'] = 'admin_action/article_delete/$1';
 $route['adm/article_list'] = 'admin/article_list';
 $route['adm/article_edit/(:any)'] = 'admin/article_edit/$1';
 $route['adm/go_edit_article'] = 'admin_action/go_edit_article';
+//adm media
+$route['adm/media'] = 'admin/media';
+$route['adm/new_media'] = 'admin/new_media';
+$route['adm/go_make_media'] = 'admin_action/go_make_media';
+$route['adm/media_list'] = 'admin/media_list';
+$route['adm/media_edit/(:any)'] = 'admin/media_edit/$1';
+$route['adm/get_media_last_no_order'] = 'admin_json/get_media_last_no_order';
+$route['adm/set_status_media'] = 'admin_json/set_status_media';
 //Adm System
 $route['adm/account_list'] = 'admin/account_list';
 $route['adm/go_add_account'] = 'admin_action/go_add_account';
