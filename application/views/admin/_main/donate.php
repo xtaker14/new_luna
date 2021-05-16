@@ -60,7 +60,20 @@
                                         }
                                     ?>
                                 </td> 
-                                <td><?= $val['payment_method']; ?></td>
+                                <td>
+                                    <?php 
+                                        $exp_payment_method = explode('|',$val['payment_method']);
+                                        if(count($exp_payment_method)>0){
+                                            if($exp_payment_method[0] == 'BANK_TRANSFER'){
+                                                echo $exp_payment_method[1];
+                                            }else{
+                                                echo $exp_payment_method[0].'<br>'.$exp_payment_method[1];
+                                            }
+                                        }else{
+                                            echo $val['payment_method'];
+                                        }
+                                    ?>
+                                </td>
                                 <td data-order="<?= $order_status; ?>">
                                     <?php if($val['status'] == 'pending'): ?>
                                         <span style="color:cadetblue;"><?= ucwords($val['status']); ?></span>

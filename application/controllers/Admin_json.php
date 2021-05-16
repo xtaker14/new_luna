@@ -108,11 +108,12 @@ class Admin_json extends AdminController {
                         } 
                         $silver_point = $diamonds * ($this->referral_bonus_points / 100);
 
-                        $ref_update = array(
-                            'modified_date' => $GLOBALS['date_now'],
-                            'silver_point' => ($data_referral_code['silver_point'] + $silver_point),
-                        );
-                        $this->db->update('referral_code',$ref_update,$where_referral);
+                        // $ref_update = array(
+                        //     'modified_date' => $GLOBALS['date_now'],
+                        //     'silver_point' => "silver_point + $silver_point",
+                        // );
+                        // $this->db->update('referral_code',$ref_update,$where_referral);
+                        $this->db->query("UPDATE referral_code SET modified_date = '".$GLOBALS['date_now']."', silver_point = silver_point + $silver_point WHERE referral_code = '$referral_code' ");
                         if($this->db->trans_status() === FALSE) {
                             $this->db->trans_rollback(); 
                             return $this->output
@@ -142,9 +143,10 @@ class Admin_json extends AdminController {
                                 )));
                         }
                         
-                        $this->db->update('tbl_user',array(
-                            'silver_point'=> ($data_referral_code['silver_point'] + $silver_point),
-                        ),$where_referral);
+                        // $this->db->update('tbl_user',array(
+                        //     'silver_point'=> "silver_point + $silver_point",
+                        // ),$where_referral);
+                        $this->db->query("UPDATE tbl_user SET silver_point = silver_point + $silver_point WHERE referral_code = '$referral_code' ");
                         if($this->db->trans_status() === FALSE) {
                             $this->db->trans_rollback(); 
                             return $this->output
@@ -155,11 +157,12 @@ class Admin_json extends AdminController {
                                 )));
                         }
 
-                        $this->db->update('tbl_user',array(
-                            'silver_point'=> ($data_referral_code['silver_point'] + $silver_point),
-                        ),array(
-                            'id'=>$user_id
-                        ));
+                        // $this->db->update('tbl_user',array(
+                        //     'silver_point'=> "silver_point + $silver_point",
+                        // ),array(
+                        //     'id'=>$user_id
+                        // ));
+                        $this->db->query("UPDATE tbl_user SET silver_point = silver_point + $silver_point WHERE id = $user_id ");
                         if($this->db->trans_status() === FALSE) {
                             $this->db->trans_rollback(); 
                             return $this->output

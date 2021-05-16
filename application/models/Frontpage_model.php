@@ -48,6 +48,9 @@ class Frontpage_model extends MY_Model{
 	function server_stat(){
 		$this->db = dbloader("LUNA_MEMBERDB");
 		$p_online = $this->db->query("SELECT propid from LoginTable")->num_rows();
+		if(count((int)$p_online)>0){
+			$p_online = (int)$p_online + 100;
+		}
 		$account_reg = $this->db->query("SELECT propid from chr_log_info")->num_rows();
 		$this->db = dbloader("LUNA_GAMEDB");
 		$char_count = $this->db->query("SELECT CHARACTER_IDX from TB_CHARACTER")->num_rows();
