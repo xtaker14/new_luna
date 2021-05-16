@@ -112,6 +112,38 @@ class Admin extends AdminController {
 	    $this->loadPage();
 	}
 
+	
+	function media(){
+      	$this->global['media_list'] = $this->db->get('media')->result_array();
+		$this->global['config_web'] = $this->getConfigWeb();
+		$this->global['php_name'] = 'media';
+	    $this->loadPage();
+	}
+
+	function new_media(){
+		$this->global['php_name'] = 'new_media';
+	    $this->loadPage();
+	}
+	
+	function media_edit($id){
+		if(empty($id)){
+			setFlashData('error', 'ID tidak boleh kosong..');
+			redirect('adm/media');
+		}
+		$this->load->model("admin_model");
+      	$get_media = $this->db->get_where('media',array(
+			'id'=>$id
+		))->row_array();
+		if(empty($get_media)){
+			setFlashData('error', 'Media tidak ditemukan..');
+			redirect('adm/media');
+		}
+		$this->global['get_media'] = $get_media;
+		$this->global['config_web'] = $this->getConfigWeb();
+		$this->global['php_name'] = 'new_media';
+	    $this->loadPage();
+	}
+
 	function new_article(){
 		$this->global['php_name'] = 'new_article';
 	    $this->loadPage();

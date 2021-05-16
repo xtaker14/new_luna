@@ -122,25 +122,48 @@
                         </ul>
                     </div>
                 </li>
+                
+                <li class="sidebar-dropdown">
+                    <a href="javascript:void(0)">
+                        <i class="far fa-images"></i>
+                        <span>Media</span>
+                    </a>
+                    <div class="sidebar-submenu">
+                        <ul>
+                            <li>
+                              <a href="<?php print_r(site_url('adm/new_media')) ?>">
+                                <i class="far fa-images"></i>
+                                <span>New Media</span></a>
+                            </li>
+                            <li>
+                                <a href="<?php print_r(site_url('adm/media')) ?>">
+                                    <i class="fas fa-list-ul"></i>
+                                     <span>Media List</span>
+                                 </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
                 <?php if($role==ROLE_DEVELOPER){?>
-                <li class="header-menu">
-                    <span>Developer</span>
-                </li>
-                <li>
-                  <a href="<?php print_r(site_url('adm/add_source')) ?>">
-                    <i class="fas fa-code"></i>
-                    <span>Add Item Source</span></a>
-                </li>
-                <li>
-                  <a href="<?php print_r(site_url('adm/g_account_list')) ?>">
-                    <i class="fas fa-users"></i>
-                    <span>GAME Account</span></a>
-                </li>
-                <li>
-                  <a href="<?php print_r(site_url('adm/account_list')) ?>">
-                    <i class="fas fa-users"></i>
-                    <span>Web Account</span></a>
-                </li>
+                    <li class="header-menu">
+                        <span>Developer</span>
+                    </li>
+                    <li>
+                    <a href="<?php print_r(site_url('adm/add_source')) ?>">
+                        <i class="fas fa-code"></i>
+                        <span>Add Item Source</span></a>
+                    </li>
+                    <li>
+                    <a href="<?php print_r(site_url('adm/g_account_list')) ?>">
+                        <i class="fas fa-users"></i>
+                        <span>GAME Account</span></a>
+                    </li>
+                    <li>
+                    <a href="<?php print_r(site_url('adm/account_list')) ?>">
+                        <i class="fas fa-users"></i>
+                        <span>Web Account</span></a>
+                    </li>
                 <?php }?>
             </ul>
         </div>

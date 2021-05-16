@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card" data-aos="fade-left" data-aos-delay="400">
   <div class="card-header bg-white" align="center">
     <h4 class="text-secondary"><b><img src="<?= base_url('assets/frontpage/img/icon/natsu.png'); ?>" width="40" height="40">Change PIN</b></h4>
   </div>

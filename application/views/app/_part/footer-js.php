@@ -132,7 +132,9 @@
 			$("img").css({
 				visibility: 'visible',
 			});
-			AOS.init();
+			AOS.init({
+				once: true
+			});
 			setTimeout(function(){
 				console.clear();
 			},200);

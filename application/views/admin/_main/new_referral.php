@@ -23,7 +23,7 @@
             <input type="hidden" name="id" value="<?= $id; ?>">
 	        <div class="form-group d-flex"> 
 	        	<label class="mx-2 my-auto"><b>Active? </b></label>
-	            <input type="checkbox" id="is_deleted" <?= $is_deleted == 'no' ? 'checked' : empty($is_deleted) ? 'checked' : '' ; ?> name="is_deleted" data-toggle="toggle" data-on="<i class='fa fa-check'></i> On" data-off="<i class='fa fa-times'></i> Off" data-onstyle="success" data-offstyle="danger" data-size="xs">
+	            <input type="checkbox" id="is_deleted" <?= $is_deleted == 'no' ? 'checked' : (empty($is_deleted) ? 'checked' : '') ; ?> name="is_deleted" data-toggle="toggle" data-on="<i class='fa fa-check'></i> On" data-off="<i class='fa fa-times'></i> Off" data-onstyle="success" data-offstyle="danger" data-size="xs">
 	        </div>
 	        <div class="form-group m-1"> 
 	            <input type="text" class="form-control" placeholder="Referral Code" value="<?= $referral_code; ?>" name="referral_code" id="referral_code">

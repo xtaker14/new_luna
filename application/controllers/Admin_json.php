@@ -213,7 +213,43 @@ class Admin_json extends AdminController {
             json($do);
         }
 	}
-    
+    function set_status_media(){
+        if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+            json('');
+        }else{
+            $id = $this->input->post('id',true);
+            $this->db->select('*');
+            $this->db->from('media');
+            $this->db->where('id = '.$id);
+            $do = $this->db->get()->row_array(); 
+            if(count($do)>0){
+                $set_to = 'yes';
+                if($do['is_hidden']=='yes'){
+                    $set_to = 'no';
+                }
+                $this->db->trans_begin();
+                $this->db->update('media',array(
+                    'is_hidden'=>$set_to
+                ),array(
+                    'id'=>$id
+                ));
+                if($this->db->trans_status() === FALSE) {
+                    $this->db->trans_rollback(); 
+                    return json(array(
+                        'result'=>false
+                    ));
+                }
+                $this->db->trans_commit();
+                json(array(
+                    'result'=>$set_to
+                ));
+            }else{
+                json(array(
+                    'result'=>false
+                ));
+            }
+        }
+    }
     function set_status_referral(){
         if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
             json('');
@@ -249,6 +285,20 @@ class Admin_json extends AdminController {
                     'result'=>false
                 ));
             }
+        }
+    }
+    function get_media_last_no_order(){
+        if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+            json('');
+        }else{
+            $type = $this->input->post('type',true);
+            $this->db->order_by('no_order','DESC');
+            $this->db->select('no_order');
+            $this->db->from('media');
+            $this->db->where('type',$type);
+            $this->db->limit(1);
+            $do = $this->db->get()->row_array(); 
+            json($do);
         }
     }
     function referral_code_search(){

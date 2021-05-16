@@ -276,42 +276,137 @@ class Admin_action extends AdminController {
     	if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
 			json(false);
 		}else{
-    	$type = $this->input->post('type',true);
-    	$username = $this->input->post('username',true);
-    	$date_type = $this->input->post('date_type',true);
-    	$reg_date = $this->input->post('reg_date',true);
-    	$bin = $this->input->post('item_source',true);
-    	$qty = $this->input->post('jumlah',true);
+			$type = $this->input->post('type',true);
+			$username = $this->input->post('username',true);
+			$date_type = $this->input->post('date_type',true);
+			$reg_date = $this->input->post('reg_date',true);
+			$bin = $this->input->post('item_source',true);
+			$qty = $this->input->post('jumlah',true);
 
-    	$item = explode(" | ", $bin);
-    	$bin_code = $item[0];
-    	
-    	$info = array('error','something error..');
-    	
-    	$this->load->model(array('member_model','im_model'));
+			$item = explode(" | ", $bin);
+			$bin_code = $item[0];
+			
+			$info = array('error','something error..');
+			
+			$this->load->model(array('member_model','im_model'));
 
-    	if($type=='single'){
-    		$user_idx = $this->member_model->select_member($username);
-    		$this->im_model->insert_item($bin_code,$user_idx,$qty);
-    		$info = array('success','sukses mengirim item ke '.$username);
-    	}elseif($type=='all'){
-    		$date = '';	
-			if($date_type=='range'){
-    			$date = explode(" to ", $reg_date);
-    		}
+			if($type=='single'){
+				$user_idx = $this->member_model->select_member($username);
+				$this->im_model->insert_item($bin_code,$user_idx,$qty);
+				$info = array('success','sukses mengirim item ke '.$username);
+			}elseif($type=='all'){
+				$date = '';	
+				if($date_type=='range'){
+					$date = explode(" to ", $reg_date);
+				}
 
-    		$member_list = $this->member_model->select_aLLmember($date);
-	    	foreach ($member_list as $val) {
-	    		$user_idx = $val['propid'];
-	    		$this->im_model->insert_item($bin_code,$user_idx,$qty);
-	    	}
-	    	$info = array('success', 'sukses mengirim item ke semua user.');
-    	}
+				$member_list = $this->member_model->select_aLLmember($date);
+				foreach ($member_list as $val) {
+					$user_idx = $val['propid'];
+					$this->im_model->insert_item($bin_code,$user_idx,$qty);
+				}
+				$info = array('success', 'sukses mengirim item ke semua user.');
+			}
 
-    	setFlashData($info[0], $info[1]);
-		redirect('adm/send_item');
-	}
+			setFlashData($info[0], $info[1]);
+			redirect('adm/send_item');
+		}
     }
+
+	function go_make_media(){ 
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+		}else{
+			$id = $this->input->post('id',true); 
+			$input_title = $this->input->post('input_title',true);
+			$input_type = $this->input->post('input_type',true);
+			$input_order = $this->input->post('input_order',true);
+			$is_hidden = $this->input->post('is_hidden',true);  
+			$item_image = 'input_image';  
+			$admin_id = $this->userId;
+			if(isset($is_hidden)){
+				$is_hidden='yes';
+			}else{
+				$is_hidden='no';
+			}
+			$upload_path = "assets/frontpage/img/media";
+
+			$data_save = array(
+				'admin_id' => $admin_id, 
+				'name' => $input_title,
+				'type' => $input_type, 
+				'no_order' => $input_order, 
+				'is_hidden' => $is_hidden,
+			);
+
+			$get_media = array();
+			if(isset($id) && !empty($id)){
+				$get_media = $this->db->get_where('media',array(
+					'id'=>$id
+				))->row_array();
+				if(empty($get_media)){
+					setFlashData('error', 'Media tidak ditemukan..');
+					redirect('adm/media');
+				}
+			}
+
+			$image_name = false;
+			if (!empty($_FILES[$item_image]['name'])) {
+				if ($this->security->xss_clean($_FILES[$item_image], TRUE) === FALSE) {
+					// file failed the XSS test
+					setFlashData('error', 'file failed the security XSS test!');
+					redirect('adm/new_media');
+				}
+				$config['upload_path'] = $upload_path;
+				$config['allowed_types'] = 'gif|jpg|png'; 
+					
+				if (count($get_media) > 0) {
+					$config['file_name'] = $get_media['img'];
+				} else {
+					$config['encrypt_name'] = TRUE;
+				}
+
+				$this->load->library('upload', $config);
+				$this->upload->initialize($config);
+				if (!$this->upload->do_upload($item_image)) { 
+					setFlashData('error', $this->upload->display_errors());
+					redirect('adm/new_media');
+				} else {
+					$result = $this->upload->data();
+					$image_name = $result['file_name'];
+					$data_save['img'] = $image_name;
+				}
+			}
+
+			$this->db = dbloader("default"); 
+			$this->db->trans_begin();
+
+			if(isset($id) && !empty($id)){
+				$data_save['modified_date'] = $GLOBALS['date_now'];
+
+				$this->db->update('media',$data_save,array(
+					'id'=>$id
+				));
+				if($this->db->trans_status() === FALSE) {
+					$this->db->trans_rollback();
+					setFlashData('error', 'terjadi error..');
+					redirect('adm/new_media');
+				}
+			}else{ 
+				$data_save['created_date'] = $GLOBALS['date_now'];
+
+				$this->db->insert('media',$data_save);
+				if($this->db->trans_status() === FALSE) {
+					$this->db->trans_rollback();
+					setFlashData('error', 'terjadi error..');
+					redirect('adm/new_media');
+				}
+			}
+			$this->db->trans_commit();
+			setFlashData('success', 'berhasil insert');
+			redirect('adm/media');
+		}
+	}
 
 	function go_make_article(){
 		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){

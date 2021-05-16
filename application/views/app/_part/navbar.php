@@ -18,8 +18,29 @@
           <li class="nav-item active p-2 <?= $this->uri->segment(1) == 'p' && $this->uri->segment(2) == 'download-page' ? 'current' : ''; ?>">
           <a class="nav-link text-center" href="<?= base_url('p/download-page') ?>"><i class="fas fa-download mr-1"></i>Download</a>
         </li>
-        <li class="nav-item active p-2 <?= $this->uri->segment(1) == 'p' && $this->uri->segment(2) == 'terms-of-services' ? 'current' : ''; ?>">
+        <!-- <li class="nav-item active p-2 <?= $this->uri->segment(1) == 'p' && $this->uri->segment(2) == 'terms-of-services' ? 'current' : ''; ?>">
           <a class="nav-link text-center" href="<?= base_url('p/terms-of-services') ?>"><i class="fas fa-balance-scale mr-1"></i>Terms Of Services</a>
+        </li> -->
+        <?php 
+        $active_others = '';
+        if($this->uri->segment(1) == 'p' && $this->uri->segment(2) == 'terms-of-services'){
+          $active_others = 'current';
+        }
+        elseif($this->uri->segment(1) == 'media'){
+          $active_others = 'current';
+        }
+        ?>
+        <li class="nav-item dropdown active p-2 <?= $active_others; ?> ">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <!-- <i class="fas fa-ellipsis-v"></i> -->
+            <i class="fas fa-th-list"></i>
+            Others
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="<?= base_url('media') ?>">Media</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="<?= base_url('p/terms-of-services') ?>">Terms Of Services</a>
+          </div>
         </li>
       </ul>
       <!--

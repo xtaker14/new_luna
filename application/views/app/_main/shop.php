@@ -39,11 +39,11 @@
 }
 </style>
 
-<div id="menu_cover" class="card shadow-sm mb-4" >
+<div id="menu_cover" class="card shadow-sm mb-4" data-aos="fade-left" data-aos-delay="300">
 	<?php $this->load->view("app/_main/_shop/menu.php");?>
 </div>  
 
-<div id="im_list" class="form-row" align="center">
+<div id="im_list" class="form-row" align="center" data-aos="fade-left" data-aos-delay="400">
 </div> 
 
 <script type="text/javascript">

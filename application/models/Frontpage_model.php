@@ -72,6 +72,23 @@ class Frontpage_model extends MY_Model{
 		return $do;
 	}
 
+	function getMedia($type='all',$max=10){
+		$this->db = dbloader("default");
+		$where = array(
+			'is_hidden'=>'no'
+		);
+		if($type == 's'){
+			$where['type'] = 'ss';
+		}
+		if($type == 'w'){
+			$where['type'] = 'wallpaper';
+		}
+		$this->db->order_by('no_order','ASC');
+		$this->db->order_by('created_date','DESC');
+		$this->db->limit($max);
+		return $this->db->get_where('media',$where)->result_array();
+	}
+
 	function getPlayerRank($a='kill',$max=100){ 
 		$this->db = dbloader("LUNA_GAMEDB"); 
 
