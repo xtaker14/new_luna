@@ -160,7 +160,25 @@ class Frontpage_model extends MY_Model{
 			$order = "
 				ORDER BY GuildLevel DESC, CreateDate ASC
 			";
-		}else{
+		}
+		else if($a == 'cs'){
+			$type = '';
+			$select = "
+				TOP $max swc.*, tg.GuildName, tg.MasterName   
+			";
+			$join = "
+				INNER JOIN TB_GUILD tg
+				ON tg.MasterIdx = tb.character_idx 
+				INNER JOIN SIEGEWARFARE_WATERSEED_COMPLETE swc 
+				ON swc.GUILDIDX=tg.GuildIdx
+			";
+			$where = "";
+			$order = "
+				ORDER BY ID_IDX ASC
+			";
+			
+		}
+		else{
 			//$play = "CHARACTER_PLAYTIME";
 		}
 		

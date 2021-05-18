@@ -164,8 +164,45 @@
                         </div>
                         <div class="tab-pane fade" id="tbl_cs_rank_table" role="tabpanel" aria-labelledby="nav-cs-rank-tab">
                         
-                        <div class="table-responsive table-scroll">
+                        <!-- <div class="table-responsive table-scroll">
                             <h2 style="text-align:center;">-- Coming Soon --</h2>
+                        </div> -->
+                        <div class="table-responsive table-scroll">
+                            <table id="cs_rank_table" class="table table-striped table-sm mt-4 dt-responsive nowrap" style="width:100%">
+                            <thead>
+                                <tr> 
+                                    <th scope="col" colspan="2" style="text-align:center;">Map Name</th>
+                                    <th scope="col" style="text-align:center;">Guild Name</th>
+                                    <th scope="col" style="text-align:center;">Master Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($cs_rank as $key => $val) : 
+                                    $no = $key+1; 
+                                ?>
+                                    <tr>
+                                        <td style="width: 15%; text-align:right;">
+                                            <?php if($val['MAPTYPE'] == 3): ?>
+                                                <!-- 3 lushen -->
+                                                <img src="<?= base_url('assets/frontpage/img/flag_lushen.png'); ?>" style="width:24px;" alt="">
+                                            <?php elseif($val['MAPTYPE'] == 2): ?>
+                                                <!-- 2 zevyn -->
+                                                <img src="<?= base_url('assets/frontpage/img/flag_zevyn.png'); ?>" style="width:24px;" alt="">
+                                            <?php endif; ?>
+                                        </td>
+                                        <td style="width: 20%;">
+                                            <?php if($val['MAPTYPE'] == 3): ?>
+                                                Lushen
+                                            <?php elseif($val['MAPTYPE'] == 2): ?>
+                                                Zevyn
+                                            <?php endif; ?>
+                                        </td>
+                                        <td style="text-align:center;"><?= $val['GuildName']; ?></td>
+                                        <td style="text-align:center;"><?= $val['MasterName']; ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                            </table>
                         </div>
 
                         </div>
@@ -210,6 +247,32 @@ $(document).ready(function(){
         columnDefs: [
             { responsivePriority: 1, targets: 0 },
             { responsivePriority: 2, targets: 2 },
+            // { searchable: false, targets: 0 },
+            // { searchable: false, targets: 1 },
+            // { searchable: false, targets: 3 },
+        ],
+        responsive: {
+            details: {
+                display: $.fn.dataTable.Responsive.display.modal( {
+                    header: function ( row ) {
+                        var data = row.data();
+                        return 'Detail for '+data[0];
+                    }
+                } ),
+                renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
+                    tableClass: 'table'
+                } )
+            }
+        }
+    }); 
+    
+	var cs_rank_table = $('#cs_rank_table').DataTable( {
+        pageLength: 50,
+        lengthChange: true,
+        info: true,
+        columnDefs: [
+            { responsivePriority: 1, targets: 0 },
+            { responsivePriority: 2, targets: 1 },
             // { searchable: false, targets: 0 },
             // { searchable: false, targets: 1 },
             // { searchable: false, targets: 3 },
