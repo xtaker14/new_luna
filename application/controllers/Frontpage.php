@@ -50,7 +50,7 @@ class Frontpage extends FrontLib {
 		$this->load->model("frontpage_model");
       	$this->global['level_rank'] = $this->frontpage_model->getPlayerRank('level',50);
       	$this->global['guld_rank'] = $this->frontpage_model->getPlayerRank('guild',50);
-      	// $this->global['cs_rank'] = $this->frontpage_model->getPlayerRank('cs',50);
+      	$this->global['cs_rank'] = $this->frontpage_model->getPlayerRank('cs',2);
 		$this->global['php_name'] = "rank";
 		$this->loadViews();
 	}
