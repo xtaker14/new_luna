@@ -21,63 +21,65 @@ class MY_Controller extends CI_Controller  {
 			$this->referral_bonus_points = $data_config_web['referral_bonus_points'];
 		}
 		
+		$get_mt_key = $this->secureGet('maintenance-key', true);
+		$get_admin_key = $this->secureGet('admin-key', true);
+		if($get_mt_key){
+			$this->session->set_userdata('maintenance-key', $get_mt_key);
+		}
+		if($get_admin_key){
+			$this->session->set_userdata('admin-key', $get_admin_key);
+		} 
+		$GLOBALS['check_allowed_ip'] = $this->checkAllowedIp();
+		$this->isOtherLinkMT();
+		$this->allowedAdmin(); 
+
 		$get_browser = $this->getBrowser();
 		switch ($get_browser['shortname']) {
 			case 'firefox':
 			case 'chrome':
-				$get_mt_key = $this->secureGet('maintenance-key', true);
-				$get_admin_key = $this->secureGet('admin-key', true);
-				if($get_mt_key){
-					$this->session->set_userdata('maintenance-key', $get_mt_key);
-				}
-				if($get_admin_key){
-					$this->session->set_userdata('admin-key', $get_admin_key);
-				} 
-				$GLOBALS['check_allowed_ip'] = $this->checkAllowedIp();
-				$this->isOtherLinkMT();
-				$this->allowedAdmin(); 
 				
 				return true;
 				break;
 			default:
-				echo 'Use browser engine Firefox/Chrome';
-				exit;
+				return true;
+				// echo 'Use browser engine Firefox/Chrome';
+				// exit;
 				break;
 		}
 	}
 
 	public function send_email($pars_data, $show_error = false){
-        $config['useragent'] = 'CodeIgniter';
-		$config['protocol'] = 'smtp';
-		$config['smtp_host'] = 'ssl://smtp.googlemail.com';
-		$config['smtp_user'] = 'pinstarluna@gmail.com';
-		$config['smtp_pass'] = 'blacklist007008009';
-		$config['smtp_port'] = 465; 
-		$config['smtp_timeout'] = 5;
-		$config['wordwrap'] = TRUE;
-		$config['wrapchars'] = 76;
-		$config['mailtype'] = 'html';
-		$config['charset'] = 'utf-8';
-		$config['validate'] = FALSE;
-		$config['priority'] = 3;
-		$config['crlf'] = "\r\n";
-		$config['newline'] = "\r\n";
-		$config['bcc_batch_mode'] = FALSE;
-		$config['bcc_batch_size'] = 200; 
+        // $config['useragent'] = 'CodeIgniter';
+		// $config['protocol'] = 'smtp';
+		// $config['smtp_host'] = 'ssl://smtp.googlemail.com';
+		// $config['smtp_user'] = 'pinstarluna@gmail.com';
+		// $config['smtp_pass'] = 'blacklist007008009';
+		// $config['smtp_port'] = 465; 
+		// $config['smtp_timeout'] = 5;
+		// $config['wordwrap'] = TRUE;
+		// $config['wrapchars'] = 76;
+		// $config['mailtype'] = 'html';
+		// $config['charset'] = 'utf-8';
+		// $config['validate'] = FALSE;
+		// $config['priority'] = 3;
+		// $config['crlf'] = "\r\n";
+		// $config['newline'] = "\r\n";
+		// $config['bcc_batch_mode'] = FALSE;
+		// $config['bcc_batch_size'] = 200; 
 
-        // $config = Array(
-        //     'protocol' => 'smtp',
-        //     'smtp_host' => 'smtp.mailtrap.io',
-        //     'smtp_port' => 2525,
-        //     'smtp_user' => 'a397adb76f2d71',
-        //     'smtp_pass' => 'eaaad2b1d161a2',
-        //     'mailtype'  => 'html',
-        //     'charset'   => 'iso-8859-1',
-        //     // 'charset'   => 'utf-8',
-        //     // 'crlf'   => '\r\n',
-        //     // 'newline'   => '\r\n',
-        //     // 'wordwrap'   => true,
-        // );
+        $config = Array(
+            'protocol' => 'smtp',
+            'smtp_host' => 'smtp.mailtrap.io',
+            'smtp_port' => 2525,
+            'smtp_user' => 'a397adb76f2d71',
+            'smtp_pass' => 'eaaad2b1d161a2',
+            'mailtype'  => 'html',
+            'charset'   => 'iso-8859-1',
+            // 'charset'   => 'utf-8',
+            // 'crlf'   => '\r\n',
+            // 'newline'   => '\r\n',
+            // 'wordwrap'   => true,
+        );
 		
         echo '<script>f_main.loading(true);</script>';
         // $this->load->library('email', $config);

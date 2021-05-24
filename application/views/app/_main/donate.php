@@ -43,9 +43,13 @@
                                     <select class="form-control" name="input_amount">
                                         <?php foreach ($donate_price_list as $key => $val) : ?>
                                             <?php 
-                                                $value = number_format($val['value'],0,',','.');
                                                 $currency = $val['currency'];
-                                                $price = number_format($val['price'],0,',','.');
+                                                $float_num = 0;
+                                                if($currency === 'USD'){
+                                                    $float_num = 2;
+                                                }
+                                                $value = number_format($val['value'],0,',','.');
+                                                $price = number_format($val['price'],$float_num,',','.');
                                                 $descr = $val['description'];
                                             ?>
                                             <option value="<?= $val['id'].'|'.$val['value']; ?>">
@@ -92,9 +96,16 @@
                         </thead>
                         <tbody>
                             <?php foreach ($donate_list as $key => $val) : ?>
+                            <?php 
+                                $currency = $val['currency'];
+                                $float_num = 0;
+                                if($currency === 'USD'){
+                                    $float_num = 2;
+                                }    
+                            ?>
                                 <tr> 
                                     <td><?= $val['id']; ?></td>
-                                    <td><?= number_format($val['bill'],0,',','.'); ?></td>
+                                    <td><?= number_format($val['bill'],$float_num,',','.'); ?></td>
                                     <td><?= number_format($val['donate_price'],0,',','.'); ?></td>
                                     <td>
                                         <?php 
