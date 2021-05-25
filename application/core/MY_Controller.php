@@ -40,8 +40,8 @@ class MY_Controller extends CI_Controller  {
 				return true;
 				break;
 			default:
-				echo 'Use browser engine Firefox/Chrome';
-				exit;
+				// echo 'Use browser engine Firefox/Chrome';
+				// exit;
 				break;
 		}
 	}
