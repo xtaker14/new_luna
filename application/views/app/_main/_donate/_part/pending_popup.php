@@ -46,6 +46,20 @@
                             </td>
                         </tr>
                     <?php endforeach; ?>
+                <?php elseif($key == 'PAYPAL'): ?>
+                    <?php foreach($val as $key2 => $val2): $no++; ?>
+                        <tr style="height: 1px;">
+                            <td style="vertical-align: middle;height: 100%;">
+                                <label style="display: flex;align-items:center;min-height: 100%;height: auto !important;height: 100%;"> 
+                                    <input style="margin-right: 5px;" <?= ($no==0) ? 'checked' : ''; ?> type="radio" data-type="<?= $key; ?>" class="popup_input_account_number" name="input_account_number" value="<?= $key.'|'.$val2; ?>"> <?= $key; ?>
+                                </label>
+                            </td>
+                            <td>
+                                Email : <br>
+                                <?= $val2; ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
                 <?php endif; ?> 
             <?php endforeach; ?>
         </tbody>
@@ -62,7 +76,17 @@
                 <td style="width: 20px; vertical-align:top; text-align:center;">
                     <span style="color:red;">*</span>
                 </td>
-                <td>Send the nominal money that matches the bill:<br><span style="color:red;"><?= $get_donate['currency'].' '.number_format($get_donate['bill'],0,',','.'); ?></span></td>
+                <td>
+                    Send the nominal money that matches the bill:<br>
+                    <span style="color:red;">
+                        <?= $get_donate['currency']; ?>
+                        <?php if($get_donate['currency'] === 'USD'): ?>
+                            <?= number_format($get_donate['bill'], 2,',','.'); ?>
+                        <?php else: ?>
+                            <?= number_format($get_donate['bill'], 0,',','.'); ?>
+                        <?php endif; ?>
+                    </span>
+                </td>
             </tr>
             <tr class="popup_res_desc_tf">
                 <td style="width: 20px; vertical-align:top; text-align:center;">

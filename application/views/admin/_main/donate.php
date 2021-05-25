@@ -29,6 +29,11 @@
                     <tbody>
                         <?php foreach ($donate_list as $key => $val) : ?>
                             <?php 
+                                $currency = $val['currency'];
+                                $float_num = 0;
+                                if($currency === 'USD'){
+                                    $float_num = 2;
+                                }  
                                 $order_status = 0;
                                 switch ($val['status']) {
                                     case 'paid':
@@ -49,7 +54,7 @@
                                 <td><?= $val['id']; ?></td>
                                 <td><?= !empty($val['admin_id']) ? $val['admin_id'] : '<small>Not Yet</small>' ; ?></td>
                                 <td><?= $val['username']; ?></td>
-                                <td><?= number_format($val['bill'],0,',','.'); ?></td>
+                                <td><?= $currency.' '.number_format($val['bill'],$float_num,',','.'); ?></td>
                                 <td><?= number_format($val['donate_price'],0,',','.'); ?></td>
                                 <td>
                                     <?php 
