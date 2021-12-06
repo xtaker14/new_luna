@@ -1,4 +1,4 @@
-<div data-aos="fade-right" id="srv_form_login" class="card mb-3 parent_form_login" style="margin-top: 30px;">
+<div data-aos="fade-left" id="srv_form_login" class="card mb-3 parent_form_login" style="margin-top: 30px;">
   <div class="card-body shadow-sm">     
     <!-- <h4 class="text-muted"><b></b></h4> -->
     <div class="box_header_title">

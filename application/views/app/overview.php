@@ -21,6 +21,7 @@ header('Content-Type: text/html; charset=utf-8');
 	<title><?= SITE_NAME ?></title>
 	<?php $this->load->view("app/_part/head-js.php") ?>
 	<script data-ad-client="ca-pub-7600905645602632" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<?php $this->load->view("app/_part/css.php") ?>
 </head>
 <body>
 	<!-- <div class="cover_loading">
@@ -51,9 +52,9 @@ header('Content-Type: text/html; charset=utf-8');
 
 				<div class="clouds">
 					<img style="--i:1;" src="<?= base_url('assets/frontpage/img/clouds/cloud1.png'); ?>">
-					<!-- <img style="--i:2;" src="<?= base_url('assets/frontpage/img/clouds/cloud2.png'); ?>"> -->
+					<img style="--i:2;" src="<?= base_url('assets/frontpage/img/clouds/cloud2.png'); ?>">
 					<img style="--i:3;" src="<?= base_url('assets/frontpage/img/clouds/cloud3.png'); ?>">
-					<!-- <img style="--i:4;" src="<?= base_url('assets/frontpage/img/clouds/cloud4.png'); ?>"> -->
+					<img style="--i:4;" src="<?= base_url('assets/frontpage/img/clouds/cloud4.png'); ?>">
 					<img style="--i:5;" src="<?= base_url('assets/frontpage/img/clouds/cloud5.png'); ?>">
 				</div>
 			</div> 
@@ -116,6 +117,6 @@ header('Content-Type: text/html; charset=utf-8');
 	<?php $this->load->view("app/_part/sticky.icon.php") ?>
 	<?php $this->load->view("app/_part/footer.php") ?>
 	<?php $this->load->view("app/_part/footer-js.php") ?>
-	<?php $this->load->view("app/_part/css.php") ?>
+	<!-- <?php $this->load->view("app/_part/css.php") ?> -->
 </body>
 </html>

@@ -1,0 +1,5 @@
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^139.99.124.71$ [NC,OR]
+RewriteCond %{HTTP_HOST} ^139.99.124.71$
+RewriteCond %{REQUEST_URI} !__greatpatch__/
+RewriteRule (.*) /__greatpatch__/$1 [L]

@@ -1,8 +1,8 @@
 <style type="text/css">
   [type=radio] { 
   opacity: 1;
-  width: 0;
-  height: 0;
+  /* width: 0;
+  height: 0; */
 }
 
 /* IMAGE STYLES */

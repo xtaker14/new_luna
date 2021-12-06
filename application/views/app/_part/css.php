@@ -875,7 +875,7 @@ body {
 	width: 100%;
 	min-height: 100vh;
 	color: #000 !important;
-	background-image: url("https://mythicluna.com/assets/frontpage/img/bg.png");
+	background-image: url("https://dragonyaluna.com/assets/frontpage/img/bg.png");
 	background-repeat: no-repeat;
 	background-position: top;
 	background-size: cover;
@@ -892,7 +892,7 @@ main {
 	min-height: 50vh;
     /* background-color: #f1f1f1; */
     /* background-color: rgb(163, 208, 248); */
-    background-color: rgb(177, 242, 244);
+    background-color: rgb(233 247 255);
 }
 
 p {
@@ -911,7 +911,7 @@ a:visited {
 }
 
 .main_content {
-	background-color: #f1f1f1;
+	background-color: #ffffff;
 	/* margin-top: -20px; */
 	position: relative;
     z-index: 1;
@@ -926,8 +926,8 @@ a:visited {
 
 .bg-blue-gradient {
     /* background-image: linear-gradient(to right, #ff00ff, #ea00f9, #d500f2, #c000eb, #ab00e4, #8741f3, #5b5bfc, #006cff, #0090ff, #00adff, #00c7ff, #00deff); */
-    background-image: -webkit-linear-gradient(to right, #90aef0, #36d1dc) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background-image: linear-gradient(to right, #90aef0, #36d1dc) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background-image: -webkit-linear-gradient(to right, #ca0000, #ca0000) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background-image: linear-gradient(to right, #ca0000, #ca0000) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     box-shadow: 0 0.150rem 0.50rem rgba(0,0,0,.2) !important;
 }
 .parent_nav{
