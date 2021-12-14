@@ -1,68 +1,52 @@
 <div class="modal-header">
-    <div class="box_header_title" style="width: 100%;">
-        <span></span>
-        <span></span> 
-        <div class="content_header_title">
-            <h2><i class="fas fa-question-circle"></i>&nbsp;Pending To Paid</h2> 
-        </div>
-    </div>
+    <?php $this->load->view("app/_part/header_title.php",array(
+        'part_ht_txt_large'=> 'Donate <i class="fas fa-gem ml-1" data-fa-transform="rotate-30"></i>',
+        'part_ht_txt_small'=> '',
+        // 'part_ht_left_i'=> 'far fa-images ml-2',
+        // 'part_ht_right_i'=> 'far fa-images ml-2',
+        // 'part_ht_style_i'=> 'font-size:25px;',
+        'part_ht_style_txt_large'=> 'font-size:24px;',
+    )); ?>
 </div>
-<div class="modal-body">
-    If you have transferred to the account listed below, <br>
-    Please change your status to Paid by clicking the Paid Button <br>
+<div class="modal-body"> 
+    <h4 class="text-success">
+        <?php 
+            $currency = $get_donate['currency'];
+            $float_num = 0;
+            if($currency === 'USD'){
+                $float_num = 2;
+            }
+            $value = number_format($get_donate['donate_point'],0,',','.');
+            $price = number_format($get_donate['midtrans_gross_amount'],$float_num,',','.');
+            $descr = $get_donate['description'];
 
-    <table class="table table-striped" style="margin-top: 15px;">
-        <tbody>
-            <?php 
-            $no=-1;
-            foreach($account_number as $key => $val):
-            ?>
-                <?php if($key == 'BANK_TRANSFER'): ?>
-                    <?php foreach($val as $key2 => $val2): $no++; ?>
-                        <tr style="height: 1px;">
-                            <td style="vertical-align: middle;height: 100%;">
-                                <label style="display: flex;align-items:center;min-height: 100%;height: auto !important;height: 100%;"> 
-                                    <input style="margin-right: 5px;" <?= ($no==0) ? 'checked' : ''; ?> type="radio" data-type="<?= $key; ?>" class="popup_input_account_number" name="input_account_number" value="<?= $key.'|'.$key2; ?>"> <?= $key2; ?>
-                                </label>
-                            </td>
-                            <td>
-                                No. & Owner Name<br>
-                                <?= $val2['no_owner_name']; ?><br>
-                                Bank Code : <?= $val2['bank_code']; ?>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php elseif($key == 'DANA'): ?>
-                    <?php foreach($val as $key2 => $val2): $no++; ?>
-                        <tr style="height: 1px;">
-                            <td style="vertical-align: middle;height: 100%;">
-                                <label style="display: flex;align-items:center;min-height: 100%;height: auto !important;height: 100%;"> 
-                                    <input style="margin-right: 5px;" <?= ($no==0) ? 'checked' : ''; ?> type="radio" data-type="<?= $key; ?>" class="popup_input_account_number" name="input_account_number" value="<?= $key.'|'.$key2; ?>"> <?= $key; ?>
-                                </label>
-                            </td>
-                            <td>
-                                No. <?= $key2; ?><br>
-                                Acc Name. <?= $val2; ?>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php elseif($key == 'PAYPAL'): ?>
-                    <?php foreach($val as $key2 => $val2): $no++; ?>
-                        <tr style="height: 1px;">
-                            <td style="vertical-align: middle;height: 100%;">
-                                <label style="display: flex;align-items:center;min-height: 100%;height: auto !important;height: 100%;"> 
-                                    <input style="margin-right: 5px;" <?= ($no==0) ? 'checked' : ''; ?> type="radio" data-type="<?= $key; ?>" class="popup_input_account_number" name="input_account_number" value="<?= $key.'|'.$val2; ?>"> <?= $key; ?>
-                                </label>
-                            </td>
-                            <td>
-                                Email : <br>
-                                <?= $val2; ?>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php endif; ?> 
-            <?php endforeach; ?>
-        </tbody>
+            $midtrans_renew['donate_title'] = $value.' Diamonds - '.$currency.' '.$price.' '.$descr;
+            $midtrans_renew['status_text'] = 'pending';
+            $midtrans_renew['status_class_color'] = 'text-warning';
+        ?>
+        <?= $value.' Diamonds - '.$currency.' '.$price.' '.$descr; ?>
+    </h4>
+    <table class="table table-striped" style="margin-top: 15px;">  
+        
+        <?php if($midtrans_status['payment_type'] == 'qris'): ?> 
+	        <?php $this->load->view("app/_main/_donate/_part/_include/shopee.php", array('midtrans_renew'=>$midtrans_renew)) ?> 
+        <?php endif; ?>
+        
+        <?php if($midtrans_status['payment_type'] == 'gopay'): ?> 
+	        <?php $this->load->view("app/_main/_donate/_part/_include/gopay.php", array('midtrans_renew'=>$midtrans_renew)) ?> 
+        <?php endif; ?>
+        
+        <?php if($midtrans_status['payment_type'] == 'bank_transfer'): ?> 
+	        <?php $this->load->view("app/_main/_donate/_part/_include/bank_transfer.php", array('midtrans_renew'=>$midtrans_renew)) ?> 
+        <?php endif; ?>
+        
+        <?php if($midtrans_status['payment_type'] == 'echannel'): ?> 
+	        <?php $this->load->view("app/_main/_donate/_part/_include/echannel.php", array('midtrans_renew'=>$midtrans_renew)) ?> 
+        <?php endif; ?>
+
+        <?php if($midtrans_status['payment_type'] == 'credit_card'): ?>  
+	        <?php $this->load->view("app/_main/_donate/_part/_include/credit_card.php", array('midtrans_renew'=>$midtrans_renew)) ?>
+        <?php endif; ?>
     </table>
     <strong>
         <table>
@@ -100,13 +84,27 @@
 <div class="modal-footer">
     <input type="hidden" name="donate_id" value="<?= $get_donate['id']; ?>">
     <input type="hidden" name="<?=$xepo_name;?>" value="<?=$xepo_value;?>" />
-
-    <button class="btn btn-block btn-hover btn color-red" data-dismiss="modal">Not Yet</button>
-    <button class="btn btn-block btn-hover btn color-blue" type="submit" style="margin-top:0;">Paid</button>
+ 
+    <?php $this->load->view("app/_part/button_border.php",array(
+        'part_bb_txt'=> '<i class="fas fa-times"></i>&nbsp;CLOSE',
+        'part_bb_element'=> 'button',
+        'part_bb_type'=> 'button',
+        'part_bb_attr_plus'=> 'data-dismiss="modal"',
+        'part_bb_class'=>'btn-hover color-red', 
+        'part_bb_style'=> 'width:50%; font-size:1rem; letter-spacing:2px;margin-bottom:0px;',
+    )); ?> 
 </div>
 <style>
     .popup_res_desc_tf{
         display: none;
+    }
+    .popup_res_desc_tf td:first-child{
+        border-left: 1px solid #bab9bb;
+        border-bottom: 1px solid #bab9bb;
+    }
+    .popup_res_desc_tf td:last-child{
+        border-right: 1px solid #bab9bb;
+        border-bottom: 1px solid #bab9bb;
     }
 </style>
 <script>
@@ -114,24 +112,8 @@
         $("input.popup_input_account_number").click(function(){
             let t = $(this);
             let type = t.data('type');
-            if(t.is(':checked')){
-                if(type == 'BANK_TRANSFER'){
-                    $('.popup_res_desc_tf').css({
-                        'display':'contents'
-                    });
-                    $('.popup_res_desc_tf td').eq(1).html(`
-                        When transferring please enter the news/description/notes as follows: <span style="color:red;">DONATE - <?= $get_donate['donate_price']; ?> Diamonds</span>
-                    `);
-                }else{
-                    $('.popup_res_desc_tf').hide();
-                    $('.popup_res_desc_tf td').eq(1).html('');
-                } 
+            if(t.is(':checked')){  
             }
-        });
-        $.each($("input.popup_input_account_number"), function(idx,key){
-            if($(this).is(':checked')){
-                $(this).click();
-            }
-        });
+        }); 
     });
 </script>

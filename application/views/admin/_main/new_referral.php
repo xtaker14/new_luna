@@ -32,18 +32,18 @@
                 </label>
 	        </div>
 	        <div class="form-row border m-1 p-2 pb-3 mb-4">
-	        	<div class="col-md-6 my-2">
+	        	<div class="col-md-12 my-2">
 	                <input <?= !empty($id) ? 'readonly' : ''; ?> type="text" class="form-control" placeholder="Username" value="<?= $username; ?>" name="username" id="username">
                     <label for="username">
                         <small><span style="color:red;">*</span> Jika username yang anda cari tidak tertera dalam list yang di keluarkan maka kemungkinan username tersebut sudah mempunyai referral code</small>
                     </label>
 		        </div> 
-	        	<div class="col-md-6 my-2">
-	                <input type="text" class="form-control" placeholder="Silver Point" value="<?= $silver_point; ?>" name="silver_point" id="silver_point">
+	        	<!-- <div class="col-md-12 my-2">
+	                <input type="text" class="form-control" placeholder="Point" value="<?= $silver_point; ?>" name="silver_point" id="silver_point">
                     <label for="silver_point">
-                        <small><span style="color:red;">*</span> Defult Silver Point adalah 0</small>
+                        <small><span style="color:red;">*</span> Defult Point adalah 0</small>
                     </label>
-		        </div> 
+		        </div>  -->
 	        </div>
 			 
 	        <div class="form-group m-1"> 

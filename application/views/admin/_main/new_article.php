@@ -7,10 +7,9 @@
 	        <div class="form-group"> 
 	        	<label for="category" class="mx-2 my-auto">Category: </label>
 				<select class="form-control mt-2" id="category" name="category" required>
-					<option value="Event">Event</option>
-					<option value="Update">Update</option>
-					<option value="News">News</option>
-					<option value="Page">Page</option>
+					<?php foreach($news_category as $key): ?>
+					<option value="<?= $key['category_value']; ?>"><?= $key['category_name']; ?></option>
+					<?php endforeach; ?>
 				</select>
 	        </div>
 	        <div class="form-group"> 
@@ -26,6 +25,11 @@
 	        <div class="form-group">
 				<label for="userfile" >Image : </label>
 				<input type="file" id="userfile" name="userfile" />
+				<div>
+                    <br>
+                    <img style="max-width:100%;" id="img_item" src="" alt="- - No Image - -">
+                    <br>
+                </div>
 			</div>
 			<div class="form-group">
 				<label for="content" >Content: </label>
@@ -36,38 +40,59 @@
       </div>
 	</div>
 </div>
+
+<style>
+	/* .note-editable { background-color: #132902 !important; } */
+</style>
 <script type="text/javascript">
+document.getElementById("userfile").onchange = evt => {
+	const [file] = document.getElementById("userfile").files;
+
+	if (file) {
+		document.getElementById("img_item").src = URL.createObjectURL(file);
+	}
+}
 $(document).ready(function(){
+	function getUrlArticle(){
+		$("#title").off('keyup');
+		$("#title").keyup(function () {
+			var str = $(this).val();
+			if(str.length != 0){
+				var final = str.toLowerCase().replace(/[^A-Z0-9]+/ig, "-");
+				$('#url_article').val(final);
+			}else{
+				$('#url_article').val('');
+			}
+		}).keyup();
+	}
+	$("#category").change(function(){
+		let t = $(this);
+		if(t.val() === 'Overview'){
+			$("#title").off('keyup');
+			$('#url_article').val('');
+			$('#url_article').parents('.input-group.mb-4').hide();
+		}else{
+			$('#url_article').parents('.input-group.mb-4').show();
+			getUrlArticle();
+		}
+	}).change();
 
-	$('.summernote').summernote({height: 250});
-
-	$("#title").keyup(function () {
-	      var str = $(this).val();
-	      if(str.length != 0){
-	        var final = str.toLowerCase().replace(/[^A-Z0-9]+/ig, "-");
-	        $('#url_article').val(final);
-	      }else{
-	      	$('#url_article').val('');
-	      }
-	}).keyup();
+	$('.summernote').summernote({
+		height: 250,
+	});
+	// $('.summernote').summernote('backColor', 'red');
+	// $('.summernote').summernote('foreColor', 'rgb(221, 134, 4)');
+	// $('.summernote').summernote('codeview.toggle');
 
 	$("#edit_icon").click(function(){
-	  var check = $(this).data('stat');
-
-	  if(check=='off'){
-
-	  	$(this).data('stat','on').html('<i class="fas fa-lock-open"></i>');
-
-	    $("#url_article").removeAttr("readonly");
-	    
-	  }else if(check=='on'){
-
-	  	$(this).data('stat','off').html('<i class="fas fa-lock"></i>');
-
-	    $("#url_article").attr("readonly","");
-	    
-	  }
-	  
+		var check = $(this).data('stat');
+		if(check=='off'){
+			$(this).data('stat','on').html('<i class="fas fa-lock-open"></i>');
+			$("#url_article").removeAttr("readonly");
+		}else if(check=='on'){
+			$(this).data('stat','off').html('<i class="fas fa-lock"></i>');
+			$("#url_article").attr("readonly","");
+		}
 	});
 })
 </script>

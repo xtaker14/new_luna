@@ -18,7 +18,7 @@
                             <th scope="col">Admin ID</th>
                             <th scope="col">Username</th>
                             <th scope="col">Code</th>
-                            <th scope="col">Silver</th>
+                            <th scope="col">Point</th>
                             <th scope="col">Action</th>
                             <th scope="col">Created Date</th> 
                             <th scope="col">Modified Date</th>
@@ -47,6 +47,7 @@
                                     <a href="<?= base_url('adm/edit_referral/'.$val['id']) ?>" type="button" class="btn btn-sm btn-primary">
                                         <i class="fa fa-edit"></i>
                                     </a>
+                                    <button class="btn btn-sm btn-danger delete_referral" type="button" data-id="<?= $val['id']; ?>"><i class="fa fa-trash"></i></button>
                                 </td>
                                 <td><?= (!empty($val['created_date'])) ? date('d M Y H:i:s', strtotime($val['created_date'])) : '-- Empty --'; ?></td>
                                 <td><?= (!empty($val['modified_date'])) ? date('d M Y H:i:s', strtotime($val['modified_date'])) : '-- Empty --'; ?></td>
@@ -89,6 +90,29 @@ $(document).ready(function(){
         }
     });
     console.clear();
+
+    $(document).on('click','.delete_referral',function(){
+        var id = $(this).data("id"); 
+
+        swal("Question",
+            "Are you sure?",
+            "warning",
+        {
+            buttons: { 
+                button_1: {text:'Yes', className:'btn-success'}, 
+                button_2: {text:'No', className:'btn-danger'},   
+            },
+        })
+        .then((value) => {
+            switch (value) {
+                case 'button_1':
+                    $.getJSON(baseURL+"api/referral_delete/"+id, function(r){
+                        window.location.reload(true);
+                    });
+                    break;
+                }
+        }); 
+    });
 }); 
 function setStatusRef(t){
     swal("Warning",

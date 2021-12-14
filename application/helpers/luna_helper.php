@@ -151,7 +151,7 @@ if(!function_exists('getHashedPassword'))
 }
 
 if(!function_exists('verifyHashedPassword')){
-    function verifyHashedPassword($plainPassword, $hashedPassword){
+    function verifyHashedPassword($plainPassword, $hashedPassword){ 
         return password_verify($plainPassword, $hashedPassword) ? true : false;
     }
 }

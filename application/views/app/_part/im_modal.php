@@ -24,12 +24,26 @@
 
 .piece_item{
   border-bottom: 1px dashed #939fff;
+} 
+#im_modal .modal-content{ 
+  background-color: #fffde8;
+  padding: .25rem !important;
+  border-width: 3px;
+  border-style: solid;
+  border-color: #61551E;
+  overflow: visible;
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.5)
+}
+#im_modal .modal-content #item-title{
+  color: #000;
 }
 </style>
+
 <div id="im_modal" class="modal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div style="position: absolute;top:-20px;right: -20px;" >
+      <i class="ibb"></i>
+      <div style="position: absolute;top:-20px;right: -20px;z-index:100;">
         <button type="button" class="btn btn-danger rounded-circle" data-dismiss="modal"><i class="fas fa-times"></i></button>
       </div>
       <div class="modal-header">
@@ -53,23 +67,13 @@
             </div>
             <div style="text-align: left;margin-bottom:10px;">
               <label class="text-primary">
-                <input checked type="radio" name="payment_type" value="diamond">
+                <input checked type="radio" name="payment_type" value="cash_point">
                 <b>Your Diamond : </b>
                 <span>
                   <span class="star_point">
                     <?= $star_point; ?>
                   </span>
                   <i class="fas fa-gem" data-fa-transform="rotate-30"></i>
-                </span>
-              </label><br>
-              <label style="color: #000 !important;">
-                <input type="radio" name="payment_type" value="silver">
-                <b>Your Silver : </b>
-                <span>
-                  <span class="silver_point">
-                    <?= $silver_point; ?>
-                  </span>
-                  <i class="fa fa-coins ml-1" data-fa-transform="rotate-30"></i>
                 </span>
               </label>
             </div>
@@ -88,6 +92,7 @@
           <input type="hidden" name="<?= $xepo_secure['name'] ?>" value="<?= $xepo_secure['hash'] ?>">
         </form>
       </div>
+      <i class="iba"></i>
     </div>
   </div>
 </div>

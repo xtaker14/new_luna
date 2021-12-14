@@ -8,7 +8,7 @@
 <body>
 	<div class="container-fluid py-4 " style="min-height: calc(100vh - 56px);">
 	    <div class="row">
-	        <div class="col-md-10 offset-md-1" align="center">
+	        <div class="col-md-4 offset-md-4" align="center">
 				<?php $this->load->view("admin/_part/session_flash.php") ?>
 			</div>
 			<div class="col-md-4 offset-md-4" align="center">

@@ -19,7 +19,7 @@
                             <th scope="col">From Username</th>
                             <th scope="col">To Username</th>
                             <th scope="col">Code</th>
-                            <th scope="col">Silver</th>
+                            <th scope="col">Point</th>
                             <th scope="col">Created Date</th>
                         </tr>
                     </thead>

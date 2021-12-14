@@ -5,11 +5,212 @@ class Frontpage_json extends FrontLib {
 		parent::__construct();
 		error_reporting(0);
       $this->is_login();
+	} 
+   
+   // public function process_payment(){
+   //    if(!$this->onlyAllowAccessFromAjax()){
+   //       return $this->output
+   //          ->set_content_type('application/json')
+   //          ->set_status_header(200)
+   //          ->set_output(json_encode(array(
+   //             'result'=>'Error: Only Allow Access From Ajax'
+   //          )));
+   //    } 
+       
+   //    $result = $this->donate_process_payment(true);
+   //    return $this->output
+   //       ->set_content_type('application/json')
+   //       ->set_status_header(200)
+   //       ->set_output(json_encode(array(
+   //          'result'=>$result,
+   //       )));
+   // }
+   
+   public function checkin_now(){
+      if(!$this->onlyAllowAccessFromAjax()){
+         return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header(200)
+            ->set_output(json_encode(array(
+               'result'=>'Error: Only Allow Access From Ajax'
+            )));
+      }
+      $this->load->model("frontpage_model");
+		$user_id = $this->propid;
+      $this->db = dbloader("default");
+      $this->db->trans_begin();
+      $get_user = $this->main_m->getWhereUser(array(
+			'id'=>$user_id
+		))->row_array();
+      if(count($get_user) == 0){
+         return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header(200)
+            ->set_output(json_encode(array(
+               'result'=>'User Account is not found'
+            )));
+      }
+      $get_char = $this->frontpage_model->getCharacter(array(
+			'USER_IDX' => $user_id,
+			'CHARACTER_MAXGRADE >=' => 120,
+		));
+		if(count($get_char) == 0){ 
+         return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header(200)
+            ->set_output(json_encode(array(
+               'result'=>'If you want daily check in at least you must have char level 120.'
+            )));
+		} 
+      $available_checkin_date = $this->plus_min_date($get_user['last_checkin_date'],["+1 day","Y-m-d"]);
+      $date_now = date('Y-m-d', strtotime($GLOBALS['date_now'])); 
+      if(!empty($get_user['last_checkin_date'])){
+         if($available_checkin_date > $date_now){
+            return $this->output
+               ->set_content_type('application/json')
+               ->set_status_header(200)
+               ->set_output(json_encode(array(
+                  'result'=>'You Checked In for today'
+               )));
+         }
+		}
+      $daily_checkin_item = $this->db->query("SELECT * FROM daily_checkin_item where checkin_day > ".$get_user['last_checkin_day']." and is_active='yes' order by checkin_day ASC LIMIT 1")->row_array();
+      
+      if(count($daily_checkin_item) == 0){
+         return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header(200)
+            ->set_output(json_encode(array(
+               'result'=>'Daily Checkin Item is not found'
+            )));
+      }
+      $this->db->query("UPDATE tbl_user SET 
+      last_checkin_date=NOW(), 
+      last_checkin_day=".$daily_checkin_item['checkin_day']." 
+      WHERE id='$user_id'");
+      if($this->db->trans_status() === FALSE) {
+         $this->db->trans_rollback();
+         return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header(200)
+            ->set_output(json_encode(array(
+               'result'=>'Failed To Checkin (1)'
+            )));
+      } 
+      
+      $all_daily_checkin_item = $this->db->get_where('daily_checkin_item', array(
+         'checkin_day'=>$daily_checkin_item['checkin_day'],
+         'is_active'=>'yes',
+      ))->result_array();
+      foreach ($all_daily_checkin_item as $key) {
+         $this->db->insert('daily_checkin',array(
+            'checkin_item_id'=>$key['id'],
+            'user_id'=>$user_id,
+            'checkin_year'=>date('Y'),
+            'checkin_month'=>date('m')
+         ));
+         if($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return $this->output
+               ->set_content_type('application/json')
+               ->set_status_header(200)
+               ->set_output(json_encode(array(
+                  'result'=>'Failed To Checkin (2)'
+               )));
+         }
+         $this->load->model("im_model");
+         $insert_item = $this->im_model->insert_item(
+            $key['bin_code'],
+            $user_id,
+            $key['qty']
+         );
+         if(!$insert_item){ 
+            return $this->output
+               ->set_content_type('application/json')
+               ->set_status_header(200)
+               ->set_output(json_encode(array(
+                  'result'=>'Failed To Checkin (3)'
+               )));
+         }
+      }
+      // start check if next day is available items or not
+      $check_available_checkin_item = $this->db->query("SELECT * FROM daily_checkin_item where checkin_day > ".($get_user['last_checkin_day']+1)." and is_active='yes' order by checkin_day ASC LIMIT 1")->row_array();
+      
+      if(count($check_available_checkin_item) == 0){
+         $this->db->query("UPDATE tbl_user SET last_checkin_day=0 
+         WHERE id='$user_id'");
+         if($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return $this->output
+               ->set_content_type('application/json')
+               ->set_status_header(200)
+               ->set_output(json_encode(array(
+                  'result'=>'Failed To Checkin (4)'
+               )));
+         }
+      }
+      // end check if next day is available items or not
+
+            $this->db->trans_commit();
+      $xepo_name = $this->global['xepo_secure']['name'];
+      $xepo_value = $this->global['xepo_secure']['hash'];
+      return $this->output
+         ->set_content_type('application/json')
+         ->set_status_header(200)
+         ->set_output(json_encode(array(
+            'result'=>true,
+            'xepo_name'=>$xepo_name,
+            'xepo_value'=>$xepo_value, 
+         )));
+   }
+ 
+	function load_view($p=''){
+      if(!$this->onlyAllowAccessFromAjax()){
+         return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header(200)
+            ->set_output(json_encode(array(
+               'result'=>'Error: Only Allow Access From Ajax'
+            )));
+      }
+      if(empty($p)){
+         return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header(200)
+            ->set_output(json_encode(array(
+               'result'=>'Error: Only Allow Access From Ajax'
+            )));
+      }
+      $this->global['load_data'] = $this->securePost('data',true,[]);
+      if($p == 'banner_and_hot_news'){
+         $this->load->model('frontpage_model');
+         $this->global['news'] = $this->frontpage_model->getNews('News',4);
+         $this->global['news_event'] = $this->frontpage_model->getNews('Event',4);
+         $this->global['news_server_info'] = $this->frontpage_model->getNews('Server Info',4);
+         $this->global['news_item_mall'] = $this->frontpage_model->getNews('Item Mall',4);
+      }
+      if($p == 'server_stat_and_hot_items'){ 
+         $this->load->model("im_model");
+         $this->global['hot_items'] = $this->im_model->im_list_by(8,'counter');	
+         $config_web = $this->getConfigWeb(true);
+         $this->global['config_web'] = $config_web;
+         // dump($this->global); exit;
+      }
+      if($p == 'main_gallery'){ 
+         $this->load->model('frontpage_model');
+         $this->global['s_media'] = $this->frontpage_model->getMedia('s',3);
+      }
+      $this->load->view('app/_main/_load/'.$p, array('global_data'=>$this->global));
 	}
 
    function homepage(){
       if(!$this->onlyAllowAccessFromAjax()){
-         redirect('');
+         return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header(200)
+            ->set_output(json_encode(array(
+               'result'=>'Error: Only Allow Access From Ajax'
+            )));
       }
       $this->load->model("frontpage_model");
       $data['srv'] = $this->frontpage_model->server_stat();
@@ -83,11 +284,29 @@ class Frontpage_json extends FrontLib {
       json($data);
    }
 
+   function open_menu(){
+      if(!$this->onlyAllowAccessFromAjax()){
+         return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header(200)
+            ->set_output(json_encode(array(
+               'result'=>false
+            ))); 
+      }
+      $view = $this->load->view("app/_part/open_menu.php",[],true);
+      return $this->output
+         ->set_content_type('application/json')
+         ->set_status_header(200)
+         ->set_output(json_encode(array(
+            'data'=>$view
+         )));
+   }
+
    function refresh_point(){
       if(!$this->onlyAllowAccessFromAjax()){
          return $this->output
             ->set_content_type('application/json')
-            ->set_status_header(403)
+            ->set_status_header(200)
             ->set_output(json_encode(array(
                'result'=>false
             ))); 
@@ -97,7 +316,7 @@ class Frontpage_json extends FrontLib {
       if(!$is_login){
          return $this->output
             ->set_content_type('application/json')
-            ->set_status_header(403)
+            ->set_status_header(200)
             ->set_output(json_encode(array(
                'result'=>false
             ))); 
@@ -107,8 +326,10 @@ class Frontpage_json extends FrontLib {
       $username = $this->session->userdata('id_loginid');
       $refresh = $this->member_model->refresh_point($username);
       $result = array(
-         'star_point'=>$refresh['star_point'],
-         'silver_point'=>$refresh['silver_point'],
+         // 'star_point'=>$refresh['star_point'],
+         // 'silver_point'=>$refresh['silver_point'],
+         'cash_point'=>$refresh['star_point'],
+         // 'silver_point'=>$refresh['silver_point'],
       );
 
       if($result){
@@ -121,7 +342,7 @@ class Frontpage_json extends FrontLib {
       }else{
          return $this->output
             ->set_content_type('application/json')
-            ->set_status_header(403)
+            ->set_status_header(200)
             ->set_output(json_encode(array(
                'result'=>'Error'
             ))); 

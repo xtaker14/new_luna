@@ -20,12 +20,24 @@ class Im_model extends MY_Model{
 		return $get;
 	}
 
-	function im_list_by($count,$type){
-		$do = $this->db->select('itemid,itemname,itemimage,itemtype,isDiscount')
+	// function im_list_by($count,$type){
+	// 	$do = $this->db->select('itemid,itemname,itemimage,itemtype,isDiscount')
+	// 	->from('itemmall')
+	// 	->where('status',1)
+	// 	->ORDER_BY($type,"DESC")
+	// 	->LIMIT($count)
+	// 	->get()->result_array();
+	// 	return $do;
+	// }
+	function im_list_by($count,$type,$where=array()){
+		$this->db->select('itemid,itemname,itemimage,itemtype,isDiscount')
 		->from('itemmall')
-		->where('status',1)
-		->ORDER_BY($type,"DESC")
-		->LIMIT($count)
+		->where('status',1);
+		if(!empty($where)){
+			$this->db->where($where);
+		}
+		$do = $this->db->order_by($type,"DESC")
+		->limit($count)
 		->get()->result_array();
 		return $do;
 	}
@@ -85,10 +97,19 @@ class Im_model extends MY_Model{
 	//insert Item to GAMEDB
 	function insert_item($bin_code,$user_idx,$qty=1){
 		$this->db = dbloader("LUNA_GAMEDB");
+		$this->db->trans_begin();
+
 		$do = $this->db->query("INSERT INTO TB_ITEM (CHARACTER_IDX,ITEM_IDX,ITEM_POSITION,ITEM_DURABILITY,ITEM_SHOPIDX) VALUES (0,$bin_code,280,$qty,$user_idx)");
+		if($this->db->trans_status() === FALSE) {
+			$this->db->trans_rollback();
+			return false;
+		}
+
 		if($do){
+			$this->db->trans_commit();
 			return true;
 		}else{
+			$this->db->trans_rollback();
 			return false;
 		}
 	}

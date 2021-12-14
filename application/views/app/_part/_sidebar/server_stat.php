@@ -49,14 +49,31 @@
 		<h4 style="margin-bottom: 0px; margin-top: 5px; text-align:center; background: -webkit-linear-gradient(#90aef0, #36d1dc); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"><?= date('d M Y'); ?></h4>
 	</li>
 	<li class="list-group-item border-0 py-2"><hr></li>
-	<li class="list-group-item border-0 py-0">Server status : <span class="text-success"><b>Online</b></span></li>
+	
+	<li class="list-group-item border-0 py-2">
+		<b><?= $config_web['server_location']; ?></b>
+	</li>
+	<li class="list-group-item border-0 py-2">Server status : <span class="text-success"><b>Online</b></span></li>
 	<li class="list-group-item border-0 py-2">Player Online : <span class="p_online">1000</span></li>
 	<li class="list-group-item border-0 py-2"><hr></li>
 	<!--<li class="list-group-item border-top-1 border-right-1 border-left-1 "></li>-->
 	<!--<li class="list-group-item border-0 py-0 ">Registered : <span class="account_reg">1000</span></li>-->
 	<!--<li class="list-group-item border-0 py-0">Characters :<span class="char_count">1000</span></li> -->
-	<li class="list-group-item border-0 py-0">EXP Rate : 40x</li>
-	<li class="list-group-item border-0 py-0">Gold Rate : 50x </li>
-	<li class="list-group-item border-0 py-0">Drop Rate : 10x </li>
+	<li class="list-group-item border-0 py-0">
+		<?= $config_web['server_cap_lvl']; ?>
+	</li>
+	<li class="list-group-item border-0 py-0">
+		EXP Rate : 
+		<span class="text-warning"><b><?= $config_web['server_exp']; ?></b></span>
+	</li>
+	<li class="list-group-item border-0 py-0">
+		Gold Rate : 
+		<span class="text-info"><b><?= $config_web['server_gold']; ?></b></span>
+	</li>
+	<li class="list-group-item border-0 py-0">
+		Drop Rate : 
+		<span class="text-danger"><b><?= $config_web['server_drop']; ?></b></span>
+	</li>
+  
   </div>
 </div> 

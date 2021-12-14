@@ -10,10 +10,12 @@
             </div>
           </div>
           <ul class="list_none">
+            <li class="pb-2"><a href="<?= base_url('daily_login') ?>" class="btn-hover btn color-blue btn-block">Daily Login</a></li>
             <li class="pb-2"><a href="<?= base_url('teleport') ?>" class="btn-hover btn color-blue btn-block">Change Map</a></li>
             <!-- <li class="pb-2"><a href="<?= base_url('history') ?>" class="btn-hover btn color-blue btn-block">Top-up History</a></li> -->
             <li class="pb-2"><a href="<?= base_url('change_pwd') ?>" class="btn-hover btn color-blue btn-block">Change Password</a></li>
             <li class="pb-2"><a href="<?= base_url('pin_req') ?>" class="btn-hover btn color-blue btn-block">Change PIN</a></li>
+            <li class="pb-2"><a href="<?= base_url('change_email') ?>" class="btn-hover btn color-blue btn-block">Change Email</a></li>
           </ul>
       </div>
       <div class="modal-footer">

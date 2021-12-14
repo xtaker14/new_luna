@@ -27,8 +27,8 @@
             <select class="selectpicker form-control required" data-style="bg-white border" data-live-search="true"  id="edit_jabatan" name="edit_jabatan" title="Pilih Jabatan">
             <option value="1,Developer">Developer</option>
             <option value="2,Admin">Admin</option>
-            <option value="3,Moderator Artikel">Moderator Artikel</option>
-            <option value="3,Moderator Comment">Moderator Comment</option>
+            <!-- <option value="3,Moderator Artikel">Moderator Artikel</option>
+            <option value="3,Moderator Comment">Moderator Comment</option> -->
             </select>
           </div>
           <div class="col-md-6 form-group pt-1">   

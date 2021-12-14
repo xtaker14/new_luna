@@ -46,6 +46,38 @@ class FrontLib extends MY_Controller {
 		return $data;
 	}
 	
+	protected function getRangeDateTime($st_date, $ed_date){
+		$earlier = new DateTime($st_date);
+		$later = new DateTime($ed_date);
+		return (int)($later->diff($earlier)->format("%r%a"));
+	}
+	
+	function escape_str($str, $like = FALSE){
+		if (is_array($str))
+		{
+			foreach ($str as $key => $val)
+			{
+				$str[$key] = $this->escape_str($val, $like);
+			}
+			return $str;
+		}
+		// if (function_exists('mysqli_real_escape_string') AND is_object($this->conn_id))
+		// {
+		// 	$str = mysqli_real_escape_string($this->conn_id, $str);
+		// }
+		// else
+		// {
+		// 	$str = addslashes($str);
+		// }
+		$str = addslashes($str);
+		// escape LIKE condition wildcards
+		if ($like === TRUE)
+		{
+			$str = str_replace(array('%', '_'), array('\\%', '\\_'), $str);
+		}
+		return $str;
+	}
+
 	function plus_min_date($date,$res_date = ["+1 day","Y-m-d"]){
         // $date = "Mar 03, 2011";
         $date = strtotime($date);
@@ -68,6 +100,9 @@ class FrontLib extends MY_Controller {
 		$this->global['star_point'] = $this->star_point;
 		$this->global['silver_point'] = $this->silver_point;
 		$this->global['usr_session'] = $this->usr_session;
+		$this->global['user_login'] = $this->db->get_where('tbl_user',array(
+			'id'=>$this->propid
+		))->row_array();
 	}
 
 	function isLoggedIn(){

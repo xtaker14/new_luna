@@ -1,6 +1,9 @@
 <?php 
 header('Content-Type: text/html; charset=utf-8');
- ?>
+$upload_path = "assets/frontpage/img/web_config";
+$logo_img = CDN_IMG.($upload_path.'/'.$config_web['logo_img']);
+$favico = CDN_IMG.($upload_path.'/'.$config_web['favico_img']); 
+?>
 <!DOCTYPE html>
 <html lang="en" class="no-js">
 <head>
@@ -14,7 +17,7 @@ header('Content-Type: text/html; charset=utf-8');
 	<meta content='#000000' name='theme-color'/>
 	<meta content='#000000' name='msapplication-navbutton-color'/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-	<link rel="shortcut icon" type="image/x-icon" href="<?php print_r(site_url('favicon.ico')) ?>" />
+	<link rel="shortcut icon" type="image/x-icon" href="<?= $favico; ?>" />
 	<meta name="Language" content="en" />
 	<meta http-equiv="content-language" content="en" />
 	<link rel="canonical" href="<?php print_r(current_url()); ?>"/>
@@ -45,7 +48,7 @@ header('Content-Type: text/html; charset=utf-8');
 			</div> -->
 			<div class="col-md-12 parent_banner">
 				<a href="<?= base_url(); ?>">
-					<img src="<?= base_url('assets/frontpage/img/luna_logo3.png'); ?>" class="img-fluid image_logo_mobile" data-no-retina />
+					<img src="<?= $logo_img; ?>" class="img-fluid image_logo_mobile" data-no-retina />
 				</a>
 
 				<img src="<?= base_url('assets/frontpage/img/characters.png'); ?>" class="img-fluid image_logo_char" data-aos="fade-down-left" />

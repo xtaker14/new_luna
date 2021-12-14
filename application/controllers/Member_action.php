@@ -29,29 +29,18 @@ class Member_action extends FrontLib {
                     $rand_code = random_string('alnum', 50);
                     $subject = 'Change PIN Request';
                     $reset_url = base_url('change_pin/'.$rand_code);
-                    $mail_content = '<p>You have request new PIN for Zone Luna account.<br><br>Click this link : <a href="'.$reset_url.'" target="_blank">Click here</a><br>or,<br>Copy and paste this link to your browser : '.$reset_url.'</p>';
-
-                    // $this->load->model('send_mail');
-                    // $info = array(
-                    //     'to' => $email,
-                    //     'subject' => $subject,
-                    //     'content' => $mail_content,
-                    //     'from' => array(
-                    //         'email' => 'noreply@Zoneluna.com', 
-                    //         'name' => SITE_NAME
-                    //     )
-                    // );
-                    // $do = $this->send_mail->send($info);
+                    $mail_content = '<p>You have request new PIN for '.base_url().' account.<br><br>Click this link : <a href="'.$reset_url.'" target="_blank">Click here</a><br>or,<br>Copy and paste this link to your browser : '.$reset_url.'</p>';
+		            $config_web = $this->getConfigWeb(true);
 
                     $info = array(
-                        'title'=>'Request PIN',
-                        'from'=>'noreply@Zoneluna.com',
+                        'title'=>'PIN Request',
+                        'from'=>$config_web['email_account_number'],
                         'to'=>$email,
                         'msg'=>$mail_content,
                         'subject'=>$subject
                     );
-                     
-                    $do = $this->send_email($info,false);
+                    
+                    $do = $this->send_email($info,true); 
 
                     if($do){
                         $request_info = array('code' => $code, 'rand_code' => $rand_code, 'created' => date('Y-m-d-H-i-s'));
@@ -109,7 +98,7 @@ class Member_action extends FrontLib {
         $check = $this->google_verify();
         if($check == true){
             setFlashData('error', 'Please comfirm human verification..');
-            redirect(base_url('change_pin'));
+            redirect(base_url('change_pwd'));
         }else{
             //do change
             $code = $this->session->userdata ( 'usr_code' );
@@ -139,6 +128,39 @@ class Member_action extends FrontLib {
         }
     }
 
+    function go_change_email(){
+        $check = $this->google_verify();
+        if($check == true){
+            setFlashData('error', 'Please comfirm human verification..');
+            redirect(base_url('change_email'));
+        }else{
+            //do change
+            $code = $this->session->userdata ( 'usr_code' );
+
+            if(empty($code)){
+                setFlashData('error', 'you must login..');
+                redirect(base_url('login'));
+            }else{
+                $pin = $this->input->post('pin',true); 
+                $new_email = $this->input->post('new_email',true);
+                $this->load->library('form_validation');
+                $this->form_validation->set_rules('pin', 'pin', 'required|numeric|min_length[6]|max_length[6]|regex_match[/^[0-9]+$/]'); 
+                $this->form_validation->set_rules('new_email', 'new_email', 'required|min_length[6]');
+
+                if($this->form_validation->run() == FALSE){
+                    setFlashData('error', 'Failed to change email, please make sure your information is valid.');
+                    redirect(base_url('change_email')); 
+                }else{
+                    $do = $this->member_model->change_email($code,$new_email,$pin);
+                    if(!empty($do)){
+                        setFlashData($do[0], $do[1]);
+                        redirect(base_url('change_email'));
+                    }
+                }
+            }
+        }
+    }
+    
     function logout() {
 		$this->session->sess_destroy();
 		setFlashData('success', 'You are logout..');	
@@ -170,17 +192,17 @@ class Member_action extends FrontLib {
                     $pos_x = 35800;
                     $pos_y = 38200;
                 }else{
-                    setFlashData('error', 'Please make sure you select alker harbor or gate of alker');
+                    setFlashData('error', 'Please make sure you select map');
                     redirect(base_url('teleport'));  
-                    die; 
+                    die;  
                 }
                 $info = array('char_idx' => $char_idx, 'user_idx' => $user_idx, 'map_id' => $map_id,  'pos_x' => $pos_x, 'pos_y' => $pos_y);
                 $do = $this->member_model->update_map($info);
                 if($do==true){
-                    setFlashData('success', 'Success, Please login Zone luna.');   
+                    setFlashData('success', 'Success, Please login '.SITE_NAME.'.');   
                     redirect(base_url('teleport'));  
                 }else{
-                    setFlashData('error', 'Error, please contact Zone luna administrator.');
+                    setFlashData('error', 'Error, please contact '.SITE_NAME.' administrator.');
                     redirect(base_url('teleport'));  
                 }
             }

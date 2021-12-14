@@ -28,24 +28,50 @@
     margin: 0 auto;
     background: url("<?= base_url('assets/frontpage/img/shop/im-category.png') ?>") no-repeat;
 }
-.category-image.cat1{background-position: 0 -42px;}
-.category-image.cat2{background-position: 0 -84px;}
-.category-image.cat3{background-position: 0 -252px;}
-.category-image.cat4{background-position: 0 -168px;}
-.category-image.cat5{background-position: 0 -210px;}
-.category-image.cat6{background-position: 0 0;}
+.category-image.cat1{
+    background-position: 0 -42px;
+}
+.category-image.cat2{
+    background-position: 0 -84px;
+}
+.category-image.cat3{
+    background-position: 0 -252px;
+}
+.category-image.cat4{
+    background-position: 0 -168px;
+}
+.category-image.cat5{
+    background-position: 0 -210px;
+}
+.category-image.cat6{
+    background-position: 0 0;
+}
+
+/* hover/active */
 .category-menu li.active .category-image.cat1,
-.category-menu li:hover .category-image.cat1{background-position: -55px -42px;}
+.category-menu li:hover .category-image.cat1{
+    background-position: -55px -42px;
+}
 .category-menu li.active .category-image.cat2,
-.category-menu li:hover .category-image.cat2{background-position: -55px -84px;}
+.category-menu li:hover .category-image.cat2{
+    background-position: -55px -84px;
+}
 .category-menu li.active .category-image.cat3,
-.category-menu li:hover .category-image.cat3{background-position: -55px -252px;}
+.category-menu li:hover .category-image.cat3{
+    background-position: -55px -252px;
+}
 .category-menu li.active .category-image.cat4,
-.category-menu li:hover .category-image.cat4{background-position: -55px -168px;}
+.category-menu li:hover .category-image.cat4{
+    background-position: -55px -168px;
+}
 .category-menu li.active .category-image.cat5,
-.category-menu li:hover .category-image.cat5{background-position: -55px -210px;}
+.category-menu li:hover .category-image.cat5{
+    background-position: -55px -210px;
+}
 .category-menu li.active .category-image.cat6,
-.category-menu li:hover .category-image.cat6{background-position: -55px 0;}
+.category-menu li:hover .category-image.cat6{
+    background-position: -49px 0;
+}
 
 </style>
 <div class="box_header_title" style="top:initial; transform: translate(-50%);">
@@ -54,12 +80,18 @@
     <div class="content_header_title">
         <h2> 
             <ul class="category-menu">
-                <li class="cat_icon pointer active" data-id="6" data-category="Featured"><div class="category-image cat2"></div>Featured</li>
-                <li class="cat_icon pointer" data-id="4" data-category="Consumable"><div class="category-image cat1"></div>Consumables</li>
-                <li class="cat_icon pointer" data-id="1" data-category="Equipment"><div class="category-image cat5"></div>Equipment</label></li>
-                <li class="cat_icon pointer" data-id="2" data-category="Costume"><div class="category-image cat3"></div>Costumes</li> 
-                <li class="cat_icon pointer" data-id="3" data-category="Accesories"><div class="category-image cat4"></div>Accessories</li>
-                <li class="cat_icon pointer" data-id="5" data-category="Back Gear"><div class="category-image cat6"></div>Back Gear</li>
+                <?php 
+                $im_cat_counter = 0;
+                foreach($im_category as $key) :
+                $im_cat_counter++;
+                ?>
+                    <li class="cat_icon pointer <?= $im_cat_counter === 1 ? 'active' : ''; ?>" data-id="<?= $key['id']; ?>" data-category="<?= $key['categoryname']; ?>">
+                        <div class="category-image cat<?= $im_cat_counter; ?>"></div>
+                        <?= $key['categoryname']; ?>
+                    </li>
+                <?php 
+                endforeach;
+                ?> 
             </ul>
         </h2> 
     </div>

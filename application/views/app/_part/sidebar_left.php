@@ -1,3 +1,9 @@
+<?php  
+$upload_path = "assets/frontpage/img/web_config";
+$logo_img = CDN_IMG.($upload_path.'/'.$config_web['logo_img']);
+$favico = CDN_IMG.($upload_path.'/'.$config_web['favico_img']);
+?>
+
 <style type="text/css">
 	.dwn-btn{
 		padding: 12px 0px !important;
@@ -43,7 +49,7 @@
 							style="z-index:10;"
 							>
 								<a href="<?= base_url(); ?>">
-									<img src="<?= base_url('assets/frontpage/img/luna_logo3.png'); ?>" class="img-fluid image_logo" data-no-retina />
+									<img src="<?= $logo_img; ?>" class="img-fluid image_logo" data-no-retina />
 								</a>
 						</rs-layer> 
 					</rs-static-layers>
@@ -124,37 +130,37 @@
 	</div>	
 </div>
 <script type="text/javascript">
-$(document).ready(function(){
-	$('html').removeClass('no-js');
-	$.getJSON(baseURL+"api/homepage", function(r){
-		$("#srv_status .p_online").html(r.srv.p_online);
-		$("#srv_status .account_reg").html(r.srv.account_reg);
-		$("#srv_status .char_count").html(r.srv.char_count);
+// $(document).ready(function(){
+// 	$('html').removeClass('no-js');
+// 	$.getJSON(baseURL+"api/homepage", function(r){
+// 		$("#srv_status .p_online").html(r.srv.p_online);
+// 		$("#srv_status .account_reg").html(r.srv.account_reg);
+// 		$("#srv_status .char_count").html(r.srv.char_count);
 
 
-		$.each(r.level_rank, function (key, val) {
-			$("table.table_global_level_rank tbody").append(
-				'<tr><td>'+val.no+
-					'</td><td>'+val.job+
-					'</td><td>'+val.name+
-					'</td><td>'+val.lvl+
-					'</td><td>'+val.exp+
-				'</td></tr>'
-			);
-		});
-		$("table.table_global_level_rank tbody td span.pointer").tooltip();
+// 		$.each(r.level_rank, function (key, val) {
+// 			$("table.table_global_level_rank tbody").append(
+// 				'<tr><td>'+val.no+
+// 					'</td><td>'+val.job+
+// 					'</td><td>'+val.name+
+// 					'</td><td>'+val.lvl+
+// 					'</td><td>'+val.exp+
+// 				'</td></tr>'
+// 			);
+// 		});
+// 		$("table.table_global_level_rank tbody td span.pointer").tooltip();
 		
-		$("img").css({
-			visibility: 'visible',
-		});
-	});
+// 		$("img").css({
+// 			visibility: 'visible',
+// 		});
+// 	});
 
-	$(document).on('click','#btn_userpanel',function(){
-		$('#mod_userpanel').modal('show');
-	})
+// 	$(document).on('click','#btn_userpanel',function(){
+// 		$('#mod_userpanel').modal('show');
+// 	});
 
-	$(document).on('click','#go_logout',function(){
-		window.location.href = baseURL+ "go_logout";
-	})
-})
+// 	$(document).on('click','#go_logout',function(){
+// 		window.location.href = baseURL+ "go_logout";
+// 	});
+// });
 </script>

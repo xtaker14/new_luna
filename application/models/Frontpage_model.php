@@ -13,18 +13,73 @@ class Frontpage_model extends MY_Model{
 	// 	))->row_array();
 	// }
 
+	function referral_history_list($where_data=false, $or_where_data=false){
+		$this->db = dbloader("default"); 
+		$this->db->select('uu.username as from_username, u.username as username, rch.*');
+        $this->db->join('tbl_user as u', 'u.referral_code = rch.referral_code', 'inner');
+        $this->db->join('tbl_user as uu', 'uu.id = rch.from_user_id', 'inner');
+
+		$where = array(); 
+		$or_where = array(); 
+		if($where_data && is_array($where_data)){
+			foreach ($where_data as $key => $val) {
+				$where[$key]=$val;
+			}
+		}
+		if($or_where_data && is_array($or_where_data)){
+			foreach ($or_where_data as $key => $val) {
+				$or_where[$key]=$val;
+			}
+		}
+		if(!empty($where)){
+        	$this->db->where($where);
+		}
+		if(!empty($or_where)){
+        	$this->db->or_where($or_where);
+		}
+        
+        $this->db->order_by('rch.created_date','DESC');
+        $this->db->order_by('u.username','ASC');
+		return $this->db->get('referral_code_history rch')->result_array();
+	}
+
+	function getIMCategory(){
+		$this->db = dbloader("default");
+		return $this->db->query("SELECT * FROM itemcategory where is_active='yes'")->result_array(); 
+	}
+	
+	function getOverview($where,$max=false){
+		$where['category'] = 'Overview';
+		if($max){
+			$this->db->limit($max);
+		}
+		$do = $this->db->get_where("news",$where)->result_array();
+		return $do;
+	}
+
+	function getNews($category = '',$max=4){
+		$where = "";
+		if(!empty($category)){
+			$where .= " AND category = '$category' ";
+		}
+		$do = $this->db->query("
+			SELECT * FROM news WHERE category != 'Page' $where AND is_active='yes' ORDER BY id DESC LIMIT $max
+		")->result_array();
+		return $do;
+	}
+
 	function top_news(){
-		$do = $this->db->query("SELECT * FROM news WHERE category != 'Page' ORDER BY id DESC LIMIT 4")->result_array();
+		$do = $this->db->query("SELECT * FROM news WHERE category != 'Page' AND is_active='yes' ORDER BY id DESC LIMIT 4")->result_array();
 		return $do;
 	}
 
 	function news($url){
-		$do = $this->db->query("SELECT * FROM news WHERE url = '$url' AND category != 'Page' ")->row_array();
+		$do = $this->db->query("SELECT * FROM news WHERE url = '$url' AND category != 'Page' AND is_active='yes' ")->row_array();
 		return $do;
 	}
 
 	function page($url){
-		$do = $this->db->query("SELECT * FROM news WHERE url = '$url' AND category = 'Page' ")->row_array();
+		$do = $this->db->query("SELECT * FROM news WHERE url = '$url' AND category = 'Page' AND is_active='yes' ")->row_array();
 		return $do;
 	} 
 	
@@ -46,10 +101,14 @@ class Frontpage_model extends MY_Model{
 	}
 
 	function server_stat(){
+		$config_web = $this->getConfigWeb(true);
 		$this->db = dbloader("LUNA_MEMBERDB");
 		$p_online = $this->db->query("SELECT propid from LoginTable")->num_rows();
 		if(count((int)$p_online)>0){
-			$p_online = (int)$p_online + 0;
+			if(empty($config_web['initial_total_online'])){
+				$config_web['initial_total_online'] = 0;
+			}
+			$p_online = (int)$p_online + $config_web['initial_total_online'];
 		}
 		$account_reg = $this->db->query("SELECT propid from chr_log_info")->num_rows();
 		$this->db = dbloader("LUNA_GAMEDB");
@@ -90,6 +149,27 @@ class Frontpage_model extends MY_Model{
 		$this->db->order_by('created_date','DESC');
 		$this->db->limit($max);
 		return $this->db->get_where('media',$where)->result_array();
+	}
+
+	function getCharacter($filter=array()){
+		$this->db = dbloader("LUNA_GAMEDB"); 
+		$where = '';
+		
+
+		if(isset($filter['USER_IDX'])){
+			if($where != ''){
+				$where .= " AND ";
+			}
+			$where .= "USER_IDX = ".$filter['USER_IDX'];
+		}
+		if(isset($filter['CHARACTER_MAXGRADE'])){
+			if($where != ''){
+				$where .= " AND ";
+			}
+			$where .= "CHARACTER_MAXGRADE >= '".$filter['CHARACTER_MAXGRADE']."'";
+		}
+		$res = $this->db->query("SELECT * FROM TB_CHARACTER WHERE $where")->result_array();
+		return $res;
 	}
 
 	function getPlayerRank($a='kill',$max=100){ 

@@ -98,7 +98,7 @@
                     </td>
                     <td style="vertical-align:top;text-align:right;width:120px">
                         <p style="float:right;font-size:14px;color:#666;margin:0;font-weight:bold">
-                        	<?= number_format($get_donate['donate_price'],0,',','.'); ?> Diamonds
+                        	<?= number_format($get_donate['donate_point'],0,',','.'); ?> Diamonds
                         </p>
                     </td>
                 </tr>

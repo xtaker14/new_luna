@@ -24,8 +24,21 @@ defined('EXIT_DATABASE')       OR define('EXIT_DATABASE', 8); // database error
 defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
-define('SITE_NAME',				'Dragonya Luna Plus');
-define('CDN_IMG',				'https://cdn.staticaly.com/img/dragonyaluna.com/'); //https://cdn.staticaly.com/img/zoneluna.com/');
+// define('SITE_NAME',				'Dragonya Luna Plus');
+// define('CDN_IMG',				'https://cdn.staticaly.com/img/dragonyaluna.com/'); //https://cdn.staticaly.com/img/zoneluna.com/');
+
+if(isset($_SERVER) && isset($_SERVER['HTTP_HOST'])){
+    // $b_url2 = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'];
+    // $b_url2 .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
+    // define('CDN_IMG', $b_url2);
+    // https://cdn.staticaly.com/img/
+    
+
+    $b_url2 = $_SERVER['HTTP_HOST'];
+    $b_url2 .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
+
+    define('CDN_IMG', 'https://cdn.staticaly.com/img/'.$b_url2); 
+}
 
 /**** ADMIN ROLE ****/
 define('ROLE_DEVELOPER',        '1');

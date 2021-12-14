@@ -9,6 +9,15 @@
 	            <input type="text" class="form-control" placeholder="Article title" name="title" id="title" value="<?= $article['title'] ?>">
 	        </div>
 			<div class="form-group">
+				<label for="userfile" >Image : </label>
+				<input type="file" id="userfile" name="userfile" />
+				<div>
+                    <br>
+                    <img style="max-width:100%;" id="img_item" src="<?= base_url().$article['img']; ?>" alt="- - No Image - -">
+                    <br>
+                </div>
+			</div>
+			<div class="form-group">
 				<label for="content" >Content: </label>
 				<textarea type="text" class="summernote form-control required" rows="6" placeholder="content" id="content" name="content"><?= $article['content'] ?></textarea>
 			</div>
@@ -18,8 +27,20 @@
       </div>
 	</div>
 </div>
+
+<style>
+	/* .note-editable { background-color: #132902 !important; } */
+</style>
 <script type="text/javascript">
+document.getElementById("userfile").onchange = evt => {
+	const [file] = document.getElementById("userfile").files;
+
+	if (file) {
+		document.getElementById("img_item").src = URL.createObjectURL(file);
+	}
+}
 $(document).ready(function(){
 	$('.summernote').summernote({height: 400});
-})
+	// $('.summernote').summernote('foreColor', 'rgb(221, 134, 4)');
+});
 </script>

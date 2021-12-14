@@ -15,10 +15,10 @@
     left: 0;
 }
 .featured-new {
-    background-image: url('<?= base_url('assets/frontpage/img/shop/NEW.png') ?>');
+    background-image: url('<?= CDN_IMG.('assets/frontpage/img/shop/NEW.png') ?>');
 }
 .featured-hot {
-    background-image: url('<?= base_url('assets/frontpage/img/shop/HOT.png') ?>');
+    background-image: url('<?= CDN_IMG.('assets/frontpage/img/shop/HOT.png') ?>');
 }
 
 @media screen and (min-width: 768px) {
@@ -37,18 +37,30 @@
     border-radius: 4px;
     margin: auto;
 }
+.im_card .im_imgcover{
+	display: flex !important;
+}
+.im_card .im_imgcover img.card-img{
+	margin-top:auto;
+	margin-bottom:auto;
+	color:gray;
+}
 </style>
 
-<div id="menu_cover" class="card shadow-sm mb-4" data-aos="fade-left" data-aos-delay="300">
-	<?php $this->load->view("app/_main/_shop/menu.php");?>
-</div>  
+<div data-aos="fade-left" data-aos-delay="200" class="card">
+	<div class="card-body">
+		<div id="menu_cover" class="card shadow-sm mb-4" data-aos="fade-left" data-aos-delay="300">
+			<?php $this->load->view("app/_main/_shop/menu.php");?>
+		</div>  
 
-<div id="im_list" class="form-row" align="center" data-aos="fade-left" data-aos-delay="400">
+		<div id="im_list" class="form-row" align="center" data-aos="fade-left" data-aos-delay="400">
+		</div>
+	</div>
 </div> 
 
 <script type="text/javascript">
 $(document).ready(function(){
-	get_list(6);
+	get_list(<?= $im_category[0]['id']; ?>);
 	$('html').removeClass('no-js');
 	$(document).on('click','.cat_icon',function(){
 		$(".cat_icon").removeClass("active");
@@ -69,9 +81,32 @@ $(document).ready(function(){
 					scrollTop: $("#menu_cover").offset().top - 20
 				}, 500);
 			}
+
+			console.clear();
+			$(".im_card .im_imgcover img.card-img").each(function(idx,key){
+				let t = $(this);
+				const c_img = new Image();
+
+				c_img.onload = function() {
+					// console.log(this.width + 'x' + this.height);
+					if(this.width < 200 && this.height < 260){
+						t.parents('.im_imgcover').removeClass('d-block');
+						t.parents('.im_imgcover').css({
+							'display': 'flex',
+							'justify-content': 'center',
+							'align-items': 'center',
+						});
+						t.css({
+							'width': 'initial',
+						});
+					}
+				}
+				c_img.src = t.attr('src');
+			});
 			$("img").css({
 				visibility: 'visible',
 			});
+
 		});
 	}
 })

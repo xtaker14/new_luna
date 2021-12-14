@@ -6,12 +6,55 @@ class Frontpage extends FrontLib {
 		error_reporting(0);
 		$this->is_login();
 		$this->xepo_secure();
+		
+		$popup = $this->session->flashdata('popup');
+		$stat = $this->session->flashdata('shop');
+		if($popup){
+			$this->session->set_flashdata('popup',$popup);
+		}
+		if($stat){
+			$this->session->set_flashdata('shop',$stat);
+		} 
 	}
+	
+	function overviewpage(){
+		$this->load->model('frontpage_model');
+		$config_web = $this->getConfigWeb(true);
+		$this->global['data_overview'] = $this->frontpage_model->getOverview(array(
+			'is_active'=>'yes'
+		)); 
+		$this->global['config_web'] = $config_web;
+		$this->global['php_name'] = "overview_page";
+		$this->loadViews();
+	}
+	function overview_page($url = 'server_information'){
+		if($url !== 'server_information'){
+            redirect(base_url());
+		}
+		// $url = urldecode($url);
+		// $this->load->model('frontpage_model');
+		// $this->global['data'] = $this->frontpage_model->page($url);
+		// $this->global['php_name'] = "page";
+		$config_web = $this->getConfigWeb(true);
+		$this->global['config_web'] = $config_web;
+        $this->load->view('app/overview_page', $this->global);
+	}
+
 	function homepage(){
+		// if(!$this->session->userdata('first_overview_page')){
+		// 	$this->session->set_userdata('first_overview_page',true);
+        //     redirect(base_url('overview/server_information'));
+		// }
 		$a = $this->session->userdata('usr_code'); 
 		$this->load->model('frontpage_model');
 		$this->global['s_media'] = $this->frontpage_model->getMedia('s',4);
-		$this->global['news'] = $this->frontpage_model->top_news();
+
+		// $this->global['news'] = $this->frontpage_model->top_news(); 
+		$this->global['news'] = $this->frontpage_model->getNews('News',4);
+		$this->global['news_event'] = $this->frontpage_model->getNews('Event',4);
+		$this->global['news_server_info'] = $this->frontpage_model->getNews('Server Info',4);
+		$this->global['news_item_mall'] = $this->frontpage_model->getNews('Item Mall',4);
+
 		$this->global['php_name'] = "homepage";
 		$this->loadViews();
 	}
@@ -43,7 +86,76 @@ class Frontpage extends FrontLib {
 		//setFlashData('popup', 'berhasil membeli item..');
 		//setFlashData('shop', 'error');
 		//setFlashData('shop', 'success');
+			
+		$this->load->model("frontpage_model");
+		$this->global['im_category'] = $this->frontpage_model->getIMCategory();
+
 		$this->global['php_name'] = "shop";
+		$this->loadViews();
+	}
+	
+	function user(){
+		$user_id = $this->propid;
+		if(empty($user_id)){
+        	$this->session->set_flashdata('error', 'Please login first.');
+            redirect(base_url());
+		}  
+		$this->load->model("frontpage_model");
+		$this->global['get_user'] = $this->main_m->getWhereUser(array(
+			'id'=>$user_id
+		))->row_array();
+      	$this->global['referral_history_list'] = $this->frontpage_model->referral_history_list(array(
+			'uu.id' => $user_id
+		),array(
+			'u.id' => $user_id
+		)); 
+		$this->global['php_name'] = "user";
+		$this->loadViews();
+	}
+
+	function daily_login(){
+		$user_id = $this->propid;
+		if(empty($user_id)){
+        	$this->session->set_flashdata('error', 'Please login first.');
+            redirect(base_url());
+		} 
+		$this->load->model("frontpage_model");
+		$this->global['php_name'] = "daily_login";
+		$this->db->order_by('checkin_day','ASC');
+		$this->global['daily_checkin_items'] = $this->db->get_where("daily_checkin_item",array(
+			'is_active'=>'yes',
+		))->result_array(); 
+		$this->global['get_user'] = $this->main_m->getWhereUser(array(
+			'id'=>$user_id
+		))->row_array();
+		
+      	$get_char = $this->frontpage_model->getCharacter(array(
+			'USER_IDX' => $user_id,
+			'CHARACTER_MAXGRADE >=' => 120,
+		));
+		if(count($get_char) == 0){
+        	// $this->session->set_flashdata('error', 'If you want daily check in at least you must have char level 120.');
+            // redirect(base_url());
+		} 
+		
+		$check_available_checkin_item = $this->db->query("SELECT * FROM daily_checkin_item where checkin_day > ".$this->global['get_user']['last_checkin_day']." and is_active='yes' order by checkin_day ASC LIMIT 1")->row_array();
+		if(count($check_available_checkin_item) == 0){ 
+        	// $this->session->set_flashdata('error', 'Daily Checkin Item is not found.');
+            // redirect(base_url());
+		}
+		$this->global['count_daily_checkin_item'] = count($check_available_checkin_item);
+		$this->global['available_checkin'] = true;
+		$date_now = date('Y-m-d', strtotime($GLOBALS['date_now'])); 
+		$available_checkin_date = $this->plus_min_date($this->global['get_user']['last_checkin_date'],["+1 day","Y-m-d"]);
+		$this->global['available_checkin_date'] = date('d M Y', strtotime($available_checkin_date));
+		if(!empty($this->global['get_user']['last_checkin_date'])){
+			if($available_checkin_date > $date_now){
+				$this->global['available_checkin'] = false;
+			}
+		}
+		
+		$this->global['checkin_day'] = $this->global['get_user']['last_checkin_day'];
+		
 		$this->loadViews();
 	}
 	function rank(){
@@ -132,6 +244,17 @@ class Frontpage extends FrontLib {
             redirect(base_url());
 		}else{
 			$this->global['php_name'] = "change_pwd";
+			$this->loadViews();
+		}
+	}
+
+	function change_email(){
+		$user_idx = $this->propid;
+		if(empty($user_idx)){
+        	$this->session->set_flashdata('error', 'Please login first.');
+            redirect(base_url());
+		}else{
+			$this->global['php_name'] = "change_email";
 			$this->loadViews();
 		}
 	}

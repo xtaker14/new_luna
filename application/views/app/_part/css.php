@@ -692,11 +692,13 @@ ul.social-icons li:nth-last-child(1) {
 	left: 50%;
 	transform: translate(-50%, -50%); 
 	/* height: 300px; */
-	background: #111845a6;
+	/* background: #111845a6; */
+	background: #451111a6;
 	box-sizing: border-box;
 	overflow: hidden;
 	box-shadow: 0 20px 50px rgb(23, 32, 90);
-	border: 2px solid #2a3cad;
+	/* border: 2px solid #2a3cad; */
+	border: 2px solid #ad2a8c;
 	color: white;
 	padding: 8px;
 }
@@ -758,7 +760,8 @@ ul.social-icons li:nth-last-child(1) {
 	position: absolute;
 	width: 100%;
 	height: 2px;
-	background: #50dfdb;
+	/* background: #50dfdb; */
+	background: #df7250;
 	animation: animate_header_title 4s linear infinite;
 }
 

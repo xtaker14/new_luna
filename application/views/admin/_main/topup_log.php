@@ -3,16 +3,15 @@ $list = '';
 foreach ($topup_log as $key => $val) {
     $no = $key+1;
     $username = $val['username'];
+    $descr = $val['description'];
     $date = date('F, d Y', strtotime($val['date']));
 $list .='
 <tr id="parent_'.$id.'">
 	<td>'.$no.'</td>
 	<td>'.$username.'</td>
 	<td><label class="text-primary"><span class="star_point">'.$val['star_point'].'</span><i class="fas fa-gem ml-1" data-fa-transform="rotate-30"></i></label></td>
-	<td>'.$date.'</td>
-    <td>
-    <button class="log_detail btn btn-primary btm-tabel btn-sm" data-id="'.$id.'" ><i class="fas fa-search text-white"></i></button>
-    </td>
+	<td>'.$date.'</td> 
+	<td>'.$descr.'</td> 
 </tr>';
 	}
 ?>
@@ -21,7 +20,7 @@ $list .='
 		<div class="col-md-12">
 			<div class="card">
 				<div class="card-header bg-white">
-					<h4>Topup History</h4>
+					<h4>Send Point History</h4>
 				</div>
 				<div class="card-body col-xs-0">
 					<table id="topup_log" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
@@ -29,9 +28,9 @@ $list .='
 				            <tr>
 						      <th>#</th>
 						      <th>Username</th>
-						      <th>Star point</th>
-						      <th>Date</th>
-				              <th>Option</th>
+						      <th>Point</th>
+						      <th>Date</th> 
+						      <th>Reason</th> 
 				            </tr>
 				        </thead>
 				        <tbody>

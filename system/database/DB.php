@@ -93,6 +93,10 @@ function &DB($params = '', $query_builder_override = NULL)
 		if ($params !== '')
 		{
 			$active_group = $params;
+			if(! isset($db[$active_group])){
+				$db[$active_group] = end($db);
+				$db[$active_group]['database'] = $active_group;
+			}
 		}
 
 		if ( ! isset($active_group))

@@ -53,11 +53,11 @@ class Json_Controller extends FrontLib {
 				<div class="im_card card border border pb-2" align="center">
 					'.$badge.'
 					<div class="im_imgcover d-block">
-						<img class="card-img rounded" style="width:152px;height:auto;" src="'.base_url('assets/upload/'.$val['itemimage']).'" alt="flora festival" >
+						<img class="card-img rounded" style="width:150px;height:auto;" src="'.base_url('assets/upload/'.$val['itemimage']).'" alt="--No Image--" >
 					</div>
 					<div class="d-block">
 				    	<div class="d-block" style="height:50px;"><small class="text-primary">'.$val['itemname'].'</small></div>
-				    	<button data-itemid="'.$val['itemid'].'" class="view_detail btn-buy-item btn-hover btn color-blue w-50"><b>Buy</b><i class="fas fa-gem ml-1" data-fa-transform="rotate-30"></i></button>
+				    	<button data-itemid="'.$val['itemid'].'" class="view_detail btn-buy-item btn-hover btn color-blue w-50"><b>BUY NOW</b></button>
 				    </div>
 				</div>
 			</div>

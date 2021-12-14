@@ -85,11 +85,19 @@ class AdminController extends MY_Controller {
 	}
 	
 	function logout() {
-		$this->session->sess_destroy();		
+		$this->session->sess_destroy();	
+
+		$this->load->model('admin_model','main_m',TRUE);
+		$data_config_web = $this->main_m->getConfigWeb($this->id_config_web);
+		if(count($data_config_web)>1){
+			redirect ( 'adm/login?admin-key='.$data_config_web['admin_access_key'] );
+		} 
 		redirect ( 'adm/login' );
 	}
 
-    function loadPage(){ 	
+    function loadPage(){ 		
+		$config_web = $this->getConfigWeb(true);
+		$this->global['config_web'] = $config_web;
 		$this->load->view('admin/overview', $this->global);
     }
 

@@ -18,8 +18,8 @@ $list .='
     <td>'.$category.'</td>
     <td><input type="checkbox" class="status" data-toggle="toggle" data-on="<i class=`fa fa-check`></i> Publish" data-off="<i class=`fa fa-times`></i> Draft" data-onstyle="success" data-offstyle="danger" data-size="xs" data-id="'.$id.'" '.$check.'></td>
     <td>
-    <a class="btn btn-primary btm-tabel btn-sm" href="'.base_url('adm/new_im_piece/'.$id).'" ><i class="fas fa-puzzle-piece text-white"></i></a>
-    <a class="btn btn-primary btm-tabel btn-sm" href="'.$edit_url.'" ><i class="fas fa-edit text-white"></i></a>
+    <a target="_BLANK" class="btn btn-primary btm-tabel btn-sm" href="'.base_url('adm/new_im_piece/'.$id).'" ><i class="fas fa-puzzle-piece text-white"></i></a>
+    <a target="_BLANK" class="btn btn-primary btm-tabel btn-sm" href="'.$edit_url.'" ><i class="fas fa-edit text-white"></i></a>
     <button class="im_delete btn btn-danger btm-tabel btn-sm" data-id="'.$id.'" ><i class="fas fa-times text-white"></i></button>
     </td>
 </tr>';
@@ -55,34 +55,37 @@ $list .='
 	</div>
 </div>
 <script type="text/javascript">    
-$(document).ready(function() {   
-	    var t = $('#im_list').DataTable( {
-        //aaSorting: [ [0,'desc'] ],
-        lengthChange: true,
-        info: false,
-        columnDefs: [
-            { responsivePriority: 1, targets: 0},
-            { responsivePriority: 2, targets: 2},
-            { responsivePriority: 3, targets: -1},
-            { targets: 0, searchable: false},
-            { targets: 1, searchable: false},
-            { targets: -1, searchable: false},
-        ],
-        responsive: {
-            details: {
-                display: $.fn.dataTable.Responsive.display.modal( {
-                    header: function ( row ) {
-                        var data = row.data();
-                        return data[2];
-                    }
-                } ),
-                renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
-                    tableClass: 'table'
-                } )
-            }
-        }
-    });
-
+	$(document).ready(function(){   
+		var t = $('#im_list').DataTable({
+			//aaSorting: [ [0,'desc'] ],
+			lengthChange: true,
+			info: false,
+			columnDefs: [
+				{ responsivePriority: 1, targets: 0},
+				{ responsivePriority: 2, targets: 2},
+				{ responsivePriority: 3, targets: -1},
+				{ targets: 0, searchable: false},
+				{ targets: 1, searchable: false},
+				{ targets: -1, searchable: false},
+			],
+			responsive: {
+				details: {
+					display: $.fn.dataTable.Responsive.display.modal( {
+						header: function ( row ) {
+							var data = row.data();
+							return data[2];
+						}
+					} ),
+					renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
+						tableClass: 'table'
+					} )
+				}
+			},
+			fnDrawCallback: function( oSettings ) {
+				$("#im_list td input[type=checkbox][data-toggle=toggle]").bootstrapToggle();
+			}
+		});
+	});
 
 	$(document).on('change','.status',function(){
         var im_id = $(this).data("id"),stat;
@@ -96,8 +99,7 @@ $(document).ready(function() {
 		$.getJSON(baseURL+"api/im_status_update/"+im_id+"/"+stat, function(r){
 			console.log(r);
 		});
-
-    })
+    });
 
     $(document).on('click','.im_delete',function(){
     	var result = confirm("Want to delete?");
@@ -109,7 +111,5 @@ $(document).ready(function() {
 				}
 			});
 		}
-    })
-
-});
+    });
 </script>

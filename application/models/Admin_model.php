@@ -42,6 +42,337 @@ class Admin_model extends MY_Model
 		return $this->db->get_where('referral_code rc',$where)->result_array();
 	}
 
+    function total_donate($get_select, $where_data=array()){
+		$this->db = dbloader("default");
+        $select = '';
+        if($get_select == 'point'){
+            $select = '  
+                SUM(d.donate_point) as point 
+            ';
+        }
+        if($get_select == 'price'){
+            $select = '  
+                dl.currency, 
+                SUM(dl.price) as price 
+            ';
+        } 
+		$this->db->select($select);
+        $this->db->join('donate_price_list as dl', 'd.donate_price_id = dl.id', 'inner'); 
+
+        if(!empty($where_data)){
+            foreach($where_data as $key => $val){
+                $this->db->where($key, $val, FALSE);
+            }
+        }
+        $this->db->where('d.status', "'paid'", FALSE); 
+
+        if($get_select == 'price'){
+            $this->db->group_by('dl.currency'); 
+        }
+
+        $this->db->order_by('SUM(d.donate_point)','DESC'); 
+        $this->db->order_by('DATE(d.created_date)','DESC'); 
+        
+		return $this->db->get('donate d')->result_array();
+	}
+    
+    function create_dump_item_name(){
+		$this->db = dbloader("LUNA_LOGDB");
+        if ($this->db->table_exists('temp_log_item_name')) {
+            // table exists some code run query
+            // check count to update
+            $this->db->select('count(*) cnt_temp');
+            $cnt_temp = $this->db->get('temp_log_item_name');
+            $cnt_temp = $cnt_temp->row()->cnt_temp;
+        }else{
+            $this->db->trans_begin();
+            $sql = '
+                CREATE TABLE [dbo].[temp_log_item_name](
+                    [id] [int] NOT NULL,
+                    [bin_source] [int] NOT NULL,
+                    [nama] [varchar](150) NOT NULL,
+                CONSTRAINT [PK_temp_log_item_name] PRIMARY KEY CLUSTERED 
+                (
+                    [id] ASC 
+                    ) WITH ( 
+                        PAD_INDEX = OFF, 
+                        STATISTICS_NORECOMPUTE = OFF, 
+                        IGNORE_DUP_KEY = OFF, 
+                        ALLOW_ROW_LOCKS = ON, 
+                        ALLOW_PAGE_LOCKS = ON 
+                    ) ON [PRIMARY] 
+                ) ON [PRIMARY]
+            ';
+
+            if(!$this->db->query($sql)) {
+                $msg_err = $this->db->error();
+                $this->db->trans_rollback();
+                dump($msg_err); exit;
+            } 
+            $this->db->trans_commit();
+        } 
+
+		$this->db = dbloader("default"); 
+        $cnt = $this->db->query("
+            SELECT 
+                count(*) cnt 
+            FROM 
+                tbl_item 
+            WHERE 
+                bin_source != 0 AND 
+                bin_source IS NOT NULL AND  
+                nama != '' AND 
+                nama IS NOT NULL 
+        ");
+        $cnt = $cnt->row()->cnt;
+        
+        if($cnt_temp != $cnt){
+		    $this->db = dbloader("LUNA_LOGDB");
+            $this->db->empty_table('temp_log_item_name');
+        }else{
+            return true;
+        }
+
+        $show_cnt = 10;
+        $loop_cnt = ceil($cnt/$show_cnt);
+
+        $ar_item = [];
+		$this->db = dbloader("default");
+        for($i=0; $i<=$loop_cnt; $i++){
+            $start = $show_cnt*$i;
+            $this->db->select('*');
+            $this->db->order_by('id', 'asc');
+            $get_item = $this->db->get('tbl_item', $show_cnt, $start);
+            $ar_item[$i] = [];
+
+            foreach ($get_item->result_array() as $key) {
+                $ar_item[$i][] = $key;
+            }
+        }
+
+        $this->db = dbloader("LUNA_LOGDB");
+        $this->db->trans_begin();
+        foreach ($ar_item as $idx => $key) { 
+            foreach ($key as $idx2 => $key2) {
+                if(!empty($key2['bin_source'])){
+                    $this->db->insert('temp_log_item_name',array(
+                        'id'=>$key2['id'],
+                        'bin_source'=>$key2['bin_source'],
+                        'nama'=>$key2['nama'],
+                    ));
+                    if($this->db->trans_status() === FALSE) {
+                        $this->db->trans_rollback();
+                        return false;
+                    }  
+                }
+            } 
+        }
+        $this->db->trans_commit();
+        return true;
+    }
+    function check_game_trade_log($day=null){
+		$this->db = dbloader("LUNA_LOGDB");
+        if (!$this->db->table_exists('TB_ITEM_LOG_'.$day)) {
+            // table exists some code run query
+            return false;
+        }
+        return true;
+	}
+    function res_game_trade_log($day=null, $ar_search=[], $limit=null, $offset=null){
+		$this->db = dbloader("LUNA_LOGDB");
+        $select = ' 
+            il.*,
+            tli.nama ITEM_NAME,
+            (
+                SELECT 
+                    TOP 1 il2.ITEMDUR 
+                FROM 
+                    TB_ITEM_LOG_'.$day.' il2 
+                WHERE 
+                    il2.LOGTYPE = 401 AND 
+                    il2.ITEMIDX > 0 AND 
+                    il2.ITEMDUR > 0 AND 
+                    (
+                        il2.LOGIDX 
+                        BETWEEN 
+                        (il.LOGIDX + 1) AND (il.LOGIDX + 10)
+                    ) 
+                ORDER BY il2.LOGIDX ASC 
+            ) QTY_VEND 
+        ';
+		$this->db->select($select);
+
+        $top_gold = null;
+        if(!empty($ar_search['top_gold'])){
+            $top_gold = $ar_search['top_gold'];
+        }
+        if($top_gold == 'yes'){
+            $this->db->order_by('il.CHANGEMONEY', 'DESC'); 
+        }else{
+            $this->db->order_by('REGDATE', 'DESC'); 
+        }
+        $res = $this->game_trade_log($day, $ar_search, $limit, $offset);
+        return $res;
+	}
+    function count_game_trade_log($day=null, $ar_search=[], $limit=null, $offset=null){
+		$this->db = dbloader("LUNA_LOGDB");
+        $select = ' 
+            count(il.LOGIDX) as count_log 
+        ';
+		$this->db->select($select);
+
+        $res = $this->game_trade_log($day, $ar_search, $limit, $offset);
+        return $res;
+	}
+    
+    function game_trade_log($day=null, $ar_search=[], $limit=null, $offset=null){
+        $kategori = $ar_search['kategori']; 
+
+        $username = null;
+        if(!empty($ar_search['username'])){
+            $username = $ar_search['username'];
+        }
+        $top_gold = null;
+        if(!empty($ar_search['top_gold'])){
+            $top_gold = $ar_search['top_gold'];
+        }
+        $item_name = null;
+        if(!empty($ar_search['item_name'])){
+            $item_name = $ar_search['item_name'];
+        }
+
+        if($kategori == 'all'){
+            $this->db->where('il.LOGTYPE IN ', '(
+                1502, 
+                500, 
+                1, 
+                200, 
+                300,
+
+                203,
+                100,
+                101,
+                402
+            )', FALSE);
+        }
+
+        if($kategori == 'iss'){
+            // Item Shop Storage
+            $this->db->where('il.LOGTYPE', 1502);
+        }
+        if($kategori == 'ti'){
+            // Trade Item
+            $this->db->where('il.LOGTYPE', 500);
+            $this->db->where('il.CHANGEMONEY', 0);
+            $this->db->where('il.ITEMIDX > ', 0);
+            $this->db->where('il.ITEMDUR > ', 0);
+            $this->db->where('il.ITEMFROMPOS > ', 0);
+            $this->db->where('il.ITEMTOPOS > ', 0);
+        }
+        if($kategori == 'tg'){
+            // Trade Gold
+            $this->db->where('il.LOGTYPE', 500);
+            $this->db->where('il.CHANGEMONEY > ', 0);
+            $this->db->where('il.ITEMIDX', 0);
+        }
+        if($kategori == 'bi'){
+            // Buy Item
+            $this->db->where('il.LOGTYPE', 200);
+        }
+        if($kategori == 'si'){
+            // Sell Item
+            $this->db->where('il.LOGTYPE', 300);
+        }
+
+        if($kategori == 'di'){
+            // Drop Item (Remove Item)
+            $this->db->where('il.LOGTYPE', 1);
+        }
+        if($kategori == 'dim'){
+            // Drop Item (Get Item From Monster)
+            $this->db->where('il.LOGTYPE', 203);
+            $this->db->where('il.ITEMIDX > ', 0);
+            $this->db->where('il.ITEMDUR > ', 0);
+        }
+        if($kategori == 'bpu'){
+            // Bank (Pick Up) mengambil
+            $this->db->where('il.LOGTYPE', 101);
+            $this->db->where('il.FROMCHRNAME', '#Storage');
+        }
+        if($kategori == 'bpi'){
+            // Bank (Put In) menaruh
+            $this->db->where('il.LOGTYPE', 100);
+            $this->db->where('il.FROMCHRNAME', '#Storage');
+        }
+        if($kategori == 'bv'){
+            // Buy Vending
+            $this->db->where('il.LOGTYPE', 402);
+            $this->db->where('il.CHANGEMONEY > ', 0);
+            $this->db->where('il.ITEMIDX > ', 0);
+        }
+
+        if(!empty($username)){
+            // $this->db->group_start()
+            // $this->db->group_end()
+            $this->db->where("
+                (
+                    il.FROMCHRNAME LIKE '%".$username."%' OR 
+                    il.TOCHRNAME LIKE '%".$username."%'  
+                )
+            "); 
+        }
+        if(!empty($item_name)){ 
+            $this->db->where("
+                tli.nama LIKE '%".$item_name."%' 
+            "); 
+        }
+        $this->db->join('temp_log_item_name as tli', 'tli.bin_source = il.ITEMIDX', 'left'); 
+
+        $res = null;
+        if(isset($limit) && isset($offset)){
+            $res = $this->db->get('TB_ITEM_LOG_'.$day.' as il ', $limit, $offset);  
+        }else{
+            $res = $this->db->get('TB_ITEM_LOG_'.$day.' as il ');  
+        } 
+        if(empty($res)){
+            return false;
+        }
+		return $res;
+	}
+    
+    function top_donate_list($where_data=array(),$withdate=true){
+		$this->db = dbloader("default");
+        $select = ' 
+            d.username,
+            SUM(d.donate_point) as donate_point 
+        ';
+        if($withdate){
+            $select .= ',SUM(dl.price) as total_bill ';
+            $select .= ',dl.currency ';
+            $select .= ',DATE(d.created_date) as created_date ';
+        }
+		$this->db->select($select);
+        $this->db->join('donate_price_list as dl', 'd.donate_price_id = dl.id', 'inner'); 
+
+        if(!empty($where_data)){
+            foreach($where_data as $key => $val){
+                $this->db->where($key, $val, FALSE);
+            }
+        }
+        $this->db->where('d.status', "'paid'", FALSE);
+        
+        $this->db->group_by('d.username');
+        if($withdate){
+            $this->db->group_by('dl.currency');
+            $this->db->group_by('DATE(d.created_date)'); 
+        }
+ 
+        $this->db->order_by('SUM(d.donate_point)','DESC'); 
+        $this->db->order_by('DATE(d.created_date)','DESC'); 
+        
+		return $this->db->get('donate d')->result_array();
+	}
+
     function donate_list($where_data=false){
 		$this->db = dbloader("default");
 		$this->db->select('dl.price as bill, dl.currency, d.*');
@@ -134,7 +465,7 @@ class Admin_model extends MY_Model
         }
     }
 
-    function update_aticle($info,$id)
+    function update_article($info,$id)
     {
         $do = $this->db->where('id', $id)->update('news', $info);
         if($do){

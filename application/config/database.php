@@ -11,7 +11,7 @@ $db['default'] = array(
     'hostname' => 'localhost',
     'username' => 'root',
     'password' => '',
-    'database' => 'star_luna',
+    'database' => 'dragonya_luna',
     
     'dbdriver' => 'mysqli',
     'dbprefix' => '',
@@ -32,15 +32,15 @@ $db['default'] = array(
 $sql_conf = array(
     'dsn'   => '',  
 
-    'hostname' => 'NS544566\SQLEXPRESS',
-    'username' => 'GameSrvZone',//username SQL
-    'password' => '2GIcGb3lZaBRSQR32aOR9BDGEaGbD140PTdinhunehfKb8B3MurabtBSDgGbme',//password SQL
+    'hostname' => '.\NS525896',
+    'username' => 'sa',//username SQL
+    'password' => 'luna',//password SQL
     'database' => 'LUNA_MEMBERDB',
     'dbdriver' => 'sqlsrv',  
 
     'dbprefix' => '',
     'pconnect' => FALSE,
-    'db_debug' => TRUE,
+    'db_debug' => (ENVIRONMENT !== 'production'),
     'cache_on' => FALSE,
     'cachedir' => '',
     'char_set' => 'utf8',
@@ -52,6 +52,5 @@ $sql_conf = array(
 
 $db['LUNA_MEMBERDB'] = $sql_conf; 
 
-$sql_conf['database'] = 'LUNA_GAMEDB';
-
-$db['LUNA_GAMEDB'] = $sql_conf;
+$sql_conf['database'] = 'LUNA_GAMEDB'; 
+$db['LUNA_GAMEDB'] = $sql_conf; 

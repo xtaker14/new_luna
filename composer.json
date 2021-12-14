@@ -11,20 +11,20 @@
 		"source": "https://github.com/bcit-ci/CodeIgniter"
 	},
 	"require": {
-		"php": ">=5.3.7"
+		"php": ">=7.3.10"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "1.1.*",
-		"phpunit/phpunit": "4.* || 5.3.8",
+		"phpunit/phpunit": "4.* || 7.3.11",
 		"symfony/var-dumper": "^2.6"
 	},
 	"config": {
 		"platform-check": false,
 		"platform": {
-	    "php": "5.3.8"
-	  }
+			"php": "7.3.11"
+		}
 	}
 }

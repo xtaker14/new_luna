@@ -1,9 +1,12 @@
 <?php (defined('BASEPATH')) OR exit('No direct script access allowed');
 
 class MY_Model extends CI_Model {
+    protected $id_config_web;
+
     function __construct()
     {
         parent::__construct();
+        $this->id_config_web = 1; 
     }
 
     function getWhereUser($data=false){
@@ -16,6 +19,9 @@ class MY_Model extends CI_Model {
     }
     
     function getConfigWeb($id=1){
+        if($id === true){
+            $id = $this->id_config_web;
+        }
 		$this->db = dbloader("default");
 		return $this->db->get_where('web_config',array(
 			'id'=>$id
@@ -24,7 +30,8 @@ class MY_Model extends CI_Model {
 
     function donate_price_list(){
 		$this->db = dbloader("default");
-		return $this->db->get_where('donate_price_list',array('is_deleted'=>'no'))->result_array();
+		// return $this->db->get_where('donate_price_list',array('is_deleted'=>'no'))->result_array();
+		return $this->db->get_where('donate_price_list',array())->result_array();
 	} 
 
     public function getAllowedIp($where, $limit=null, $offset=null){

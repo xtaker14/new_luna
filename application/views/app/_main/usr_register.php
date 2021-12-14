@@ -1,4 +1,4 @@
-<div class="card" data-aos="fade-left" data-aos-delay="0" style="margin-top: 20px;">
+<div class="card" data-aos="fade-left" data-aos-delay="0" style="margin-top: 30px;">
 	<div class="card-header bg-white" align="center">
     <div class="box_header_title">
       <span></span>

@@ -28,9 +28,11 @@
         <small><i>Screen Shoot</i></small>
       </div>
       <div>
-        <a href="<?= base_url(); ?>media" class="text-primary" style="font-size: 17px; display:flex; align-items:center;">
-          <span>More</span><i style="margin-left:3px; font-size: 17px; margin-top:2px;" class="fa fa-angle-right"></i><i style="font-size: 17px; margin-top:2px;" class="fa fa-angle-right"></i>
-        </a>
+        <small>
+          <a href="<?= base_url(); ?>media" class="text-primary" style="font-size: 14px; display:flex; align-items:center;">
+            MORE&nbsp;<i class="fas fa-arrow-right"></i>
+          </a>
+        </small>
       </div>
     </div>
   </div>

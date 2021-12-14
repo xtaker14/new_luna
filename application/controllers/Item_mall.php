@@ -14,29 +14,48 @@ class Item_mall extends FrontLib {
     function im_list($id){
         if(!empty($id)){
             $a = "";
-            if($id==6){
-                $new = $this->im_model->im_list_by(8,'itemid');
-                foreach ($new as $val) {
-                    $a .= $this->im_maker($val,"new");
-                }
-                $hot = $this->im_model->im_list_by(8,'counter');
-                foreach ($hot as $val) {
-                    $a .= $this->im_maker($val,"hot");
-                }
-            }else{
-                $list = $this->im_model->im_byCategory($id);
-                $get_new = $this->im_model->im_list_by(8,'itemid');
-                $new = array_column($get_new, "itemid");
-                $get_hot = $this->im_model->im_list_by(8,'counter');
-                $hot = array_column($get_hot, "itemid");
+            // if($id==6){
+            //     // id 6 (featured) for all items
+            //     $new = $this->im_model->im_list_by(8,'itemid');
+            //     foreach ($new as $val) {
+            //         $a .= $this->im_maker($val,"new");
+            //     }
+            //     $hot = $this->im_model->im_list_by(8,'counter');
+            //     foreach ($hot as $val) {
+            //         $a .= $this->im_maker($val,"hot");
+            //     }
+            // }else{
+            //     $list = $this->im_model->im_byCategory($id);
+            //     $get_new = $this->im_model->im_list_by(8,'itemid');
+            //     $new = array_column($get_new, "itemid");
+            //     $get_hot = $this->im_model->im_list_by(8,'counter');
+            //     $hot = array_column($get_hot, "itemid");
 
-                foreach ($list as $val) {
-                    $b = "";
-                    $id = $val['itemid'];
-                    if(in_array($id, $hot)){ $b = "hot"; }elseif(in_array($id, $new)){ $b = "new"; }
-                    $a .= $this->im_maker($val,$b);
-                }
+            //     foreach ($list as $val) {
+            //         $b = "";
+            //         $id = $val['itemid'];
+            //         if(in_array($id, $hot)){ $b = "hot"; }elseif(in_array($id, $new)){ $b = "new"; }
+            //         $a .= $this->im_maker($val,$b);
+            //     }
+            // } 
+
+            $list = $this->im_model->im_byCategory($id);
+            $get_new = $this->im_model->im_list_by(3,'itemid',array(
+                'itemtype'=>$id
+            ));
+            $new = array_column($get_new, "itemid");
+            $get_hot = $this->im_model->im_list_by(3,'counter',array(
+                'itemtype'=>$id
+            ));
+            $hot = array_column($get_hot, "itemid");
+
+            foreach ($list as $val) {
+                $b = "";
+                $id = $val['itemid'];
+                if(in_array($id, $hot)){ $b = "hot"; }elseif(in_array($id, $new)){ $b = "new"; }
+                $a .= $this->im_maker($val,$b);
             }
+            
             $arr = array('result' => $a, 'id' => $id);
             json($arr);
         }
@@ -76,29 +95,56 @@ class Item_mall extends FrontLib {
         }
         $price_min = min(array_column($ar_price, 'price'));
         $price_max = max(array_column($ar_price, 'price'));
-        $price_range = $price_min .' to '. $price_max;
+        $price_range = $price_min .' <i class="fas fa-angle-right" style="padding-top:2px;"></i> '. $price_max;
 
         $silver_price_min = min(array_column($ar_price, 'silver_price'));
         $silver_price_max = max(array_column($ar_price, 'silver_price'));
-        $silver_price_range = $silver_price_min .' to '. $silver_price_max;
+        $silver_price_range = $silver_price_min .' <i class="fas fa-angle-right" style="padding-top:2px;"></i> '. $silver_price_max;
 
+        $append_btn = $this->load->view("app/_part/button_border.php",array(
+            'part_bb_txt'=> '<b>BUY NOW</b>',
+            'part_bb_element'=> 'button',
+            'part_bb_type'=> 'button',
+            'part_bb_style'=> 'width:100%; margin-top:10px;',
+            'part_bb_class'=> 'view_detail btn-buy-item btn-hover color-blue',
+            'part_bb_attr_plus'=> "data-itemid=\"".$val['itemid']."\"",
+        ),true);
+        // return '
+        //     <div class="col-md-3 mb-2 p-1">
+        //         <div class="im_card card border border pb-2" align="center">
+        //             '.$badge.'
+        //             <div class="im_imgcover d-block">
+        //                 <img class="card-img rounded" style="width:150px;height:auto;" src="'.CDN_IMG.$val['itemimage'].'" alt="--No Image--" >
+        //             </div>
+        //             <div class="d-block">
+        //                 <div title="'.$val['itemname'].'" class="d-block" style="height:30px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; padding-left: 10px; padding-right: 10px;">
+        //                     <small class="text-primary">'.$val['itemname'].'</small>
+        //                 </div>
+        //                 <div class="d-block">
+        //                     <span style="font-size: 14px; color:#007bff !important; font-family:Tahoma, sans-serif;">'.$price_range.'<i class="fas fa-gem ml-1" data-fa-transform="rotate-30"></i></span>
+        //                     <br>
+        //                     <span style="font-size: 14px; font-family:Tahoma, sans-serif;">'.$silver_price_range.'<i class="fa fa-coins ml-2" data-fa-transform="rotate-30"></i></span>
+        //                 </div>
+        //                 '.$append_btn.'
+        //             </div>
+        //         </div> 
+        //     </div>
+        // ';
         return '
             <div class="col-md-3 mb-2 p-1">
                 <div class="im_card card border border pb-2" align="center">
                     '.$badge.'
                     <div class="im_imgcover d-block">
-                        <img class="card-img rounded" style="width:152px;height:auto;" src="'.CDN_IMG.$val['itemimage'].'" alt="flora festival" >
+                        <img class="card-img rounded" style="width:150px;height:auto;" src="'.CDN_IMG.$val['itemimage'].'" alt="--No Image--" >
                     </div>
                     <div class="d-block">
                         <div title="'.$val['itemname'].'" class="d-block" style="height:30px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; padding-left: 10px; padding-right: 10px;">
                             <small class="text-primary">'.$val['itemname'].'</small>
                         </div>
                         <div class="d-block">
-                            <span style="font-size: 14px; color:#007bff !important; font-family:Tahoma, sans-serif;">'.$price_range.'<i class="fas fa-gem ml-1" data-fa-transform="rotate-30"></i></span>
-                            <br>
-                            <span style="font-size: 14px; font-family:Tahoma, sans-serif;">'.$silver_price_range.'<i class="fa fa-coins ml-2" data-fa-transform="rotate-30"></i></span>
+                            <span style="font-size: 14px; color:#3c840b !important; font-family:Tahoma, sans-serif;">'.number_format($price_range,0, ',', '.').'<i class="fas fa-gem ml-1" data-fa-transform="rotate-30"></i></span>
                         </div>
-                        <button data-itemid="'.$val['itemid'].'" class="view_detail btn-buy-item btn-hover btn color-blue w-50"><b>Buy</b><i class="fas fa-gem ml-1" data-fa-transform="rotate-30"></i></button>
+                        '.$append_btn.'
                     </div>
                 </div> 
             </div>
@@ -123,6 +169,14 @@ class Item_mall extends FrontLib {
             $button = '<label><b>Please login to buy this item..</b></label>';
             $stat = false;
             if(!empty($this->usr_session)){
+                $append_btn = $this->load->view("app/_part/button_border.php",array(
+                    'part_bb_txt'=> '<b>BUY NOW</b>',
+                    'part_bb_element'=> 'button',
+                    'part_bb_type'=> 'submit',
+                    'part_bb_style'=> 'width:100%; margin-top:10px;',
+                    'part_bb_class'=> 'view_detail btn-buy-item btn-hover color-blue', 
+                ),true);
+
                 $button = '
                 <div class="form-group">
                     <label for="pin">Your PIN code : </label>
@@ -132,18 +186,17 @@ class Item_mall extends FrontLib {
                                 <i class="fas fa-lock"></i>
                             </div>
                         </div>
-                        <input class="form-control" type="" name="pin" pattern="[0-9]{6}" title="number 6 digits" placeholder="Pin code" minlength="6" maxlength="6" required>
+                        <input class="form-control" type="text" name="pin" pattern="[0-9]{6}" title="number 6 digits" placeholder="Pin code" minlength="6" maxlength="6" required>
                     </div>
                 </div>
                 <input type="hidden" id="g_recaptcha" name="g-recaptcha-response">
-                <button type="submit" class="btn-hover btn color-blue btn-block mt-3">
-                    <i class="fas fa-check mr-2"></i>Buy now
-                </button>';
+                '.$append_btn;
                 $stat = true;
             }
 
             $piece_list = $this->item_piece($im_id,$im);
 
+            // $img = base_url('assets/frontpage/img/help.png');
             $info = array('title' => $title, 'image' => $img, 'desc' => $desc, 'effect' => $effect, 'piece_list' =>$piece_list, 'button' =>$button, 'stat' =>$stat);
             json($info);
         }
@@ -202,10 +255,42 @@ class Item_mall extends FrontLib {
         if(empty($piece_opt)){
             $piece_opt = '<small style="color:silver;">-- Empty --</small>';
         }
+    //     return '
+    //         <li>
+    //             <label class="piece_item pointer d-block">
+    //                 <table class="table">
+    //                     <tr>
+    //                         <td style="border-top:none; vertical-align:middle; width:50px;" rowspan="3">
+    //                             <input type="radio" id="piece_radio" name="piece_item" value="'.$id.'" '.$checked.'>
+    //                         </td>
+    //                         <td style="border-top:none;">
+    //                             <img src="'.$img.'">
+    //                             <span>&nbsp;'.$name.'</span>
+    //                         </td>
+    //                     </tr>
+    //                     <tr>
+    //                         <td>
+    //                             <span>Attributes : '.$piece_opt.'</span>
+    //                         </td>
+    //                     </tr>
+    //                     <tr>
+    //                         <td>
+    //                             Price : <br>
+    //                             <span class="text-primary ">'.$price.'<i class="fas fa-gem ml-1" data-fa-transform="rotate-30"></i></span>
+    //                             <br>
+    //                             <span class="">'.$silver_price.'<i class="fa fa-coins ml-1" data-fa-transform="rotate-30"></i></span>
+    //                         </td>
+    //                     </tr>
+    //                 </table>
+    //             </label>
+    //         </li>
+    //   ';
+
+        // $img = base_url('assets/frontpage/img/help.png');
         return '
             <li>
                 <label class="piece_item pointer d-block">
-                    <table class="table">
+                    <table class="table" style="border:1px solid silver;">
                         <tr>
                             <td style="border-top:none; vertical-align:middle; width:50px;" rowspan="3">
                                 <input type="radio" id="piece_radio" name="piece_item" value="'.$id.'" '.$checked.'>
@@ -223,17 +308,13 @@ class Item_mall extends FrontLib {
                         <tr>
                             <td>
                                 Price : <br>
-                                <small>
-                                    <span class="text-primary p-1">'.$price.'<i class="fas fa-gem ml-1" data-fa-transform="rotate-30"></i></span> 
-                                    OR 
-                                    <span class="p-1">'.$silver_price.'<i class="fa fa-coins ml-1" data-fa-transform="rotate-30"></i></span>
-                                </small>
+                                <span class="text-primary" style="font-size: 14px; color:#3c840b !important; font-family:Tahoma, sans-serif;">'.number_format($price,0, ',', '.').'<i class="fas fa-gem ml-1" data-fa-transform="rotate-30"></i></span>
                             </td>
                         </tr>
                     </table>
                 </label>
             </li>
-      ';
+        ';
     }
 
     function buy() {
@@ -249,6 +330,10 @@ class Item_mall extends FrontLib {
             $payment_type = $this->input->post('payment_type',true);
             $piece_item = $this->input->post('piece_item',true);
 
+            // start for disable silver point
+            $payment_type = 'cash_point';
+            // end for disable silver point
+
             $this->form_validation->set_rules('pin', 'pin', 'required|numeric|min_length[6]|max_length[6]|regex_match[/^[0-9]+$/]');
             $this->form_validation->set_rules('piece_item', 'piece_item', 'trim|required');
 
@@ -262,13 +347,13 @@ class Item_mall extends FrontLib {
                     multi_flash($arr,'shop');
                     die;
                 }else{
-                    $get = $this->im_model->get_IDPoint($usr_code,$user_idx,$pin_code);
+                    $get = $this->im_model->get_IDPoint($usr_code,$user_idx,$pin_code); 
 
                     $user_point = $get['star_point'];
                     $user_silver_point = $get['silver_point'];
 
                     if($get['status'] == false){
-                        $arr = array('popup' => 'pin incorrect or error.','shop' => 'error' );
+                        $arr = array('popup' => 'PIN incorrect or error.','shop' => 'error' );
                         multi_flash($arr,'shop');
                         die;
                     }elseif($get['status'] == true){
@@ -302,7 +387,7 @@ class Item_mall extends FrontLib {
                         $cost_item = 0;
                         $my_point = 0;
 
-                        if($payment_type == 'diamond'){
+                        if($payment_type == 'cash_point'){
                             $cost_item = $total_price;
                             $my_point = $user_point;
                         }
@@ -325,7 +410,7 @@ class Item_mall extends FrontLib {
                             $insert = $this->im_model->insert_item($bin_code,$user_idx,$qty); 
                             if($insert== TRUE){
                                 $last_point = 0;
-                                if($payment_type == 'diamond'){
+                                if($payment_type == 'cash_point'){
                                     $this->im_model->update_idPoint($usr_code,$user_idx,$cost_item,'star_point');
     
                                     $get = $this->im_model->get_IDPoint($usr_code,$user_idx,$pin_code);
@@ -357,7 +442,7 @@ class Item_mall extends FrontLib {
                                 );
                                 
                                 //popup
-                                if($payment_type == 'diamond'){
+                                if($payment_type == 'cash_point'){
                                     $info['price'] = $price;
                                     $this->im_model->insert_IMlog($info,'counter');
                                     $this->session->set_userdata('star_point',$last_point);

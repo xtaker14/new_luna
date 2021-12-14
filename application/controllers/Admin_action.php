@@ -13,8 +13,10 @@ class Admin_action extends AdminController {
 			json(false);
 		}else{
 			$usr = $this->input->post('username',true);
+			$new_usr = $this->input->post('new_username',true);
 			$p = $this->input->post('point',true);
 			$cp = $this->input->post('costume_point',true);
+			$descr = $this->input->post('description',true);
 
 			if(!empty($cp)){ $p = $cp; }
 
@@ -25,18 +27,47 @@ class Admin_action extends AdminController {
 				setFlashData('error', 'username not exist..');
 				redirect('adm/topup');			
 			}else{
-				$this->load->model('im_model');
+				$this->load->model('im_model'); 
+
 				$do = $this->im_model->adm_topup($usr,$p);
 				if($do){
 					$admin_idx = $this->userId;
-					$info = array("username" => $usr,"user_idx" => $propid,"star_point" => $p,"admin_idx" => $admin_idx,"date" => date('Y-m-d H:i:s'));
+					$info = array(
+						"username" => $usr,
+						"user_idx" => $propid,
+						"star_point" => $p,
+						"admin_idx" => $admin_idx,
+						"date" => date('Y-m-d H:i:s'),
+						"description" => $descr,
+					);
 					$this->im_model->insert_topup_log($info);
-					setFlashData('success', 'berhasil topup');
-					redirect('adm/topup_log');
 				}else{
-					setFlashData('error', 'terjadi error..');
+					setFlashData('error', 'Gagal kirim point ke username : '.$usr);
 					redirect('adm/topup');
+				} 
+				
+				if(!empty($new_usr)){ 
+					foreach ($new_usr as $idx => $val) {
+						$do = $this->im_model->adm_topup($val,$p);
+						if($do){
+							$admin_idx = $this->userId;
+							$info = array(
+								"username" => $val,
+								"user_idx" => $propid,
+								"star_point" => $p,
+								"admin_idx" => $admin_idx,
+								"date" => date('Y-m-d H:i:s'),
+								"description" => $descr,
+							);
+							$this->im_model->insert_topup_log($info);
+						}else{
+							setFlashData('error', 'Gagal kirim point ke username : '.$val);
+							redirect('adm/topup');
+						} 
+					} 
 				}
+				setFlashData('success', 'Berhasil kirim point');
+				redirect('adm/topup_log');
 			}
 		}
 	}
@@ -52,7 +83,7 @@ class Admin_action extends AdminController {
 			$is_deleted = $this->input->post('is_deleted',true); 
 			$referral_code = $this->input->post('referral_code',true); 
 			$username = $this->input->post('username',true);
-			$silver_point = toggle_to_int($this->input->post('silver_point',true)); 
+			// $silver_point = toggle_to_int($this->input->post('silver_point',true)); 
 			$admin_id = $this->userId;
 
 			if(isset($is_deleted)){
@@ -93,7 +124,7 @@ class Admin_action extends AdminController {
 				$data = array(
 					'is_deleted'=>$is_deleted,
 					'referral_code'=>$referral_code,
-					'silver_point'=>$silver_point,
+					// 'silver_point'=>$silver_point,
 					'admin_id'=>$admin_id,
 				);
 
@@ -109,7 +140,7 @@ class Admin_action extends AdminController {
 
 				$this->db->update('tbl_user',array(
 					'referral_code'=>$referral_code,
-					'silver_point'=>$silver_point,
+					// 'silver_point'=>$silver_point,
 				),array(
 					'id'=>$data_user['id']
 				));
@@ -124,7 +155,8 @@ class Admin_action extends AdminController {
 					'referral_code'=>$referral_code,
 					'user_id'=>$data_user['id'],
 					'user_code'=>$data_user['code'],
-					'silver_point'=>$silver_point,
+					// 'silver_point'=>$silver_point,
+					'silver_point'=>0,
 					'admin_id'=>$admin_id,
 				);
 	
@@ -138,7 +170,7 @@ class Admin_action extends AdminController {
 	
 				$this->db->update('tbl_user',array(
 					'referral_code'=>$referral_code,
-					'silver_point'=>$silver_point,
+					// 'silver_point'=>$silver_point,
 				),array(
 					'id'=>$data_user['id']
 				));
@@ -154,6 +186,7 @@ class Admin_action extends AdminController {
 			redirect('adm/referral');
 		}
 	}
+	
 	function go_make_im()
 	{
 		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
@@ -200,6 +233,106 @@ class Admin_action extends AdminController {
 		}
 	}
 
+	function go_update_im($im_id)
+	{
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+		}else{
+			$a = $this->input->post('title',true);
+			$c = $this->input->post('itemtype');
+			$d = toggle_to_int($this->input->post('discount',true));
+			$e = toggle_to_int($this->input->post('seal',true));				
+			$f = $this->input->post('description');
+			$g = toggle_to_int($this->input->post('set',true));		
+			$h = $this->input->post('set_option');
+			$i = toggle_to_int($this->input->post('status',true));
+
+			$dir = "assets/frontpage/img/shop/item_mall/";
+			$fn = title_to_url(strtolower($a));
+			$p_img = $_FILES['userfile']['name'];
+			// $ext = ".".strtolower(pathinfo($p_img, PATHINFO_EXTENSION));
+
+			$data = array(
+				"itemname" => $a,
+				// "itemimage" => $b,
+				"itemtype" => $c,
+				"isDIscount" => $d,
+				"itemseal" => $e,
+				"itemdesc" => $f,
+				"isSet" => $g,
+				"itemsetopt" => $h,
+				"status" => $i,
+				"counter" => 0
+			);
+
+			$item_image = 'userfile';
+			$on = "im.itemtype = ic.id";
+			$cat = "ic.categoryname";
+			$get_im = $this->db->query(
+				"SELECT im.*, $cat as category FROM itemmall im  JOIN itemcategory ic on $on where ic.is_active='yes' and itemid='$im_id' ORDER BY itemid DESC"
+			)->row_array();
+			if(empty($get_im)){
+				setFlashData('error', 'terjadi error..');
+				redirect('adm/edit_im/'.$im_id);
+			} 
+
+			$image_name = false;
+			if (!empty($_FILES[$item_image]['name'])) {
+				if ($this->security->xss_clean($_FILES[$item_image], TRUE) === FALSE) {
+					// file failed the XSS test
+					setFlashData('error', 'file failed the security XSS test!');
+					redirect('adm/edit_im/'.$im_id);
+				}
+
+				$config = array(
+					'allowed_types'     => 'jpg|jpeg|gif|png',
+					'max_size'          => 2048, //2MB max
+					'upload_path'       => "./".$dir, 
+					'overwrite'         => TRUE,
+					'file_name'         => $fn,
+				);
+				$this->load->library('upload', $config);
+					
+				// if (count($get_im) > 0) {
+				// 	$config['file_name'] = $get_im['itemimage'];
+				// } else {
+				// 	$config['encrypt_name'] = TRUE;
+				// }
+
+				$this->load->library('upload', $config);
+				$this->upload->initialize($config);
+				if (!$this->upload->do_upload($item_image)) { 
+					setFlashData('error', $this->upload->display_errors());
+					redirect('adm/edit_im/'.$im_id);
+				} else {
+					$result = $this->upload->data();
+					$image_name = $result['file_name'];
+					$data['itemimage'] = $dir.$image_name; 
+				}
+			}
+
+			$this->db = dbloader("default"); 
+			$this->db->trans_begin();
+			$do = $this->db->update('itemmall',$data,array(
+				'itemid'=>$im_id
+			));
+			if($this->db->trans_status() === FALSE) {
+				$this->db->trans_rollback();
+				setFlashData('error', 'terjadi error..');
+				redirect('adm/edit_im/'.$im_id);
+			}
+			$this->db->trans_commit();
+
+			if($do==TRUE){
+				setFlashData('success', 'berhasil update');
+				redirect('adm/im_list');
+			}else{
+				setFlashData('error', 'terjadi error..');
+				redirect('adm/edit_im/'.$im_id);
+			}
+		}
+	}
+
 	function im_status_update($id,$stat)
     {
     	if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
@@ -207,6 +340,85 @@ class Admin_action extends AdminController {
 		}else{
 	    	$this->load->model('admin_model');
 	    	$do = $this->admin_model->update_im_stat($id,$stat);
+	        json($do);
+	    }
+    }
+
+	function donate_price_status_update($id,$stat)
+    {
+    	if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+		}else{ 
+	    	$this->db = dbloader("default"); 
+			$this->db->trans_begin();
+			$do = $this->db->update('donate_price_list',array(
+				'is_hidden'=>$stat
+			),array(
+				'id'=>$id
+			));
+			if($this->db->trans_status() === FALSE) {
+				$this->db->trans_rollback();
+				json(false);
+			}
+			$this->db->trans_commit(); 
+	        json($do);
+	    }
+    }
+
+	function referral_delete($id)
+    {
+    	if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+		}else{ 
+	    	$this->db = dbloader("default"); 
+			$this->db->trans_begin();
+
+			$this->db->where('id', $id);
+			$g_referral = $this->db->get('referral_code')->row_array();
+
+			if(empty($g_referral)){
+				$this->db->trans_rollback();
+				json(false);
+			}
+
+			$this->db->update('tbl_user',array(
+				'referral_code'=>'',
+			),array(
+				'id'=>$g_referral['user_id']
+			));
+			if($this->db->trans_status() === FALSE) {
+				$this->db->trans_rollback();
+				json(false);
+			}
+
+			$this->db->delete('referral_code',array(
+				'id'=>$id
+			));  
+			if($this->db->trans_status() === FALSE) {
+				$this->db->trans_rollback();
+				json(false);
+			}
+
+			$this->db->trans_commit(); 
+	        json(true);
+	    }
+    }
+	
+	function donate_price_delete($id)
+    {
+    	if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+		}else{ 
+	    	$this->db = dbloader("default"); 
+			$this->db->trans_begin();
+			$do = $this->db->delete('donate_price_list',array(
+				'id'=>$id
+			));
+			if($this->db->trans_status() === FALSE) {
+				$this->db->trans_rollback();
+				json(false);
+			}
+			$this->db->trans_commit(); 
 	        json($do);
 	    }
     }
@@ -272,6 +484,91 @@ class Admin_action extends AdminController {
 		}
 	}
 
+	function go_update_im_piece($id)
+	{
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+		}else{
+			$a = $this->input->post('itemid',true);
+			$b = $this->input->post('item_source',true);
+
+			$dir = "assets/frontpage/img/shop/im_piece/";
+
+			$c = str_cleaner($this->input->post('name',true));
+			$e = $this->input->post('point',true);
+			$f = $this->input->post('item_opt',true); 
+
+			$data = array(
+				"itemid" => $a,
+				"bin_code" => $b,
+				"name" => $c,
+				// "img" => $d,
+				"price" => $e,
+				"piece_opt" => $f
+			);
+
+			$item_image = 'userfile';
+			$on = "pc.itemid = im.itemid";
+			$im_name = "im.itemname";
+			$get_piece = $this->db->query(
+				"SELECT pc.*, $im_name as itemname FROM itemmall_piece pc JOIN itemmall im on $on where id='$id' ORDER BY id DESC"
+			)->row_array();
+			if(empty($get_piece)){
+				setFlashData('error', 'terjadi error..');
+				redirect('adm/im_piece_edit/'.$id);
+			} 
+
+			$image_name = false;
+			if (!empty($_FILES[$item_image]['name'])) {
+				if ($this->security->xss_clean($_FILES[$item_image], TRUE) === FALSE) {
+					// file failed the XSS test
+					setFlashData('error', 'file failed the security XSS test!');
+					redirect('adm/im_piece_edit/'.$id);
+				}
+
+				$config = array(
+					'allowed_types'     => 'jpg|jpeg|gif|png',
+					'max_size'          => 2048, //2MB max
+					'file_name'         => $b,
+					'upload_path'       => "./".$dir,
+					'overwrite'         => TRUE,
+				);
+				$this->load->library('upload', $config);
+
+				$this->load->library('upload', $config);
+				$this->upload->initialize($config);
+				if (!$this->upload->do_upload($item_image)) { 
+					setFlashData('error', $this->upload->display_errors());
+					redirect('adm/im_piece_edit/'.$id);
+				} else {
+					$result = $this->upload->data();
+					$image_name = $result['file_name'];
+					$data['img'] = $dir.$image_name;
+				}
+			}
+
+			$this->db = dbloader("default"); 
+			$this->db->trans_begin();
+			$do = $this->db->update('itemmall_piece',$data,array(
+				'id'=>$id
+			));
+			if($this->db->trans_status() === FALSE) {
+				$this->db->trans_rollback();
+				setFlashData('error', 'terjadi error..');
+				redirect('adm/im_piece_edit/'.$id);
+			}
+			$this->db->trans_commit();   
+
+			if($do==TRUE){
+				setFlashData('success', 'berhasil update');
+				redirect('adm/im_piece_list');
+			}else{
+				setFlashData('error', 'terjadi error..');
+				redirect('adm/im_piece_edit/'.$id);
+			}
+		}
+	}
+
 	function im_piece_delete($id)
     {
     	if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
@@ -290,40 +587,239 @@ class Admin_action extends AdminController {
 		}else{
 			$type = $this->input->post('type',true);
 			$username = $this->input->post('username',true);
+			$new_username = $this->input->post('new_username',true);
+			$admin_id = $this->userId;
+
+			$select_level = $this->input->post('select_level',true);
+			$input_lvl = $this->input->post('input_lvl',true);
+
 			$date_type = $this->input->post('date_type',true);
 			$reg_date = $this->input->post('reg_date',true);
 			$bin = $this->input->post('item_source',true);
 			$qty = $this->input->post('jumlah',true);
+			$description = $this->input->post('description',true);
 
 			$item = explode(" | ", $bin);
 			$bin_code = $item[0];
+			$item_name = $item[1];
 			
-			$info = array('error','something error..');
-			
-			$this->load->model(array('member_model','im_model'));
+			$info = array('error','terjadi error..'); 
+			$this->load->model(array('member_model','im_model')); 
+
+			$fields_sl = array(
+				'admin_id' => $admin_id, 
+				'send_type' => $type,
+				'item_name' => $item_name,
+				'item_bin_code' => $bin_code,
+				'item_qty' => $qty,  
+				'description' => $description,  
+			); 
 
 			if($type=='single'){
 				$user_idx = $this->member_model->select_member($username);
 				$this->im_model->insert_item($bin_code,$user_idx,$qty);
 				$info = array('success','sukses mengirim item ke '.$username);
+				$fields_sl['username'] = $username;
+				$fields_sl['user_id'] = $user_idx;
+
+				if(!empty($new_username)){
+					$info_user = $username;
+					$this->db = dbloader("default"); 
+					$this->db->trans_begin();
+					foreach ($new_username as $idx => $val) {
+						$new_user_id = $this->member_model->select_member($val);
+						$this->im_model->insert_item($bin_code,$new_user_id,$qty);
+
+						$fields_sl_multi = $fields_sl;
+						$fields_sl_multi['username'] = $val;
+						$fields_sl_multi['user_id'] = $new_user_id; 
+
+						$this->db->insert('send_item_log',$fields_sl_multi);
+						if($this->db->trans_status() === FALSE) {
+							$this->db->trans_rollback();
+							setFlashData('error', 'terjadi error..');
+							redirect('adm/send_item');
+						}
+					}
+					$this->db->trans_commit();
+					$info_user .= ', ' . (implode(', ',$new_username));
+					$info = array('success','sukses mengirim item ke '.$info_user);
+				}
 			}elseif($type=='all'){
 				$date = '';	
+				$fields_sl['register_date_type'] = $date_type;
 				if($date_type=='range'){
 					$date = explode(" to ", $reg_date);
+					$fields_sl['register_range_start_date'] = $date[0];
+					$fields_sl['register_range_end_date'] = $date[1];
 				}
 
-				$member_list = $this->member_model->select_aLLmember($date);
+				$member_list = $this->member_model->select_aLLmember($date, $select_level, $input_lvl);
 				foreach ($member_list as $val) {
 					$user_idx = $val['propid'];
 					$this->im_model->insert_item($bin_code,$user_idx,$qty);
 				}
 				$info = array('success', 'sukses mengirim item ke semua user.');
+
+				$fields_sl['level_type'] = $select_level;
+				if($select_level == 'specific'){
+					$fields_sl['specific_level'] = $input_lvl;
+				}
 			}
+
+			$this->db = dbloader("default"); 
+			$this->db->trans_begin();
+
+			$this->db->insert('send_item_log',$fields_sl);
+			if($this->db->trans_status() === FALSE) {
+				$this->db->trans_rollback();
+				setFlashData('error', 'terjadi error..');
+				redirect('adm/send_item');
+			}
+			$this->db->trans_commit();
 
 			setFlashData($info[0], $info[1]);
 			redirect('adm/send_item');
 		}
     }
+
+	function my_profile(){
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+		}else{
+			$admin_id = $this->userId; 
+			
+			$input_nama = $this->input->post('input_nama',true);
+			$input_password = $this->input->post('input_password',true);
+			$input_new_password = $this->input->post('input_new_password',true); 
+    		// $input_password = getHashedPassword($input_password);
+    		$input_new_password = getHashedPassword($input_new_password); 
+
+			$user_admin = $this->db->get_where('tbl_admin',array(
+				'id'=>$admin_id, 
+			))->row_array(); 
+
+			if(!verifyHashedPassword($input_password, $user_admin['password'])){
+				setFlashData('error', 'Current password tidak sesuai');
+				redirect('adm/my_profile');
+			} 
+
+			$data_save = array( 
+				'updateBy' => $admin_id, 
+				'updatedDtm' => $GLOBALS['date_now'], 
+				'nama' => $input_nama, 
+				'password' => $input_new_password, 
+			);
+
+			$this->db = dbloader("default"); 
+			$this->db->trans_begin(); 
+
+			$this->db->update('tbl_admin',$data_save,array(
+				'id'=>$admin_id
+			));
+			if($this->db->trans_status() === FALSE) {
+				$this->db->trans_rollback();
+				setFlashData('error', 'terjadi error..');
+				redirect('adm/my_profile');
+			} 
+			$this->db->trans_commit();
+			// redirect('adm/my_profile'); 	
+			setFlashData('success', 'berhasil ubah password');
+			redirect( 'adm/logout' );
+		}
+	}
+
+	function go_update_char(){ 
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+		}else{
+			$id = $this->input->post('id',true); 
+			$input_email = $this->input->post('input_email',true);
+			$input_pin = $this->input->post('input_pin',true);
+			$input_password = $this->input->post('input_password',true);
+			$admin_id = $this->userId;
+
+			if(empty($id)){
+				setFlashData('error', 'terjadi error (1)');
+				redirect('adm/char_list');
+			}
+
+			$data_save = array();
+			if(!empty($input_email)){
+				$check_email = $this->db->get_where('tbl_user',array(
+					'email'=>$input_email, 
+				));
+				$check_email = $check_email->result_array();
+				if(count($check_email)>0){
+					setFlashData('error', 'Email already exists');
+					redirect('adm/char/'.$id);
+				}
+
+				$data_save['email'] = $input_email;
+			}
+			if(!empty($input_pin)){
+				$data_save['pin_code'] = getHashedPassword($input_pin);
+			}
+			if(!empty($input_password)){
+				$data_save['password'] = getHashedPassword($input_password);
+			}
+
+			$get_tbl_user = array(); 
+			$get_tbl_user = $this->db->get_where('tbl_user',array(
+				'id'=>$id
+			))->row_array();
+			if(empty($get_tbl_user)){
+				setFlashData('error', 'User tidak ditemukan..');
+				redirect('adm/char/'.$id);
+			} 
+
+			$this->db = dbloader("default"); 
+			$this->db->trans_begin();
+ 
+			$data_save['modified_date'] = $GLOBALS['date_now']; 
+			$this->db->update('tbl_user',$data_save,array(
+				'id'=>$id
+			));
+			if($this->db->trans_status() === FALSE) {
+				$this->db->trans_rollback();
+				setFlashData('error', 'terjadi error (2)');
+				redirect('adm/char/'.$id); 
+			}
+			$this->db->trans_commit();
+			
+			if(empty($input_pin)){
+				$this->db = dbloader("LUNA_MEMBERDB");
+				$data_save = array();
+				if(!empty($input_email)){
+					$data_save['id_email'] = $input_email;
+				} 
+				if(!empty($input_password)){
+					$data_save['id_passwd'] = $input_password;
+				}
+				$this->db->trans_begin(); 
+				$this->db->update('chr_log_info',$data_save,array(
+					'propid'=>$id
+				)); 
+				if($this->db->trans_status() === FALSE) {
+					$this->db->trans_rollback();
+					setFlashData('error', 'terjadi error (3)');
+					redirect('adm/char/'.$id); 
+				}  
+				$this->db->trans_commit(); 
+			}
+
+			if(!empty($input_email)){
+				setFlashData('success', 'Berhasil Update Email');
+			}
+			if(!empty($input_pin)){
+				setFlashData('success', 'Berhasil Update PIN');
+			}
+			if(!empty($input_password)){
+				setFlashData('success', 'Berhasil Update Password');
+			}
+			redirect('adm/char/'.$id); 
+		}
+	}
 
 	function go_make_media(){ 
 		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
@@ -373,6 +869,7 @@ class Admin_action extends AdminController {
 				$config['allowed_types'] = 'gif|jpg|png'; 
 					
 				if (count($get_media) > 0) {
+					$config['overwrite'] = TRUE;
 					$config['file_name'] = $get_media['img'];
 				} else {
 					$config['encrypt_name'] = TRUE;
@@ -420,6 +917,231 @@ class Admin_action extends AdminController {
 		}
 	}
 
+	function save_checkin_item(){ 
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+		}else{  
+			$id = $this->input->post('input_id',true);
+			$input_name = $this->input->post('input_name',true);
+			$input_is_active = $this->input->post('input_is_active',true);
+			$input_bin_code = $this->input->post('input_bin_code',true);
+			$input_qty = $this->input->post('input_qty',true);
+			$input_checkin_day = $this->input->post('input_checkin_day',true);
+			$input_description = $this->input->post('input_description',true);
+			$item_image = 'input_img';
+			if(isset($input_is_active)){
+				$input_is_active='yes';
+			}else{
+				$input_is_active='no';
+			}
+			$upload_path = "assets/frontpage/img/daily_checkin/items";
+
+			$data_save = array( 
+				'name' => $input_name,
+				'is_active' => $input_is_active,
+				'bin_code' => $input_bin_code,
+				'qty' => $input_qty,
+				'checkin_day' => $input_checkin_day,
+				'description' => $input_description,
+			);
+
+			$get_checkin = array();
+			if(isset($id) && !empty($id)){
+				$get_checkin = $this->db->get_where('daily_checkin_item',array(
+					'id'=>$id
+				))->row_array();
+				if(empty($get_checkin)){
+					setFlashData('error', 'Daily Checkin Item is not found');
+					redirect('adm/checkin_item/'.$id);
+				}
+			}
+
+			$image_name = false;
+			if (!empty($_FILES[$item_image]['name'])) {
+				if ($this->security->xss_clean($_FILES[$item_image], TRUE) === FALSE) {
+					// file failed the XSS test
+					setFlashData('error', 'file failed the security XSS test!');
+					redirect('adm/new_media');
+				}
+				$config['upload_path'] = $upload_path;
+				$config['allowed_types'] = 'gif|jpg|png'; 
+					
+				if (count($get_checkin) > 0) {
+					$config['overwrite'] = TRUE;
+					$config['file_name'] = $get_checkin['img'];
+				} else {
+					$config['encrypt_name'] = TRUE;
+				}
+
+				$this->load->library('upload', $config);
+				$this->upload->initialize($config);
+				if (!$this->upload->do_upload($item_image)) { 
+					setFlashData('error', $this->upload->display_errors());
+					if (count($get_checkin) > 0) {
+						redirect('adm/checkin_item/'.$id);
+					} else {
+						redirect('adm/checkin_item');
+					}
+				} else {
+					$result = $this->upload->data();
+					$image_name = $result['file_name'];
+					$data_save['img'] = $image_name;
+				}
+			}
+
+			$this->db = dbloader("default"); 
+			$this->db->trans_begin();
+
+			if(isset($id) && !empty($id)){
+				$data_save['modified_date'] = $GLOBALS['date_now'];
+
+				$this->db->update('daily_checkin_item',$data_save,array(
+					'id'=>$id
+				));
+				if($this->db->trans_status() === FALSE) {
+					$this->db->trans_rollback();
+					setFlashData('error', 'terjadi error..');
+					redirect('adm/checkin_item/'.$id);
+				}
+			}else{ 
+				$data_save['created_date'] = $GLOBALS['date_now'];
+
+				$this->db->insert('daily_checkin_item',$data_save);
+				if($this->db->trans_status() === FALSE) {
+					$this->db->trans_rollback();
+					setFlashData('error', 'terjadi error..');
+					redirect('adm/checkin_item');
+				}
+			}
+			$this->db->trans_commit();
+			setFlashData('success', 'berhasil save');
+			if (count($get_checkin) > 0) {
+				redirect('adm/checkin_item/'.$id);
+			} else {
+				redirect('adm/checkin_item');
+			}
+		}
+	}
+	function checkin_item_status_update($id,$stat)
+	{
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+		}else{ 
+			$do = $this->db->update('daily_checkin_item',array(
+				'is_active'=>$stat
+			),array(
+				'id'=>$id
+			));
+			json($do);
+		}
+	}
+
+	function checkin_item_delete($id)
+	{
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+		}else{ 
+			$do = $this->db->delete('daily_checkin_item',array(
+				'id'=>$id
+			));
+			json($do);
+		}
+	}
+
+	function web_config(){ 
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+		}else{
+			$input_logo_img = 'input_logo_img';
+			$input_favico_img = 'input_favico_img';
+			$data_save = array();
+			
+			$upload_path = "assets/frontpage/img/web_config";
+			if (!is_dir($upload_path)) {
+				mkdir($upload_path, 0755, TRUE);
+			}
+			
+			$get_configweb = $this->getConfigWeb(); 
+			if(empty($get_configweb)){
+				setFlashData('error_webconfig', 'Web Config tidak ditemukan..');
+				redirect('adm/web_config');
+			} 
+
+			if (!empty($_FILES[$input_logo_img]['name'])) {
+				if ($this->security->xss_clean($_FILES[$input_logo_img], TRUE) === FALSE) {
+					// file failed the XSS test
+					setFlashData('error_webconfig', 'file failed the security XSS test!');
+					redirect('adm/web_config');
+				}
+				$config['upload_path'] = $upload_path;
+				$config['allowed_types'] = 'gif|jpg|png'; 
+					
+				if (!empty($get_configweb['logo_img'])) {
+					unlink($upload_path.'/'.$get_configweb['logo_img']);
+				    $config['file_name'] = $get_configweb['logo_img'];
+				} else {
+				    $config['encrypt_name'] = TRUE;
+				}
+
+				$this->load->library('upload', $config);
+				$this->upload->initialize($config);
+				if (!$this->upload->do_upload($input_logo_img)) {
+					setFlashData('error_webconfig', $this->upload->display_errors());
+					redirect('adm/web_config');
+				} else {
+					$result = $this->upload->data();
+					$data_save['logo_img'] = $result['file_name'];
+				}
+			}
+
+			if (!empty($_FILES[$input_favico_img]['name'])) {
+				if ($this->security->xss_clean($_FILES[$input_favico_img], TRUE) === FALSE) {
+					// file failed the XSS test
+					setFlashData('error_webconfig', 'file failed the security XSS test!');
+					redirect('adm/web_config');
+				}
+				$config['upload_path'] = $upload_path;
+				$config['allowed_types'] = 'gif|jpg|png|ico'; 
+					
+				if (!empty($get_configweb['favico_img'])) {
+					unlink($upload_path.'/'.$get_configweb['favico_img']);
+				    $config['file_name'] = $get_configweb['favico_img'];
+				} else {
+				    $config['encrypt_name'] = TRUE;
+				}
+
+				$this->load->library('upload', $config);
+				$this->upload->initialize($config);
+				if (!$this->upload->do_upload($input_favico_img)) {
+					setFlashData('error_webconfig', $this->upload->display_errors());
+					redirect('adm/web_config');
+				} else {
+					$result = $this->upload->data();
+					$data_save['favico_img'] = $result['file_name'];
+				}
+			}
+
+			$this->db = dbloader("default"); 
+			$this->db->trans_begin();
+		
+			// $data_save['modified_date'] = $GLOBALS['date_now'];
+			if(!empty($data_save)){
+				$this->db->update('web_config',$data_save,array(
+					'id'=>$this->id_config_web
+				));
+				if($this->db->trans_status() === FALSE) {
+					$this->db->trans_rollback();
+					setFlashData('error_webconfig', 'terjadi error..');
+					redirect('adm/web_config');
+				}
+				
+				$this->db->trans_commit();
+			}
+			setFlashData('success_webconfig', true);
+			redirect('adm/web_config');
+		}
+	}
+
 	function go_make_article(){
 		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
 			json(false);
@@ -451,7 +1173,9 @@ class Admin_action extends AdminController {
 				$this->load->library('upload', $config);
 				$this->upload->do_upload();
 			}
-
+			if(empty($c)){
+				$c = NULL;
+			}
 			$this->load->model('admin_model');
 			$data = array('title' => $a, 'category' => $b, 'url' => $c, 'content' => $d, 'img' => $e, 'date' => $f);
 			$do = $this->admin_model->insert_article($data);
@@ -487,9 +1211,32 @@ class Admin_action extends AdminController {
 			$b = str_replace('<p>', '<p align="justify">', $b);
 			$c = $this->input->post('article_id',true);
 
+			$dir = "assets/frontpage/img/notice/";
+			$e = $dir."noimage.jpg";
+
+			if ( ! empty($_FILES['userfile'])) {
+
+				$p_img = $_FILES['userfile']['name'];
+				$ext = ".".strtolower(pathinfo($p_img, PATHINFO_EXTENSION));
+
+				$e = $dir.$c.$ext;
+
+				$config = array(
+					'allowed_types'     => 'jpg|jpeg|gif|png',
+					'max_size'          => 2048, //2MB max
+					'upload_path'       => "./".$dir,
+					'file_name'         => $c,
+					'overwrite'         => TRUE,
+				);
+				
+				$this->load->library('upload', $config);
+				$this->upload->do_upload();
+			}
+
 			$this->load->model('admin_model');
-			$info = array('title' => $a,'content' => $b);
-			$do = $this->admin_model->update_aticle($info,$c);
+			$info = array('title' => $a,'content' => $b, 'img' => $e);
+			
+			$do = $this->admin_model->update_article($info,$c);
 
 			if($do==true){
 				setFlashData('success', 'berhasil update');

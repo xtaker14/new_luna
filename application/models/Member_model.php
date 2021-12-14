@@ -154,6 +154,38 @@ class Member_model extends MY_Model
     }
   }
 
+  function change_email($code,$new_email,$pin){
+    $this->db = dbloader("default");
+    $a = $this->db->query("SELECT pin_code FROM tbl_user WHERE code = '$code' ")->row();
+    if($a){
+      if(verifyHashedPassword($pin, $a->pin_code) == true ){ 
+        $g_user = $this->db->get_where('tbl_user',array(
+          'email'=>$new_email, 
+        ));
+        $g_user = $g_user->result_array();
+        if(count($g_user)>0){
+          return array('error', 'Email already exists' ); 
+        }
+        $do = $this->db->query("UPDATE tbl_user set email = '$new_email' WHERE code = '$code' ");
+        if($do){
+          $this->db = dbloader("LUNA_MEMBERDB");
+          $do2 = $this->db->query("UPDATE chr_log_info set id_email = '$new_email' WHERE code = '$code' ");
+          if($do2){
+            return array('success', 'Success to change email.' );
+          }else{
+            return array('error', 'failed to change game email, please contact star luna admin.' );
+          }
+        }else{
+          return array('error', 'failed to change email' );
+        }
+      }else{
+        return array('error', 'wrong pin' );
+      }
+    }else{
+      return array('error', 'something error..' );
+    }
+  }
+
   function chr_teleport($user_idx){
  		$this->db = dbloader("LUNA_GAMEDB");
       $do = $this->db->query("SELECT CHARACTER_IDX,CHARACTER_NAME FROM TB_CHARACTER WHERE USER_IDX = $user_idx AND CHARACTER_STANDINDEX != 5 ")->result_array();
@@ -178,18 +210,79 @@ class Member_model extends MY_Model
       $this->db = dbloader("LUNA_MEMBERDB");
       $this->db->query("DELETE FROM chr_log_info WHERE propid = $a AND id_loginid = '$b'");
   }
-  function select_aLLmember($date=''){
-    $this->db = dbloader("LUNA_MEMBERDB");
-    $m = '';
+  function select_aLLmember($date='', $select_level=null, $input_lvl=null){
+    $this->db = dbloader("LUNA_MEMBERDB"); 
+    $s = 'cli.propid';
+    $w = '';
+    $t = 'chr_log_info cli';
+    $j = '';
+    $g = '';
+    $o = ''; 
+ 
+    if($select_level == 'all'){
+      $s .= ", cli.id_loginid, tb_level = STUFF((
+        SELECT ',' + STR(tb2.CHARACTER_MAXGRADE)
+        FROM [LUNA_GAMEDB].[dbo].[TB_CHARACTER] tb2 
+        WHERE tb2.USER_IDX = tb.USER_IDX    
+        ORDER BY tb2.CHARACTER_MAXGRADE DESC 
+        FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'), 1, 1, '') ";
+      $j .= " 
+        INNER JOIN 
+          [LUNA_GAMEDB].[dbo].[TB_CHARACTER] tb 
+        ON 
+          tb.USER_IDX = cli.id_idx 
+      "; 
+      $g .= " GROUP BY cli.propid, tb.USER_IDX, cli.id_loginid ";
+      $o .= "";
+    }else{
+      $s .= ", cli.id_loginid, tb_level = STUFF((
+        SELECT ',' + STR(tb2.CHARACTER_MAXGRADE)
+        FROM [LUNA_GAMEDB].[dbo].[TB_CHARACTER] tb2 
+        WHERE tb2.USER_IDX = tb.USER_IDX    
+        ORDER BY tb2.CHARACTER_MAXGRADE DESC 
+        FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'), 1, 1, '') ";
+      $j .= " 
+        INNER JOIN 
+          [LUNA_GAMEDB].[dbo].[TB_CHARACTER] tb 
+        ON 
+          tb.USER_IDX = cli.id_idx 
+      "; 
+      $g .= " GROUP BY cli.propid, tb.USER_IDX, cli.id_loginid ";
+      $o .= "";
+      if($input_lvl>0){
+        if(empty($w)){
+          $w = " WHERE ";
+        }else{
+          $w .= " AND ";
+        }
+        $w .= " tb.CHARACTER_MAXGRADE >= $input_lvl ";
+      }
+    }
+
     if(!empty($date)){
       if($date[0]==$date[1]){
         $date[1] = date('Y-m-d', strtotime("+1 day", strtotime($date[1])));
       }
-      $m = $this->db->query("SELECT propid FROM chr_log_info WHERE (id_regdate BETWEEN '$date[0]' AND '$date[1]') ")->result_array();
-    }else{
-      $m = $this->db->query("SELECT propid FROM chr_log_info")->result_array();
+      if(empty($w)){
+        $w = " WHERE ";
+      }else{
+        $w .= " AND ";
+      }
+      $w .= " (cli.id_regdate BETWEEN '$date[0]' AND '$date[1]') "; 
     }
-    return $m;
+
+    $sql = "
+      SELECT 
+      $s 
+      FROM 
+      $t 
+      $j 
+      $w 
+      $g 
+      $o 
+    "; 
+    $res = $this->db->query($sql)->result_array();
+    return $res;
   }
 
 }

@@ -127,7 +127,67 @@
 		document.documentElement.style.setProperty('--timer-seconds', "'" + moment().tz("Asia/Bangkok").format("ss") + "'");
 		requestAnimationFrame(updateTime);
 	}
+
+
 	$(document).ready(function(){
+		if($("#srv_status .p_online").length>0 || $("table.table_global_level_rank tbody").length>0){
+			$('html').removeClass('no-js');
+			$.getJSON(baseURL+"api/homepage", function(r){ 
+				$("#srv_status .p_online").html(r.srv.p_online);
+				$("#srv_status .account_reg").html(r.srv.account_reg);
+				$("#srv_status .char_count").html(r.srv.char_count); 
+
+				if($("table.table_global_level_rank tbody").length>0){
+					$.each(r.level_rank, function (key, val) {
+						$("table.table_global_level_rank tbody").append(
+							'<tr><td>'+val.no+
+								'</td><td>'+val.job+
+								'</td><td>'+val.name+
+								'</td><td>'+val.lvl+
+								'</td><td>'+val.exp+
+							'</td></tr>'
+						);
+					});
+					$("table.table_global_level_rank tbody td span.pointer").tooltip();
+				}
+				
+				$("img").css({
+					visibility: 'visible',
+				});
+			});
+		}
+
+		if($("#btn_userpanel").length>0){
+			$('#btn_userpanel').click(function(){
+				$('#mod_userpanel').modal('show');
+			});
+		}
+
+		if($("#btn_userpanel").length>0){
+			$('#go_logout').click(function(){
+				window.location.href = baseURL+ "go_logout";
+			});
+		}
+		
+		if($(".star_point").length>0){
+			$.ajax({
+				type : "POST",
+				dataType : "json",
+				data : {},
+				url : baseURL+"api/refresh_point",
+				success:function(res){
+					let cash_point = res.result.cash_point;
+					let silver_point = res.result.silver_point;
+					// console.log(res);
+					$(".star_point").text(f_main.numberFormatAlias(cash_point));
+					$(".star_point").parent().attr('title','Diamond : '+f_main.formatNumber(cash_point,'.'));
+
+					// $(".silver_point").text(f_main.numberFormatAlias(silver_point));
+					// $(".silver_point").parent().attr('title','Balance : '+f_main.formatNumber(silver_point,'.'));
+				}
+			});
+		}
+
 		f_main.loading(false,function(){
 			$("img").css({
 				visibility: 'visible',

@@ -107,3 +107,57 @@ $route['adm/go_add_source'] = 'admin_action/go_add_source';
 $route['adm/g_account_list'] = 'admin/g_account_list';
 $route['adm/reg_game_member'] = 'admin_action/reg_game_member';
 $route['api/del_game_member/(:num)/(:any)'] = 'admin_action/del_game_member/$1/$2';
+
+
+
+//NEW ---
+//FRONTPAGE USER
+$route['daily_login'] = 'frontpage/daily_login';
+$route['change_email'] = 'frontpage/change_email';
+$route['go_change_email'] = 'member_action/go_change_email';
+$route['user'] = 'frontpage/user';
+$route['overview'] = 'frontpage/overviewpage';
+
+//ADMIN
+$route['adm/checkin_history'] = 'admin/checkin_history';
+$route['adm/checkin_item/(:num)'] = 'admin/checkin_item/$1';
+$route['adm/checkin_item'] = 'admin/checkin_item';
+$route['adm/save_checkin_item'] = 'admin_action/save_checkin_item';
+$route['adm/checkin_item_list'] = 'admin/checkin_item_list';
+$route['adm/update_checkin_day'] = 'admin_json/update_checkin_day';
+$route['adm/my_profile'] = 'admin/my_profile';
+$route['adm/go_save_my_profile'] = 'admin_action/my_profile';
+$route['adm/char_list'] = 'admin/char_list';
+$route['adm/char/(:any)'] = 'admin/char/$1';
+$route['adm/go_update_char'] = 'admin_action/go_update_char';
+$route['adm/web_config'] = 'admin/web_config';
+$route['adm/collapse_page'] = 'admin/collapse_page';
+$route['adm/go_save_web_config'] = 'admin_json/web_config';
+$route['adm/go_save_img_web_config'] = 'admin_action/web_config';
+$route['adm/send_item_log'] = 'admin/send_item_log';
+$route['adm/top_donate/(:any)'] = 'admin/top_donate/$1';
+$route['adm/top_donate/(:any)/(:any)'] = 'admin/top_donate/$1/$2';
+$route['adm/top_donate/(:any)/(:any)/(:any)'] = 'admin/top_donate/$1/$2/$3';
+$route['adm/game_trade_log/(:any)/(:num)'] = 'admin/game_trade_log/$1/$2';
+$route['adm/game_trade_log/(:any)'] = 'admin/game_trade_log/$1';
+$route['adm/game_trade_log'] = 'admin/game_trade_log';
+$route['adm/top_donate'] = 'admin/top_donate';
+$route['adm/donate_price'] = 'admin/donate_price';
+$route['adm/new_donate_price'] = 'admin/new_donate_price';
+$route['adm/edit_donate_price/(:num)'] = 'admin/edit_donate_price/$1';
+$route['adm/go_make_donate_price'] = 'admin_json/go_make_donate_price';
+$route['adm/donate_process'] = 'admin_json/donate_process';
+$route['adm/im_edit/(:num)'] = 'admin/im_edit/$1';
+$route['adm/go_update_im/(:num)'] = 'admin_action/go_update_im/$1';
+$route['adm/im_piece_edit/(:num)'] = 'admin/im_piece_edit/$1';
+$route['adm/go_update_im_piece/(:num)'] = 'admin_action/go_update_im_piece/$1';
+$route['adm/im_log'] = 'admin/im_log';
+
+// API
+$route['api/checkin_now'] = 'frontpage_json/checkin_now';
+$route['api/donate_process_payment'] = 'frontpage_json/process_payment';
+$route['api/checkin_item_status_update/(:any)/(:any)'] = 'admin_action/checkin_item_status_update/$1/$2';
+$route['api/checkin_item_delete/(:num)'] = 'admin_action/checkin_item_delete/$1';
+$route['api/referral_delete/(:num)'] = 'admin_action/referral_delete/$1';
+$route['api/donate_price_status_update/(:any)/(:any)'] = 'admin_action/donate_price_status_update/$1/$2';
+$route['api/donate_price_delete/(:num)'] = 'admin_action/donate_price_delete/$1';

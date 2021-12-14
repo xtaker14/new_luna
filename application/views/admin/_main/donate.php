@@ -11,19 +11,17 @@
                 <table id="donate_table" class="table table-striped table-sm dt-responsive nowrap" style="width:100%">
                     <thead>
                         <tr> 
-                            <th scope="col">ID</th>
-                            <th scope="col">Admin ID</th>
+                            <th scope="col">ID</th> 
+                            <th scope="col">ByAdmin?</th>
+                            <th scope="col">Reason</th>
                             <th scope="col">Username</th>
                             <th scope="col">Bill</th>
-                            <th scope="col">Diamonds</th>
+                            <th scope="col">Points</th>
                             <th scope="col">Referral</th> 
                             <th scope="col">Payment</th> 
                             <th scope="col">Status</th>
-                            <th scope="col">Created Date</th>
-                            <th scope="col">Paid Date</th>
-                            <th scope="col">Recheck Date</th>
-                            <th scope="col">Complete Date</th>
-                            <th scope="col">Canceled Date</th>
+                            <th scope="col">Transaction Time</th>
+                            <th scope="col">Paid Date</th> 
                         </tr>
                     </thead>
                     <tbody>
@@ -31,9 +29,10 @@
                             <?php 
                                 $currency = $val['currency'];
                                 $float_num = 0;
+                                $total_bill = $val['total_bill'];
                                 if($currency === 'USD'){
-                                    $float_num = 2;
-                                }  
+                                    $float_num = 2; 
+                                } 
                                 $order_status = 0;
                                 switch ($val['status']) {
                                     case 'paid':
@@ -48,14 +47,22 @@
                                     case 'canceled':
                                         $order_status = 4;
                                         break;
-                                }    
+                                }  
+                                
+                                $byadmin_color = 'green';
+                                if($val['is_acc_by_admin'] == 'no'){
+                                    $byadmin_color = 'red';
+                                }
                             ?>
                             <tr> 
-                                <td><?= $val['id']; ?></td>
-                                <td><?= !empty($val['admin_id']) ? $val['admin_id'] : '<small>Not Yet</small>' ; ?></td>
+                                <td><?= $val['id']; ?></td> 
+                                <td>
+                                    <span style="color:<?= $byadmin_color; ?>;"><?= ucwords($val['is_acc_by_admin']); ?></span>
+                                </td> 
+                                <td><?= $val['admin_description']; ?></td>
                                 <td><?= $val['username']; ?></td>
-                                <td><?= $currency.' '.number_format($val['bill'],$float_num,',','.'); ?></td>
-                                <td><?= number_format($val['donate_price'],0,',','.'); ?></td>
+                                <td><?= $currency.' '.number_format($total_bill,$float_num,',','.'); ?></td>
+                                <td><?= number_format($val['donate_point'],0,',','.'); ?></td>
                                 <td>
                                     <?php 
                                         if(empty($val['referral_code'])){
@@ -66,43 +73,57 @@
                                     ?>
                                 </td> 
                                 <td>
-                                    <?php 
-                                        $exp_payment_method = explode('|',$val['payment_method']);
-                                        if(count($exp_payment_method)>0){
-                                            if($exp_payment_method[0] == 'BANK_TRANSFER'){
-                                                echo $exp_payment_method[1];
-                                            }else{
-                                                echo $exp_payment_method[0].'<br>'.$exp_payment_method[1];
+                                    <?php if($val['payment_method']==='qris') : ?>
+                                        ShopeePay
+                                    <?php elseif($val['payment_method']==='bank_transfer') : ?>
+                                        Bank 
+                                        <?php if(!empty($val['midtrans_va_bank'])) : ?>
+                                        (<?= strtoupper($val['midtrans_va_bank']); ?>)
+                                        <?php endif; ?>
+                                    <?php elseif($val['payment_method']==='gopay') : ?>
+                                        Gopay
+                                    <?php elseif($val['payment_method']==='echannel') : ?>
+                                        Bank (MANDIRI)
+                                    <?php elseif($val['payment_method']==='credit_card') : ?>
+                                        Credit Card
+                                    <?php else: ?>
+                                        <?php 
+                                            echo $val['payment_method']; 
+                                            if(!empty($val['cekmutasi_service_name'])){
+                                                echo '<br> With '.$val['cekmutasi_service_name']; 
                                             }
-                                        }else{
-                                            echo $val['payment_method'];
-                                        }
-                                    ?>
-                                </td>
-                                <td data-order="<?= $order_status; ?>">
-                                    <?php if($val['status'] == 'pending'): ?>
-                                        <span style="color:cadetblue;"><?= ucwords($val['status']); ?></span>
+                                        ?>
                                     <?php endif; ?>
-
-                                    <?php if($val['status'] == 'paid'): ?>
+                                </td>
+                                <td data-order="<?= $order_status; ?>"> 
+                                    <?php if($val['status'] == 'unpaid'): ?>
                                         <button onclick="popPaidDonate(<?= $val['id']; ?>);" class="btn-sm btn btn-primary" type="button">
                                             <?= ucwords($val['status']); ?>
                                         </button>
                                     <?php endif; ?>
 
-                                    <?php if($val['status'] == 'complete'): ?>
+                                    <?php if($val['status'] == 'paid'): ?>
                                         <span style="color:green;"><?= ucwords($val['status']); ?></span>
                                     <?php endif; ?>
 
                                     <?php if($val['status'] == 'canceled'): ?>
                                         <span style="color:red;"><?= ucwords($val['status']); ?></span>
                                     <?php endif; ?>
+                                    
+                                    <?php if($val['midtrans_fraud_status'] == 'challenge'): ?>
+                                        <small style="color:red;">Challenge by FDS</small>
+                                    <?php endif; ?>
                                 </td>
                                 <td><?= (!empty($val['created_date'])) ? date('d M Y H:i:s', strtotime($val['created_date'])) : '-- Empty --'; ?></td>
-                                <td><?= (!empty($val['paid_date'])) ? date('d M Y H:i:s', strtotime($val['paid_date'])) : '-- Empty --'; ?></td>
-                                <td><?= (!empty($val['recheck_date'])) ? date('d M Y H:i:s', strtotime($val['recheck_date'])) : '-- Empty --'; ?></td>
-                                <td><?= (!empty($val['complete_date'])) ? date('d M Y H:i:s', strtotime($val['complete_date'])) : '-- Empty --'; ?></td>
-                                <td><?= (!empty($val['canceled_date'])) ? date('d M Y H:i:s', strtotime($val['canceled_date'])) : '-- Empty --'; ?></td>
+                                <td>
+                                    <?php
+                                    if($val['is_acc_by_admin'] == 'no'){
+                                        echo (!empty($val['cekmutasi_payment_date'])) ? date('d M Y H:i:s', strtotime($val['cekmutasi_payment_date'])) : '-- Empty --';
+                                    } else {
+                                        echo (!empty($val['complete_date'])) ? date('d M Y H:i:s', strtotime($val['complete_date'])) : '-- Empty --';
+                                    }
+                                    ?>
+                                </td> 
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -110,6 +131,26 @@
             </div>
         </div>
 	</div>
+</div>
+
+<div class="modal fade" id="modal_donate_description" tabindex="-1" role="dialog" aria-labelledby="modal_donate_description_title" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_donate_description_title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label>Catatan (Optional)</label>
+                <textarea name="input_description" id="input_description" class="form-control" rows="10"></textarea>
+            </div>
+            <div class="modal-footer"> 
+                <button type="button" id="btn_submit_description" class="btn btn-success">Submit</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript"> 
@@ -145,8 +186,7 @@ $(document).ready(function(){
 }); 
 
 function popPaidDonate(id){
-    let donate_popup = $("#donate_popup");
-    let status = 'paid'; 
+    let donate_popup = $("#donate_popup"); 
     let to_status = '';
 
     // f_main.loading(true);
@@ -157,72 +197,91 @@ function popPaidDonate(id){
         buttons: { 
             button_1: {text:'Close Modal', className:'btn-black'}, 
             button_2: {text:'Canceled', className:'btn-danger'}, 
-            button_3: {text:'Complete', className:'btn-success'}, 
+            button_3: {text:'Paid', className:'btn-success'}, 
         },
     })
     .then((value) => {
         switch (value) {
             case 'button_2':  
-                to_status = 'canceled';
-                $.ajax({
-                    type : "POST",
-                    dataType : "json",
-                    data : {
-                        donate_id : id, 
-                        to_status : to_status,
-                    },
-                    url : baseURL+"adm/donate_process/"+status,
-                    success:function(res){  
-                        if(res.result){
-                            swal("Successfull",
-                                "Successfully changing status to "+to_status,
-                                "success",
-                            {
-                                buttons: { 
-                                    button_1: "OK", 
-                                },
-                            })
-                            .then((value) => {
-                                switch (value) {
-                                    default:
-                                        window.location.reload();
-                                        break;
-                                    }
-                            }); 
-                        } 
-                    }
-                });
+                $("#modal_donate_description_title").text("Cancel");
+                $("#modal_donate_description").modal('show');
+
+                $("#btn_submit_description").off('click');
+                $("#btn_submit_description").click(function(){
+                    let descr = $("#modal_donate_description #input_description").val().trim();
+                    
+                    to_status = 'canceled';
+                    $.ajax({
+                        type : "POST",
+                        dataType : "json",
+                        data : {
+                            donate_id : id, 
+                            to_status : to_status,
+                            description : descr,
+                        },
+                        url : baseURL+"adm/donate_process",
+                        success:function(res){  
+                            if(res.result){
+                                swal("Successfull",
+                                    "Successfully changing status to "+to_status,
+                                    "success",
+                                {
+                                    buttons: { 
+                                        button_1: "OK", 
+                                    },
+                                })
+                                .then((value) => {
+                                    switch (value) {
+                                        default:
+                                            window.location.reload();
+                                            break;
+                                        }
+                                }); 
+                            } 
+                        }
+                    });
+                }); 
+                
                 break;
             case 'button_3': 
-                to_status = 'complete';
-                $.ajax({
-                    type : "POST",
-                    dataType : "json",
-                    data : {
-                        donate_id : id, 
-                        to_status : to_status,
-                    },
-                    url : baseURL+"adm/donate_process/"+status,
-                    success:function(res){  
-                        if(res.result){
-                            swal("Successfull",
-                                "Successfully sending Diamonds and changing status to "+to_status,
-                                "success",
-                            {
-                                buttons: { 
-                                    button_1: "OK", 
-                                },
-                            })
-                            .then((value) => {
-                                switch (value) {
-                                    default:
-                                        window.location.reload();
-                                        break;
-                                    }
-                            }); 
-                        } 
-                    }
-                });
+                $("#modal_donate_description_title").text("Paid");
+                $("#modal_donate_description").modal('show');
+
+                $("#btn_submit_description").off('click');
+                $("#btn_submit_description").click(function(){
+                    let descr = $("#modal_donate_description #input_description").val().trim();
+                    to_status = 'paid';
+
+                    $.ajax({
+                        type : "POST",
+                        dataType : "json",
+                        data : {
+                            donate_id : id, 
+                            to_status : to_status,
+                            description : descr,
+                        },
+                        url : baseURL+"adm/donate_process",
+                        success:function(res){  
+                            if(res.result){
+                                swal("Successfull",
+                                    "Successfully sending Diamonds and changing status to "+to_status,
+                                    "success",
+                                {
+                                    buttons: { 
+                                        button_1: "OK", 
+                                    },
+                                })
+                                .then((value) => {
+                                    switch (value) {
+                                        default:
+                                            window.location.reload();
+                                            break;
+                                        }
+                                }); 
+                            } 
+                        }
+                    });
+                }); 
                 break;
             }
     }); 

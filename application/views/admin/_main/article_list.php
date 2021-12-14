@@ -25,9 +25,10 @@ $view_list .='
 <div class="container-fluid mb-4 mt-2">
 	<div class="row">
 		<div class="col-md-12">
-			<div class="card">
-				<div class="card-header bg-white">
-					<h4>Article List</h4>
+			<div class="card"> 
+				<div class="card-header bg-white d-md-flex">
+					<div class="col"><h4>Article List</h4></div>
+					<div class="col"><a class="btn btn-primary my-2 float-md-right" href="<?= base_url('adm/new_article') ?>">Make New Article</a></div>
 				</div>
 				<div class="card-body col-xs-0">
 					<table id="article_list" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">

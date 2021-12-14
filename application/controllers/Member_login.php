@@ -50,7 +50,7 @@ class Member_login extends CI_Controller {
                     $check_user = $this->member_model->select_idx($id_loginid);
                     if(!empty($check_user)){                    
                         setFlashData('error', 'Username is not avaliable..');
-                        redirect(base_url());
+                        redirect(base_url('register'));
                     }else{
                         $this->load->helper('string');
                         $data = array($id_loginid, $id_email, $id_passwd, $pin_code);
@@ -60,7 +60,7 @@ class Member_login extends CI_Controller {
             				redirect(base_url());
             			}else{
                             setFlashData('error', 'Something error..');
-            				redirect(base_url());
+            				redirect(base_url('register'));
             			}
                     }
         		}
@@ -106,9 +106,9 @@ class Member_login extends CI_Controller {
                                     );
                         $this->session->set_userdata($sess);
                         setFlashData('success', 'You are login as '.$id_loginid.'.');
-                        redirect(base_url());
+                        redirect(base_url('daily_login'));
                     }else{
-                        setFlashData('error', 'User id or password mismatch');                
+                        setFlashData('error', 'Username or password mismatch');                
                         redirect(base_url('login'));
                     }
                 }

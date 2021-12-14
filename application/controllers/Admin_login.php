@@ -20,7 +20,9 @@ class Admin_login extends AdminController {
                     'name' => $this->security->get_csrf_token_name(),
                     'hash' => $this->security->get_csrf_hash()
             );
-
+		
+            $config_web = $this->getConfigWeb(true);
+            $data['config_web'] = $config_web;
             $this->load->view('admin/login',$data);
         }
     }

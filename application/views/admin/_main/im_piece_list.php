@@ -16,7 +16,7 @@ $list .='
     <td>'.$piece_name.'</td>
     <td>'.$price.'</td>
     <td>
-    <a class="btn btn-primary btm-tabel btn-sm" href="'.$edit_url.'" ><i class="fas fa-edit text-white"></i></a>
+    <a target="_BLANK" class="btn btn-primary btm-tabel btn-sm" href="'.$edit_url.'" ><i class="fas fa-edit text-white"></i></a>
     <button class="im_piece_delete btn btn-danger btm-tabel btn-sm" data-id="'.$id.'" ><i class="fas fa-times text-white"></i></button>
     </td>
 </tr>';

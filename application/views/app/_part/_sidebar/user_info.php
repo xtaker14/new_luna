@@ -31,17 +31,17 @@
 							</span><i class="fas fa-gem ml-1" data-fa-transform="rotate-30"></i>
 						</label>
 					</td>
-			    </tr>
-			    <tr>
-			        <td>Silver<span class="float-sm-right">:</span></td>
-			        <td>
-						<label title="<?= 'Balance : '.number_format($silver_point,0,'','.'); ?>" class="">
-							<span class="silver_point">
-								<?= number_format($silver_point,0,'','.'); ?>
-							</span><i class="fa fa-coins ml-2" data-fa-transform="rotate-30"></i>
-						</label>
-					</td>
-			    </tr>
+			    </tr> 
+				<?php if(!empty($user_login['referral_code'])): ?> 
+					<tr>
+						<td>Referral<span class="float-sm-right">:</span></td>
+						<td>
+							<a style="border-bottom: 1px solid #007bff;" target="_BLANK" href="<?= base_url('user'); ?>">
+								<?= $user_login['referral_code']; ?>
+							</a> 
+						</td>
+					</tr>
+				<?php endif; ?>
 			</tbody>
 		</table>
 		<div class="d-flex">
@@ -52,22 +52,22 @@
 </div>
 
 <script> 
-	$(document).ready(function(){
-		$.ajax({
-			type : "POST",
-			dataType : "json",
-			data : {},
-			url : baseURL+"api/refresh_point",
-			success:function(res){
-				let star_point = res.result.star_point;
-				let silver_point = res.result.silver_point;
-				// console.log(res);
-				$(".star_point").text(f_main.numberFormatAlias(star_point));
-				$(".star_point").parent().attr('title','Balance : '+f_main.formatNumber(star_point,'.'));
+	// $(document).ready(function(){
+	// 	$.ajax({
+	// 		type : "POST",
+	// 		dataType : "json",
+	// 		data : {},
+	// 		url : baseURL+"api/refresh_point",
+	// 		success:function(res){
+	// 			let star_point = res.result.star_point;
+	// 			let silver_point = res.result.silver_point;
+	// 			// console.log(res);
+	// 			$(".star_point").text(f_main.numberFormatAlias(star_point));
+	// 			$(".star_point").parent().attr('title','Balance : '+f_main.formatNumber(star_point,'.'));
 
-				$(".silver_point").text(f_main.numberFormatAlias(silver_point));
-				$(".silver_point").parent().attr('title','Balance : '+f_main.formatNumber(silver_point,'.'));
-			}
-		});
-	});
+	// 			$(".silver_point").text(f_main.numberFormatAlias(silver_point));
+	// 			$(".silver_point").parent().attr('title','Balance : '+f_main.formatNumber(silver_point,'.'));
+	// 		}
+	// 	});
+	// });
 </script>

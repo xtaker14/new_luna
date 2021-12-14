@@ -37,6 +37,8 @@
             Others
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="<?= base_url('overview') ?>">Information</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="<?= base_url('media') ?>">Media</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="<?= base_url('p/terms-of-services') ?>">Terms Of Services</a>

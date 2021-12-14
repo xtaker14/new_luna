@@ -1,7 +1,13 @@
-<div class="card">
+<div class="card" data-aos="fade-left" data-aos-delay="0" style="margin-top: 30px;">
   <div class="card-header bg-white" align="center">
-    <h4 class="text-secondary"><b><img src="<?= base_url('assets/frontpage/img/icon/natsu.png'); ?>" width="40" height="40">User Login</b></h4>
-  </div>
+    <div class="box_header_title">
+      <span></span>
+      <span></span> 
+      <div class="content_header_title">
+        <h2><img src="<?= base_url('assets/frontpage/img/icon/natsu.png'); ?>" width="30">User Login</h2> 
+      </div>
+    </div>
+	</div>
 	<div class="card-body">
     <div class="row">
       <div class="col-md-6 offset-md-3 my-4">
@@ -13,7 +19,7 @@
                     <i class="fas fa-user-circle"></i>
                   </div>
                 </div>
-              <input class="form-control" type="text" name="user_id" placeholder="user id" minlength="4" maxlength="16" required>
+              <input class="form-control" type="text" name="user_id" placeholder="Username" minlength="4" maxlength="16" required>
             </div>
           </div>
           <div class="form-group">
@@ -23,7 +29,7 @@
               <i class="fas fa-shield-alt"></i>
                   </div>
                 </div>
-              <input class="form-control" type="password" name="password" placeholder="password" minlength="6" maxlength="16"  required>
+              <input class="form-control" type="password" name="password" placeholder="Password" minlength="6" maxlength="16"  required>
             </div>      
           </div>
           <input type="hidden" name="<?= $xepo_secure['name'] ?>" value="<?= $xepo_secure['hash'] ?>">

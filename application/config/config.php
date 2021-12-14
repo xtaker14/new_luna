@@ -3,10 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 date_default_timezone_set("Asia/Jakarta");
 
-// $config['base_url'] = 'https://zoneluna.com/';
-$b_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
-$b_url .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
-$config['base_url'] = $b_url;
+$config['base_url'] = '';
+if(isset($_SERVER) && isset($_SERVER['HTTP_HOST'])){
+    $b_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'];
+    $b_url .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
+    $config['base_url'] = $b_url;
+}
 
 $config['index_page'] = '';
 
@@ -22,7 +24,7 @@ $config['enable_hooks'] = TRUE;
 
 $config['subclass_prefix'] = 'MY_';
 
-$config['composer_autoload'] = TRUE;
+$config['composer_autoload'] = "vendor/autoload.php"; 
 
 $config['permitted_uri_chars'] = "a-z 0-9~%.:_\-!,&|";
 
@@ -70,7 +72,7 @@ $config['standardize_newlines'] = FALSE;
 $config['global_xss_filtering'] = FALSE;
 
 
-$csrf_pages = array("/adm/","/api/");
+$csrf_pages = array("/adm/","/api/","/load_view/","/cekmutasi2/");
 $config['csrf_protection'] = TRUE;
 if (isset($_SERVER["REQUEST_URI"])) {
     foreach ($csrf_pages as $url){
