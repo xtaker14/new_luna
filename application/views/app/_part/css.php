@@ -35,6 +35,18 @@
     color: #eee;
 }
 
+#tbl_media_ss_table .gallery{
+	/* margin-top: 3px;
+	margin-bottom: 3px; */
+	margin: 3px;
+}
+#tbl_media_ss_table .gallery-image{
+	border-top: 1px dashed #fff;
+	border-bottom: 1px dashed #fff;
+	border-right: 1px dashed #fff;
+	border-left: 1px dashed #fff;
+}
+
 .parent_nav nav.navbar.navbar-dark{
 	background-image: linear-gradient(#477cb2, #366ba1);
 	box-shadow: 0 0.150rem 0.50rem rgba(0,0,0,.2) !important;
