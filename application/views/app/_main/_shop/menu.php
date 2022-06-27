@@ -11,7 +11,8 @@
     font-size: 12px;
     display: inline-block;
     width: 88px;
-    height: 66px;
+    /* height: 66px; */
+    height: 78px;
     padding: 0;
     text-align: center;
     /* border: 0 solid #9b9b9b; */
@@ -24,44 +25,46 @@
     font-weight:bold;
 }
 .category-image{
-    width: 55px;
-    height: 42px;
+    /* width: 55px;
+    height: 42px; */
+    width: 60px;
+    height: 55px;
     margin: 0 auto;
     /* background: url("<?= base_url('assets/frontpage/img/shop/im-category.png') ?>") no-repeat; */
 }
 .category-image.cat1{
-    background: url("<?= base_url('assets/frontpage/img/shop/menu/equipment/3.png') ?>") no-repeat;
-    background-size: contain;
+    background: url("<?= base_url('assets/frontpage/img/shop/menu/equipments/3.png') ?>") no-repeat;
+    background-size: cover;
     background-position: center;
     /* background-position: 0 -42px; */
 }
 .category-image.cat2{
-    background: url("<?= base_url('assets/frontpage/img/shop/menu/costume/4.png') ?>") no-repeat;
-    background-size: contain;
+    background: url("<?= base_url('assets/frontpage/img/shop/menu/costumes/4.png') ?>") no-repeat;
+    background-size: cover;
     background-position: center;
     /* background-position: 0 -84px; */
 }
 .category-image.cat3{
-    background: url("<?= base_url('assets/frontpage/img/shop/menu/costume/4.png') ?>") no-repeat;
+    background: url("<?= base_url('assets/frontpage/img/shop/menu/accesories/4.png') ?>") no-repeat;
     background-size: contain;
     background-position: center;
     /* background-position: 0 -252px; */
 }
 .category-image.cat4{
-    background: url("<?= base_url('assets/frontpage/img/shop/menu/consumable/11.png') ?>") no-repeat;
+    background: url("<?= base_url('assets/frontpage/img/shop/menu/consumables/11.png') ?>") no-repeat;
     background-size: contain;
     background-position: center;
     /* background-position: 0 -168px; */
 }
 .category-image.cat5{
-    background: url("<?= base_url('assets/frontpage/img/shop/menu/costume/4.png') ?>") no-repeat;
-    background-size: contain;
+    background: url("<?= base_url('assets/frontpage/img/shop/menu/cloaks/1.png') ?>") no-repeat;
+    background-size: cover;
     background-position: center;
     /* background-position: 0 -210px; */
 }
 .category-image.cat6{
-    background: url("<?= base_url('assets/frontpage/img/shop/menu/costume/4.png') ?>") no-repeat;
-    background-size: contain;
+    background: url("<?= base_url('assets/frontpage/img/shop/menu/others/1.png') ?>") no-repeat;
+    background-size: cover;
     background-position: center;
     /* background-position: 0 0; */
 }
