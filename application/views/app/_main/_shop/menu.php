@@ -102,7 +102,8 @@
         $im_cat_counter++;
         ?>
             <li class="cat_icon pointer <?= $im_cat_counter === 1 ? 'active' : ''; ?>" data-id="<?= $key['id']; ?>" data-category="<?= $key['categoryname']; ?>">
-                <div class="category-image cat<?= $im_cat_counter; ?>"></div>
+                <div class="category-image cat<?= $im_cat_counter; ?>" style="border: 2px solid black;border-radius: 3px;background-color: black;box-shadow: 0 2px 15px 1px rgba(14, 43, 69, 0.75);">
+                </div>
                 <?= $key['categoryname']; ?>
             </li>
         <?php 
