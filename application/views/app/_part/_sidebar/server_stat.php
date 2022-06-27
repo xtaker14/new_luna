@@ -1,79 +1,35 @@
-<div data-aos="fade-right" data-aos-delay="300" id="srv_status" class="card shadow-sm mb-3 p-1" style="margin-top: 30px;">
-  <div class="card-body bg-light text-dark">   
-
-	<div class="box_header_title">
-		<span></span>
-		<span></span> 
-		<div class="content_header_title">
-			<h2><img src="<?= base_url('assets/frontpage/img/icon/ichigo.png'); ?>" width="30">&nbsp;Server Information</h2> 
-		</div>
-	</div>
-    
-	<!--<li class="list-group-item border-top-1 border-right-1 border-left-1 "></li>--> 
-	<li class="list-group-item border-0 py-0">
-		<div class="clock-container">
-			<div class="clock-col">
-				<p class="clock-day clock-timer">
-				</p>
-				<p class="clock-label">
-				Day
-				</p>
-			</div>
-			<div class="clock-connector"><p>:</p></div>
-			<div class="clock-col">
-				<p class="clock-hours clock-timer">
-				</p>
-				<p class="clock-label">
-				Hrs
-				</p>
-			</div>
-			<div class="clock-connector"><p>:</p></div>
-			<div class="clock-col">
-				<p class="clock-minutes clock-timer">
-				</p>
-				<p class="clock-label">
-				Mins
-				</p>
-			</div>
-			<div class="clock-connector"><p>:</p></div>
-			<div class="clock-col">
-				<p class="clock-seconds clock-timer">
-				</p>
-				<p class="clock-label">
-				Secs
-				</p>
+<div data-aos="fade-right" data-aos-delay="300" id="srv_status" class="card shadow-sm p-1" style="">
+	<div class="card-body" style="padding-top: 10px; background: #2a88ed; border-radius:4px;">   
+		<div class="d-md-flex p-2" style="padding-top: 0px !important; padding-bottom: 7px !important;"> 
+			<div class="d-block" style="width: 100%;">
+				<img class="float-left mr-2" src="<?= CDN_IMG.('assets/frontpage/img/nav/wing.png'); ?>" style="width: 45px;height: 40px;margin-top:-9px;">    
+				<h3 style="padding-bottom:5px;margin:0px;color:#fff;" class="border-bottom">
+					<b>Server Info</b>
+				</h3>
 			</div>
 		</div>  
-	</li>
-	<li class="list-group-item border-0 py-2">
-		<h4 style="margin-bottom: 0px; margin-top: 5px; text-align:center; background: -webkit-linear-gradient(#90aef0, #36d1dc); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"><?= date('d M Y'); ?></h4>
-	</li>
-	<li class="list-group-item border-0 py-2"><hr></li>
+		
+		<li class="list-group-item border-0 py-0" style="text-align: center;color:#fff;">
+			<b><?= $config_web['server_location']; ?></b>
+		</li> 
+		<li class="list-group-item border-0 py-0">
+			<hr style="border:1px dashed #D8D5C7;width:100%;max-width:100%;background-color:transparent;margin-top:10px;margin-bottom:10px;">
+		</li> 
+		<li class="list-group-item border-0 py-0" style="color: #06218d;">
+			<?= $config_web['server_cap_lvl']; ?>
+		</li>
+		<li class="list-group-item border-0 py-0" style="color: #0b2eb6;">
+			EXP Rate : 
+			<span class="text-warning"><b><?= $config_web['server_exp']; ?></b></span>
+		</li>
+		<li class="list-group-item border-0 py-0" style="color: #0b2eb6;">
+			Gold Rate : 
+			<span class="text-warning"><b><?= $config_web['server_gold']; ?></b></span>
+		</li>
+		<li class="list-group-item border-0 py-0" style="color: #0b2eb6;">
+			Drop Rate : 
+			<span class="text-danger"><b><?= $config_web['server_drop']; ?></b></span>
+		</li>
 	
-	<li class="list-group-item border-0 py-2">
-		<b><?= $config_web['server_location']; ?></b>
-	</li>
-	<li class="list-group-item border-0 py-2">Server status : <span class="text-success"><b>Online</b></span></li>
-	<li class="list-group-item border-0 py-2">Player Online : <span class="p_online">1000</span></li>
-	<li class="list-group-item border-0 py-2"><hr></li>
-	<!--<li class="list-group-item border-top-1 border-right-1 border-left-1 "></li>-->
-	<!--<li class="list-group-item border-0 py-0 ">Registered : <span class="account_reg">1000</span></li>-->
-	<!--<li class="list-group-item border-0 py-0">Characters :<span class="char_count">1000</span></li> -->
-	<li class="list-group-item border-0 py-0">
-		<?= $config_web['server_cap_lvl']; ?>
-	</li>
-	<li class="list-group-item border-0 py-0">
-		EXP Rate : 
-		<span class="text-warning"><b><?= $config_web['server_exp']; ?></b></span>
-	</li>
-	<li class="list-group-item border-0 py-0">
-		Gold Rate : 
-		<span class="text-info"><b><?= $config_web['server_gold']; ?></b></span>
-	</li>
-	<li class="list-group-item border-0 py-0">
-		Drop Rate : 
-		<span class="text-danger"><b><?= $config_web['server_drop']; ?></b></span>
-	</li>
-  
-  </div>
+	</div>
 </div> 

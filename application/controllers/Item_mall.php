@@ -95,20 +95,33 @@ class Item_mall extends FrontLib {
         }
         $price_min = min(array_column($ar_price, 'price'));
         $price_max = max(array_column($ar_price, 'price'));
-        $price_range = $price_min .' <i class="fas fa-angle-right" style="padding-top:2px;"></i> '. $price_max;
+        $price_min = number_format($price_min,0, ',', '.');
+        $price_max = number_format($price_max,0, ',', '.');
+        $price_range = $price_min;
+        if($price_min != $price_max){
+            // $price_range .= ' <i class="fas fa-angle-right" style="padding-top:2px;"></i> '. $price_max;
+            $price_range .= ' - '. $price_max;
+        }
 
         $silver_price_min = min(array_column($ar_price, 'silver_price'));
         $silver_price_max = max(array_column($ar_price, 'silver_price'));
-        $silver_price_range = $silver_price_min .' <i class="fas fa-angle-right" style="padding-top:2px;"></i> '. $silver_price_max;
+        $silver_price_min = number_format($silver_price_min,0, ',', '.');
+        $silver_price_max = number_format($silver_price_max,0, ',', '.');
+        $silver_price_range = $silver_price_min;
+        if($silver_price_min != $silver_price_max){
+            $silver_price_range .= ' <i class="fas fa-angle-right" style="padding-top:2px;"></i> '. $silver_price_max;
+        }
 
         $append_btn = $this->load->view("app/_part/button_border.php",array(
-            'part_bb_txt'=> '<b>BUY NOW</b>',
+            // 'part_bb_txt'=> '<b>BUY NOW</b>',
+            'part_bb_txt'=> '<b>'.$price_range.'<i class="fas fa-gem ml-1" data-fa-transform="rotate-30"></i></b>',
             'part_bb_element'=> 'button',
             'part_bb_type'=> 'button',
-            'part_bb_style'=> 'width:100%; margin-top:10px;',
-            'part_bb_class'=> 'view_detail btn-buy-item btn-hover color-blue',
+            'part_bb_style'=> 'width:100%; margin-top:10px; height: 45px; font-size: 12px;',
+            'part_bb_class'=> 'view_detail btn-buy-item btn-one btn-darker',
             'part_bb_attr_plus'=> "data-itemid=\"".$val['itemid']."\"",
         ),true);
+
         // return '
         //     <div class="col-md-3 mb-2 p-1">
         //         <div class="im_card card border border pb-2" align="center">
@@ -130,9 +143,10 @@ class Item_mall extends FrontLib {
         //         </div> 
         //     </div>
         // ';
+        
         return '
-            <div class="col-md-3 mb-2 p-1">
-                <div class="im_card card border border pb-2" align="center">
+            <div class="col-md-3 mb-2 p-1 im_list_item">
+                <div class="im_card card border border pb-2" align="center" style="background: #fffde8;">
                     '.$badge.'
                     <div class="im_imgcover d-block">
                         <img class="card-img rounded" style="width:150px;height:auto;" src="'.CDN_IMG.$val['itemimage'].'" alt="--No Image--" >
@@ -141,9 +155,11 @@ class Item_mall extends FrontLib {
                         <div title="'.$val['itemname'].'" class="d-block" style="height:30px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; padding-left: 10px; padding-right: 10px;">
                             <small class="text-primary">'.$val['itemname'].'</small>
                         </div>
+                        <!-- 
                         <div class="d-block">
-                            <span style="font-size: 14px; color:#3c840b !important; font-family:Tahoma, sans-serif;">'.number_format($price_range,0, ',', '.').'<i class="fas fa-gem ml-1" data-fa-transform="rotate-30"></i></span>
-                        </div>
+                            <span style="font-size: 14px; color:#3c840b !important; font-family:Tahoma, sans-serif;">'.$price_range.'<i class="fas fa-gem ml-1" data-fa-transform="rotate-30"></i></span>
+                        </div> 
+                        -->
                         '.$append_btn.'
                     </div>
                 </div> 
@@ -160,34 +176,36 @@ class Item_mall extends FrontLib {
             $effect = "";
             if(!empty($im['itemsetopt'])){
                 $effect = '
-                <label>Effect : </label><br>
-                <label class="opt-box p-2">
+                <!-- <label>Effect : </label><br> -->
+                <div class="opt-box p-2">
                 '.nl2br($im['itemsetopt']).'
-                </label>';
+                </div>';
             }
 
-            $button = '<label><b>Please login to buy this item..</b></label>';
+            $button = '<label style="color: #f1a6a6; text-shadow: 2px 2px 4px #464343;"><b>Login First To Buy!</b></label>';
             $stat = false;
             if(!empty($this->usr_session)){
                 $append_btn = $this->load->view("app/_part/button_border.php",array(
-                    'part_bb_txt'=> '<b>BUY NOW</b>',
+                    'part_bb_txt'=> 'BUY <b>NOW</b>',
                     'part_bb_element'=> 'button',
                     'part_bb_type'=> 'submit',
-                    'part_bb_style'=> 'width:100%; margin-top:10px;',
-                    'part_bb_class'=> 'view_detail btn-buy-item btn-hover color-blue', 
+                    'part_bb_style'=> 'width:100%; margin-top:10px; height: 45px; font-size: 14px;',
+                    'part_bb_class'=> 'view_detail btn-buy-item btn-one btn-darker', 
                 ),true);
 
                 $button = '
                 <div class="form-group">
-                    <label for="pin">Your PIN code : </label>
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <div class="input-group-text">
                                 <i class="fas fa-lock"></i>
                             </div>
                         </div>
-                        <input class="form-control" type="text" name="pin" pattern="[0-9]{6}" title="number 6 digits" placeholder="Pin code" minlength="6" maxlength="6" required>
+                        <input class="form-control" type="text" name="pin" pattern="[0-9]{6}" title="number 6 digits" placeholder="PIN Code" minlength="6" maxlength="6" required>
                     </div>
+
+                    <small style="color: #f1a6a6; text-shadow: 2px 2px 4px #464343;"><b>*6 digits number only, for buy item mall</b></small>
+
                 </div>
                 <input type="hidden" id="g_recaptcha" name="g-recaptcha-response">
                 '.$append_btn;
@@ -252,9 +270,9 @@ class Item_mall extends FrontLib {
     }
 
     function piece_html($id,$name,$price,$silver_price,$img,$checked,$piece_opt){  
-        if(empty($piece_opt)){
-            $piece_opt = '<small style="color:silver;">-- Empty --</small>';
-        }
+        // if(empty($piece_opt)){
+        //     $piece_opt = '<small style="color:silver;">-- Empty --</small>';
+        // }
     //     return '
     //         <li>
     //             <label class="piece_item pointer d-block">
@@ -287,30 +305,39 @@ class Item_mall extends FrontLib {
     //   ';
 
         // $img = base_url('assets/frontpage/img/help.png');
+
+        $attrs = '';
+        if(!empty($piece_opt)){
+            $attrs = '
+            <tr>
+                <td style="padding-left: 0px;">
+                    <div class="opt-box p-2">
+                        <span>Attributes : '.$piece_opt.'</span>
+                    </div>
+                </td>
+            </tr>';
+        }
+
         return '
             <li>
                 <label class="piece_item pointer d-block">
-                    <table class="table" style="border:1px solid silver;">
+                    <table class="table" style="border:1px solid silver; background: #fffde8;">
                         <tr>
                             <td style="border-top:none; vertical-align:middle; width:50px;" rowspan="3">
                                 <input type="radio" id="piece_radio" name="piece_item" value="'.$id.'" '.$checked.'>
                             </td>
-                            <td style="border-top:none;">
+                            <td style="padding-left: 0px; border-top:none;">
                                 <img src="'.$img.'">
                                 <span>&nbsp;'.$name.'</span>
                             </td>
                         </tr>
                         <tr>
-                            <td>
-                                <span>Attributes : '.$piece_opt.'</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Price : <br>
+                            <td style="padding-left: 0px;">
+                                Price : 
                                 <span class="text-primary" style="font-size: 14px; color:#3c840b !important; font-family:Tahoma, sans-serif;">'.number_format($price,0, ',', '.').'<i class="fas fa-gem ml-1" data-fa-transform="rotate-30"></i></span>
                             </td>
                         </tr>
+                        '.$attrs.'
                     </table>
                 </label>
             </li>

@@ -31,15 +31,30 @@ $favico = CDN_IMG.($upload_path.'/'.$config_web['favico_img']);
 		<div class="fa-4x"><i class="fas fa-cog fa-spin text-white"></i></div>
 		<div class="fa-2x"><i class="fas fa-cog fa-spin text-white"></i></div>
 	</div> -->
+	
 	<div id="preloader">
-		<span></span>
-		<span></span>
-		<span></span>
-		<span></span>
-		<span></span>
+		<div style="position: relative;"> 
+			<div class="parent_img_fly_city loader_fly_city" style="z-index:-1;">
+				<img src="<?= CDN_IMG.('assets/frontpage/img/fly_city.png'); ?>" style="margin-top: -120px;" />
+			</div>
+			<h1 style="z-index:1;">  
+				Loading
+				<div class="dots ">
+					<span class="dot z"></span><span class="dot f"></span><span class="dot s"></span><span class="dot t"><span class="dot l"></span></span>
+				</div>
+			</h1> 
+		</div>
 	</div>
 	
-	<main>
+	<main> 
+		<div class="" style="display: flex;position:absolute;z-index:1000;width:100%;">
+			<div class="left_main_navbar" style="margin:0; padding:0;"> 
+			</div>
+			<div class="col-md-12 right_main_navbar" style="margin:0; padding:0;">
+				<?php $this->load->view("app/_part/navbar.php") ?>	
+			</div>
+		</div>
+		
 		<!-- <div class="container">  -->
 		<div class="">
 
@@ -51,27 +66,27 @@ $favico = CDN_IMG.($upload_path.'/'.$config_web['favico_img']);
 					<img src="<?= $logo_img; ?>" class="img-fluid image_logo_mobile" data-no-retina />
 				</a>
 
-				<img src="<?= base_url('assets/frontpage/img/characters.png'); ?>" class="img-fluid image_logo_char" data-aos="fade-down-left" />
+				<!-- <img src="<?= base_url('assets/frontpage/img/characters.png'); ?>" class="img-fluid image_logo_char" data-aos="fade-down-left" /> -->
 
-				<div class="clouds">
+				<!-- <div class="clouds">
 					<img style="--i:1;" src="<?= base_url('assets/frontpage/img/clouds/cloud1.png'); ?>">
 					<img style="--i:2;" src="<?= base_url('assets/frontpage/img/clouds/cloud2.png'); ?>">
 					<img style="--i:3;" src="<?= base_url('assets/frontpage/img/clouds/cloud3.png'); ?>">
 					<img style="--i:4;" src="<?= base_url('assets/frontpage/img/clouds/cloud4.png'); ?>">
 					<img style="--i:5;" src="<?= base_url('assets/frontpage/img/clouds/cloud5.png'); ?>">
-				</div>
+				</div> -->
 			</div> 
 		</div>
-		<div class="d-block bg-blue-gradient parent_main_navbar" align="center">
+
+		<!-- <div class="d-block bg-blue-gradient parent_main_navbar" align="center">
 			<div class="container" style="display: flex;position:relative">
+				<div class="col-md-8 right_main_navbar" style="margin:0; padding:0;">
+					<?php //$this->load->view("app/_part/navbar.php") ?>	
+				</div>
 				<div class="col-md-4 left_main_navbar" style="margin:0; padding:0;"> 
 				</div>
-				<div class="col-md-8 right_main_navbar" style="margin:0; padding:0;">
-					<?php $this->load->view("app/_part/navbar.php") ?>	
-				</div>			
-				</div>
 			</div>
-		</div>
+		</div> -->
 		
 		<?php if($this->session->flashdata('success') || $this->session->flashdata('error')): ?>
 			<!-- <div class="d-block" align="center"> -->
@@ -80,16 +95,30 @@ $favico = CDN_IMG.($upload_path.'/'.$config_web['favico_img']);
 		<?php endif; ?>
 	
 		<div class="container main_content mb-4" >
+			<?php 
+				$mb_main_content = 'mb-3';
+				if($php_name == 'homepage'){
+					$mb_main_content = 'mb-2';
+				}
+			?>
+
 			<div class="row">
-				<div class="col-md-4 mb-2 pt-3 parent_left_main_content"> 
-					<?php $this->load->view("app/_part/sidebar_left.php") ?>
-				</div>
-				<div class="col-md-8 mb-2 pt-3 parent_right_main_content">
+				<div class="col-md-8 <?= $mb_main_content; ?> pt-3 parent_right_main_content">
 					<!-- $this->load->view("app/_part/navbar.php") -->
 					<?php $this->load->view("app/_main/".$php_name.".php") ?>	
-				</div>			
+				</div>
+				<div class="col-md-4 <?= $mb_main_content; ?> pt-3 parent_left_main_content"> 
+					<?php $this->load->view("app/_part/sidebar_left.php") ?>
 				</div>
 			</div>
+
+			<?php if($php_name == 'homepage') : ?>	
+				<div class="row">
+					<div class="col-md-12 mb-2">
+						<?php $this->load->view("app/_main/_home/h_gallery.php"); ?>
+					</div>
+				</div> 
+			<?php endif; ?>
 		</div>
 		<div class="bottom_background"></div>
 	</main>
@@ -108,12 +137,12 @@ $favico = CDN_IMG.($upload_path.'/'.$config_web['favico_img']);
 	?>  
 	
 	<?php if(!empty($config_web['widget_discord_link'])): ?>
-		<div class="parent_discord">
+		<!-- <div class="parent_discord">
 			<iframe style="display: none;" src="<?= $config_web['widget_discord_link']; ?>" width="360" height="330" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
 			<button class="btn_open_discord">
 				<img src="<?= base_url('assets/frontpage/img/btn_discord.gif'); ?>" style="width: 110px; height: 35px;">
 			</button>  
-		</div>
+		</div> -->
 	<?php endif; ?>
 
 	<?php $this->load->view("app/_part/im_modal.php");?>

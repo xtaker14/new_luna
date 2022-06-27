@@ -28,7 +28,7 @@
 			</div>
 			<!--
 			<div class="col-md-6 p-2">
-				<a href="<?= //base_url('register') ?>" class="btn btn-danger btn-block"><i class="fas fa-registered mr-2"></i>REGISTER</a>
+				<a href="<?php //base_url('register') ?>" class="btn btn-danger btn-block"><i class="fas fa-registered mr-2"></i>REGISTER</a>
 			</div>
 		-->
 		</div>

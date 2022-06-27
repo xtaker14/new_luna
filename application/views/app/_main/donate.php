@@ -1,31 +1,25 @@
 <!-- <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="<?= $midtrans_client_key; ?>"></script> -->
 
-<div class="card" style="margin-top: 30px;" data-aos="fade-left" data-aos-delay="400">
-    <div class="card-header bg-white">
-        <div class="box_header_title" style="">
-            <span></span>
-            <span></span>
-            <div class="content_header_title">
-                <h2>
-                    DONATE 
-                    <i class="fas fa-gem ml-1" data-fa-transform="rotate-30"></i>
-                </h2>
-            </div>
-        </div>
+<div class="card p-1" data-aos="fade-left" data-aos-delay="0" style="height: 100%;"> 
+	<div class="card-body" style="height: 100%; background: #2a88ed; border-radius:4px;">
+    
+		<div class="d-md-flex mb-2" style="padding-top: 0px !important; padding-bottom: 2px !important;"> 
+			<div class="d-block" style="width: 100%;">
+				<img class="float-left mr-2" src="<?= CDN_IMG.('assets/frontpage/img/nav/wing.png'); ?>" style="width: 50px;height: 45px;margin-top:-10px;">    
+				<h3 style="padding-bottom:5px;margin:0px;color:#fff;" class="border-bottom">DONATE</h3>
+			</div> 
+		</div>
 
-        <small class="text-secondary">
+        <small style="color: #fff;">
             <i>
                 Don't Donate/Top-Up at <span style="color: red;">23.00 - 24.00 (Server Time)</span> because at <span style="color: red;">24:00 (Server Time)</span> yesterday's <span style="color: red;">"Unpaid Donation"</span> data will be <span style="color: red;">deleted</span>.
             </i>
-        </small>  
-    </div>
+        </small> 
 
-
-    <div class="card-body">
-        <div class="panel panel-primary">
+        <div class="panel panel-primary" style="margin-top: 10px;">
             <div class="panel-heading">
-                <h3 class="panel-title">
-                    DONATION FORM
+                <h3 class="panel-title" style="color: #fff;">
+                    FORM
                 </h3>
             </div>
             <div class="panel-body">
@@ -33,14 +27,14 @@
                     <table class="table table-striped" align="center">
                         <tbody>
                             <tr>
-                                <td class="alt2" style="font-size:12px">USERNAME</td>
-                                <td class="alt1" style="font-size:13px">
+                                <td class="alt2" style="font-size:12px; color: #fff;"><b>USERNAME</b></td>
+                                <td class="alt1" style="font-size:13px; color: #fff;">
                                     <input type="hidden" class="form-control" name="input_username" value="<?= $id_loginid; ?>" hidden="">
                                     <?= $id_loginid; ?>
                                 </td>
                             </tr>
                             <tr>
-                                <td class="alt2" style="font-size:12px">DONATION TYPES</td>
+                                <td class="alt2" style="font-size:12px; color: #fff;"><b>DONATION TYPES</b></td>
                                 <td class="alt1">
                                     <select class="form-control" name="input_amount" id="input_amount">
                                         <?php foreach ($donate_price_list as $key => $val) : ?>
@@ -65,7 +59,7 @@
                                 </td>
                             </tr> 
                             <tr style="">
-                                <td class="alt1" style="font-size:12px">REFERRAL CODE</td>
+                                <td class="alt1" style="font-size:12px; color: #fff;"><b>REFERRAL CODE  </b></td>
                                 <td class="alt1">
                                     <input type="text" name="input_referral_code" class="form-control" placeholder="ENTER REFERRAL CODES">
                                 </td>
@@ -93,8 +87,8 @@
         
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title">
-                    DONATION LIST
+                <h3 class="panel-title" style="color: #fff;">
+                    HISTORY
                 </h3>
             </div>
             <div class="panel-body"> 

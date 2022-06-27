@@ -1,26 +1,15 @@
 
-<div class="card" style="margin-top: 30px;" data-aos="fade-left" data-aos-delay="400"> 
-  <div class="card-header bg-white">
-		<div class="box_header_title" style="">
-			<span></span>
-			<span></span> 
-			<div class="content_header_title">
-				<h2> 
-          <img src="<?= base_url('assets/frontpage/img/icon/natsu.png'); ?>" width="30">PIN Change Request
-				</h2> 
-			</div>
-		</div>
-  </div>
-
-  <div class="card-body" >
-    <form action="<?= site_url('go_pin_req')?>" method="post">
-      <div id="send_group" class="form-group" align="center">
-        <input type="hidden" name="<?= $xepo_secure['name'] ?>" value="<?= $xepo_secure['hash'] ?>">
-        <input type="hidden" id="g_recaptcha" name="g-recaptcha-response">
-        <button id="send_pin" type="submit" class="btn-hover btn color-blue w-50">Request PIN</button>
+<div class="card p-1" data-aos="fade-left" data-aos-delay="0" style="height: 100%;"> 
+	<div class="card-body" style="height: 100%; background: #2a88ed; border-radius:4px;">
+    
+    <div class="d-md-flex mb-2" style="padding-top: 0px !important; padding-bottom: 2px !important;"> 
+      <div class="d-block" style="width: 100%;">
+        <img class="float-left mr-2" src="<?= CDN_IMG.('assets/frontpage/img/nav/wing.png'); ?>" style="width: 50px;height: 45px;margin-top:-10px;">    
+        <h3 style="padding-bottom:5px;margin:0px;color:#fff;" class="border-bottom">Request Change PIN</h3>
       </div>
-    </form>
-    <div class="d-block border p-2 mb-3">
+    </div>
+
+    <div class="d-block border p-2 mb-3" style="color: #fff;">
       <label><b>Note :</b></label>
       <ul>
         <li>Make sure you can access your email.</li>
@@ -29,6 +18,14 @@
         <li>Click the url on email.</li>
       </ul>
     </div>
+
+    <form action="<?= site_url('go_pin_req')?>" method="post">
+      <div id="send_group" class="form-group" align="center">
+        <input type="hidden" name="<?= $xepo_secure['name'] ?>" value="<?= $xepo_secure['hash'] ?>">
+        <input type="hidden" id="g_recaptcha" name="g-recaptcha-response">
+        <button id="send_pin" type="submit" class="btn-three w-50"><b style="color: #fff;">Request PIN</b></button>
+      </div>
+    </form>
   </div>
 </div>
 <script type="text/javascript">

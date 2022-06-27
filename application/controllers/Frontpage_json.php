@@ -257,24 +257,24 @@ class Frontpage_json extends FrontLib {
          if(is_array($job)):
             if($job[0]=='fighter'):
                $res_job = '<span class="pointer" role="button" title="'. $job[1] .'" data-toggle="tooltip" data-placement="bottom">
-                  <img src="' . base_url('assets/frontpage/img/basic_job_fighter.png') . '" style="width:24px;" alt="">
+                  <img src="' . base_url('assets/frontpage/img/class/fighter/Job 1/fighter.png') . '" style="width:24px;" alt="">
                </span>';
             elseif($job[0]=='rogue'):
                $res_job = '<span class="pointer" role="button" title="'. $job[1] .'" data-toggle="tooltip" data-placement="bottom">
-                  <img src="' . base_url('assets/frontpage/img/basic_job_rogue.png') . '" style="width:24px;" alt="">
+                  <img src="' . base_url('assets/frontpage/img/class/rogue/Job 1/rogue.png') . '" style="width:24px;" alt="">
                </span>';
             elseif($job[0]=='mage'):
                $res_job = '<span class="pointer" role="button" title="'. $job[1] .'" data-toggle="tooltip" data-placement="bottom">
-                  <img src="' . base_url('assets/frontpage/img/basic_job_mage.png') . '" style="width:24px;" alt="">
+                  <img src="' . base_url('assets/frontpage/img/class/mage/Job 1/mage.png') . '" style="width:24px;" alt="">
                </span>';
             endif;
          else: 
-            $res_job = '<span class="pointer" role="button" title="'. $job .'" data-toggle="tooltip" data-placement="bottom">
-               <i class="fab fa-earlybirds"></i>
-            </span>';
+            // $res_job = '<span class="pointer" role="button" title="'. $job .'" data-toggle="tooltip" data-placement="bottom">
+            //    <i class="fab fa-earlybirds"></i>
+            // </span>';
          endif;
          $res_level_rank[$cntr]['job'] = $res_job;
-         
+         $res_level_rank[$cntr]['job_text'] = $job[0]; 
 
          $res_level_rank[$cntr]['name'] = $val['a'];
          $res_level_rank[$cntr]['lvl'] = $val['b'];

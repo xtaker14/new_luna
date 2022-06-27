@@ -51,11 +51,11 @@ foreach ($category as $val) {
                     <br>
                 </div>
 			</div>
-			<div class="form-group">
+			<div class="form-group parent_description">
 				<label for="description" ><b>Item Description: </b></label>
 				<textarea type="text" class="summernote form-control required" rows="6" placeholder="description" id="description" name="description"><?= $get_im['itemdesc']; ?></textarea>
 			</div>
-			<div class="form-group">
+			<div class="form-group parent_set_option">
 				<label for="set_option" ><b>Set options: </b></label>
 				<textarea type="text" class="summernote form-control required" rows="6" placeholder="item set option" id="set_option" name="set_option"><?= $get_im['itemsetopt']; ?></textarea>
 			</div>
@@ -64,6 +64,12 @@ foreach ($category as $val) {
       </div>
 	</div>
 </div>
+
+<style>
+	.parent_description .note-editable { background-color: #2a88ed !important; }
+	.parent_set_option .note-editable { background-color: rgb(12, 40, 70) !important; }
+</style> 
+
 <script type="text/javascript">
 $(document).ready(function(){
     document.getElementById("userfile").onchange = evt => {

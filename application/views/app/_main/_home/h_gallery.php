@@ -8,34 +8,24 @@
   }
   @media (min-width: 480px) {
     .gallery {
-      -moz-column-count: 1;
-      column-count: 1;
+      -moz-column-count: 3;
+      column-count: 3;
     }
   }
   @media (min-width: 768px) {
     .gallery {
-      -moz-column-count: 2;
-      column-count: 2;
+      -moz-column-count: 4;
+      column-count: 4;
     }
   }
 </style>
 <div data-aos="fade-left" data-aos-delay="400" class="card d-none d-md-block shadow-sm mb-2">
-  <div class="d-md-flex p-2">
-    <img class="float-left mr-2" src="<?= base_url(); ?>assets/frontpage/img/notice/news-thumb.png" style="width: 60px; height: 60px; visibility: visible;">      
-    <div class="d-block" style="display:flex !important; justify-content: space-between; width:100%;">
-      <div>
-        <h3 class="text-primary border-bottom">Media</h3>
-        <small><i>Screen Shoot</i></small>
-      </div>
-      <div>
-        <small>
-          <a href="<?= base_url(); ?>media" class="text-primary" style="font-size: 14px; display:flex; align-items:center;">
-            MORE&nbsp;<i class="fas fa-arrow-right"></i>
-          </a>
-        </small>
-      </div>
+  <div class="d-md-flex p-2" style="padding-top: 15px !important; padding-bottom: 2px !important;"> 
+    <div class="d-block" style="width: 100%;">
+        <img class="float-left mr-2" src="<?= CDN_IMG.('assets/frontpage/img/nav/wing.png'); ?>" style="width: 50px;height: 45px;margin-top:-10px;">    
+        <h3 style="padding-bottom:5px;margin:0px;" class="text-primary border-bottom">Media</h3>
     </div>
-  </div>
+  </div> 
   <div class="card-body" style="padding:10px;"> 
 
     <?php if(count($s_media)>0): ?>
@@ -46,13 +36,21 @@
             $show_delay += 50;
         ?>
           <a  class="gallery-link" href="<?= base_url(); ?>assets/frontpage/img/media/<?= $key['img']; ?>">
-            <figure class="gallery-image" style="padding:3px;">
+            <figure class="gallery-image" style="padding: 3px;">
               <img style="height: 220px; width:100%;" src="<?= base_url(); ?>assets/frontpage/img/media/<?= $key['img']; ?>">
-              <figcaption><?= $key['name']; ?></figcaption>
+              <!-- <figcaption><?= $key['name']; ?></figcaption> -->
+              <div style="position: absolute; display: block; width: calc(100% - 6px); background: rgb(0, 123, 255, 0.8); padding: 10px; bottom: 0px; color: #fff; margin-bottom: 3px;">
+                <?= $key['name']; ?>
+              </div>
             </figure>
           </a>
         <?php endforeach; ?>
       </article>
+      <div style="margin-top: 5px;border-top: 1px solid #dee2e6 !important;padding-top: 5px;">
+        <a href="<?= base_url(); ?>media" class="text-primary" style="font-size: 14px; display:flex; align-items:center; justify-content: end;">
+          Read More&nbsp;<i style="margin-bottom: -1px;" class="fa fa-angle-right"></i>
+        </a>
+      </div>
     <?php else: ?>
       <h3 style="text-align:center;">-- Empty --</h3>
     <?php endif; ?>

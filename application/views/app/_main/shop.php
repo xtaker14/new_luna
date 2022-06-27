@@ -36,6 +36,8 @@
     -webkit-border-radius: 4px;
     border-radius: 4px;
     margin: auto;
+	text-align: left;
+	height: 100%;
 }
 .im_card .im_imgcover{
 	display: flex !important;
@@ -47,9 +49,9 @@
 }
 </style>
 
-<div data-aos="fade-left" data-aos-delay="200" class="card">
-	<div class="card-body">
-		<div id="menu_cover" class="card shadow-sm mb-4" data-aos="fade-left" data-aos-delay="300">
+<div class="card p-1" style="height: 100%;" data-aos="fade-left" data-aos-delay="200">
+	<div class="card-body" style="height: 100%; background: #2a88ed; border-radius:4px;">
+		<div id="menu_cover" class="card shadow-sm mb-4" data-aos="fade-left" data-aos-delay="300" style="background: #fffde8;">
 			<?php $this->load->view("app/_main/_shop/menu.php");?>
 		</div>  
 

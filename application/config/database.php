@@ -11,7 +11,7 @@ $db['default'] = array(
     'hostname' => 'localhost',
     'username' => 'root',
     'password' => '',
-    'database' => 'dragonya_luna',
+    'database' => 'luna',
     
     'dbdriver' => 'mysqli',
     'dbprefix' => '',
@@ -32,9 +32,9 @@ $db['default'] = array(
 $sql_conf = array(
     'dsn'   => '',  
 
-    'hostname' => '.\NS525896',
+    'hostname' => '.\SQLEXPRESS2019',
     'username' => 'sa',//username SQL
-    'password' => 'luna',//password SQL
+    'password' => 'xtaker123',//password SQL
     'database' => 'LUNA_MEMBERDB',
     'dbdriver' => 'sqlsrv',  
 

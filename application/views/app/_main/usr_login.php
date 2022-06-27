@@ -1,13 +1,11 @@
 <div class="card" data-aos="fade-left" data-aos-delay="0" style="margin-top: 30px;">
-  <div class="card-header bg-white" align="center">
-    <div class="box_header_title">
-      <span></span>
-      <span></span> 
-      <div class="content_header_title">
-        <h2><img src="<?= base_url('assets/frontpage/img/icon/natsu.png'); ?>" width="30">User Login</h2> 
+  <div class="d-md-flex p-2 mb-2" style="padding-top: 10px !important; padding-bottom: 2px !important;"> 
+      <div class="d-block" style="width: 100%;">
+          <img class="float-left mr-2" src="<?= CDN_IMG.('assets/frontpage/img/nav/wing.png'); ?>" style="width: 50px;height: 45px;margin-top:-10px;">    
+          <h3 style="padding-bottom:5px;margin:0px;" class="text-primary border-bottom">Login</h3>
       </div>
-    </div>
-	</div>
+  </div>
+
 	<div class="card-body">
     <div class="row">
       <div class="col-md-6 offset-md-3 my-4">

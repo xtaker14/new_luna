@@ -49,19 +49,21 @@ class Json_Controller extends FrontLib {
    		if(!empty($badge)){
    			$badge = '<div class="featured-item featured-'.$badge.'"></div>';
    		}
-   		return '<div class="col-md-3 mb-2 p-1">
-				<div class="im_card card border border pb-2" align="center">
-					'.$badge.'
-					<div class="im_imgcover d-block">
-						<img class="card-img rounded" style="width:150px;height:auto;" src="'.base_url('assets/upload/'.$val['itemimage']).'" alt="--No Image--" >
-					</div>
-					<div class="d-block">
-				    	<div class="d-block" style="height:50px;"><small class="text-primary">'.$val['itemname'].'</small></div>
-				    	<button data-itemid="'.$val['itemid'].'" class="view_detail btn-buy-item btn-hover btn color-blue w-50"><b>BUY NOW</b></button>
-				    </div>
-				</div>
-			</div>
-		';
+         
+   		return '
+            <div class="col-md-3 mb-2 p-1">
+               <div class="im_card card border border pb-2" align="center">
+                  '.$badge.'
+                  <div class="im_imgcover d-block">
+                     <img class="card-img rounded" style="width:150px;height:auto;" src="'.base_url('assets/upload/'.$val['itemimage']).'" alt="--No Image--" >
+                  </div>
+                  <div class="d-block">
+                     <div class="d-block" style="height:50px;"><small class="text-primary">'.$val['itemname'].'</small></div>
+                     <button data-itemid="'.$val['itemid'].'" class="view_detail btn-buy-item btn-hover btn color-blue w-50"><b>BUY NOW</b></button>
+                  </div>
+               </div>
+            </div>
+         ';
    	}
 
    function im_detail($im_id){
@@ -73,10 +75,10 @@ class Json_Controller extends FrontLib {
          $effect = "";
          if(!empty($im['itemsetopt'])){
             $effect = '
-            <label>Effect : </label><br>
-            <label class="opt-box p-2">
+            <!-- <label>Effect : </label><br> -->
+            <div class="opt-box p-2">
             '.nl2br($im['itemsetopt']).'
-            </label>';
+            </div>';
 
          }
          

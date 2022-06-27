@@ -113,6 +113,26 @@ class Funct_main {
 	}
 
 	loading(call='timer', callback=false, t_delay=1000){
+		let e_slc = (e) => document.querySelector(e);
+		
+		let dots = e_slc("#preloader .dots:not(.dots_play)");
+
+		if(dots !== null){ 		
+			function a_dots_loading(element, className) {
+				element.classList.add(className);
+				setTimeout(() => {
+					element.classList.remove(className);
+					setTimeout(() => {
+						a_dots_loading(element, className);
+					}, 500);
+				}, 2500);
+			}
+			
+			a_dots_loading(dots, "dots--animate");
+			
+			dots.classList.add("dots_play");
+		}
+
 		if(call==='timer'){
 			$.when($("#preloader").fadeIn(500).delay(t_delay).fadeOut(500))
 			.done(function(){

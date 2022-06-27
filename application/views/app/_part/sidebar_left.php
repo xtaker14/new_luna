@@ -2,30 +2,21 @@
 $upload_path = "assets/frontpage/img/web_config";
 $logo_img = CDN_IMG.($upload_path.'/'.$config_web['logo_img']);
 $favico = CDN_IMG.($upload_path.'/'.$config_web['favico_img']);
-?>
+?> 
 
-<style type="text/css">
-	.dwn-btn{
-		padding: 12px 0px !important;
-	}
-	#srv_status{
-	  background-image: url("<?= base_url('assets/frontpage/img/server_npc.png') ?>");
-	  background-size: 110px auto;
-	  min-height: 70px;
-	  background-position: bottom right;
-	  background-repeat: no-repeat;
-	}
-
-	#srv_status ul li{
-		background-color: transparent !important;
-	}
-</style>
 <div class="d-block">
 	<div class="main_left_section">
-		<div class="text-center mb-2 p-0 main_child_left_section">
+		<div class="text-center mb-2 p-0 main_child_left_section" data-aos="fade-left">
+			
+			<div class="parent_img_fly_city" style="">
+				<img src="<?= CDN_IMG.('assets/frontpage/img/fly_city.png'); ?>" style="margin-top: -25px;margin-right: -30px;" />
+			</div>
+			<div style="position: relative;z-index:1;">
+				<img src="<?= $logo_img; ?>" class="img-fluid image_logo" data-no-retina />
+			</div>
 			
 			<!-- <a class="dwn-btn btn btn-primary btn-block btn-lg" href="<?= base_url('p/download-page') ?>"><b><i class="fas fa-cloud-download-alt mr-1"></i> Clients Download</b></a> -->
-			<rs-module-wrap data-source="gallery" style="padding:0;">
+			<!-- <rs-module-wrap data-source="gallery" style="padding:0;">
 				<rs-module id="rev_main_logo" style="" data-version="6.2.8">
 					<rs-slides>
 						<rs-slide data-key="rs-8" data-title="Slide" data-thumb="#" data-anim="ei:d;eo:d;s:d;r:0;t:fade;sl:d;" data-p1="1">
@@ -54,9 +45,31 @@ $favico = CDN_IMG.($upload_path.'/'.$config_web['favico_img']);
 						</rs-layer> 
 					</rs-static-layers>
 				</rs-module> 
-			</rs-module-wrap>
+			</rs-module-wrap> -->
 
-			<script type="text/javascript"> 
+			
+			<div class="card_side">
+				<!-- <div class="face_side face_side1">
+					<div class="content">
+						<h3>DOWNLOAD</h3>
+					</div>
+				</div> -->
+				<div class="card_side_img">
+					<a href="<?= base_url('p/download-page') ?>">
+						<span>DOWNLOAD</span>
+						<img class="img_play_out" src="<?= CDN_IMG.('assets/frontpage/img/nav/blue_button.png'); ?>" alt="">
+						<img class="img_play_in" src="<?= CDN_IMG.('assets/frontpage/img/nav/blue_button_active.png'); ?>" alt="">
+					</a>
+				</div>
+				<div class="face_side face_side1" onclick="window.location.href='<?= base_url('register') ?>';">
+					<div class="content">
+						<!-- <i class="fab fa-windows"></i> -->
+						<h3>REGISTER</h3>
+					</div>
+				</div> 
+			</div>
+
+			<!-- <script type="text/javascript"> 
 				$(document).ready(function(){
 					setREVStartSize({
 						c: 'rev_main_logo',
@@ -106,11 +119,10 @@ $favico = CDN_IMG.($upload_path.'/'.$config_web['favico_img']);
 						}
 					});
 				});
-			</script>
+			</script> -->
 		</div>
 		
 		<?php
-		//$this->load->view("app/_part/sess_flash.php");
 		$user_panel = "user_menu";
 
 		if(!empty($usr_session)){
@@ -120,47 +132,48 @@ $favico = CDN_IMG.($upload_path.'/'.$config_web['favico_img']);
 		$this->load->view("app/_part/_sidebar/".$user_panel.".php");
 		$this->load->view("app/_part/_sidebar/hot_items.php");
 
-		if($php_name=='homepage'){		
-			$this->load->view("app/_part/_sidebar/server_stat.php");
-		}
+		// if($php_name=='homepage'){		
+		// 	$this->load->view("app/_part/_sidebar/server_stat.php");
+		// }
 		if($php_name !=='rank'){		
 			$this->load->view("app/_part/_sidebar/rank.php");
 		}
 		?>
 	</div>	
 </div>
-<script type="text/javascript">
-// $(document).ready(function(){
-// 	$('html').removeClass('no-js');
-// 	$.getJSON(baseURL+"api/homepage", function(r){
-// 		$("#srv_status .p_online").html(r.srv.p_online);
-// 		$("#srv_status .account_reg").html(r.srv.account_reg);
-// 		$("#srv_status .char_count").html(r.srv.char_count);
+
+<!-- <script type="text/javascript">
+$(document).ready(function(){
+	$('html').removeClass('no-js');
+	$.getJSON(baseURL+"api/homepage", function(r){
+		$("#srv_status .p_online").html(r.srv.p_online);
+		$("#srv_status .account_reg").html(r.srv.account_reg);
+		$("#srv_status .char_count").html(r.srv.char_count);
 
 
-// 		$.each(r.level_rank, function (key, val) {
-// 			$("table.table_global_level_rank tbody").append(
-// 				'<tr><td>'+val.no+
-// 					'</td><td>'+val.job+
-// 					'</td><td>'+val.name+
-// 					'</td><td>'+val.lvl+
-// 					'</td><td>'+val.exp+
-// 				'</td></tr>'
-// 			);
-// 		});
-// 		$("table.table_global_level_rank tbody td span.pointer").tooltip();
+		$.each(r.level_rank, function (key, val) {
+			$("table.table_global_level_rank tbody").append(
+				'<tr><td>'+val.no+
+					'</td><td>'+val.job+
+					'</td><td>'+val.name+
+					'</td><td>'+val.lvl+
+					'</td><td>'+val.exp+
+				'</td></tr>'
+			);
+		});
+		$("table.table_global_level_rank tbody td span.pointer").tooltip();
 		
-// 		$("img").css({
-// 			visibility: 'visible',
-// 		});
-// 	});
+		$("img").css({
+			visibility: 'visible',
+		});
+	});
 
-// 	$(document).on('click','#btn_userpanel',function(){
-// 		$('#mod_userpanel').modal('show');
-// 	});
+	$(document).on('click','#btn_userpanel',function(){
+		$('#mod_userpanel').modal('show');
+	});
 
-// 	$(document).on('click','#go_logout',function(){
-// 		window.location.href = baseURL+ "go_logout";
-// 	});
-// });
-</script>
+	$(document).on('click','#go_logout',function(){
+		window.location.href = baseURL+ "go_logout";
+	});
+});
+</script> -->

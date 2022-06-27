@@ -1,24 +1,28 @@
-<div class="card" style="margin-top: 30px;" data-aos="fade-left" data-aos-delay="400"> 
 
-  <?php $this->load->view("app/_part/header_title.php",array(
-    'part_ht_txt_large'=> 'Change Email',
-    'part_ht_txt_small'=> '', 
-    'part_ht_left_i'=> '',
-    'part_ht_right_i'=> '',
-    // 'part_ht_left_img'=> CDN_IMG.('assets/frontpage/img/doge.png'),
-    // 'part_ht_right_img'=> CDN_IMG.('assets/frontpage/img/doge.png'),
-    'part_ht_left_img'=> '',
-    'part_ht_right_img'=> '',
-    'part_ht_style_img'=> 'width:30px;',
-    'part_ht_style_txt_large'=> 'font-size:20px;',
-  )); ?>
+<div class="card p-1" data-aos="fade-left" data-aos-delay="0" style="height: 100%;"> 
+	<div class="card-body" style="height: 100%; background: #2a88ed; border-radius:4px;">
+    
+    <div class="d-md-flex mb-2" style="padding-top: 0px !important; padding-bottom: 2px !important;"> 
+      <div class="d-block" style="width: 100%;">
+        <img class="float-left mr-2" src="<?= CDN_IMG.('assets/frontpage/img/nav/wing.png'); ?>" style="width: 50px;height: 45px;margin-top:-10px;">    
+        <h3 style="padding-bottom:5px;margin:0px;color:#fff;" class="border-bottom">Change Email</h3>
+      </div>
+    </div>
 
-	<div class="card-body">
     <div class="row">
-      <div class="col-md-12 my-4">
-        <form action="<?= site_url('go_change_email')?>" method="post"> 
-          <div class="form-group">
-            <label for="pin">New Email :</label>
+      <div class="col-12"> 
+        <div class="form-group d-block border p-2" style="border: 2px solid black !important; background: #fff;">
+          <p><b>TIPS : </b> Don't share your account information to other user.</p>
+        </div>
+      </div>
+    </div>
+
+    <form action="<?= site_url('go_change_email')?>" method="post" class="form_blue_input_group"> 
+      <div class="row">
+      
+        <div class="col-md-6">
+          <!-- <div class="form-group"> -->
+          <div class="">
             <div class="input-group">
                 <div class="input-group-prepend">
                   <div class="input-group-text">
@@ -27,33 +31,36 @@
                 </div>
               <input class="form-control" type="email" name="new_email" placeholder="New Email" minlength="6" required>
             </div>      
-          </div>
-          <hr>
-          <div class="form-group">
-            <label for="pin">PIN Code :</label>
+          </div> 
+        </div>
+
+        <div class="col-md-6">
+          <!-- <div class="form-group"> -->
+          <div class="">
             <div class="input-group">
                 <div class="input-group-prepend">
                   <div class="input-group-text">
                     <i class="fas fa-lock"></i>
                   </div>
                 </div>
-              <input class="form-control" type="" name="pin" pattern="[0-9]{6}" placeholder="PIN" minlength="6" maxlength="6" required>
+              <input class="form-control" type="" name="pin" pattern="[0-9]{6}" placeholder="PIN Code" minlength="6" maxlength="6" required>
             </div>
-            <small><i>* for security risk</i></small>     
+            <small style="color: #f1a6a6; text-shadow: 2px 2px 4px #464343;"><b>*6 digits number only, for buy item mall</b></small>     
           </div>
+        </div>
+
+        <hr style="border:1px dashed #D8D5C7;width:100%;max-width:100%;background-color:transparent;margin-top:10px;margin-bottom:10px;"> 
+
+        <div class="col-md-12">
           <input type="hidden" name="<?= $xepo_secure['name'] ?>" value="<?= $xepo_secure['hash'] ?>">
           <input type="hidden" id="g_recaptcha" name="g-recaptcha-response">
           
-          <?php $this->load->view("app/_part/button_border.php",array(
-            'part_bb_txt'=> '<i class="fas fa-check mr-2"></i>Submit',
-            'part_bb_element'=> 'button',
-            'part_bb_class'=> 'btn-hover color-blue',
-            'part_bb_type'=> 'submit',
-            'part_bb_style'=> 'width:100%;margin:0;letter-spacing:2px;',
-          )); ?>
-        </form>
+          <button type="submit" class="btn-one">
+            <b style="color: #fff;">CHANGE</b>
+          </button> 
+        </div>
       </div>
-    </div>
+    </form>
 	</div>
 </div>
 <script type="text/javascript">

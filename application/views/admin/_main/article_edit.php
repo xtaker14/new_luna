@@ -29,7 +29,7 @@
 </div>
 
 <style>
-	/* .note-editable { background-color: #132902 !important; } */
+	.note-editable { background-color: #2a88ed !important; }
 </style>
 <script type="text/javascript">
 document.getElementById("userfile").onchange = evt => {

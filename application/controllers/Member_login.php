@@ -106,10 +106,12 @@ class Member_login extends CI_Controller {
                                     );
                         $this->session->set_userdata($sess);
                         setFlashData('success', 'You are login as '.$id_loginid.'.');
-                        redirect(base_url('daily_login'));
+                        // redirect(base_url('daily_login'));
+                        redirect(base_url(''));
                     }else{
                         setFlashData('error', 'Username or password mismatch');                
-                        redirect(base_url('login'));
+                        // redirect(base_url('login'));
+                        redirect(base_url(''));
                     }
                 }
             }

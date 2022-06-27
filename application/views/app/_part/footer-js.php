@@ -130,22 +130,23 @@
 
 
 	$(document).ready(function(){
-		if($("#srv_status .p_online").length>0 || $("table.table_global_level_rank tbody").length>0){
+		if($(".p_online").length>0 || $("table.table_global_level_rank tbody").length>0){
 			$('html').removeClass('no-js');
 			$.getJSON(baseURL+"api/homepage", function(r){ 
-				$("#srv_status .p_online").html(r.srv.p_online);
-				$("#srv_status .account_reg").html(r.srv.account_reg);
-				$("#srv_status .char_count").html(r.srv.char_count); 
+				$(".p_online").html(r.srv.p_online);
+				// $(".account_reg").html(r.srv.account_reg);
+				// $(".char_count").html(r.srv.char_count); 
 
 				if($("table.table_global_level_rank tbody").length>0){
 					$.each(r.level_rank, function (key, val) {
 						$("table.table_global_level_rank tbody").append(
-							'<tr><td>'+val.no+
-								'</td><td>'+val.job+
-								'</td><td>'+val.name+
-								'</td><td>'+val.lvl+
-								'</td><td>'+val.exp+
-							'</td></tr>'
+							'<tr>'+
+								// '<td>'+val.no+'</td>'+
+								'<td>'+val.job+'</td>'+
+								'<td>'+val.name+'</td>'+
+								'<td>'+val.lvl+'</td>'+
+								// '<td>'+val.exp+'</td>'+
+							'</tr>'
 						);
 					});
 					$("table.table_global_level_rank tbody td span.pointer").tooltip();
@@ -188,7 +189,7 @@
 			});
 		}
 
-		f_main.loading(false,function(){
+		f_main.loading('timer',function(){
 			$("img").css({
 				visibility: 'visible',
 			});
@@ -198,7 +199,7 @@
 			setTimeout(function(){
 				console.clear();
 			},200);
-		});
+		}, 1000);
 		 
 		$(".btn_open_discord").click(function(){
 			let t = $(this);

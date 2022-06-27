@@ -1,76 +1,81 @@
-<!-- <?php
-    $this->load->helper('form');
-    $error = $this->session->flashdata('error');
-    if($error)
-    {
+<!-- 
+<?php
+    // $this->load->helper('form');
+    // $error = $this->session->flashdata('error');
+    // if($error) :
 ?>
 <div class="alert alert-danger alert-dismissable">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-    <?php echo $this->session->flashdata('error'); ?>                    
+    <?php //echo $this->session->flashdata('error'); ?>                    
 </div>
-<?php } ?>
+<?php //endif; ?>
+
 <?php  
-    $success = $this->session->flashdata('success');
-    if($success)
-    {
+    // $success = $this->session->flashdata('success');
+    // if($success) :
 ?>
 <div class="alert alert-success alert-dismissable">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-    <?php echo $this->session->flashdata('success'); ?>
+    <?php //echo $this->session->flashdata('success'); ?>
 </div>
-<?php } ?> -->
+<?php //endif; ?> 
+-->
 
 <!-- <div class="row">
     <div class="col-md-12 mb-2">
-        <?php echo validation_errors('<div class="alert alert-danger alert-dismissable">', ' <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button></div>'); ?>
+        <?php //echo validation_errors('<div class="alert alert-danger alert-dismissable">', ' <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button></div>'); ?>
     </div>
 </div> -->
 
 <?php
-$this->load->helper('form');
+// $this->load->helper('form');
 $error = $this->session->flashdata('error');
-if($error){
+if($error) :
 ?>
-<script>
-    $(document).ready(function(){
-        swal("Warning",
-            "<?= $error; ?>",
-            "warning",
-        {
-            buttons: { 
-                button_1: "OK!", 
-            },
-        })
-        .then((value) => {
-            switch (value) {
-                default:
-                    break;
-                }
+    <script>
+        $(document).ready(function(){
+            swal("Warning",
+                "<?= $error; ?>",
+                "warning",
+            {
+                buttons: { 
+                    button_1: "OK!", 
+                },
+            })
+            .then((value) => {
+                switch (value) {
+                    default:
+                        break;
+                    }
+            });
         });
-    });
-</script>
-<?php } ?>
+    </script>
+<?php 
+endif; 
+?>
 
 <?php  
 $success = $this->session->flashdata('success');
-if($success) {
+if($success) :
 ?>
-<script>
-    $(document).ready(function(){
-        swal("Successfull",
-            "<?= $success; ?>",
-            "success",
-        {
-            buttons: { 
-                button_1: "OK!", 
-            },
-        })
-        .then((value) => {
-            switch (value) {
-                default:
-                    break;
-                }
+    <script>
+        $(document).ready(function(){
+            swal("Successfull",
+                "<?= $success; ?>",
+                "success",
+            {
+                buttons: { 
+                    button_1: "OK!", 
+                },
+            })
+            .then((value) => {
+                switch (value) {
+                    default:
+                        break;
+                    }
+            });
         });
-    });
-</script>
-<?php } ?>
+    </script>
+<?php 
+endif; 
+?>

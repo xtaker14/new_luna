@@ -26,16 +26,16 @@ if(!isset($part_bb_t_name) || empty($part_bb_t_name)){
 }
 ?>
 <?php if($part_bb_element == 'button') : ?>
-    <button style="<?= $part_bb_style; ?>" <?= $part_bb_t_id.' '.$part_bb_t_name.' '.$part_bb_attr_plus; ?> class="btn btn-main-boder <?= $part_bb_class; ?>" type="<?= $part_bb_type; ?>">
-        <i class="ibb"></i>
+    <button style="<?= $part_bb_style; ?>" <?= $part_bb_t_id.' '.$part_bb_t_name.' '.$part_bb_attr_plus; ?> class="<?= $part_bb_class; ?>" type="<?= $part_bb_type; ?>">
+        <!-- <i class="ibb"></i> -->
         <?= $part_bb_txt; ?>
-        <i class="iba"></i>
+        <!-- <i class="iba"></i> -->
     </button>
 <?php elseif($part_bb_element == 'a') : ?>
-    <a style="<?= $part_bb_style; ?>" <?= $part_bb_t_id.' '.$part_bb_t_name.' '.$part_bb_attr_plus; ?> class="btn btn-main-boder <?= $part_bb_class; ?>" href="<?= $part_bb_href; ?>">
-        <i class="ibb"></i>
+    <a style="<?= $part_bb_style; ?>" <?= $part_bb_t_id.' '.$part_bb_t_name.' '.$part_bb_attr_plus; ?> class="<?= $part_bb_class; ?>" href="<?= $part_bb_href; ?>">
+        <!-- <i class="ibb"></i> -->
         <?= $part_bb_txt; ?>
-        <i class="iba"></i>
+        <!-- <i class="iba"></i> -->
     </a>
 <?php else: ?>
 <?php endif; ?>

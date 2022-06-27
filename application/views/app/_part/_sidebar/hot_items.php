@@ -19,7 +19,9 @@ foreach ($hot_items as $key => $val) {
         </div>
         <div class="d-block">
           <div class="d-block" style="height:50px;"><small class="text-primary">'.$name.'</small></div>
-          <button style="width:50%;" data-itemid="'.$id.'" class="view_detail btn btn-sm btn-hover color-red"><b>Buy</b><i class="fas fa-gem ml-1" data-fa-transform="rotate-30"></i></button>
+          <button style="width:50%; margin-bottom:7px;" data-itemid="'.$id.'" class="view_detail btn-one color-red">
+            Buy
+          </button>
         </div>
       </div>
   ';
@@ -27,16 +29,16 @@ foreach ($hot_items as $key => $val) {
 }
 ?>
 
-<div data-aos="fade-right" data-aos-delay="200" id="srv_hot_items" class="card shadow-sm mb-3" style="margin-top: 30px;" align="center">
+<div data-aos="fade-right" data-aos-delay="200" id="srv_hot_items" class="card shadow-sm mb-2" style="" align="center">
   <div class="card-body">
-    <!-- <h4 class="p-2 text-muted"><b><i class="fab fa-gripfire text-danger mr-2"></i>HOT ITEMS<i class="fab fa-gripfire text-danger ml-2"></i></b></h4> -->
-    <div class="box_header_title">
-      <span></span>
-      <span></span> 
-      <div class="content_header_title">
-        <h2><i class="fab fa-gripfire text-danger mr-2"></i>HOT ITEMS<i class="fab fa-gripfire text-danger ml-2"></i></h2> 
-      </div>
-    </div>
+    <div class="d-md-flex p-2" style="padding-top: 0px !important; padding-bottom: 7px !important;"> 
+			<div class="d-block" style="width: 100%;">
+				<h3 style="padding-bottom:5px;margin:0px;" class="text-primary border-bottom">
+				  <img class="mr-2" src="<?= CDN_IMG.('assets/frontpage/img/nav/wing.png'); ?>" style="width: 40px; height: 35px; margin-top:-15px;margin-left:-10px;">    
+					<b>BEST ITEMS</b>
+				</h3>
+			</div>
+		</div>
 
     <div id="carouselExampleIndicators" class="carousel slide" align="center" data-ride="carousel">
         <div class="carousel-inner">

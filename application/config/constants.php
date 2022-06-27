@@ -27,17 +27,24 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 // define('SITE_NAME',				'Dragonya Luna Plus');
 // define('CDN_IMG',				'https://cdn.staticaly.com/img/dragonyaluna.com/'); //https://cdn.staticaly.com/img/zoneluna.com/');
 
-if(isset($_SERVER) && isset($_SERVER['HTTP_HOST'])){
-    // $b_url2 = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'];
-    // $b_url2 .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
-    // define('CDN_IMG', $b_url2);
-    // https://cdn.staticaly.com/img/
-    
+// if(isset($_SERVER) && isset($_SERVER['HTTP_HOST'])){ 
+//     $b_url2 = $_SERVER['HTTP_HOST'];
+//     $b_url2 .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
 
-    $b_url2 = $_SERVER['HTTP_HOST'];
-    $b_url2 .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
+//     define('CDN_IMG', 'https://cdn.staticaly.com/img/'.$b_url2); 
+// }
 
-    define('CDN_IMG', 'https://cdn.staticaly.com/img/'.$b_url2); 
+if(isset($_SERVER['HTTP_HOST']) && isset($_SERVER['SCRIPT_NAME'])){
+    if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'){ 
+        // https://cdn.staticaly.com/img/
+        $b_url2 = $_SERVER['HTTP_HOST'];
+        $b_url2 .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
+        define('CDN_IMG', 'https://cdn.staticaly.com/img/'.$b_url2);
+    }else{
+        $b_url2 = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'];
+        $b_url2 .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
+        define('CDN_IMG', $b_url2);
+    }
 }
 
 /**** ADMIN ROLE ****/

@@ -63,6 +63,9 @@ class Frontpage extends FrontLib {
 		$this->loadViews();
 	}
 	function login(){
+		// redirect to home
+		redirect(base_url());
+
 		$this->global['php_name'] = "usr_login";
 		$this->loadViews();
 	}
@@ -114,6 +117,9 @@ class Frontpage extends FrontLib {
 	}
 
 	function daily_login(){
+		// redirect to home
+		redirect(base_url());
+
 		$user_id = $this->propid;
 		if(empty($user_id)){
         	$this->session->set_flashdata('error', 'Please login first.');
@@ -160,8 +166,8 @@ class Frontpage extends FrontLib {
 	}
 	function rank(){
 		$this->load->model("frontpage_model");
-      	$this->global['level_rank'] = $this->frontpage_model->getPlayerRank('level',50);
-      	$this->global['guld_rank'] = $this->frontpage_model->getPlayerRank('guild',50);
+      	$this->global['level_rank'] = $this->frontpage_model->getPlayerRank('level',15);
+      	$this->global['guld_rank'] = $this->frontpage_model->getPlayerRank('guild',15);
       	$this->global['cs_rank'] = $this->frontpage_model->getPlayerRank('cs',2);
 		$this->global['php_name'] = "rank";
 		$this->loadViews();

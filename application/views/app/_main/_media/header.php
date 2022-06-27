@@ -82,7 +82,7 @@ html {
   left: 0;
   right: 0;
   bottom: 0;
-  border: 16px solid rgba(0, 0, 0, 0.1);
+  /* border: 16px solid rgba(0, 0, 0, 0.1); */
   transition: all 0.2s;
   will-change: border;
 }
@@ -98,10 +98,12 @@ html:not(.touch) .gallery-image {
   overflow: hidden;
 }
 html:not(.touch) .gallery-image:hover:before {
-  border-width: 16px;
+  /* border-width: 16px; */
+  background: rgba(0, 0, 0, 0.1);
 }
 html:not(.touch) .gallery-image:hover:after {
-  border-width: 32px;
+  /* border-width: 32px; */
+  background: rgba(0, 0, 0, 0.1);
 }
 .touch .gallery-image figcaption {
   top: auto;
