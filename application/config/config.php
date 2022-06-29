@@ -72,7 +72,7 @@ $config['standardize_newlines'] = FALSE;
 $config['global_xss_filtering'] = FALSE;
 
 
-$csrf_pages = array("/adm/","/api/","/load_view/","/cekmutasi2/");
+$csrf_pages = array("/adm/","/api/","/load_view/","/cekmutasi2/","/duitku/");
 $config['csrf_protection'] = TRUE;
 if (isset($_SERVER["REQUEST_URI"])) {
     foreach ($csrf_pages as $url){

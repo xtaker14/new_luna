@@ -173,6 +173,10 @@ class Frontpage extends FrontLib {
 		$this->loadViews();
 	}
 	function donate(){
+		// $this->global['php_name'] = "donate_test";
+		// $this->loadViews();
+		// return;
+
 		$user_id = $this->propid;
 		if(empty($user_id)){
         	$this->session->set_flashdata('error', 'Please login first.');

@@ -9,14 +9,14 @@ class MY_Controller extends CI_Controller  {
 	protected $midtrans_client_key;
 	protected $pars_external_access;
     protected $referral_bonus_points;
-    protected $cekmutasi_to_idr_payment_type;
-    protected $cekmutasi_to_idr_name;
-    protected $cekmutasi_to_idr_account;
-    protected $cekmutasi_to_idr_code;
-    protected $cekmutasi_to_usd_payment_type;
-    protected $cekmutasi_to_usd_name;
-    protected $cekmutasi_to_usd_account;
-    protected $cekmutasi_to_usd_code;
+    // protected $cekmutasi_to_idr_payment_type;
+    // protected $cekmutasi_to_idr_name;
+    // protected $cekmutasi_to_idr_account;
+    // protected $cekmutasi_to_idr_code;
+    // protected $cekmutasi_to_usd_payment_type;
+    // protected $cekmutasi_to_usd_name;
+    // protected $cekmutasi_to_usd_account;
+    // protected $cekmutasi_to_usd_code;
 
 	function __construct() {
 		parent::__construct(); 
@@ -29,17 +29,17 @@ class MY_Controller extends CI_Controller  {
 		$this->midtrans_server_key = ''; 
 		$this->midtrans_client_key = ''; 
 
-		$this->pars_external_access = 'greats_luna_classic'; // kebutuhan link diakses dari luar seperti API cekmutasi 
+		$this->pars_external_access = 'new_luna_classic'; // kebutuhan link diakses dari luar seperti API cekmutasi 
 		
-		$this->cekmutasi_to_idr_payment_type = 'BCA';
-		$this->cekmutasi_to_idr_name = 'Eldwin';
-		$this->cekmutasi_to_idr_account = '0954282143';
-		$this->cekmutasi_to_idr_code = '014';
+		// $this->cekmutasi_to_idr_payment_type = 'BCA';
+		// $this->cekmutasi_to_idr_name = 'Eldwin';
+		// $this->cekmutasi_to_idr_account = '0954282143';
+		// $this->cekmutasi_to_idr_code = '014';
 
-		$this->cekmutasi_to_usd_payment_type = 'PAYPAL';
-		$this->cekmutasi_to_usd_name = '@eldwindi';
-		$this->cekmutasi_to_usd_account = 'eldwindi@gmail.com';
-		$this->cekmutasi_to_usd_code = '';
+		// $this->cekmutasi_to_usd_payment_type = 'PAYPAL';
+		// $this->cekmutasi_to_usd_name = '@eldwindi';
+		// $this->cekmutasi_to_usd_account = 'eldwindi@gmail.com';
+		// $this->cekmutasi_to_usd_code = '';
 
 		$this->referral_bonus_points = 15; // percent
 

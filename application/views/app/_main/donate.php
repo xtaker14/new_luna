@@ -1,4 +1,5 @@
-<!-- <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="<?= $midtrans_client_key; ?>"></script> -->
+<!-- <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="<?php //$midtrans_client_key; ?>"></script> -->
+<script src="https://app-sandbox.duitku.com/lib/js/duitku.js"></script> 
 
 <div class="card p-1" data-aos="fade-left" data-aos-delay="0" style="height: 100%;"> 
 	<div class="card-body" style="height: 100%; background: #2a88ed; border-radius:4px;">
@@ -8,33 +9,54 @@
 				<img class="float-left mr-2" src="<?= CDN_IMG.('assets/frontpage/img/nav/wing.png'); ?>" style="width: 50px;height: 45px;margin-top:-10px;">    
 				<h3 style="padding-bottom:5px;margin:0px;color:#fff;" class="border-bottom">DONATE</h3>
 			</div> 
-		</div>
+		</div> 
 
-        <small style="color: #fff;">
-            <i>
-                Don't Donate/Top-Up at <span style="color: red;">23.00 - 24.00 (Server Time)</span> because at <span style="color: red;">24:00 (Server Time)</span> yesterday's <span style="color: red;">"Unpaid Donation"</span> data will be <span style="color: red;">deleted</span>.
-            </i>
-        </small> 
+        <div class="row">
+            <div class="col-12"> 
+                <div class="form-group d-block border p-2" style="border: 2px solid black !important; background: #fff;">
+                    <p>
+                        <b>RULES:</b><br> 
+                        <ul>
+                            <li>
+                                All payment options excluding <b><i>PayPal</i></b> are only available to <b>Indonesian</b> users. For international users, please choose <b><i>PayPal</i></b>.
+                            </li>
+                            <li>
+                                <b>About Visa/Mastercard (credit card option):</b><br>
+                                <b>Credit Card</b> payment option is only available for <b>Indonesian</b> Card, with a maximum of IDR 1.000.000 per transaction.<br>
+                                For International <b>Credit Card</b> or transaction over IDR 1.000.000, please use <b>Credit Card</b> option through <b><i>PayPal</i></b>.
+                            </li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+        </div>
 
         <div class="panel panel-primary" style="margin-top: 10px;">
-            <div class="panel-heading">
+            <!-- <div class="panel-heading">
                 <h3 class="panel-title" style="color: #fff;">
                     FORM
                 </h3>
-            </div>
-            <div class="panel-body">
-                <form id="form_donate" method="post" action="<?= site_url('go_donate'); ?>" method="post" accept-charset="utf-8">
+            </div> -->
+            <div class="panel-body"> 
+
+                <form id="form_donate" method="post" action="" method="post" accept-charset="utf-8">
                     <table class="table table-striped" align="center">
                         <tbody>
                             <tr>
                                 <td class="alt2" style="font-size:12px; color: #fff;"><b>USERNAME</b></td>
                                 <td class="alt1" style="font-size:13px; color: #fff;">
-                                    <input type="hidden" class="form-control" name="input_username" value="<?= $id_loginid; ?>" hidden="">
+                                    <input type="hidden" class="form-control" name="input_username" id="input_username" value="<?= $id_loginid; ?>" hidden="">
                                     <?= $id_loginid; ?>
                                 </td>
                             </tr>
                             <tr>
-                                <td class="alt2" style="font-size:12px; color: #fff;"><b>DONATION TYPES</b></td>
+                                <td class="alt2" style="font-size:12px; color: #fff;"><b>EMAIL</b></td>
+                                <td class="alt1" style="font-size:13px; color: #fff;">
+                                    <?= $id_email; ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="alt2" style="font-size:12px; color: #fff;"><b>PRICE LIST</b></td>
                                 <td class="alt1">
                                     <select class="form-control" name="input_amount" id="input_amount">
                                         <?php foreach ($donate_price_list as $key => $val) : ?>
@@ -51,7 +73,7 @@
                                                 $price = number_format($val['price'],$float_num,',','.');
                                                 $descr = $val['description'];
                                             ?>
-                                            <option value="<?= $val['id'].'|'.$val['value']; ?>">
+                                            <option value="<?= $val['id']; ?>">
                                                 <?= $value.' Diamonds - '.$currency.' '.$price.' '.$descr; ?>
                                             </option>
                                         <?php endforeach; ?>
@@ -59,24 +81,28 @@
                                 </td>
                             </tr> 
                             <tr style="">
-                                <td class="alt1" style="font-size:12px; color: #fff;"><b>REFERRAL CODE  </b></td>
+                                <td class="alt1" style="font-size:12px; color: #fff;"><b>REFERRAL CODE</b></td>
                                 <td class="alt1">
-                                    <input type="text" name="input_referral_code" class="form-control" placeholder="ENTER REFERRAL CODES">
+                                    <input type="text" name="input_referral_code" id="input_referral_code" class="form-control" placeholder="ENTER REFERRAL CODES">
                                 </td>
                             </tr> 
                             <tr>
                                 <td class="" colspan="2">
                                     <input type="hidden" name="<?=$xepo_secure['name'];?>" value="<?=$xepo_secure['hash'];?>" />
 					                <input type="hidden" id="g_recaptcha" name="g-recaptcha-response">
-                                    <?php $this->load->view("app/_part/button_border.php",array(
-                                        'part_bb_txt'=> 'BUY NOW',
-                                        'part_bb_element'=> 'button',
-                                        'part_bb_type'=> 'button',
-                                        'part_bb_class'=>'btn-hover color-blue m-1', 
-                                        'part_bb_t_id'=>'btn_donate_now', 
-                                        'part_bb_t_name'=>'btn_donate_now', 
-                                        'part_bb_style'=> 'width:100%; font-size:1rem; letter-spacing:2px;margin-bottom:0px;',
-                                    )); ?>
+                                    
+                                    <button type="button" id="btn_purchase" class="btn-three" onClick="paymentDuitku();">BUY</button>
+                                    <?php 
+                                    // $this->load->view("app/_part/button_border.php",array(
+                                    //     'part_bb_txt'=> 'BUY NOW',
+                                    //     'part_bb_element'=> 'button',
+                                    //     'part_bb_type'=> 'button',
+                                    //     'part_bb_class'=>'btn-hover color-blue m-1', 
+                                    //     'part_bb_t_id'=>'btn_donate_now', 
+                                    //     'part_bb_t_name'=>'btn_donate_now', 
+                                    //     'part_bb_style'=> 'width:100%; font-size:1rem; letter-spacing:2px;margin-bottom:0px;',
+                                    // )); 
+                                    ?>
                                 </td>
                             </tr>
                         </tbody>
@@ -176,6 +202,8 @@
 <script type="text/javascript">
 let xepo_secure_name = "<?=$xepo_secure['name'];?>";
 let xepo_secure_value ="<?=$xepo_secure['hash'];?>";
+var enable_payment = true;
+var last_payment_price = 0;
 
 $(document).ready(function(){
     var donate_table = $('#donate_table').DataTable( {
@@ -356,6 +384,233 @@ function popCheckDonate(id){
         }
     }); 
 } 
+
+function checkoutProcess(reference, result={}) { 
+    checkout.process(reference, {
+        successEvent: function (result_2) {
+            enable_payment = true;
+            // begin your code here
+            // console.log('success');
+            console.log(result_2); 
+            
+            swal("Status:",
+                "Payment Success",
+                "success",
+            {
+                buttons: { 
+                    button_1: "OK", 
+                },
+            })
+            .then((value) => {
+                switch (value) {
+                    default: 
+                        window.location.reload();
+                        break;
+                    }
+            });
+        },
+        pendingEvent: function (result_2) {
+            enable_payment = reference;
+            // begin your code here
+            // console.log('pending');
+            console.log(result_2);
+
+            swal("Status:",
+                'Payment Pending',
+                "warning",
+            {
+                buttons: {  
+                button_1: "OK", 
+                },
+            })
+            .then((value) => {
+                switch (value) {
+                    default:  
+                        break;
+                }
+            });
+        },
+        errorEvent: function (result_2) {
+            enable_payment = true;
+            // begin your code here
+            // console.log('error');
+            console.log(result_2);
+
+            if(result_2.resultCode == '02'){
+                swal("Status:",
+                    'Payment Expired',
+                    "warning",
+                {
+                    buttons: {  
+                    button_1: "OK", 
+                    },
+                })
+                .then((value) => {
+                    switch (value) {
+                        default:  
+                            break;
+                    }
+                });
+            }else{
+                swal("Status:",
+                    'Payment Error',
+                    "warning",
+                {
+                    buttons: {  
+                    button_1: "OK", 
+                    },
+                })
+                .then((value) => {
+                    switch (value) {
+                        default:  
+                            break;
+                    }
+                });
+            }
+        },
+        closeEvent: function (result_2) {
+            enable_payment = reference;
+            // begin your code here 
+            console.log(result_2); 
+
+            swal("Status:",
+                'You close the popup payment',
+                "warning",
+            {
+                buttons: {  
+                button_1: "OK", 
+                },
+            })
+            .then((value) => {
+                switch (value) {
+                    default:  
+                        break;
+                }
+            });
+        }
+    });
+} 
+
+function paymentDuitku() { 
+    let input_amount = document.getElementById("input_amount").value;
+    let input_referral_code = document.getElementById("input_referral_code").value;
+    let g_recaptcha = document.getElementById("g_recaptcha").value;
+    // let input_product = document.getElementById("input_product").value;
+    // let input_email = document.getElementById("input_email").value;
+    // let input_phone = document.getElementById("input_phone").value;
+    // var paymentUi = document.getElementById("paymentUi").value;
+
+    if(input_amount.length == 0){
+        swal("Warn:",
+            'Please select a price in the price list',
+            "warning",
+        {
+            buttons: {  
+            button_1: "OK", 
+            },
+        })
+        .then((value) => {
+            switch (value) {
+                default:  
+                    break;
+            }
+        });
+        
+        return false;
+    }
+
+    if(input_amount <= 0){
+        swal("Warn:",
+            'Please select a price in the price list',
+            "warning",
+        {
+            buttons: {  
+            button_1: "OK", 
+            },
+        })
+        .then((value) => {
+            switch (value) {
+                default:  
+                    break;
+            }
+        });
+        
+        return false;
+    }
+
+    swal("Question",
+        "Are you sure?",
+        "warning",
+    {
+        buttons: { 
+            button_1: {text:'No', className:'btn-black'},
+            button_2: "Yes", 
+        },
+    })
+    .then((value) => {
+        switch (value) {
+            case 'button_2':
+                if(!enable_payment){
+                    swal("Warn:",
+                        'Session has expired, please reload/refresh this page',
+                        "warning",
+                    {
+                        buttons: {  
+                        button_1: "OK", 
+                        },
+                    })
+                    .then((value) => {
+                        switch (value) {
+                            default:  
+                                break;
+                        }
+                    });
+                    
+                    return false;
+                }
+
+                if(enable_payment !== false && enable_payment !== true && last_payment_price == input_amount){
+                    checkoutProcess(enable_payment);
+                    return false;
+                }
+
+                enable_payment = false;
+                
+                $.ajax({
+                    type: "POST",
+                    data: {
+                        // Parameter PaymentMethod is optional
+                        // paymentMethod: '', // PaymentMethod list => https://docs.duitku.com/pop/id/#payment-method
+                        input_amount: input_amount,
+                        input_referral_code: input_referral_code,
+                        g_recaptcha: g_recaptcha,
+                        [xepo_secure_name] : xepo_secure_value,
+                    },
+                    url: '<?= base_url(); ?>go_donate',
+                    // url: 'CreateInvoice.php',
+                    dataType: "json",
+                    cache: false,
+                    success: function (result) {
+                        // console.log(result.reference);
+                        console.log(result, 'test');
+
+                        xepo_secure_name = result.xepo_name;
+                        xepo_secure_value = result.xepo_value; 
+                        last_payment_price = input_amount;
+
+                        // if (paymentUi === "2") { // user redirect payment interface
+                        //     window.location = result.paymentUrl;
+                        // }
+
+                        checkoutProcess(result.reference, result);
+                    },
+                });
+                break;
+            }
+    }); 
+
+}
+
 // function _backup_donateNow(t){
 //     let data_donate = $("#form_donate").serializeObject();
 //     data_donate[xepo_secure_name] = xepo_secure_value;

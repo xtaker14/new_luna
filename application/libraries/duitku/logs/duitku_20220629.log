@@ -1,0 +1,273 @@
+Date:2022-06-29 10:05:50
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":16000,"merchantOrderId":"1656471942","productDetails":"Sepatu Trendy","additionalParam":"","merchantUserInfo":"","customerVaName":"John Doe","email":"customer2@duitku.com","phoneNumber":"08123456789","itemDetails":[{"name":"Sepatu Trendy","price":16000,"quantity":1}],"customerDetail":{"firstName":"John","lastName":"Doe","email":"customer2@duitku.com","phoneNumber":"08123456789","billingAddress":{"firstName":"John","lastName":"Doe","address":"Jl. Kembangan Raya","city":"Jakarta","postalCode":"11530","phone":"08123456789","countryCode":"ID"},"shippingAddress":{"firstName":"John","lastName":"Doe","address":"Jl. Kembangan Raya","city":"Jakarta","postalCode":"11530","phone":"08123456789","countryCode":"ID"}},"callbackUrl":"http://YOUR_SERVER/callback","returnUrl":"http://YOUR_SERVER/return","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634FZF5RE0LPSOCXXY","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634FZF5RE0LPSOCXXY","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 10:57:57
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":10000,"merchantOrderId":"1656475077","productDetails":"Sepatu Trendy","additionalParam":"","merchantUserInfo":"","customerVaName":"John Doe","email":"customer@duitku.com","phoneNumber":"08123456789","itemDetails":[{"name":"Sepatu Trendy","price":10000,"quantity":1}],"customerDetail":{"firstName":"John","lastName":"Doe","email":"customer@duitku.com","phoneNumber":"08123456789","billingAddress":{"firstName":"John","lastName":"Doe","address":"Jl. Kembangan Raya","city":"Jakarta","postalCode":"11530","phone":"08123456789","countryCode":"ID"},"shippingAddress":{"firstName":"John","lastName":"Doe","address":"Jl. Kembangan Raya","city":"Jakarta","postalCode":"11530","phone":"08123456789","countryCode":"ID"}},"callbackUrl":"http://YOUR_SERVER/callback","returnUrl":"http://YOUR_SERVER/return","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634PUDG4X7RL8L166L","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634PUDG4X7RL8L166L","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 10:58:31
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":10000,"merchantOrderId":"1656475111","productDetails":"Sepatu Trendy","additionalParam":"","merchantUserInfo":"","customerVaName":"John Doe","email":"customer@duitku.com","phoneNumber":"08123456789","itemDetails":[{"name":"Sepatu Trendy","price":10000,"quantity":1}],"customerDetail":{"firstName":"John","lastName":"Doe","email":"customer@duitku.com","phoneNumber":"08123456789","billingAddress":{"firstName":"John","lastName":"Doe","address":"Jl. Kembangan Raya","city":"Jakarta","postalCode":"11530","phone":"08123456789","countryCode":"ID"},"shippingAddress":{"firstName":"John","lastName":"Doe","address":"Jl. Kembangan Raya","city":"Jakarta","postalCode":"11530","phone":"08123456789","countryCode":"ID"}},"callbackUrl":"http://YOUR_SERVER/callback","returnUrl":"http://YOUR_SERVER/return","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634ELV03EBIEIHGD5T","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634ELV03EBIEIHGD5T","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 10:59:12
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":10000,"merchantOrderId":"1656475152","productDetails":"Sepatu Trendy","additionalParam":"","merchantUserInfo":"","customerVaName":"John Doe","email":"customer@duitku.com","phoneNumber":"08123456789","itemDetails":[{"name":"Sepatu Trendy","price":10000,"quantity":1}],"customerDetail":{"firstName":"John","lastName":"Doe","email":"customer@duitku.com","phoneNumber":"08123456789","billingAddress":{"firstName":"John","lastName":"Doe","address":"Jl. Kembangan Raya","city":"Jakarta","postalCode":"11530","phone":"08123456789","countryCode":"ID"},"shippingAddress":{"firstName":"John","lastName":"Doe","address":"Jl. Kembangan Raya","city":"Jakarta","postalCode":"11530","phone":"08123456789","countryCode":"ID"}},"callbackUrl":"http://YOUR_SERVER/callback","returnUrl":"http://YOUR_SERVER/return","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634833IJ2PYIJGY7M3","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634833IJ2PYIJGY7M3","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 11:00:16
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":10000,"merchantOrderId":"1656475216","productDetails":"Sepatu Trendy","additionalParam":"","merchantUserInfo":"","customerVaName":"John Doe","email":"customer@duitku.com","phoneNumber":"08123456789","itemDetails":[{"name":"Sepatu Trendy","price":10000,"quantity":1}],"customerDetail":{"firstName":"John","lastName":"Doe","email":"customer@duitku.com","phoneNumber":"08123456789","billingAddress":{"firstName":"John","lastName":"Doe","address":"Jl. Kembangan Raya","city":"Jakarta","postalCode":"11530","phone":"08123456789","countryCode":"ID"},"shippingAddress":{"firstName":"John","lastName":"Doe","address":"Jl. Kembangan Raya","city":"Jakarta","postalCode":"11530","phone":"08123456789","countryCode":"ID"}},"callbackUrl":"http://YOUR_SERVER/callback","returnUrl":"http://YOUR_SERVER/return","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634701UWNXUU6AIJW7","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634701UWNXUU6AIJW7","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 11:16:13
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":10000,"merchantOrderId":"1656476173","productDetails":"Sepatu Trendy","additionalParam":"","merchantUserInfo":"","customerVaName":"John Doe","email":"customer@duitku.com","phoneNumber":"08123456789","itemDetails":[{"name":"Sepatu Trendy","price":10000,"quantity":1}],"customerDetail":{"firstName":"John","lastName":"Doe","email":"customer@duitku.com","phoneNumber":"08123456789","billingAddress":{"firstName":"John","lastName":"Doe","address":"Jl. Kembangan Raya","city":"Jakarta","postalCode":"11530","phone":"08123456789","countryCode":"ID"},"shippingAddress":{"firstName":"John","lastName":"Doe","address":"Jl. Kembangan Raya","city":"Jakarta","postalCode":"11530","phone":"08123456789","countryCode":"ID"}},"callbackUrl":"http://YOUR_SERVER/callback","returnUrl":"http://YOUR_SERVER/return","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634TXAJEY3OL7BFS1L","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634TXAJEY3OL7BFS1L","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 13:08:36
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":20000,"merchantOrderId":"1656482916","productDetails":"Sepatu Trendy","additionalParam":"","merchantUserInfo":"","customerVaName":"John Doe","email":"customer@duitku.com","phoneNumber":"08123456789","itemDetails":[{"name":"Sepatu Trendy","price":20000,"quantity":1}],"customerDetail":{"firstName":"John","lastName":"Doe","email":"customer@duitku.com","phoneNumber":"08123456789","billingAddress":{"firstName":"John","lastName":"Doe","address":"Jl. Kembangan Raya","city":"Jakarta","postalCode":"11530","phone":"08123456789","countryCode":"ID"},"shippingAddress":{"firstName":"John","lastName":"Doe","address":"Jl. Kembangan Raya","city":"Jakarta","postalCode":"11530","phone":"08123456789","countryCode":"ID"}},"callbackUrl":"http://YOUR_SERVER/callback","returnUrl":"http://YOUR_SERVER/return","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634Q2DFAMCBQL2QNHU","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634Q2DFAMCBQL2QNHU","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 13:29:09
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":10000,"merchantOrderId":"1656484149","productDetails":"Sepatu Trendy","additionalParam":"","merchantUserInfo":"","customerVaName":"John Doe","email":"customer@duitku.com","phoneNumber":"08123456789","itemDetails":[{"name":"Sepatu Trendy","price":10000,"quantity":1}],"customerDetail":{"firstName":"John","lastName":"Doe","email":"customer@duitku.com","phoneNumber":"08123456789","billingAddress":{"firstName":"John","lastName":"Doe","address":"Jl. Kembangan Raya","city":"Jakarta","postalCode":"11530","phone":"08123456789","countryCode":"ID"},"shippingAddress":{"firstName":"John","lastName":"Doe","address":"Jl. Kembangan Raya","city":"Jakarta","postalCode":"11530","phone":"08123456789","countryCode":"ID"}},"callbackUrl":"http://new_luna.local.com/duitku/callback","returnUrl":"http://new_luna.local.com/duitku/return","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634GFE7YD5FWHP6IO6","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634GFE7YD5FWHP6IO6","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 14:46:42
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":10100,"merchantOrderId":"1656488802","productDetails":"Sepatu Trendy","additionalParam":"","merchantUserInfo":"","customerVaName":"John Doe","email":"customer@duitku.com","phoneNumber":"08123456789","itemDetails":[{"name":"Sepatu Trendy","price":10100,"quantity":1}],"customerDetail":{"firstName":"John","lastName":"Doe","email":"customer@duitku.com","phoneNumber":"08123456789","billingAddress":{"firstName":"John","lastName":"Doe","address":"Jl. Kembangan Raya","city":"Jakarta","postalCode":"11530","phone":"08123456789","countryCode":"ID"},"shippingAddress":{"firstName":"John","lastName":"Doe","address":"Jl. Kembangan Raya","city":"Jakarta","postalCode":"11530","phone":"08123456789","countryCode":"ID"}},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634NET078KQLR0T3YR","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634NET078KQLR0T3YR","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 15:04:43
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":10000,"merchantOrderId":"1656489883","productDetails":"Sepatu Trendy","additionalParam":"","merchantUserInfo":"","customerVaName":"John Doe","email":"customer@duitku.com","phoneNumber":"08123456789","itemDetails":[{"name":"Sepatu Trendy","price":10000,"quantity":1}],"customerDetail":{"firstName":"John","lastName":"Doe","email":"customer@duitku.com","phoneNumber":"08123456789","billingAddress":{"firstName":"John","lastName":"Doe","address":"Jl. Kembangan Raya","city":"Jakarta","postalCode":"11530","phone":"08123456789","countryCode":"ID"},"shippingAddress":{"firstName":"John","lastName":"Doe","address":"Jl. Kembangan Raya","city":"Jakarta","postalCode":"11530","phone":"08123456789","countryCode":"ID"}},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634QMKEHNYMY8HV3M0","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634QMKEHNYMY8HV3M0","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 15:07:28
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":10000,"merchantOrderId":"1656490048","productDetails":"Sepatu Trendy","additionalParam":"","merchantUserInfo":"","customerVaName":"John Doe","email":"customer@duitku.com","phoneNumber":"08123456789","itemDetails":[{"name":"Sepatu Trendy","price":10000,"quantity":1}],"customerDetail":{"firstName":"John","lastName":"Doe","email":"customer@duitku.com","phoneNumber":"08123456789","billingAddress":{"firstName":"John","lastName":"Doe","address":"Jl. Kembangan Raya","city":"Jakarta","postalCode":"11530","phone":"08123456789","countryCode":"ID"},"shippingAddress":{"firstName":"John","lastName":"Doe","address":"Jl. Kembangan Raya","city":"Jakarta","postalCode":"11530","phone":"08123456789","countryCode":"ID"}},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634LIAB1LZV5Y710W7","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634LIAB1LZV5Y710W7","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 15:09:56
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":10000,"merchantOrderId":"1656490196","productDetails":"Sepatu Trendy","additionalParam":"","merchantUserInfo":"","customerVaName":"John Doe","email":"customer@duitku.com","phoneNumber":"08123456789","itemDetails":[{"name":"Sepatu Trendy","price":10000,"quantity":1}],"customerDetail":{"firstName":"John","lastName":"Doe","email":"customer@duitku.com","phoneNumber":"08123456789","billingAddress":{"firstName":"John","lastName":"Doe","address":"Jl. Kembangan Raya","city":"Jakarta","postalCode":"11530","phone":"08123456789","countryCode":"ID"},"shippingAddress":{"firstName":"John","lastName":"Doe","address":"Jl. Kembangan Raya","city":"Jakarta","postalCode":"11530","phone":"08123456789","countryCode":"ID"}},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634Z2DDAIWLQF6EH7D","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634Z2DDAIWLQF6EH7D","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 15:28:45
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":10000,"merchantOrderId":"1656491324","productDetails":"Sepatu Trendy","additionalParam":"","merchantUserInfo":"","customerVaName":"John Doe","email":"customer@duitku.com","phoneNumber":"08123456789","itemDetails":[{"name":"Sepatu Trendy","price":10000,"quantity":1}],"customerDetail":{"firstName":"John","lastName":"Doe","email":"customer@duitku.com","phoneNumber":"08123456789","billingAddress":{"firstName":"John","lastName":"Doe","address":"Jl. Kembangan Raya","city":"Jakarta","postalCode":"11530","phone":"08123456789","countryCode":"ID"},"shippingAddress":{"firstName":"John","lastName":"Doe","address":"Jl. Kembangan Raya","city":"Jakarta","postalCode":"11530","phone":"08123456789","countryCode":"ID"}},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS126345BKZENQGD16Q5PW","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS126345BKZENQGD16Q5PW","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 20:11:53
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":10000,"merchantOrderId":"1656508312","productDetails":"Donate Diamonds","additionalParam":"","merchantUserInfo":"","customerVaName":"John Doe","email":"xtaker123@gmail.com","phoneNumber":"","itemDetails":[{"name":"Donate Diamonds","price":10000,"quantity":1}],"customerDetail":{"firstName":"John","lastName":"Doe","email":"xtaker123@gmail.com"},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634FC1XGBORWO4APJG","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634FC1XGBORWO4APJG","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 20:26:59
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":500000,"merchantOrderId":"1656509219","productDetails":"Donate 550.00 Diamonds","additionalParam":"","merchantUserInfo":"","customerVaName":"xtaker123","email":"xtaker123@gmail.com","phoneNumber":"","itemDetails":[{"name":"Donate 550.00 Diamonds","price":500000,"quantity":1}],"customerDetail":{"firstName":"xtaker123","lastName":"","email":"xtaker123@gmail.com"},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634KI2VJGTSXX2SA4G","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634KI2VJGTSXX2SA4G","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 20:28:18
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":500000,"merchantOrderId":"1656509298","productDetails":"Donate 550.00 Diamonds","additionalParam":"","merchantUserInfo":"","customerVaName":"xtaker123","email":"xtaker123@gmail.com","phoneNumber":"","itemDetails":[{"name":"Donate 550.00 Diamonds","price":500000,"quantity":1}],"customerDetail":{"firstName":"xtaker123 test1","lastName":" test2","email":"xtaker123@gmail.com"},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634VRPSU6OALKQB6I0","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634VRPSU6OALKQB6I0","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 20:28:29
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":500000,"merchantOrderId":"1656509308","productDetails":"Donate 550.00 Diamonds","additionalParam":"","merchantUserInfo":"","customerVaName":"xtaker123","email":"xtaker123@gmail.com","phoneNumber":"","itemDetails":[{"name":"Donate 550.00 Diamonds","price":500000,"quantity":1}],"customerDetail":{"firstName":"xtaker123 test1","lastName":" test2","email":"xtaker123@gmail.com"},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634DYLLDOQSF8IFRBU","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634DYLLDOQSF8IFRBU","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 20:28:50
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":500000,"merchantOrderId":"1656509330","productDetails":"Donate 550.00 Diamonds","additionalParam":"","merchantUserInfo":"","customerVaName":"xtaker123","email":"xtaker123@gmail.com","phoneNumber":"","itemDetails":[{"name":"Donate 550.00 Diamonds","price":500000,"quantity":1}],"customerDetail":{"firstName":"xtaker123 test1","lastName":" test2","email":"xtaker123@gmail.com"},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634FHTN0EKNFTPJKZB","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634FHTN0EKNFTPJKZB","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 20:30:03
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":500000,"merchantOrderId":"1656509403","productDetails":"Donate 550.00 Diamonds","additionalParam":"","merchantUserInfo":"","customerVaName":"xtaker123","email":"xtaker123@gmail.com","phoneNumber":"","itemDetails":[{"name":"Donate 550.00 Diamonds","price":500000,"quantity":1}],"customerDetail":{"firstName":"xtaker123 test1","lastName":" test2","email":"xtaker123@gmail.com"},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634YYODV4RYMLS7QNH","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634YYODV4RYMLS7QNH","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 21:16:11
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":500000,"merchantOrderId":"1656512170","productDetails":"Donate 550.00 Diamonds","additionalParam":"","merchantUserInfo":"","customerVaName":"xtaker123","email":"xtaker123@gmail.com","phoneNumber":"","itemDetails":[{"name":"Donate 550.00 Diamonds","price":500000,"quantity":1}],"customerDetail":{"firstName":"xtaker123 test1","lastName":" test2","email":"xtaker123@gmail.com"},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS126347P5C727YQK0D43Z","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS126347P5C727YQK0D43Z","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 21:17:18
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":500000,"merchantOrderId":"1656512238","productDetails":"Donate 550.00 Diamonds","additionalParam":"","merchantUserInfo":"","customerVaName":"xtaker123","email":"xtaker123@gmail.com","phoneNumber":"","itemDetails":[{"name":"Donate 550.00 Diamonds","price":500000,"quantity":1}],"customerDetail":{"firstName":"xtaker123 test1","lastName":" test2","email":"xtaker123@gmail.com"},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634E6NC0LF532OON3O","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634E6NC0LF532OON3O","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 21:18:23
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":500000,"merchantOrderId":"1656512303","productDetails":"Donate 550.00 Diamonds","additionalParam":"","merchantUserInfo":"","customerVaName":"xtaker123","email":"xtaker123@gmail.com","phoneNumber":"","itemDetails":[{"name":"Donate 550.00 Diamonds","price":500000,"quantity":1}],"customerDetail":{"firstName":"test1","lastName":"test2","email":"xtaker123@gmail.com"},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634B8E6N40DZ78EIX2","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634B8E6N40DZ78EIX2","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 21:23:49
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":50000,"merchantOrderId":"1656512629","productDetails":"Donate 50.00 Diamonds","additionalParam":"","merchantUserInfo":"","customerVaName":"xtaker123","email":"xtaker123@gmail.com","phoneNumber":"","itemDetails":[{"name":"Donate 50.00 Diamonds","price":50000,"quantity":1}],"customerDetail":{"firstName":"xtaker123","lastName":"","email":"xtaker123@gmail.com"},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS1263418QELF2GTZI67KQ","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS1263418QELF2GTZI67KQ","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 21:24:11
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":50000,"merchantOrderId":"1656512651","productDetails":"Donate 50.00 Diamonds","additionalParam":"","merchantUserInfo":"","customerVaName":"xtaker123","email":"xtaker123@gmail.com","phoneNumber":"","itemDetails":[{"name":"Donate 50.00 Diamonds","price":50000,"quantity":1}],"customerDetail":{"firstName":"xtaker123","lastName":"","email":"xtaker123@gmail.com"},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634FOIGRKM38QBQFHS","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634FOIGRKM38QBQFHS","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 21:30:39
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":50000,"merchantOrderId":"1656513039","productDetails":"Donate 50.00 Diamonds","additionalParam":"","merchantUserInfo":"","customerVaName":"xtaker123","email":"xtaker123@gmail.com","phoneNumber":"","itemDetails":[{"name":"Donate 50.00 Diamonds","price":50000,"quantity":1}],"customerDetail":{"firstName":"xtaker123","lastName":"","email":"xtaker123@gmail.com"},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634R3U3JN2NAJCYXYW","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634R3U3JN2NAJCYXYW","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 21:33:06
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":50000,"merchantOrderId":"1656513186","productDetails":"Donate 50.00 Diamonds","additionalParam":"","merchantUserInfo":"","customerVaName":"xtaker123","email":"xtaker123@gmail.com","phoneNumber":"","itemDetails":[{"name":"Donate 50.00 Diamonds","price":50000,"quantity":1}],"customerDetail":{"firstName":"xtaker123","lastName":"","email":"xtaker123@gmail.com"},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634H3P7W8M2UZ5HYH6","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634H3P7W8M2UZ5HYH6","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 21:38:44
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":50000,"merchantOrderId":"1656513524","productDetails":"Donate 50.00 Diamonds","additionalParam":"","merchantUserInfo":"","customerVaName":"xtaker123","email":"xtaker123@gmail.com","phoneNumber":"","itemDetails":[{"name":"Donate 50.00 Diamonds","price":50000,"quantity":1}],"customerDetail":{"firstName":"xtaker123","lastName":"","email":"xtaker123@gmail.com"},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS126348TJNN5OH547G6XL","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS126348TJNN5OH547G6XL","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 21:40:54
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":50000,"merchantOrderId":"1656513654","productDetails":"Donate 50.00 Diamonds","additionalParam":"","merchantUserInfo":"","customerVaName":"xtaker123","email":"xtaker123@gmail.com","phoneNumber":"","itemDetails":[{"name":"Donate 50.00 Diamonds","price":50000,"quantity":1}],"customerDetail":{"firstName":"xtaker123","lastName":"","email":"xtaker123@gmail.com"},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634QZHRF2KGVL0MQUJ","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634QZHRF2KGVL0MQUJ","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 21:41:51
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":100000,"merchantOrderId":"1656513710","productDetails":"Donate 105.00 Diamonds","additionalParam":"","merchantUserInfo":"","customerVaName":"xtaker123","email":"xtaker123@gmail.com","phoneNumber":"","itemDetails":[{"name":"Donate 105.00 Diamonds","price":100000,"quantity":1}],"customerDetail":{"firstName":"xtaker123","lastName":"","email":"xtaker123@gmail.com"},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS126341W1KVUKMHQ2OQR6","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS126341W1KVUKMHQ2OQR6","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 21:44:28
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":50000,"merchantOrderId":"1656513867","productDetails":"Donate 50.00 Diamonds","additionalParam":"","merchantUserInfo":"","customerVaName":"xtaker123","email":"xtaker123@gmail.com","phoneNumber":"","itemDetails":[{"name":"Donate 50.00 Diamonds","price":50000,"quantity":1}],"customerDetail":{"firstName":"xtaker123","lastName":"","email":"xtaker123@gmail.com"},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634STAXZHGK2XZTINO","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634STAXZHGK2XZTINO","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 21:45:03
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":100000,"merchantOrderId":"1656513903","productDetails":"Donate 105.00 Diamonds","additionalParam":"","merchantUserInfo":"","customerVaName":"xtaker123","email":"xtaker123@gmail.com","phoneNumber":"","itemDetails":[{"name":"Donate 105.00 Diamonds","price":100000,"quantity":1}],"customerDetail":{"firstName":"xtaker123","lastName":"","email":"xtaker123@gmail.com"},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634FVMTGPZGZ1MLMLT","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634FVMTGPZGZ1MLMLT","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 21:46:14
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":50000,"merchantOrderId":"1656513973","productDetails":"Donate 50.00 Diamonds","additionalParam":"","merchantUserInfo":"","customerVaName":"xtaker123","email":"xtaker123@gmail.com","phoneNumber":"","itemDetails":[{"name":"Donate 50.00 Diamonds","price":50000,"quantity":1}],"customerDetail":{"firstName":"xtaker123","lastName":"","email":"xtaker123@gmail.com"},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634Y68I3B5N02II22Q","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634Y68I3B5N02II22Q","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 21:46:33
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":100000,"merchantOrderId":"1656513993","productDetails":"Donate 105.00 Diamonds","additionalParam":"","merchantUserInfo":"","customerVaName":"xtaker123","email":"xtaker123@gmail.com","phoneNumber":"","itemDetails":[{"name":"Donate 105.00 Diamonds","price":100000,"quantity":1}],"customerDetail":{"firstName":"xtaker123","lastName":"","email":"xtaker123@gmail.com"},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634PMTT6HE6QBHGQ5K","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634PMTT6HE6QBHGQ5K","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 21:46:57
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":50000,"merchantOrderId":"1656514017","productDetails":"Donate 50.00 Diamonds","additionalParam":"","merchantUserInfo":"","customerVaName":"xtaker123","email":"xtaker123@gmail.com","phoneNumber":"","itemDetails":[{"name":"Donate 50.00 Diamonds","price":50000,"quantity":1}],"customerDetail":{"firstName":"xtaker123","lastName":"","email":"xtaker123@gmail.com"},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634VGC5JZCP00RGJQM","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634VGC5JZCP00RGJQM","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 21:55:06
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":30000,"merchantOrderId":"1656514505","productDetails":"Donate 30.00 Diamonds","additionalParam":"","merchantUserInfo":"","customerVaName":"xtaker123","email":"xtaker123@gmail.com","phoneNumber":"","itemDetails":[{"name":"Donate 30.00 Diamonds","price":30000,"quantity":1}],"customerDetail":{"firstName":"xtaker123","lastName":"","email":"xtaker123@gmail.com"},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634HFG0DFIALZ7DUOQ","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634HFG0DFIALZ7DUOQ","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 22:03:18
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":10000,"merchantOrderId":"1656514998","productDetails":"Donate 10.00 Diamonds","additionalParam":"","merchantUserInfo":"","customerVaName":"xtaker123","email":"xtaker123@gmail.com","phoneNumber":"","itemDetails":[{"name":"Donate 10.00 Diamonds","price":10000,"quantity":1}],"customerDetail":{"firstName":"xtaker123","lastName":"","email":"xtaker123@gmail.com"},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634I4UQ2VTVWXSH5K4","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634I4UQ2VTVWXSH5K4","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 22:23:38
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":30000,"merchantOrderId":"1656516218","productDetails":"Donate 30.00 Diamonds","additionalParam":"","merchantUserInfo":"","customerVaName":"xtaker123","email":"xtaker123@gmail.com","phoneNumber":"","itemDetails":[{"name":"Donate 30.00 Diamonds","price":30000,"quantity":1}],"customerDetail":{"firstName":"xtaker123","lastName":"","email":"xtaker123@gmail.com"},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634KKVR0REUA6KZGZC","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634KKVR0REUA6KZGZC","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 22:37:03
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":30000,"merchantOrderId":"1656517023","productDetails":"Donate 30.00 Diamonds","additionalParam":"","merchantUserInfo":"","customerVaName":"xtaker123","email":"xtaker123@gmail.com","phoneNumber":"","itemDetails":[{"name":"Donate 30.00 Diamonds","price":30000,"quantity":1}],"customerDetail":{"firstName":"xtaker123","lastName":"","email":"xtaker123@gmail.com"},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634BPSCEIL35MNAAEJ","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634BPSCEIL35MNAAEJ","statusCode":"00","statusMessage":"SUCCESS"}
+
+Date:2022-06-29 22:37:21
+METHOD:POST
+FUNCTION:Duitku\Pop->createInvoice
+URL:https://api-sandbox.duitku.com/api/merchant/createInvoice
+REQUEST:{"paymentAmount":10000,"merchantOrderId":"1656517041","productDetails":"Donate 10.00 Diamonds","additionalParam":"","merchantUserInfo":"","customerVaName":"xtaker123","email":"xtaker123@gmail.com","phoneNumber":"","itemDetails":[{"name":"Donate 10.00 Diamonds","price":10000,"quantity":1}],"customerDetail":{"firstName":"xtaker123","lastName":"","email":"xtaker123@gmail.com"},"callbackUrl":"http://new_luna.local.com/duitku/callback/new_luna_classic","returnUrl":"http://new_luna.local.com/duitku/return/new_luna_classic","expiryPeriod":5}
+RESPONSE:{"merchantCode":"DS12634","reference":"DS12634X4VPKV2AJ6NQCC5","paymentUrl":"https://app-sandbox.duitku.com/redirect_checkout?reference=DS12634X4VPKV2AJ6NQCC5","statusCode":"00","statusMessage":"SUCCESS"}
+

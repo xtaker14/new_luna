@@ -39,6 +39,7 @@ $route['rank'] = 'frontpage/rank';
 //FRONTPAGEDONATE
 $route['go_donate'] = 'donate/buy';
 $route['donate'] = 'frontpage/donate';
+
 //ADMIN AREA
 /*Login Admin*/
 $route['adm'] = 'admin_login/login';
@@ -161,3 +162,7 @@ $route['api/checkin_item_delete/(:num)'] = 'admin_action/checkin_item_delete/$1'
 $route['api/referral_delete/(:num)'] = 'admin_action/referral_delete/$1';
 $route['api/donate_price_status_update/(:any)/(:any)'] = 'admin_action/donate_price_status_update/$1/$2';
 $route['api/donate_price_delete/(:num)'] = 'admin_action/donate_price_delete/$1';
+
+$route['duitku/return/(:any)'] = 'duitku_c/return/$1';
+$route['duitku/callback/(:any)'] = 'duitku_c/callback/$1';
+
