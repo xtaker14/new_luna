@@ -182,6 +182,7 @@ class Frontpage extends FrontLib {
         	$this->session->set_flashdata('error', 'Please login first.');
             redirect(base_url());
 		} 
+
 		$this->load->model("frontpage_model");
       	$this->global['donate_price_list'] = $this->frontpage_model->donate_price_list();
       	$this->global['donate_list'] = $this->frontpage_model->donate_list($user_id);

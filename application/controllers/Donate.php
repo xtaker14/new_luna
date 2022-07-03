@@ -15,7 +15,65 @@ class Donate extends FrontLib {
         $this->load->library('form_validation');
 	} 
 
+    
     function popup($case){
+        if(!$this->onlyAllowAccessFromAjax()){
+            return $this->output
+                ->set_content_type('application/json')
+                ->set_status_header(200)
+                ->set_output(json_encode(array(
+                    'result'=>'Error: Only Allow Access From Ajax'
+                )));
+        }
+
+        $this->load->model("frontpage_model");
+        $id = $this->securePost('id',true,false);
+        if(empty($id)){
+            return $this->output
+                ->set_content_type('application/json')
+                ->set_status_header(200)
+                ->set_output(json_encode(array(
+                    'result'=>'Error: ID is not found'
+                )));
+        }
+        $user_id = $this->propid;
+        $web_config = $this->getConfigWeb(); 
+
+        switch ($case) {
+            case 'check_status':
+                $get_donate = $this->frontpage_model->donate_list($user_id, array('d.id'=>$id));
+                if(empty($get_donate)){
+                    return $this->output
+                        ->set_content_type('application/json')
+                        ->set_status_header(200)
+                        ->set_output(json_encode(array(
+                            'result'=>'Error: Donate Data is not found'
+                        )));
+                }
+                
+                $xepo_name = $this->global['xepo_secure']['name'];
+                $xepo_value = $this->global['xepo_secure']['hash'];  
+
+                return $this->output
+                    ->set_content_type('application/json')
+                    ->set_status_header(200)
+                    ->set_output(json_encode(array(
+                        'result'=>$get_donate[0], 
+                        'xepo_name'=>$xepo_name,
+                        'xepo_value'=>$xepo_value, 
+                    )));
+                break; 
+        }
+
+        return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header(200)
+            ->set_output(json_encode(array(
+                'result'=>'Error: Request not found'
+            ))); 
+    }
+
+    function popup_backup($case){
         if(!$this->onlyAllowAccessFromAjax()){
             return $this->output
                 ->set_content_type('application/json')
@@ -155,110 +213,110 @@ class Donate extends FrontLib {
     //         ))); 
     // }
 
-    public function get_token_donate()
-    { 
-        if(!$this->onlyAllowAccessFromAjax()){
-            return $this->output
-                ->set_content_type('application/json')
-                ->set_status_header(200)
-                ->set_output(json_encode(array(
-                    'result'=>'Error: Only Allow Access From Ajax'
-                )));
-        } 
-        $user_id = $this->propid;
-        $usr_code = $this->usr_code; 
-        $donate_id = $this->secureGet('donate_id',true,false);
-        $order_id = $this->secureGet('order_id',true,[
-            '-',
-        ]);
+    // public function get_token_donate()
+    // { 
+    //     if(!$this->onlyAllowAccessFromAjax()){
+    //         return $this->output
+    //             ->set_content_type('application/json')
+    //             ->set_status_header(200)
+    //             ->set_output(json_encode(array(
+    //                 'result'=>'Error: Only Allow Access From Ajax'
+    //             )));
+    //     } 
+    //     $user_id = $this->propid;
+    //     $usr_code = $this->usr_code; 
+    //     $donate_id = $this->secureGet('donate_id',true,false);
+    //     $order_id = $this->secureGet('order_id',true,[
+    //         '-',
+    //     ]);
 
-        if(empty($order_id) || empty($donate_id)){
-            return $this->output
-                ->set_content_type('application/json')
-                ->set_status_header(200)
-                ->set_output(json_encode(array(
-                    'result'=>'Error: Order ID is not found'
-                )));
-        }
+    //     if(empty($order_id) || empty($donate_id)){
+    //         return $this->output
+    //             ->set_content_type('application/json')
+    //             ->set_status_header(200)
+    //             ->set_output(json_encode(array(
+    //                 'result'=>'Error: Order ID is not found'
+    //             )));
+    //     }
 
-        $get_donate = $this->db->get_where('donate',array(
-            'id'=>$donate_id
-        ))->row_array();
-        if(count($get_donate)==0){ 
-            return $this->output
-                ->set_content_type('application/json')
-                ->set_status_header(200)
-                ->set_output(json_encode(array(
-                    'result'=>'Error: Please try again, Donate data is not found'
-                )));
-        }
+    //     $get_donate = $this->db->get_where('donate',array(
+    //         'id'=>$donate_id
+    //     ))->row_array();
+    //     if(count($get_donate)==0){ 
+    //         return $this->output
+    //             ->set_content_type('application/json')
+    //             ->set_status_header(200)
+    //             ->set_output(json_encode(array(
+    //                 'result'=>'Error: Please try again, Donate data is not found'
+    //             )));
+    //     }
 
-        $get_donate_price = $this->db->get_where('donate_price_list',array(
-            'id'=>$get_donate['donate_price_id']
-        ))->row_array();
-        if(count($get_donate_price)==0){ 
-            return $this->output
-                ->set_content_type('application/json')
-                ->set_status_header(200)
-                ->set_output(json_encode(array(
-                    'result'=>'Error: Please try again, Donate Price data is not found'
-                )));
-        }
+    //     $get_donate_price = $this->db->get_where('donate_price_list',array(
+    //         'id'=>$get_donate['donate_price_id']
+    //     ))->row_array();
+    //     if(count($get_donate_price)==0){ 
+    //         return $this->output
+    //             ->set_content_type('application/json')
+    //             ->set_status_header(200)
+    //             ->set_output(json_encode(array(
+    //                 'result'=>'Error: Please try again, Donate Price data is not found'
+    //             )));
+    //     }
 
-		// Required
-		$transaction_details = array(
-		  'order_id' => $order_id,
-		  'gross_amount' => $get_donate_price['price'], // no decimal allowed for creditcard
-		);
+	// 	// Required
+	// 	$transaction_details = array(
+	// 	  'order_id' => $order_id,
+	// 	  'gross_amount' => $get_donate_price['price'], // no decimal allowed for creditcard
+	// 	);
         
-        $currency = $get_donate_price['currency'];
-        $float_num = 0;
-        if($currency === 'USD'){
-            $float_num = 2;
-        }
-        $value = number_format($get_donate_price['value'],0,',','.');
-        $price = number_format($get_donate_price['price'],$float_num,',','.');
-        $item_name = $value.' Diamonds - '.$currency.' '.$price;
+    //     $currency = $get_donate_price['currency'];
+    //     $float_num = 0;
+    //     if($currency === 'USD'){
+    //         $float_num = 2;
+    //     }
+    //     $value = number_format($get_donate_price['value'],0,',','.');
+    //     $price = number_format($get_donate_price['price'],$float_num,',','.');
+    //     $item_name = $value.' Diamonds - '.$currency.' '.$price;
 
-		$item1_details = array(
-		  'id' => $get_donate['donate_price_id'],
-		  'price' => $get_donate_price['price'],
-		  'quantity' => 1,
-		  'name' => $item_name
-		);
+	// 	$item1_details = array(
+	// 	  'id' => $get_donate['donate_price_id'],
+	// 	  'price' => $get_donate_price['price'],
+	// 	  'quantity' => 1,
+	// 	  'name' => $item_name
+	// 	);
 
-		// Optional
-		$item_details = array($item1_details); 
+	// 	// Optional
+	// 	$item_details = array($item1_details); 
 
-		// Optional
-		$customer_details = array(
-		  'first_name'    => $get_donate['username'],
-		  'last_name'     => "",
-		  'email'         => $this->id_email,
-		//   'phone'         => "", 
-		); 
-        $credit_card['secure'] = true; 
+	// 	// Optional
+	// 	$customer_details = array(
+	// 	  'first_name'    => $get_donate['username'],
+	// 	  'last_name'     => "",
+	// 	  'email'         => $this->id_email,
+	// 	//   'phone'         => "", 
+	// 	); 
+    //     $credit_card['secure'] = true; 
 
-        $time = time();
-        $custom_expiry = array(
-            'start_time' => date("Y-m-d H:i:s O",$time),
-            'unit' => 'minute', 
-            'duration'  => 2
-        );
+    //     $time = time();
+    //     $custom_expiry = array(
+    //         'start_time' => date("Y-m-d H:i:s O",$time),
+    //         'unit' => 'minute', 
+    //         'duration'  => 2
+    //     );
         
-        $transaction_data = array(
-            'transaction_details'=> $transaction_details,
-            'item_details'       => $item_details,
-            'customer_details'   => $customer_details,
-            'credit_card'        => $credit_card,
-            'expiry'             => $custom_expiry
-        );
+    //     $transaction_data = array(
+    //         'transaction_details'=> $transaction_details,
+    //         'item_details'       => $item_details,
+    //         'customer_details'   => $customer_details,
+    //         'credit_card'        => $credit_card,
+    //         'expiry'             => $custom_expiry
+    //     );
 
-		error_log(json_encode($transaction_data));
-		$snapToken = $this->midtrans->getSnapToken($transaction_data);
-		error_log($snapToken);
-		echo $snapToken;
-    }
+	// 	error_log(json_encode($transaction_data));
+	// 	$snapToken = $this->midtrans->getSnapToken($transaction_data);
+	// 	error_log($snapToken);
+	// 	echo $snapToken;
+    // }
 
     // public function process_payment(){
     //     if(!$this->onlyAllowAccessFromAjax()){
@@ -494,7 +552,7 @@ class Donate extends FrontLib {
             $this->load->library('duitku');
 
             // $duitkuConfig = new \Duitku\Config("732B39FC61796845775D2C4FB05332AF", "D0001"); 
-            $duitkuConfig = new \Duitku\Config("7dc33f9a23a558389fff2656d51eb184", "DS12634"); // 'YOUR_MERCHANT_KEY' and 'YOUR_MERCHANT_CODE'
+            $duitkuConfig = new \Duitku\Config($this->duitku_merchant_key, $this->duitku_merchant_code); // 'YOUR_MERCHANT_KEY' and 'YOUR_MERCHANT_CODE'
             $duitkuConfig->setSandboxMode(true);
             // $duitkuConfig->setDuitkuLogs(false);
 
@@ -505,20 +563,29 @@ class Donate extends FrontLib {
             $donate_price_id = $this->input->post('input_amount',true);
             $input_referral_code = $this->input->post('input_referral_code',true); 
 
-            $this->db = dbloader("default");
-            $get_donate = $this->db->get_where('donate',array( 
-                'user_id'=>$user_id,
-                'status'=>'unpaid',
-            ))->result_array(); 
-
-            if(count($get_donate) >= 3){ 
+            if(empty($user_id) || empty($usr_code)){ 
                 return $this->output
                     ->set_content_type('application/json')
                     ->set_status_header(200)
                     ->set_output(json_encode(array(
-                        'result'=>'Warn: Your Unpaid Donate data has reached the maximum (3), try deleting one of the "Unpaid" statuses and try donating again.'
+                        'result'=>'Error: You must login'
                     )));
-            }
+            } 
+
+            $this->db = dbloader("default");
+            $get_donate = $this->db->get_where('donate_duitku',array( 
+                'user_id'=>$user_id,
+                'status'=>'pending',
+            ))->result_array(); 
+
+            // if(count($get_donate) >= 3){ 
+            //     return $this->output
+            //         ->set_content_type('application/json')
+            //         ->set_status_header(200)
+            //         ->set_output(json_encode(array(
+            //             'result'=>'Warn: Your Pending Donate data has reached the maximum (3), try deleting one of the "Pending" statuses and try donating again.'
+            //         )));
+            // }
     
             $get_donate_price = $this->db->get_where('donate_price_list',array(
                 'id'=>$donate_price_id
@@ -533,24 +600,36 @@ class Donate extends FrontLib {
             }
             $donate_point = $get_donate_price['value'];
 
+            $min_unumber = 100;
+            $max_unumber = 999; 
+            $g_unique_numb = $this->generateUniqueNumber($min_unumber,$max_unumber,'donate');
+            if(!$g_unique_numb){
+                return $this->output
+                    ->set_content_type('application/json')
+                    ->set_status_header(200)
+                    ->set_output(json_encode(array(
+                        'result'=>'Error: generate Unique Number'
+                    )));
+            }
+
             // Parameter PaymentMethod is optional
             // $paymentMethod      = ""; // PaymentMethod list => https://docs.duitku.com/pop/id/#payment-method  
-            $paymentAmount      = $get_donate_price['price']; // Amount
-            $productDetails     = 'Donate '.$get_donate_price['value'].' Diamonds';
-            $merchantOrderId    = time(); // from merchant, unique   
-            $additionalParam    = ''; // optional
-            $merchantUserInfo   = ''; // optional
-            $callbackUrl        = base_url('duitku/callback/new_luna_classic'); // url for callback
-            $returnUrl          = base_url('duitku/return/new_luna_classic'); // url for redirect
-            $expiryPeriod       = 5; // set the expired time in minutes
+            $payment_amount      = $get_donate_price['price']; // Amount
+            $product_details     = 'Donate '.$get_donate_price['value'].' Diamonds';
+            $merchant_order_id    = date("Ymd") . ($g_unique_numb); // from merchant, unique   
+            $additional_param    = ''; // optional
+            $merchant_user_info   = ''; // optional
+            $callback_url        = base_url('duitku/callback/new_luna_classic'); // url for callback
+            $return_url          = base_url('duitku/return/new_luna_classic'); // url for redirect
+            $expiry_period       = 5; // set the expired time in minutes
 
             // Customer Detail
             $email              = $ses_email; // your customer email
             // $phoneNumber        = $this->input->post('input_phone',true); // your customer phone number (optional)
-            $customerVaName     = $ses_username; // display name on bank confirmation display
-            $exp_full_name      = split_name($customerVaName);
-            $firstName          = $exp_full_name[0];
-            $lastName           = $exp_full_name[1];
+            $customer_va_name     = $ses_username; // display name on bank confirmation display
+            $exp_full_name       = split_name($customer_va_name);
+            $first_name          = $exp_full_name[0];
+            $last_name           = $exp_full_name[1];
 
             // // Address
             // $alamat             = "Jl. Kembangan Raya";
@@ -559,8 +638,8 @@ class Donate extends FrontLib {
             // $countryCode        = "ID";
 
             // $address = array(
-            //     'firstName'     => $firstName,
-            //     'lastName'      => $lastName,
+            //     'firstName'     => $first_name,
+            //     'lastName'      => $last_name,
             //     'address'       => $alamat,
             //     'city'          => $city,
             //     'postalCode'    => $postalCode,
@@ -569,19 +648,18 @@ class Donate extends FrontLib {
             // );
 
             $customerDetail = array(
-                'firstName'         => $firstName,
-                'lastName'          => $lastName,
+                'firstName'         => $first_name,
+                'lastName'          => $last_name,
                 'email'             => $email,
                 // 'phoneNumber'       => $phoneNumber,
                 // 'billingAddress'    => $address,
                 // 'shippingAddress'   => $address
-            );
-
+            ); 
 
             // Item Details
             $item1 = array(
-                'name'      => $productDetails,
-                'price'     => $paymentAmount,
+                'name'      => $product_details,
+                'price'     => $payment_amount,
                 'quantity'  => 1
             );
 
@@ -591,19 +669,19 @@ class Donate extends FrontLib {
             );
 
             $params = array(
-                'paymentAmount'     => $paymentAmount,
-                'merchantOrderId'   => $merchantOrderId,
-                'productDetails'    => $productDetails,
-                'additionalParam'   => $additionalParam,
-                'merchantUserInfo'  => $merchantUserInfo,
-                'customerVaName'    => $customerVaName,
+                'paymentAmount'     => $payment_amount,
+                'merchantOrderId'   => $merchant_order_id,
+                'productDetails'    => $product_details,
+                'additionalParam'   => $additional_param,
+                'merchantUserInfo'  => $merchant_user_info,
+                'customerVaName'    => $customer_va_name,
                 'email'             => $email,
                 'phoneNumber'       => $phoneNumber,
                 'itemDetails'       => $itemDetails,
                 'customerDetail'    => $customerDetail,
-                'callbackUrl'       => $callbackUrl,
-                'returnUrl'         => $returnUrl,
-                'expiryPeriod'      => $expiryPeriod
+                'callbackUrl'       => $callback_url,
+                'returnUrl'         => $return_url,
+                'expiryPeriod'      => $expiry_period
             );
 
             try {
@@ -617,125 +695,70 @@ class Donate extends FrontLib {
                 $resp_pop->xepo_name = $this->global['xepo_secure']['name'];
                 $resp_pop->xepo_value = $this->global['xepo_secure']['hash'];
 
+                $data_referral_code = null;
+                if(!empty($input_referral_code)){
+                    $this->db->where('referral_code', $input_referral_code);
+                    $this->db->where('is_deleted', 'no');
+                    $this->db->where('user_id !=', $user_id);
+                    $data_referral_code = $this->db->get('referral_code')->row_array();
+                    if(count($data_referral_code)==0){
+                        return $this->output
+                            ->set_content_type('application/json')
+                            ->set_status_header(200)
+                            ->set_output(json_encode(array(
+                                'result'=>'Warning: Referral Code is not found'
+                            )));
+                    } 
+                }
+                
+                $donate_insert = array(
+                    'user_id' => $user_id,
+                    'user_code' => $usr_code,
+                    'username' => $ses_username,
+                    'donate_price_id' => $donate_price_id,
+                    'donate_point' => $donate_point,
+                    'reference' => $resp_pop->reference,
+                    'merchant_code' => $resp_pop->merchantCode,
+                    'merchant_name' => '',
+                    'merchant_order_id' => $merchant_order_id,
+                    'va_number' => '',
+                    'product_detail' => $product_details,
+                    'email' => $ses_email,
+                    'redirect_url' => '',
+                    'payment_code' => '',
+                    'payment_name' => '',
+                    'payment_type' => '',
+                    'payment_url' => $resp_pop->paymentUrl,
+                    'status' => 'pending', 
+                    'created_date' => $GLOBALS['date_now'],
+                );
+                if(!empty($data_referral_code)){
+                    $donate_insert['referral_code'] = $input_referral_code;
+                }
+                $this->db->trans_begin();
+                $this->db->insert('donate_duitku',$donate_insert);
+                $donate_id = $this->db->insert_id();
+                if($this->db->trans_status() === FALSE) {
+                    $this->db->trans_rollback();
+                    return $this->output
+                        ->set_content_type('application/json')
+                        ->set_status_header(200)
+                        ->set_output(json_encode(array(
+                            'result'=>'Error: Failed To Insert Donate'
+                        )));
+                } 
+
+                $this->db->trans_commit();
+                $xepo_name = $this->global['xepo_secure']['name'];
+                $xepo_value = $this->global['xepo_secure']['hash'];
+
                 header('Content-Type: application/json');
                 echo json_encode($resp_pop);
             } catch (Exception $e) {
                 echo $e->getMessage();
             }
 
-            return; 
-            
-            $this->form_validation->set_rules('input_username', 'USERNAME', 'trim|required');
-            $this->form_validation->set_rules('input_amount', 'DONATION TYPES', 'trim|required');
-            $this->form_validation->set_rules('input_referral_code', 'REFERRAL CODE', 'trim'); 
-    
-            if ($this->form_validation->run() == false) {
-                return $this->output
-                    ->set_content_type('application/json')
-                    ->set_status_header(200)
-                    ->set_output(json_encode(array(
-                        'result'=>'Error: Form validation failed'
-                    )));
-            }else{
-                if(empty($user_id) || empty($usr_code)){ 
-                    return $this->output
-                        ->set_content_type('application/json')
-                        ->set_status_header(200)
-                        ->set_output(json_encode(array(
-                            'result'=>'Error: You must login'
-                        )));
-                }else{
-                    $this->db = dbloader("default");
-    
-                    $data_referral_code = null;
-                    if(!empty($input_referral_code)){
-                        $this->db->where('referral_code', $input_referral_code);
-                        $this->db->where('is_deleted', 'no');
-                        $this->db->where('user_id !=', $user_id);
-                        $data_referral_code = $this->db->get('referral_code')->row_array();
-                        if(count($data_referral_code)==0){
-                            return $this->output
-                                ->set_content_type('application/json')
-                                ->set_status_header(200)
-                                ->set_output(json_encode(array(
-                                    'result'=>'Warning: Referral Code is not found'
-                                )));
-                        } 
-                    }
-
-                    $min_unumber = 100;
-                    $max_unumber = 999;
-                    $cekmutasi_to_payment_type = $this->cekmutasi_to_idr_payment_type;
-                    $cekmutasi_to_name = $this->cekmutasi_to_idr_name;
-                    $cekmutasi_to_account = $this->cekmutasi_to_idr_account;
-                    if($get_donate_price['currency'] == 'USD'){
-                        $min_unumber = 10;
-                        $max_unumber = 99;
-                        $cekmutasi_to_payment_type = $this->cekmutasi_to_usd_payment_type;
-                        $cekmutasi_to_name = $this->cekmutasi_to_usd_name;
-                        $cekmutasi_to_account = $this->cekmutasi_to_usd_account;
-                    }
-                    $g_unique_numb = $this->generateUniqueNumber($min_unumber,$max_unumber,'donate');
-                    if(!$g_unique_numb){
-                        return $this->output
-                            ->set_content_type('application/json')
-                            ->set_status_header(200)
-                            ->set_output(json_encode(array(
-                                'result'=>'Error: generate Code Price'
-                            )));
-                    }
-
-                    $g_unique_numb = (int)$g_unique_numb;
-                    $total_bill = (int)$get_donate_price['price'] + $g_unique_numb; 
-                    if($get_donate_price['currency'] == 'USD'){
-                        $total_bill = $get_donate_price['price'] + (float)('0.'.(string)$g_unique_numb);
-                    }
-                    $donate_insert = array(
-                        'payment_method' => 'Transfer',
-                        'cekmutasi_to_payment_type' => $cekmutasi_to_payment_type,
-                        'cekmutasi_to_name' => $cekmutasi_to_name,
-                        'cekmutasi_to_account' => $cekmutasi_to_account,
-                        'total_bill' => $total_bill,
-                        'user_id' => $user_id,
-                        'code_price' => $g_unique_numb,
-                        'user_code' => $usr_code,
-                        'username' => $input_username,
-                        'donate_price_id' => $donate_price_id,
-                        'donate_point' => $donate_point,
-                        'created_date' => $GLOBALS['date_now'],
-                    );
-                    if(!empty($data_referral_code)){
-                        $donate_insert['referral_code'] = $input_referral_code;
-                    }
-                    $this->db->trans_begin();
-                    $this->db->insert('donate',$donate_insert);
-                    $donate_id = $this->db->insert_id();
-                    if($this->db->trans_status() === FALSE) {
-                        $this->db->trans_rollback();
-                        return $this->output
-                            ->set_content_type('application/json')
-                            ->set_status_header(200)
-                            ->set_output(json_encode(array(
-                                'result'=>'Error: Failed To Insert Donate'
-                            )));
-                    } 
-    
-                    $this->db->trans_commit();
-                    $xepo_name = $this->global['xepo_secure']['name'];
-                    $xepo_value = $this->global['xepo_secure']['hash'];
-                    return $this->output
-                        ->set_content_type('application/json')
-                        ->set_status_header(200)
-                        ->set_output(json_encode(array(
-                            'result'=>true, 
-                            'data'=>array(
-                                'donate_id'=>$donate_id,
-                            ),
-                            'xepo_name'=>$xepo_name,
-                            'xepo_value'=>$xepo_value, 
-                        )));
-                }
-            }
+            return;  
         }
     }
 

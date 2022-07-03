@@ -7,6 +7,8 @@ class MY_Controller extends CI_Controller  {
 	protected $id_config_web;
 	protected $midtrans_server_key;
 	protected $midtrans_client_key;
+	protected $duitku_merchant_key; //MERCHANT_KEY 
+	protected $duitku_merchant_code; //MERCHANT_CODE
 	protected $pars_external_access;
     protected $referral_bonus_points;
     // protected $cekmutasi_to_idr_payment_type;
@@ -28,6 +30,8 @@ class MY_Controller extends CI_Controller  {
 		// $this->midtrans_client_key = 'SB-Mid-client-YD0FjP9biAWH1ewS'; 
 		$this->midtrans_server_key = ''; 
 		$this->midtrans_client_key = ''; 
+		$this->duitku_merchant_key = '7dc33f9a23a558389fff2656d51eb184'; 
+		$this->duitku_merchant_code = 'DS12634'; 
 
 		$this->pars_external_access = 'new_luna_classic'; // kebutuhan link diakses dari luar seperti API cekmutasi 
 		

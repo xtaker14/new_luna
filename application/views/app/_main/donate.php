@@ -1,5 +1,7 @@
 <!-- <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="<?php //$midtrans_client_key; ?>"></script> -->
-<script src="https://app-sandbox.duitku.com/lib/js/duitku.js"></script> 
+
+
+<!-- <script src="https://app-sandbox.duitku.com/lib/js/duitku.js"></script>  -->
 
 <div class="card p-1" data-aos="fade-left" data-aos-delay="0" style="height: 100%;"> 
 	<div class="card-body" style="height: 100%; background: #2a88ed; border-radius:4px;">
@@ -13,7 +15,8 @@
 
         <div class="row">
             <div class="col-12"> 
-                <div class="form-group d-block border p-2" style="border: 2px solid black !important; background: #fff;">
+                <h4 style="text-align: center; color: #fff; margin-top:15px;">--Coming Soon--</h4>
+                <!-- <div class="form-group d-block border p-2" style="border: 2px solid black !important; background: #fff;">
                     <p>
                         <b>RULES:</b><br> 
                         <ul>
@@ -27,16 +30,11 @@
                             </li>
                         </ul>
                     </p>
-                </div>
+                </div> -->
             </div>
         </div>
 
-        <div class="panel panel-primary" style="margin-top: 10px;">
-            <!-- <div class="panel-heading">
-                <h3 class="panel-title" style="color: #fff;">
-                    FORM
-                </h3>
-            </div> -->
+        <!-- <div class="panel panel-primary" style="margin-top: 10px;">
             <div class="panel-body"> 
 
                 <form id="form_donate" method="post" action="" method="post" accept-charset="utf-8">
@@ -92,26 +90,15 @@
 					                <input type="hidden" id="g_recaptcha" name="g-recaptcha-response">
                                     
                                     <button type="button" id="btn_purchase" class="btn-three" onClick="paymentDuitku();">BUY</button>
-                                    <?php 
-                                    // $this->load->view("app/_part/button_border.php",array(
-                                    //     'part_bb_txt'=> 'BUY NOW',
-                                    //     'part_bb_element'=> 'button',
-                                    //     'part_bb_type'=> 'button',
-                                    //     'part_bb_class'=>'btn-hover color-blue m-1', 
-                                    //     'part_bb_t_id'=>'btn_donate_now', 
-                                    //     'part_bb_t_name'=>'btn_donate_now', 
-                                    //     'part_bb_style'=> 'width:100%; font-size:1rem; letter-spacing:2px;margin-bottom:0px;',
-                                    // )); 
-                                    ?>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </form>
             </div>
-        </div> 
+        </div>  -->
         
-        <div class="panel panel-primary">
+        <!-- <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title" style="color: #fff;">
                     HISTORY
@@ -134,7 +121,7 @@
                             <?php 
                                 $currency = $val['currency'];
                                 $float_num = 0;
-                                $total_bill = $val['total_bill'];
+                                $total_bill = $val['bill'];
                                 if($currency === 'USD'){
                                     $float_num = 2; 
                                 } 
@@ -144,50 +131,18 @@
                                     <td><?= $currency.' '.number_format($total_bill,$float_num,',','.'); ?></td>
                                     <td><?= number_format($val['donate_point'],0,',','.'); ?></td>
                                     <td>
-                                        <?php if($val['payment_method']==='qris') : ?>
-                                            ShopeePay
-                                        <?php elseif($val['payment_method']==='bank_transfer') : ?>
-                                            Bank 
-                                            <?php if(!empty($val['midtrans_va_bank'])) : ?>
-                                            (<?= strtoupper($val['midtrans_va_bank']); ?>)
-                                            <?php endif; ?>
-                                        <?php elseif($val['payment_method']==='gopay') : ?>
-                                            Gopay
-                                        <?php elseif($val['payment_method']==='echannel') : ?>
-                                            Bank (MANDIRI)
-                                        <?php elseif($val['payment_method']==='credit_card') : ?>
-                                            Credit Card
-                                        <?php else: ?>
-                                            <?php 
-                                                echo $val['payment_method']; 
-                                                if(!empty($val['cekmutasi_service_name'])){
-                                                    echo '<br> With '.$val['cekmutasi_service_name']; 
-                                                }
-                                            ?>
-                                        <?php endif; ?>
+                                        -
                                     </td> 
                                     <td>
                                         <?php 
-                                            if($val['status'] == 'canceled'){
-                                                $this->load->view("app/_part/button_border.php",array(
-                                                    'part_bb_txt'=> '<i class="fas fa-hourglass-half"></i>&nbsp;'.strtoupper('cancelled'),
-                                                    'part_bb_element'=> 'button',
-                                                    'part_bb_type'=> 'button',
-                                                    'part_bb_attr_plus'=> 'onclick="popCheckDonate('.$val['id'].');"',
-                                                    'part_bb_class'=>'btn-hover color-red', 
-                                                    'part_bb_style'=> 'width:100%; font-size:0.80rem; letter-spacing:2px;margin-bottom:0px;',
-                                                )); 
-                                            }else{
-                                                $this->load->view("app/_part/button_border.php",array(
-                                                    'part_bb_txt'=> '<i class="fas fa-hourglass-half"></i>&nbsp;'.strtoupper($val['status']),
-                                                    'part_bb_element'=> 'button',
-                                                    'part_bb_type'=> 'button',
-                                                    'part_bb_attr_plus'=> 'onclick="popCheckDonate('.$val['id'].');"',
-                                                    'part_bb_class'=>'btn-hover color-blue', 
-                                                    'part_bb_style'=> 'width:100%; font-size:0.80rem; letter-spacing:2px;margin-bottom:0px;',
-                                                )); 
+                                            $cls_btn_status = 'btn-three';
+                                            if($val['status'] == 'canceled' || $val['status'] == 'pending'){
+                                                $cls_btn_status = 'btn-two';
                                             }
                                         ?>
+                                        <button type="button" class="<?= $cls_btn_status; ?>" onclick="popCheckDonate('<?= $val['id']; ?>');">
+                                            <?= strtoupper($val['status']); ?>
+                                        </button> 
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -195,7 +150,7 @@
                     </table> 
                 </div> 
             </div>
-        </div>  
+        </div>   -->
     </div>
 </div>
 
@@ -361,10 +316,7 @@ function donateNow(t){
     }); 
 }
 
-function popCheckDonate(id){
-    let donate_popup = $("#donate_popup");
-    let status = 'check'; 
-
+function popCheckDonate(id){ 
     f_main.loading(true);
     $.ajax({
         type : "POST",
@@ -373,17 +325,105 @@ function popCheckDonate(id){
             id : id,
             [xepo_secure_name] : xepo_secure_value,
         },
-        url : baseURL+"donate/popup/"+status,
+        url : baseURL+"donate/popup/check_status",
         success:function(res){
             f_main.loading(false,function(){
                 xepo_secure_name = res.xepo_name;
                 xepo_secure_value = res.xepo_value;
-                donate_popup.find("#form_donate_status").html(res.result);
-                donate_popup.modal("show");
+                checkoutProcess(res.result.reference); 
             });
         }
-    }); 
+    });
 } 
+
+// function popCheckDonate_backup(id){
+//     let donate_popup = $("#donate_popup");
+//     let status = 'check_status'; 
+
+//     f_main.loading(true);
+//     $.ajax({
+//         type : "POST",
+//         dataType : "json",
+//         data : {
+//             id : id,
+//             [xepo_secure_name] : xepo_secure_value,
+//         },
+//         url : baseURL+"donate/popup/"+status,
+//         success:function(res){
+//             f_main.loading(false,function(){
+//                 xepo_secure_name = res.xepo_name;
+//                 xepo_secure_value = res.xepo_value;
+                
+//             });
+//         }
+//     });  
+
+// } 
+
+// let oldXHROpen = window.XMLHttpRequest.prototype.open;
+// window.XMLHttpRequest.prototype.open = function(method, url, async, user, password) {
+//     // do something with the method, url and etc.
+//     this.addEventListener('load', function() {
+//         // do something with the response text
+//         console.log('load: ' + this.responseText);
+//     });
+//     return oldXHROpen.apply(this, arguments);
+// }
+
+// $(document).ajaxSuccess(function(e, xhr, settings) {
+//     // console.log(e);
+//     console.log(xhr);
+//     // console.log(settings);
+// });
+
+
+// window.isTop = true;
+// window.addEventListener("message", (event) => {
+//     if (event.data &&
+//         event.data.sender == "get_page_button1") {
+//         if (window.isTop) {
+//             alert("Main window alert");
+//         } else {
+//             alert("Frame window alert 1");
+//         }
+//     }
+// });
+// if (!window.isTop) {
+//     window.addEventListener("message", (event) => {
+//         if (event.data &&
+//             event.data.sender == "get_page_button2") {
+//             alert("Frame window alert 2");
+//         }
+//     });
+// }
+
+// window.document.addEventListener('readystatechange', () => {
+//         if (window.document.readyState == 'complete') {
+//             msgAddEventListener();
+//         }
+//     }
+// );
+// function msgAddEventListener(){
+//     let urlButton = window.document.getElementById("get_page");
+//     urlButton.addEventListener("click", () => {
+//         let url = window.document.getElementById("page_url").value;
+//         document.getElementById('duitku-payment').contentWindow.postMessage(
+//             {
+//                 sender: "get_page_button1",
+//                 message: url
+//             },
+//             "*"
+//         );
+//         document.getElementById('duitku-payment').contentWindow.postMessage(
+//             {
+//                 sender: "get_page_button2",
+//                 message: url
+//             },
+//             "*"
+//         );
+//     });
+// }
+
 
 function checkoutProcess(reference, result={}) { 
     checkout.process(reference, {
@@ -489,6 +529,9 @@ function checkoutProcess(reference, result={}) {
             });
         }
     });
+
+    // console.clear();
+    // console.log(checkout.process);
 } 
 
 function paymentDuitku() { 
