@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 30, 2022 at 06:36 AM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 7.3.33
+-- Generation Time: Jul 03, 2022 at 06:07 PM
+-- Server version: 10.4.19-MariaDB
+-- PHP Version: 7.3.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -166,6 +166,47 @@ CREATE TABLE `donate` (
   `cekmutasi_paypal_email` varchar(255) DEFAULT NULL,
   `cekmutasi_paypal_name` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `donate_duitku`
+--
+
+CREATE TABLE `donate_duitku` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `admin_id` int(11) DEFAULT NULL,
+  `user_code` varchar(255) NOT NULL,
+  `donate_price_id` int(11) NOT NULL,
+  `donate_point` varchar(255) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `referral_code` varchar(255) NOT NULL,
+  `reference` varchar(255) NOT NULL,
+  `merchant_code` varchar(50) NOT NULL,
+  `merchant_name` varchar(255) NOT NULL,
+  `merchant_order_id` int(11) NOT NULL,
+  `product_detail` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `redirect_url` varchar(255) NOT NULL,
+  `payment_url` varchar(255) NOT NULL,
+  `payment_code` varchar(255) NOT NULL,
+  `payment_name` varchar(255) NOT NULL,
+  `payment_type` varchar(50) NOT NULL,
+  `va_number` varchar(255) NOT NULL,
+  `status` varchar(255) NOT NULL,
+  `created_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `is_acc_by_admin` enum('yes','no') NOT NULL DEFAULT 'no',
+  `complete_date` datetime DEFAULT NULL,
+  `canceled_date` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `donate_duitku`
+--
+
+INSERT INTO `donate_duitku` (`id`, `user_id`, `admin_id`, `user_code`, `donate_price_id`, `donate_point`, `username`, `referral_code`, `reference`, `merchant_code`, `merchant_name`, `merchant_order_id`, `product_detail`, `email`, `redirect_url`, `payment_url`, `payment_code`, `payment_name`, `payment_type`, `va_number`, `status`, `created_date`, `is_acc_by_admin`, `complete_date`, `canceled_date`) VALUES
+(1, 70, NULL, 'XdSouDPcrpz61EFRZQltOBYHMGxkA4KIWjv5U83VfhaiN90gLs', 3, '30.00', 'xtaker123', '', 'DS126346JJHKGTTYHL33PK', 'DS12634', '', 2147483647, 'Donate 30.00 Diamonds', 'xtaker123@gmail.com', '', 'https://app-sandbox.duitku.com/redirect_checkout?reference=DS126346JJHKGTTYHL33PK', '', '', '', '', 'pending', '2022-07-03 00:17:00', 'no', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -30140,7 +30181,9 @@ INSERT INTO `unique_numbers` (`id`, `name`, `value`, `created_date`) VALUES
 (2, 'donate', '841', '2021-07-08'),
 (3, 'donate', '517', '2021-07-10'),
 (4, 'donate', '917', '2021-07-10'),
-(5, 'donate', '144', '2021-07-10');
+(5, 'donate', '144', '2021-07-10'),
+(6, 'donate', '603', '2022-07-03'),
+(7, 'donate', '733', '2022-07-03');
 
 -- --------------------------------------------------------
 
@@ -30219,6 +30262,12 @@ ALTER TABLE `daily_checkin_item`
 -- Indexes for table `donate`
 --
 ALTER TABLE `donate`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `donate_duitku`
+--
+ALTER TABLE `donate_duitku`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -30406,6 +30455,12 @@ ALTER TABLE `donate`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
+-- AUTO_INCREMENT for table `donate_duitku`
+--
+ALTER TABLE `donate_duitku`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `donate_price_list`
 --
 ALTER TABLE `donate_price_list`
@@ -30535,7 +30590,7 @@ ALTER TABLE `topup_log`
 -- AUTO_INCREMENT for table `unique_numbers`
 --
 ALTER TABLE `unique_numbers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `web_config`
