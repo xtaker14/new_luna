@@ -40,9 +40,9 @@ class MY_Model extends CI_Model {
 		$where['admin_address IS NOT NULL'] = NULL;
         $this->db->order_by('id', 'ASC');
         if(isset($limit) && isset($offset)){
-            $exec = $this->db->get_where('TAllowedIP', $where, $limit, $offset);
+            $exec = $this->db->get_where('tallowedip', $where, $limit, $offset);
         }else{
-            $exec = $this->db->get_where('TAllowedIP', $where);
+            $exec = $this->db->get_where('tallowedip', $where);
         }
 		$res_query = $exec;
 

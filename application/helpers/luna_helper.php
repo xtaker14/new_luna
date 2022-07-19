@@ -23,18 +23,21 @@ if(!function_exists('luna_job4'))
 {
     function luna_job4($key)
     {
-      $arr = array(11 => 'Phalanx',
-        12 => 'Knight',
-        13 => 'Gladiator',
-        14 => 'Rune Knight',
-        21 => 'Ranger',
-        22 => 'Treasure Hunter',
-        23 => 'Assasin',
-        24 => 'Rune Walker',
-        31 => 'Bishop',
-        32 => 'Warlock',
-        33 => 'Inquirer',
-        34 => 'Elemental Master'
+      $arr = array(
+        11 => array('fighter', 'Phalanx'),
+        12 => array('fighter', 'Knight'),
+        13 => array('fighter', 'Gladiator'),
+        14 => array('fighter', 'Rune Knight'),
+
+        21 => array('rogue', 'Ranger'),
+        22 => array('rogue', 'Treasure Hunter'),
+        23 => array('rogue', 'Assasin'),
+        24 => array('rogue', 'Rune Walker'),
+
+        31 => array('mage', 'Bishop'),
+        32 => array('mage', 'Warlock'),
+        33 => array('mage', 'Inquirer'),
+        34 => array('mage', 'Elemental Master'),
     );
       return $arr[$key];
     }
@@ -74,15 +77,17 @@ if(!function_exists('luna_job6'))
     function luna_job6($key)
     {
       $arr = array(
-        11 => 'Lord',
-        12 => 'Death Knight',
-        13 => 'Arc Templar',
-        21 => 'Soul Eye',
-        22 => 'Blood Stalker',
-        23 => 'Arc Bridger',
-        31 => 'Saint',
-        32 => 'Dark Archon',
-        33 => 'Arc Celebrant'
+        11 => array('fighter', 'Lord'),
+        12 => array('fighter', 'Death Knight'),
+        13 => array('fighter', 'Arc Templar'),
+
+        21 => array('rogue', 'Soul Eye'),
+        22 => array('rogue', 'Blood Stalker'),
+        23 => array('rogue', 'Arc Bridger'),
+
+        31 => array('mage', 'Saint'),
+        32 => array('mage', 'Dark Archon'),
+        33 => array('mage', 'Arc Celebrant'),
     );
       return $arr[$key];
     }

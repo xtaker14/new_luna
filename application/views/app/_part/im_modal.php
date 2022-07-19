@@ -82,7 +82,7 @@ ul#piece_list li table.table th{
             <div style="text-align: left;margin-bottom:10px;">
               <label class="" style="color: #0a3994;">
                 <input checked type="radio" name="payment_type" value="cash_point">
-                <b>Diamond : </b>
+                <b>Diamonds : </b>
                 <span>
                   <span class="star_point">
                     <?= $star_point; ?>

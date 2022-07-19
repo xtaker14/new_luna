@@ -172,6 +172,19 @@ class Frontpage extends FrontLib {
 		$this->global['php_name'] = "rank";
 		$this->loadViews();
 	}
+	function acc_history(){
+		$user_id = $this->propid;
+		if(empty($user_id)){
+        	$this->session->set_flashdata('error', 'Please login first.');
+            redirect(base_url());
+		} 
+
+		$this->load->model("frontpage_model");
+      	$this->global['donate_list'] = $this->frontpage_model->donate_list($user_id);
+		$this->global['account_number'] = $this->getConfigWeb()['account_number'];
+		$this->global['php_name'] = "acc_history";
+		$this->loadViews();
+	}
 	function donate(){
 		// $this->global['php_name'] = "donate_test";
 		// $this->loadViews();

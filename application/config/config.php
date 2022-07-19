@@ -72,10 +72,20 @@ $config['standardize_newlines'] = FALSE;
 $config['global_xss_filtering'] = FALSE;
 
 
-$csrf_pages = array("/adm/","/api/","/load_view/","/cekmutasi2/","/duitku/");
+$csrf_pages = array(
+    "/adm/",
+    "/api/",
+    "/load_view/",
+    "/cekmutasi2/",
+    "/duitku/",
+    "/donate/get_bonus_items",
+);
 $config['csrf_protection'] = TRUE;
 if (isset($_SERVER["REQUEST_URI"])) {
     foreach ($csrf_pages as $url){
+        // echo '<pre>';
+        // var_dump([$_SERVER["REQUEST_URI"], $url]);
+        // exit;
         if(stripos($_SERVER["REQUEST_URI"],$url) !== FALSE) {
             $config['csrf_protection'] = FALSE;
             break;

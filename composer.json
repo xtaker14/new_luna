@@ -11,7 +11,9 @@
 		"source": "https://github.com/bcit-ci/CodeIgniter"
 	},
 	"require": {
-		"php": ">=7.3.10"
+		"php": ">=7.3.10",
+		"duitkupg/duitku-php": "dev-master",
+		"symfony/dotenv": "^5.4"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"

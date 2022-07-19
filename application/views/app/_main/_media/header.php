@@ -70,10 +70,12 @@ html {
   text-rendering: optimizelegibility;
 }
 
-.gallery-image {
+.gallery-image{
   position: relative;
   margin: 0;
   padding: 0;
+  /* display: -webkit-box;
+  display: block; */
 }
 .gallery-image:before, .gallery-image:after {
   content: "";
@@ -94,7 +96,7 @@ html {
   max-width: 100%;
   height: auto;
 }
-html:not(.touch) .gallery-image {
+html:not(.touch) .gallery-image{
   overflow: hidden;
 }
 html:not(.touch) .gallery-image:hover:before {

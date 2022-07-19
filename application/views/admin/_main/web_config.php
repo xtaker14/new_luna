@@ -43,11 +43,15 @@ $upload_path = "assets/frontpage/img/web_config";
             </div>
             
             <div class="row">
-                <div class="col-md-6 form-group">  
+                <div class="col-md-4 form-group">  
+                    <label for="input_server_status"><?= ucwords('Server Status'); ?></label>
+                    <input type="text" class="form-control" placeholder="Server Status" name="input_server_status" id="input_server_status" value="<?= $config_web['server_status']; ?>">
+                </div>
+                <div class="col-md-4 form-group">  
                     <label for="input_server_location"><?= ucwords('Server Location'); ?></label>
                     <input type="text" class="form-control" placeholder="Server Location" name="input_server_location" id="input_server_location" value="<?= $config_web['server_location']; ?>">
                 </div>
-                <div class="col-md-6 form-group">  
+                <div class="col-md-4 form-group">  
                     <label for="input_server_cap_lvl"><?= ucwords('Server Cap Level'); ?></label>
                     <input type="text" class="form-control" placeholder="Server Cap Level" name="input_server_cap_lvl" id="input_server_cap_lvl" value="<?= $config_web['server_cap_lvl']; ?>">
                 </div>

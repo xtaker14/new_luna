@@ -7,10 +7,13 @@ class Duitku_c extends FrontLib
 	public function __construct(){
 		parent::__construct();
 		// exit;
+        $this->load->library('duitku');
 	}
     
 	public function return($pars=''){
-		if($pars != $this->pars_external_access){
+        return false;
+
+		if($pars != getenv('KEY_EXTERNAL_ACCESS')){
             return $this->output
 				->set_content_type('application/json')
 				->set_status_header(200)
@@ -47,7 +50,7 @@ class Duitku_c extends FrontLib
 	} 
 
 	public function callback($pars=''){
-		if($pars != $this->pars_external_access){
+		if($pars != getenv('KEY_EXTERNAL_ACCESS')){
             return $this->output
 				->set_content_type('application/json')
 				->set_status_header(200)
@@ -55,7 +58,6 @@ class Duitku_c extends FrontLib
 					'result'=>false, 
 				))); 
         }
-        $this->load->library('duitku');
         $this->db = dbloader("default"); 
 
         $duitkuConfig = new \Duitku\Config("7dc33f9a23a558389fff2656d51eb184", "DS12634"); 

@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'b301ec4de90b6037ad5ae7c16130dad4bbfd6e96',
+    'reference' => '63d5abeaf12d6027bb0a221265058d3b695a5854',
     'name' => 'codeigniter/framework',
   ),
   'versions' => 
@@ -42,7 +42,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'b301ec4de90b6037ad5ae7c16130dad4bbfd6e96',
+      'reference' => '63d5abeaf12d6027bb0a221265058d3b695a5854',
     ),
     'doctrine/instantiator' => 
     array (
@@ -52,6 +52,16 @@ private static $installed = array (
       array (
       ),
       'reference' => 'd56bf6102915de5702778fe20f2de3b2fe570b5b',
+    ),
+    'duitkupg/duitku-php' => 
+    array (
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
+      'aliases' => 
+      array (
+        0 => '9999999-dev',
+      ),
+      'reference' => '994f9eb9ebdd21fe342f4ef6b5b6c73aea41db9d',
     ),
     'mikey179/vfsstream' => 
     array (
@@ -223,6 +233,24 @@ private static $installed = array (
       array (
       ),
       'reference' => '58b3a85e7999757d6ad81c787a1fbf5ff6c628c6',
+    ),
+    'symfony/deprecation-contracts' => 
+    array (
+      'pretty_version' => 'v2.5.2',
+      'version' => '2.5.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'e8b495ea28c1d97b5e0c121748d6f9b53d075c66',
+    ),
+    'symfony/dotenv' => 
+    array (
+      'pretty_version' => 'v5.4.5',
+      'version' => '5.4.5.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '83a2310904a4f5d4f42526227b5a578ac82232a9',
     ),
     'symfony/polyfill-ctype' => 
     array (

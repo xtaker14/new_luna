@@ -255,19 +255,24 @@ class Frontpage_json extends FrontLib {
 
          $res_job = '';
          if(is_array($job)):
-            if($job[0]=='fighter'):
-               $res_job = '<span class="pointer" role="button" title="'. $job[1] .'" data-toggle="tooltip" data-placement="bottom">
-                  <img src="' . base_url('assets/frontpage/img/class/fighter/Job 1/fighter.png') . '" style="width:24px;" alt="">
-               </span>';
-            elseif($job[0]=='rogue'):
-               $res_job = '<span class="pointer" role="button" title="'. $job[1] .'" data-toggle="tooltip" data-placement="bottom">
-                  <img src="' . base_url('assets/frontpage/img/class/rogue/Job 1/rogue.png') . '" style="width:24px;" alt="">
-               </span>';
-            elseif($job[0]=='mage'):
-               $res_job = '<span class="pointer" role="button" title="'. $job[1] .'" data-toggle="tooltip" data-placement="bottom">
-                  <img src="' . base_url('assets/frontpage/img/class/mage/Job 1/mage.png') . '" style="width:24px;" alt="">
-               </span>';
-            endif;
+            // if($job[0]=='fighter'):
+            //    $res_job = '<span class="pointer" role="button" title="'. $job[1] .'" data-toggle="tooltip" data-placement="bottom">
+            //       <img src="' . base_url('assets/frontpage/img/class/fighter/Job 1/fighter.png') . '" style="width:24px;" alt="">
+            //    </span>';
+            // elseif($job[0]=='rogue'):
+            //    $res_job = '<span class="pointer" role="button" title="'. $job[1] .'" data-toggle="tooltip" data-placement="bottom">
+            //       <img src="' . base_url('assets/frontpage/img/class/rogue/Job 1/rogue.png') . '" style="width:24px;" alt="">
+            //    </span>';
+            // elseif($job[0]=='mage'):
+            //    $res_job = '<span class="pointer" role="button" title="'. $job[1] .'" data-toggle="tooltip" data-placement="bottom">
+            //       <img src="' . base_url('assets/frontpage/img/class/mage/Job 1/mage.png') . '" style="width:24px;" alt="">
+            //    </span>';
+            // endif;
+            
+            $res_job = '<span class="pointer" role="button" title="'. $job[1] .'" data-toggle="tooltip" data-placement="bottom">
+               <img src="' . base_url('assets/frontpage/img/class/'.$job[0].'/'.$job[1].'.png') . '" style="width:24px;" alt="">
+            </span>';
+            
          else: 
             // $res_job = '<span class="pointer" role="button" title="'. $job .'" data-toggle="tooltip" data-placement="bottom">
             //    <i class="fab fa-earlybirds"></i>

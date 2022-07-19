@@ -181,7 +181,7 @@
 					let silver_point = res.result.silver_point;
 					// console.log(res);
 					$(".star_point").text(f_main.numberFormatAlias(cash_point));
-					$(".star_point").parent().attr('title','Diamond : '+f_main.formatNumber(cash_point,'.'));
+					$(".star_point").parent().attr('title','Diamonds : '+f_main.formatNumber(cash_point,'.'));
 
 					// $(".silver_point").text(f_main.numberFormatAlias(silver_point));
 					// $(".silver_point").parent().attr('title','Balance : '+f_main.formatNumber(silver_point,'.'));
@@ -257,6 +257,11 @@
 				$("img").css({
 					visibility: 'visible',
 				});
+				
+				f_main.setInputFilter($("input[name=pin]"), function(value) {
+					return /^\d*$/.test(value) && (value === "" || $.trim(value).length <= 6); 
+				}); 
+				
 				$("#im_modal").modal("show");
 			});
 		}

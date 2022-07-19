@@ -26,9 +26,9 @@
 			        <td style="color: #fff;"><?= $user_email ?></td>
 			    </tr>
 			    <tr>
-			        <td style="color: #fff;">Diamond<span class="float-sm-right">:</span></td>
+			        <td style="color: #fff;">Diamonds<span class="float-sm-right">:</span></td>
 			        <td style="color: #fff;">
-						<label title="<?= 'Balance : '.number_format($star_point,0,'','.'); ?>" class="">
+						<label title="<?= 'Diamonds : '.number_format($star_point,0,'','.'); ?>" class="">
 							<span class="star_point">
 								<?= number_format($star_point,0,'','.'); ?>
 							</span><i class="fas fa-gem ml-1" data-fa-transform="rotate-30"></i>
@@ -47,6 +47,11 @@
 				<?php endif; ?>
 			</tbody>
 		</table>
+		<div class="d-flex">
+			<a href="<?= base_url(); ?>acc_history" class="btn-one btn-darker m-1" style="text-align: center;">
+				HISTORY
+			</a>
+		</div>		
 		<div class="d-flex">
 			<button id="btn_userpanel" type="button" class="btn-one btn-darker w-50 m-1">
 				SERVICES

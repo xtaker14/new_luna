@@ -278,6 +278,7 @@ class Admin_json extends AdminController {
             '[',
             ']',
         ]);
+        $input_server_status = $this->secureStr($post_data['input_server_status'],true);
         $input_server_cap_lvl = $this->secureStr($post_data['input_server_cap_lvl'],true);
         $input_server_exp = $this->secureStr($post_data['input_server_exp'],true);
         $input_server_exp_party = $this->secureStr($post_data['input_server_exp_party'],true);
@@ -332,6 +333,7 @@ class Admin_json extends AdminController {
             'title_web_name'=>$input_title_web_name,
             'initial_total_online'=>$input_initial_total_online,
             'server_location' => $input_server_location,
+            'server_status' => $input_server_status,
             'server_cap_lvl' => $input_server_cap_lvl,
             'server_exp_party' => $input_server_exp_party,
             'server_exp' => $input_server_exp,

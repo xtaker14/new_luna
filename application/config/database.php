@@ -32,9 +32,9 @@ $db['default'] = array(
 $sql_conf = array(
     'dsn'   => '',  
 
-    'hostname' => '.\SQLEXPRESS2019',
+    'hostname' => '.\NS525896',
     'username' => 'sa',//username SQL
-    'password' => 'xtaker123',//password SQL
+    'password' => 'luna',//password SQL
     'database' => 'LUNA_MEMBERDB',
     'dbdriver' => 'sqlsrv',  
 

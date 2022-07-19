@@ -39,6 +39,7 @@ $route['rank'] = 'frontpage/rank';
 //FRONTPAGEDONATE
 $route['go_donate'] = 'donate/buy';
 $route['donate'] = 'frontpage/donate';
+$route['acc_history'] = 'frontpage/acc_history';
 
 //ADMIN AREA
 /*Login Admin*/

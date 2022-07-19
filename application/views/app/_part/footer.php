@@ -12,15 +12,36 @@
 
 <footer class="page-footer font-small blue">
     <div class="primary-color">
-        <div class="container">
+        <!-- <div class="container"> -->
             <!--Grid row-->
             <div class="row d-flex align-items-center" style="justify-content: space-between;">
 
                 <!--Grid column-->
+                <div class="col-md-3" style="">
+                </div>
                 <div class="col-md-6 parent_copyright" style="padding-left:0;">
+                    <div class="icon_sosmed">
+                        <div>
+                            <a href="javascript:;">
+                                <img src="<?= CDN_IMG.('assets/frontpage/img/facebook.png'); ?>" alt="">
+                            </a>
+                        </div>
+                        <div>
+                            <a href="javascript:;">
+                                <img src="<?= CDN_IMG.('assets/frontpage/img/contact.png'); ?>" alt="">
+                            </a>
+                        </div>
+                        <div>
+                            <a href="javascript:;">
+                                <img src="<?= CDN_IMG.('assets/frontpage/img/help.png'); ?>" alt="">
+                            </a>
+                        </div>
+                    </div>
                     <div class="copyright">
                         <h5>&copy;<?= date('Y').'&nbsp;'.SITE_NAME; ?>. All Rights Reserved.</h5>
                     </div> 
+                </div>
+                <div class="col-md-3" style="">
                 </div>
                 <!--Grid column-->
 
@@ -44,7 +65,7 @@
 
             </div>
             <!--Grid row-->
-        </div>
+        <!-- </div> -->
     </div> 
   
 </footer>

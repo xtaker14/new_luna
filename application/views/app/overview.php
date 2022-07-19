@@ -94,7 +94,7 @@ $favico = CDN_IMG.($upload_path.'/'.$config_web['favico_img']);
 			<!-- </div> -->
 		<?php endif; ?>
 	
-		<div class="container main_content mb-4" >
+		<div class="container main_content mb-4" style="margin-bottom: 100px !important;">
 			<?php 
 				$mb_main_content = 'mb-3';
 				if($php_name == 'homepage'){

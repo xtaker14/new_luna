@@ -31,7 +31,7 @@ foreach ($arr as $key => $val) {
 					</div>
 
 					<div class="parent_list_point" style="margin-bottom:15px;">
-						<label for="item_source">Diamond :</label>
+						<label for="item_source">Diamonds :</label>
 						<div class="input-group">
 							<div class="input-group-prepend">
 								<div class="input-group-text">

@@ -13,6 +13,9 @@ class Donate extends FrontLib {
 		// $this->load->library('midtrans');
 		// $this->midtrans->config($params);
         $this->load->library('form_validation');
+
+        // require_once dirname(__FILE__) . '/Duitku.php';
+        $this->load->library('duitku');
 	} 
 
     
@@ -345,60 +348,6 @@ class Donate extends FrontLib {
     //             )));
     // } 
 
-    public function get_bonus_items(){
-        if(!$this->onlyAllowAccessFromAjax()){
-            return $this->output
-                ->set_content_type('application/json')
-                ->set_status_header(200)
-                ->set_output(json_encode(array(
-                    'result'=>'Error: Only Allow Access From Ajax'
-                )));
-        }
-        
-        $user_id = $this->propid;
-        $usr_code = $this->usr_code;
-        $id_donate_price = $this->securePost('id_donate_price',true,false);
-        $xepo_name = $this->global['xepo_secure']['name'];
-        $xepo_value = $this->global['xepo_secure']['hash'];
-
-        if(empty($user_id) || empty($usr_code)){ 
-            return $this->output
-                ->set_content_type('application/json')
-                ->set_status_header(200)
-                ->set_output(json_encode(array(
-                    'result'=>'Error: You must login',
-                    'xepo_name'=>$xepo_name,
-                    'xepo_value'=>$xepo_value, 
-                )));
-        }else{
-            $this->db = dbloader("default");
-
-            $get_donate_price = $this->db->get_where('donate_price_list',array(
-                'id'=>$id_donate_price
-            ))->row_array();
-            if(count($get_donate_price)==0){ 
-                return $this->output
-                    ->set_content_type('application/json')
-                    ->set_status_header(200)
-                    ->set_output(json_encode(array(
-                        'result'=>'Error: Please try again',
-                        'xepo_name'=>$xepo_name,
-                        'xepo_value'=>$xepo_value, 
-                    )));
-            }
-             
-            return $this->output
-                ->set_content_type('application/json')
-                ->set_status_header(200)
-                ->set_output(json_encode(array(
-                    'result'=>true,
-                    'data'=>json_decode($get_donate_price['items'], true),
-                    'xepo_name'=>$xepo_name,
-                    'xepo_value'=>$xepo_value, 
-                )));
-        }
-    }
-
     public function delete_temp_order(){
         if(!$this->onlyAllowAccessFromAjax()){
             return $this->output
@@ -530,6 +479,58 @@ class Donate extends FrontLib {
         }
     }
 
+    public function get_bonus_items(){
+        if(!$this->onlyAllowAccessFromAjax()){
+            return $this->output
+                ->set_content_type('application/json')
+                ->set_status_header(200)
+                ->set_output(json_encode(array(
+                    'result'=>'Error: Only Allow Access From Ajax'
+                )));
+        }
+        
+        $user_id = $this->propid;
+        $usr_code = $this->usr_code;
+        $id_donate_price = $this->securePost('id_donate_price',true,false);
+
+        if(empty($user_id) || empty($usr_code)){ 
+            return $this->output
+                ->set_content_type('application/json')
+                ->set_status_header(200)
+                ->set_output(json_encode(array(
+                    'result'=>'Error: You must login',
+                )));
+        }else{
+            $this->load->library('duitku');
+            $this->db = dbloader("default");
+
+            $get_donate_price = $this->db->get_where('donate_price_list',array(
+                'id'=>$id_donate_price
+            ))->row_array();
+            if(count($get_donate_price)==0){ 
+                return $this->output
+                    ->set_content_type('application/json')
+                    ->set_status_header(200)
+                    ->set_output(json_encode(array(
+                        'result'=>'Error: Please try again',
+                    )));
+            } 
+            
+            $resp_pop = $this->duitku->getPaymentMethodByAmount($get_donate_price['price']);
+
+            array_multisort(array_column($resp_pop, 'type'), SORT_DESC, $resp_pop);
+            
+            return $this->output
+                ->set_content_type('application/json')
+                ->set_status_header(200)
+                ->set_output(json_encode(array(
+                    'result'=>true,
+                    'data'=>json_decode($get_donate_price['items'], true),
+                    'payment'=>$resp_pop, 
+                )));
+        }
+    }
+
     public function buy(){  
         // if(!$this->onlyAllowAccessFromAjax()){
         //     return $this->output
@@ -540,27 +541,26 @@ class Donate extends FrontLib {
         //         )));
         // }
         $check = $this->google_verify();
+        $xepo_name = $this->global['xepo_secure']['name'];
+        $xepo_value = $this->global['xepo_secure']['hash'];
+
         if($check == true){
             return $this->output
                 ->set_content_type('application/json')
                 ->set_status_header(200)
                 ->set_output(json_encode(array(
-                    'result'=>'Error: Please try again'
+                    'result'=>'Error: Please try again',
+                    'xepo_name'=>$xepo_name,
+                    'xepo_value'=>$xepo_value, 
                 )));
-        }else{
-            // require_once dirname(__FILE__) . '/Duitku.php';
-            $this->load->library('duitku');
-
-            // $duitkuConfig = new \Duitku\Config("732B39FC61796845775D2C4FB05332AF", "D0001"); 
-            $duitkuConfig = new \Duitku\Config($this->duitku_merchant_key, $this->duitku_merchant_code); // 'YOUR_MERCHANT_KEY' and 'YOUR_MERCHANT_CODE'
-            $duitkuConfig->setSandboxMode(true);
-            // $duitkuConfig->setDuitkuLogs(false);
-
+        }else{ 
             $user_id = $this->propid;
             $usr_code = $this->usr_code;
             $ses_username = $this->session->userdata('id_loginid');
             $ses_email = $this->session->userdata('id_email');
             $donate_price_id = $this->input->post('input_amount',true);
+            $input_payment = $this->securePost('input_payment',true,false);
+
             $input_referral_code = $this->input->post('input_referral_code',true); 
 
             if(empty($user_id) || empty($usr_code)){ 
@@ -568,9 +568,33 @@ class Donate extends FrontLib {
                     ->set_content_type('application/json')
                     ->set_status_header(200)
                     ->set_output(json_encode(array(
-                        'result'=>'Error: You must login'
+                        'result'=>'Error: You must login',
+                        'xepo_name'=>$xepo_name,
+                        'xepo_value'=>$xepo_value, 
                     )));
             } 
+            
+            if(empty($donate_price_id)){
+                return $this->output
+                    ->set_content_type('application/json')
+                    ->set_status_header(200)
+                    ->set_output(json_encode(array(
+                        'result'=>'Error: Amount is not found',
+                        'xepo_name'=>$xepo_name,
+                        'xepo_value'=>$xepo_value, 
+                    )));
+            } 
+            
+            if(empty($input_payment)){
+                return $this->output
+                    ->set_content_type('application/json')
+                    ->set_status_header(200)
+                    ->set_output(json_encode(array(
+                        'result'=>'Error: Payment Method is not found (1)',
+                        'xepo_name'=>$xepo_name,
+                        'xepo_value'=>$xepo_value, 
+                    )));
+            }
 
             $this->db = dbloader("default");
             $get_donate = $this->db->get_where('donate_duitku',array( 
@@ -595,10 +619,29 @@ class Donate extends FrontLib {
                     ->set_content_type('application/json')
                     ->set_status_header(200)
                     ->set_output(json_encode(array(
-                        'result'=>'Error: Please try again'
+                        'result'=>'Error: Please try again',
+                        'xepo_name'=>$xepo_name,
+                        'xepo_value'=>$xepo_value, 
                     )));
             }
             $donate_point = $get_donate_price['value'];
+            
+            $get_payment_method = $this->duitku->getPaymentMethod($input_payment, $get_donate_price['price']);
+
+            $this->xepo_secure(); 
+            $xepo_name = $this->global['xepo_secure']['name'];
+            $xepo_value = $this->global['xepo_secure']['hash'];
+
+            if(!$get_payment_method){ 
+                return $this->output
+                    ->set_content_type('application/json')
+                    ->set_status_header(200)
+                    ->set_output(json_encode(array(
+                        'result'=>'Error: Payment Method is not found (2)',
+                        'xepo_name'=>$xepo_name,
+                        'xepo_value'=>$xepo_value, 
+                    )));
+            }
 
             $min_unumber = 100;
             $max_unumber = 999; 
@@ -608,12 +651,12 @@ class Donate extends FrontLib {
                     ->set_content_type('application/json')
                     ->set_status_header(200)
                     ->set_output(json_encode(array(
-                        'result'=>'Error: generate Unique Number'
+                        'result'=>'Error: generate Unique Number',
+                        'xepo_name'=>$xepo_name,
+                        'xepo_value'=>$xepo_value, 
                     )));
             }
 
-            // Parameter PaymentMethod is optional
-            // $paymentMethod      = ""; // PaymentMethod list => https://docs.duitku.com/pop/id/#payment-method  
             $payment_amount      = $get_donate_price['price']; // Amount
             $product_details     = 'Donate '.$get_donate_price['value'].' Diamonds';
             $merchant_order_id    = date("Ymd") . ($g_unique_numb); // from merchant, unique   
@@ -621,7 +664,7 @@ class Donate extends FrontLib {
             $merchant_user_info   = ''; // optional
             $callback_url        = base_url('duitku/callback/new_luna_classic'); // url for callback
             $return_url          = base_url('duitku/return/new_luna_classic'); // url for redirect
-            $expiry_period       = 5; // set the expired time in minutes
+            $expiry_period       = 60; // set the expired time in minutes
 
             // Customer Detail
             $email              = $ses_email; // your customer email
@@ -663,12 +706,14 @@ class Donate extends FrontLib {
                 'quantity'  => 1
             );
 
-
             $itemDetails = array(
                 $item1
             );
-
-            $params = array(
+            
+            // Parameter PaymentMethod is optional
+            // PaymentMethod list => https://docs.duitku.com/pop/id/#payment-method
+            $params = array( 
+                'paymentMethod'     => $get_payment_method['code'],
                 'paymentAmount'     => $payment_amount,
                 'merchantOrderId'   => $merchant_order_id,
                 'productDetails'    => $product_details,
@@ -686,14 +731,23 @@ class Donate extends FrontLib {
 
             try {
                 // createInvoice Request
-                $resp_pop = \Duitku\Pop::createInvoice($params, $duitkuConfig); 
+                $resp_pop = \Duitku\Pop::createInvoice($params, $this->duitku->config); 
                 // $resp_pop = json_decode($resp_pop, true);
-                // $resp_pop['xepo_name'] = $this->global['xepo_secure']['name'];
-                // $resp_pop['xepo_value'] = $this->global['xepo_secure']['hash'];
+                // $resp_pop['xepo_name'] = $xepo_name;
+                // $resp_pop['xepo_value'] = $xepo_value;
+
+                $this->xepo_secure(); 
+                $xepo_name = $this->global['xepo_secure']['name'];
+                $xepo_value = $this->global['xepo_secure']['hash'];
 
                 $resp_pop = json_decode($resp_pop);
-                $resp_pop->xepo_name = $this->global['xepo_secure']['name'];
-                $resp_pop->xepo_value = $this->global['xepo_secure']['hash'];
+                $resp_pop->xepo_name = $xepo_name;
+                $resp_pop->xepo_value = $xepo_value;
+                
+                // // $resp_pop->result = true;
+                // header('Content-Type: application/json');
+                // echo json_encode($resp_pop);
+                // return;  
 
                 $data_referral_code = null;
                 if(!empty($input_referral_code)){
@@ -706,7 +760,9 @@ class Donate extends FrontLib {
                             ->set_content_type('application/json')
                             ->set_status_header(200)
                             ->set_output(json_encode(array(
-                                'result'=>'Warning: Referral Code is not found'
+                                'result'=>'Warning: Referral Code is not found',
+                                'xepo_name'=>$xepo_name,
+                                'xepo_value'=>$xepo_value, 
                             )));
                     } 
                 }
@@ -725,9 +781,10 @@ class Donate extends FrontLib {
                     'product_detail' => $product_details,
                     'email' => $ses_email,
                     'redirect_url' => '',
-                    'payment_code' => '',
-                    'payment_name' => '',
-                    'payment_type' => '',
+                    'payment_fee' => $get_payment_method['fee'],
+                    'payment_code' => $get_payment_method['code'],
+                    'payment_name' => $get_payment_method['name'],
+                    'payment_type' => $get_payment_method['type'],
                     'payment_url' => $resp_pop->paymentUrl,
                     'status' => 'pending', 
                     'created_date' => $GLOBALS['date_now'],
@@ -744,13 +801,14 @@ class Donate extends FrontLib {
                         ->set_content_type('application/json')
                         ->set_status_header(200)
                         ->set_output(json_encode(array(
-                            'result'=>'Error: Failed To Insert Donate'
+                            'result'=>'Error: Failed To Insert Donate',
+                            'xepo_name'=>$xepo_name,
+                            'xepo_value'=>$xepo_value, 
                         )));
                 } 
 
                 $this->db->trans_commit();
-                $xepo_name = $this->global['xepo_secure']['name'];
-                $xepo_value = $this->global['xepo_secure']['hash'];
+                $resp_pop->result = true;
 
                 header('Content-Type: application/json');
                 echo json_encode($resp_pop);

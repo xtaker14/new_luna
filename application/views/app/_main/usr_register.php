@@ -119,7 +119,11 @@
 	</div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){
-	$('html').removeClass('no-js');
-})
+  $(document).ready(function(){ 
+    f_main.setInputFilter($("input[name=pin]"), function(value) {
+      return /^\d*$/.test(value) && (value === "" || $.trim(value).length <= 6); 
+    });
+
+    $('html').removeClass('no-js');
+  });
 </script>

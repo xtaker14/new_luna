@@ -9,7 +9,7 @@ class Cekmutasi2 extends FrontLib
 	}
 
 	public function process($pars){
-		if($pars != $this->pars_external_access){
+		if($pars != getenv('KEY_EXTERNAL_ACCESS')){
             return $this->output
 				->set_content_type('application/json')
 				->set_status_header(200)

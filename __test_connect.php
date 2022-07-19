@@ -1,5 +1,5 @@
 <?php
-    if($_GET['admin-key'] !== 'zonetest'){
+    if($_GET['admin-key'] !== 'newluna'){
         return false;
     }
     $serverName = "NS544566\SQLEXPRESS"; //serverName\instanceName

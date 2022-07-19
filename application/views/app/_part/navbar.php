@@ -80,36 +80,46 @@
         </div>
       </div>
       
-      <h5 style="margin-bottom: 0px; margin-top: 5px; text-align:center; background: -webkit-linear-gradient(#fff, #36d1dc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 16px;"><?= date('d M Y'); ?></h5>
+      <h5 style="margin-bottom: 0px; margin-top: 4px; text-align:center; background: -webkit-linear-gradient(#fff, #36d1dc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 16px;"><?= date('d M Y'); ?></h5>
     </div>
 
     <ul class="navbar-nav m-auto">
       <li data-aos="fade-right" data-aos-delay="100" class="nav-item active p-2 <?= empty($this->uri->segment(1)) ? 'current' : ''; ?>">
         <a class="nav-link text-center" href="<?= base_url() ?>">
           <!-- <i class="fas fa-home mr-1"></i> -->
-          Home
+          HOME
           <img class="nav-img" src="<?= CDN_IMG.('assets/frontpage/img/nav/slime.png'); ?>">
         </a>
       </li> 
       <li data-aos="fade-right" data-aos-delay="200" class="nav-item active p-2 <?= $this->uri->segment(1) == 'shop' ? 'current' : ''; ?>">
         <a class="nav-link text-center" href="<?= base_url('shop') ?>">
           <!-- <i class="fas fa-shopping-basket mr-1"></i> -->
-          Shop
+          SHOP
           <img class="nav-img" src="<?= CDN_IMG.('assets/frontpage/img/nav/slime.png'); ?>">
         </a>
       </li> 
       <li data-aos="fade-down" data-aos-delay="700" class="nav-item-center" style="">
-        <div class="nav-center-text">
-          <h5>PLAYERS ONLINE</h5>
-          <div class="nav-center-count p_online">
+        <?php 
+          $server_stat = $config_web['server_status'];
+          $srv_stat_color = 'radial-gradient(circle, #9ce61a 15%, #587d15 90%)';
+          if(strtolower($server_stat) == 'offline'){
+            $srv_stat_color = 'radial-gradient(circle, #e61a40 15%, #7d2415 90%)';
+          }
+        ?>
+        <div class="nav-center-text" style="background-image: <?= $srv_stat_color; ?>;">
+          <h5>SERVER STATUS</h5>
+          <!-- <div class="nav-center-count p_online">
             0
+          </div> -->
+          <div class="nav-center-count">
+            <?= $server_stat; ?>
           </div>
         </div>
       </li> 
       <li data-aos="fade-left" data-aos-delay="400" class="nav-item active p-2 <?= $this->uri->segment(1) == 'rank' ? 'current' : ''; ?>">
         <a class="nav-link text-center" href="<?= base_url('rank') ?>">
           <!-- <i class="fas fa-crown mr-1" ></i> -->
-          Rank
+          RANK
           <img class="nav-img" src="<?= CDN_IMG.('assets/frontpage/img/nav/slime.png'); ?>">
         </a>
       </li> 
@@ -118,7 +128,7 @@
         <li data-aos="fade-right" data-aos-delay="300" class="nav-item active p-2 <?= $this->uri->segment(1) == 'donate' ? 'current' : ''; ?>">
           <a class="nav-link text-center" href="<?= base_url('donate') ?>">
             <!-- <i class="far fa-money-bill-alt mr-1"></i> -->
-            Donate
+            DONATE
             <img class="nav-img" src="<?= CDN_IMG.('assets/frontpage/img/nav/slime.png'); ?>">
           </a>
         </li>
