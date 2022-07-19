@@ -35,11 +35,17 @@
     color: #eee;
 }
 
-#tbl_media_ss_table .gallery{
+#tbl_media_ss_table .gallery {
 	/* margin-top: 3px;
 	margin-bottom: 3px; */
 	margin: 3px;
+	/* display: flex; */
 }
+/* #tbl_media_ss_table .gallery-link{
+	-webkit-column-break-inside: avoid;
+	page-break-inside: avoid;
+	break-inside: avoid;
+} */
 #tbl_media_ss_table .gallery-image{
 	border-top: 1px dashed #fff;
 	border-bottom: 1px dashed #fff;
@@ -125,7 +131,8 @@
 	border-bottom-left-radius: 60px;
 	border-bottom-right-radius: 60px;
 	/* border: 2px solid #827360; */
-	border: 2px solid #61551E;
+	/* border: 2px solid #61551E; */
+	border: 2px solid #221D07;
 	/* box-shadow: 0 0.150rem 0.50rem rgba(0,0,0,.2) !important; */
 	box-shadow: 0 0.150rem 0.50rem rgba(0,0,0,.4) !important;
 	text-align: center;
@@ -496,11 +503,17 @@
 }
 .page-footer{
 	/* margin-top: 70px; */
-	margin-top: 30px;
+	/* margin-top: 30px; */
+	position: absolute;
+	bottom: 0;
+	width:100%;
 	/* background-image: linear-gradient(to right, #90aef0, #36d1dc) !important; */
 	/* box-shadow: 0 0.150rem 0.50rem rgba(0,0,0,.2) !important; */
 	display: block !important;
 	z-index: 1;
+	background-color: #ffffff;
+	box-shadow: 0 1px 5px rgba(0,0,0,0.2) !important;
+	padding: 7px;
 }
 .parent_discord{
 	display: flex;
@@ -869,6 +882,25 @@ Inline Social Icons
     opacity: 1;
 }
 
+.parent_copyright .icon_sosmed{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.parent_copyright .icon_sosmed div{
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-left: 7px;
+	margin-right: 7px;
+	transition: 0.3s;
+}
+.parent_copyright .icon_sosmed div:hover{
+	opacity: 0.5;
+}
+
+div.copyright{
+	text-align: center
+} 
 div.copyright,
 div.parent-social-icons{
 	top: 0;
@@ -876,8 +908,10 @@ div.parent-social-icons{
 } 
 
 div.copyright h5{
-	color: white;
-  	text-shadow: 2px 2px 4px #000000;
+	color: #000000;
+	margin-bottom: .3rem;
+	font-size: 1rem;
+  	/* text-shadow: 2px 2px 4px #000000; */
 }
 ul.social-icons li{
 	margin-bottom: 0;
@@ -1249,6 +1283,7 @@ ul.social-icons li:nth-last-child(1) {
     background: url(<?= base_url('assets/frontpage/img/top_banner_1.png') ?>);
     height:600px;
     width:100%;
+    background-position:center !important;
     background-size:cover;
     background-clip: border-box;
     background-origin: border-box;

@@ -52,7 +52,7 @@ if($stat=='error'){
     let swal_type = "<?= $popup_class; ?>";
     
     $(document).ready(function(){
-        swal("Successfull",
+        swal(swal_title,
             "<?= $this->session->flashdata('popup'); ?>",
             swal_type,
         {

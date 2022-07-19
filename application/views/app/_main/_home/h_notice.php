@@ -56,8 +56,10 @@
                                     <div class="col-md-12 mb-2" style="padding: 0px;padding-top: 7px;">
                                         <div class="row" style="margin: 0px;">
                                             <!-- <img class="mini-notice rounded-circle" src="<?= $val['img']; ?>" alt="<?= $val['title']; ?>" style="margin:auto;"> -->
-                                            <div class="col-md-3" style="padding: 0px;padding-left: 5px;">
-                                                <img src="<?= $val['img']; ?>" style="width: 100%;max-height:150px;" alt="<?= $val['title']; ?>">
+                                            <div class="col-md-3" style="padding: 0px;">
+                                                <div style="padding:5px;background:#267ad5;padding-bottom:10px;padding-top:10px;">
+                                                    <img src="<?= $val['img']; ?>" style="width: 100%;max-height:150px;" alt="<?= $val['title']; ?>">
+                                                </div>
                                             </div>
                                             <div class="col-md-9" style="display:flex;flex-wrap:wrap;padding: 0px;">
                                                 <div class="row" style="margin: 0px; width: 100%;">
@@ -103,8 +105,10 @@
                                 <?php foreach ($news_event as $key => $val) : ?>
                                     <div class="col-md-12 mb-2" style="padding: 0px;padding-top: 7px;">
                                         <div class="row" style="margin: 0px;">
-                                            <div class="col-md-3" style="padding: 0px;padding-left: 5px;">
-                                                <img src="<?= $val['img']; ?>" style="width: 100%;max-height:150px;" alt="<?= $val['title']; ?>">
+                                            <div class="col-md-3" style="padding: 0px;">
+                                                <div style="padding:5px;background:#267ad5;padding-bottom:10px;padding-top:10px;">
+                                                    <img src="<?= $val['img']; ?>" style="width: 100%;max-height:150px;" alt="<?= $val['title']; ?>">
+                                                </div>
                                             </div>
                                             <div class="col-md-9" style="display:flex;flex-wrap:wrap;padding: 0px;">
                                                 <div class="row" style="margin: 0px; width: 100%;">

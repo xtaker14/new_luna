@@ -79,15 +79,17 @@
                                         foreach($s_media as $key): 
                                             $show_delay += 50;
                                         ?>
-                                            <a  class="gallery-link" href="<?= base_url(); ?>assets/frontpage/img/media/<?= $key['img']; ?>">
-                                                <figure class="gallery-image" style="padding:3px;">
-                                                    <img style="height: 220px; width:100%;" src="<?= base_url(); ?>assets/frontpage/img/media/<?= $key['img']; ?>">
-                                                    <!-- <figcaption><?= $key['name']; ?></figcaption> -->
-                                                    <div style="position: absolute; display: block; width: calc(100% - 6px); background: rgb(0, 123, 255, 0.8); padding: 10px; bottom: 0px; color: #fff; margin-bottom: 3px;">
-                                                        <?= $key['name']; ?>
-                                                    </div>
-                                                </figure>
-                                            </a>
+                                            <div>
+                                                <a  class="gallery-link" href="<?= base_url(); ?>assets/frontpage/img/media/<?= $key['img']; ?>">
+                                                    <figure class="gallery-image" style="padding:3px;">
+                                                        <img style="height: 220px; width:100%;" src="<?= base_url(); ?>assets/frontpage/img/media/<?= $key['img']; ?>">
+                                                        <!-- <figcaption><?= $key['name']; ?></figcaption> -->
+                                                        <div style="position: absolute; display: block; width: calc(100% - 6px); background: rgb(0, 123, 255, 0.8); padding: 10px; bottom: 0px; color: #fff; margin-bottom: 3px;">
+                                                            <?= $key['name']; ?>
+                                                        </div>
+                                                    </figure>
+                                                </a>
+                                            </div>
                                         <?php endforeach; ?>
                                     </article>
                                 <?php else: ?>
@@ -102,15 +104,17 @@
                                         foreach($w_media as $key): 
                                             $show_delay += 50;
                                         ?>
-                                            <a  class="gallery-link" href="<?= base_url(); ?>assets/frontpage/img/media/<?= $key['img']; ?>">
-                                                <figure class="gallery-image" style="padding:3px;">
-                                                    <img style="height: 220px; width:100%;" src="<?= base_url(); ?>assets/frontpage/img/media/<?= $key['img']; ?>">
-                                                    <!-- <figcaption><?= $key['name']; ?></figcaption> -->
-                                                    <div style="position: absolute; display: block; width: calc(100% - 6px); background: rgb(0, 123, 255, 0.8); padding: 10px; bottom: 0px; color: #fff; margin-bottom: 3px;">
-                                                        <?= $key['name']; ?>
-                                                    </div>
-                                                </figure>
-                                            </a>
+                                            <div>
+                                                <a  class="gallery-link" href="<?= base_url(); ?>assets/frontpage/img/media/<?= $key['img']; ?>">
+                                                    <figure class="gallery-image" style="padding:3px;">
+                                                        <img style="height: 220px; width:100%;" src="<?= base_url(); ?>assets/frontpage/img/media/<?= $key['img']; ?>">
+                                                        <!-- <figcaption><?= $key['name']; ?></figcaption> -->
+                                                        <div style="position: absolute; display: block; width: calc(100% - 6px); background: rgb(0, 123, 255, 0.8); padding: 10px; bottom: 0px; color: #fff; margin-bottom: 3px;">
+                                                            <?= $key['name']; ?>
+                                                        </div>
+                                                    </figure>
+                                                </a>
+                                            </div>
                                         <?php endforeach; ?>
                                     </article>
                                 <?php else: ?>
