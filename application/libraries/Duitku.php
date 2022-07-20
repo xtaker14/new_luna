@@ -211,12 +211,6 @@ class Duitku {
             $res_callback = json_decode($get_callback);
 
             // var_dump($get_callback);
-        
-            return array(
-                'result'=>true,
-                'msg'=>'test', 
-                'data'=>$res_callback, 
-            );
 
             if ($res_callback->resultCode == "00") {
                 // SUCCESS
@@ -234,6 +228,12 @@ class Duitku {
                 if (is_callable($onPaymentSuccess)) {
                     call_user_func($onPaymentSuccess, $res_callback);
                 }
+        
+                return array(
+                    'result'=>true,
+                    'msg'=>'success', 
+                    'data'=>$res_callback, 
+                );
             } else if ($res_callback->resultCode == "01") {
                 // FAILED
                 // Payment failed or expired
@@ -250,6 +250,12 @@ class Duitku {
                 if (is_callable($onPaymentFailed)) {
                     call_user_func($onPaymentFailed, $res_callback);
                 }
+        
+                return array(
+                    'result'=>true,
+                    'msg'=>'failed or expired', 
+                    'data'=>$res_callback, 
+                );
             } else {
                 // FAILED
                 // Bad parameter

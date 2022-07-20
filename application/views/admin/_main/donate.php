@@ -46,8 +46,11 @@
                                     case 'denied':
                                         $order_status = 4;
                                         break;
-                                    case 'canceled':
+                                    case 'expired':
                                         $order_status = 5;
+                                        break;
+                                    case 'canceled':
+                                        $order_status = 6;
                                         break;
                                 }  
                                 
