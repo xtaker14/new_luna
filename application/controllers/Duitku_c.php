@@ -106,7 +106,7 @@ class Duitku_c extends FrontLib
 
         $this->db->trans_begin();
         $this->db->insert('dumptable',array(
-            'name' => 'callback onPaymentSuccess', 
+            'name' => 'callback onPaymentSuccess 1', 
             'test' => json_encode($post_data), 
             'created_date' => $GLOBALS['date_now'], 
         ));
@@ -117,20 +117,6 @@ class Duitku_c extends FrontLib
                 'msg'=>'error : insert dumptable', 
             ); 
         } 
-        
-        $this->db->insert('dumptable',array(
-            'name' => 'case_test 1', 
-            'test' => $post_data->merchantOrderId, 
-            'created_date' => $GLOBALS['date_now'], 
-        ));
-        if($this->db->trans_status() === FALSE) {
-            $this->db->trans_rollback();
-            return array(
-                'result'=>false,
-                'msg'=>'error : case_test 1', 
-            ); 
-        }
-
         $this->db->trans_commit();
  
         $g_donate = $this->db->query("
@@ -148,8 +134,8 @@ class Duitku_c extends FrontLib
             WHERE 
                 DATE(d.created_date) = CURDATE() AND 
                 d.status = 'pending' AND 
-                d.reference = '".$post_data['reference']."' AND 
-                d.merchant_order_id = '".$post_data['merchantOrderId']."'  
+                d.reference = '".$post_data->reference."' AND 
+                d.merchant_order_id = '".$post_data->merchantOrderId."'  
             LIMIT 1
         ")->row_array();
 
@@ -162,10 +148,10 @@ class Duitku_c extends FrontLib
                     FROM 
                         duitku_log 
                     WHERE 
-                        reference = '".$post_data['reference']."' AND 
-                        merchant_code = '".$post_data['merchantCode']."' AND 
-                        merchant_order_id = '".$post_data['merchantOrderId']."' AND 
-                        payment_code = '".$post_data['paymentCode']."' 
+                        reference = '".$post_data->reference."' AND 
+                        merchant_code = '".$post_data->merchantCode."' AND 
+                        merchant_order_id = '".$post_data->merchantOrderId."' AND 
+                        payment_code = '".$post_data->paymentCode."' 
                     LIMIT 1
                 ")->row_array(); 
                 // amount = '".$this->escape_str($amount)."' 
@@ -175,11 +161,11 @@ class Duitku_c extends FrontLib
                     $this->db->insert('duitku_log',array(
                         'amount' => $g_donate['bill'],
                         'payment_fee' => $g_donate['payment_fee'],
-                        'reference' => $post_data['reference'],
-                        'merchant_code' => $post_data['merchantCode'],
-                        'merchant_order_id' => $post_data['merchantOrderId'],
-                        'product_detail' => $post_data['productDetail'],
-                        'payment_code' => $post_data['paymentCode'],
+                        'reference' => $post_data->reference,
+                        'merchant_code' => $post_data->merchantCode,
+                        'merchant_order_id' => $post_data->merchantOrderId,
+                        'product_detail' => $post_data->productDetail,
+                        'payment_code' => $post_data->paymentCode,
                         'status_code' => 'paid',
                         'created_date' => $GLOBALS['date_now'], 
                     ));
@@ -233,8 +219,8 @@ class Duitku_c extends FrontLib
             WHERE 
                 DATE(d.created_date) = CURDATE() AND 
                 d.status = 'pending' AND 
-                d.reference = '".$post_data['reference']."' AND 
-                d.merchant_order_id = '".$post_data['merchantOrderId']."'  
+                d.reference = '".$post_data->reference."' AND 
+                d.merchant_order_id = '".$post_data->merchantOrderId."'  
             LIMIT 1
         ")->row_array();
 
@@ -246,10 +232,10 @@ class Duitku_c extends FrontLib
                     FROM 
                         duitku_log 
                     WHERE 
-                        reference = '".$post_data['reference']."' AND 
-                        merchant_code = '".$post_data['merchantCode']."' AND 
-                        merchant_order_id = '".$post_data['merchantOrderId']."' AND 
-                        payment_code = '".$post_data['paymentCode']."' 
+                        reference = '".$post_data->reference."' AND 
+                        merchant_code = '".$post_data->merchantCode."' AND 
+                        merchant_order_id = '".$post_data->merchantOrderId."' AND 
+                        payment_code = '".$post_data->paymentCode."' 
                     LIMIT 1
                 ")->row_array(); 
                 // amount = '".$this->escape_str($amount)."' 
@@ -259,11 +245,11 @@ class Duitku_c extends FrontLib
                     $this->db->insert('duitku_log',array(
                         'amount' => $g_donate['bill'],
                         'payment_fee' => $g_donate['payment_fee'],
-                        'reference' => $post_data['reference'],
-                        'merchant_code' => $post_data['merchantCode'],
-                        'merchant_order_id' => $post_data['merchantOrderId'],
-                        'product_detail' => $post_data['productDetail'],
-                        'payment_code' => $post_data['paymentCode'],
+                        'reference' => $post_data->reference,
+                        'merchant_code' => $post_data->merchantCode,
+                        'merchant_order_id' => $post_data->merchantOrderId,
+                        'product_detail' => $post_data->productDetail,
+                        'payment_code' => $post_data->paymentCode,
                         'status_code' => 'expired',
                         'created_date' => $GLOBALS['date_now'], 
                     ));
