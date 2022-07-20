@@ -992,21 +992,21 @@ class MY_Controller extends CI_Controller  {
 		{
 			$result = false;
 		}
-		if($result == false){
-			// return $this->dd(array(
-			// 	'text' => 'Error 500',
-			// 	'result' => false,
-			// 	'type' => 'danger'
-            // ));
-			return show_404();
-		}
+		// if($result == false){
+		// 	// return $this->dd(array(
+		// 	// 	'text' => 'Error 500',
+		// 	// 	'result' => false,
+		// 	// 	'type' => 'danger'
+        //     // ));
+		// 	return show_404();
+		// }
 		return $result;
 	}
 
 	protected function onlyAllowAccessFromPost(){
 		if(!($this->input->method() === 'post'))
 		{
-			return show_404();
+			return false;
 		}
 		return true;
 	}

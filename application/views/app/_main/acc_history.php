@@ -78,7 +78,7 @@
                             <div class="tab-pane fade" id="tbl_test_history_table" role="tabpanel" aria-labelledby="nav-test-history-tab">
 
                                 <div class="table-responsive table-scroll">
-                                    <h4>--Coming Soon--</h4>
+                                    <h4 style="text-align: center; color: #fff;">--Coming Soon--</h4>
                                 </div>
 
                             </div>

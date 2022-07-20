@@ -35,7 +35,7 @@ $favico = CDN_IMG.($upload_path.'/'.$config_web['favico_img']);
 	<div id="preloader">
 		<div style="position: relative;"> 
 			<div class="parent_img_fly_city loader_fly_city" style="z-index:-1;">
-				<img src="<?= CDN_IMG.('assets/frontpage/img/fly_city.png'); ?>" style="margin-top: -120px;" />
+				<img src="<?= CDN_IMG.('assets/frontpage/img/fly_city.png'); ?>" style="margin-top: -120px; visibility: visible;" />
 			</div>
 			<h1 style="z-index:1;">  
 				Loading

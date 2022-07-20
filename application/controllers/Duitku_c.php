@@ -10,7 +10,15 @@ class Duitku_c extends FrontLib
         $this->load->library('duitku');
 	}
     
-	public function return($pars=''){
+	public function return($pars=''){ 
+		if($pars != getenv('KEY_EXTERNAL_ACCESS')){
+            return $this->output
+				->set_content_type('application/json')
+				->set_status_header(200)
+				->set_output(json_encode(array(
+					'result'=>false, 
+				))); 
+        }
         if(!$this->onlyAllowAccessFromPost()){
             return $this->output
                 ->set_content_type('application/json')
@@ -22,15 +30,6 @@ class Duitku_c extends FrontLib
 
         echo 'test';
         return false;
-
-		if($pars != getenv('KEY_EXTERNAL_ACCESS')){
-            return $this->output
-				->set_content_type('application/json')
-				->set_status_header(200)
-				->set_output(json_encode(array(
-					'result'=>false, 
-				))); 
-        }
         $this->load->library('duitku');
         $this->db = dbloader("default"); 
 
