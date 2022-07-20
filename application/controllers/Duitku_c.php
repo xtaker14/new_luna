@@ -11,6 +11,7 @@ class Duitku_c extends FrontLib
 	}
     
 	public function return($pars=''){
+        echo 'test';
         return false;
 
 		if($pars != getenv('KEY_EXTERNAL_ACCESS')){
