@@ -28,8 +28,6 @@ class Duitku_c extends FrontLib
                 )));
         }
 
-        echo 'test';
-        return false;
         $this->load->library('duitku');
         $this->db = dbloader("default"); 
 
@@ -67,38 +65,24 @@ class Duitku_c extends FrontLib
 					'result'=>false, 
 				))); 
         }
-        $this->db = dbloader("default"); 
+        if(!$this->onlyAllowAccessFromPost()){
+            return $this->output
+                ->set_content_type('application/json')
+                ->set_status_header(200)
+                ->set_output(json_encode(array(
+                    'result'=>'Error: Only Allow Access From Post'
+                )));
+        }
 
-        $duitkuConfig = new \Duitku\Config("7dc33f9a23a558389fff2656d51eb184", "DS12634"); 
-        $duitkuConfig->setSandboxMode(true);
+        $this->db = dbloader("default");
         
         try {
-            $result_callback = \Duitku\Pop::callback($duitkuConfig);
-		 
-            if(!$result_callback){
-                return $this->output
-                    ->set_content_type('application/json')
-                    ->set_status_header(200)
-                    ->set_output(json_encode(array(
-                        'result'=>false,
-                        'msg'=>'Error: (2)'
-                    ))); 
-            }
-
-            header('Content-Type: application/json');
-            $notif = json_decode($result_callback);
-
-            // var_dump($result_callback);
-
-            if ($notif->resultCode == "00") {
-                // Action Success
-            } else if ($notif->resultCode == "01") {
-                // Action Failed
-            }
+            $res_callback = $this->duitku->paymentCallback();
 
             $this->db->trans_begin();
             $this->db->insert('dumptable',array(
                 'name' => 'test callback', 
+                'test' => json_encode($res_callback), 
             ));
             if($this->db->trans_status() === FALSE) {
                 $this->db->trans_rollback();
@@ -107,7 +91,8 @@ class Duitku_c extends FrontLib
                     ->set_status_header(200)
                     ->set_output(json_encode(array(
                         'result'=>false,
-                        'msg'=>'Error: (3)'
+                        'data'=>false,
+                        'msg'=>'Error: Insert Data'
                     ))); 
             } 
             $this->db->trans_commit();
@@ -129,8 +114,8 @@ class Duitku_c extends FrontLib
                 ->set_status_header(200)
                 ->set_output(json_encode(array(
                     'result'=>false,
-                    'data'=>$e->getMessage(),
-                    'msg'=>'Error: (1)'
+                    'data'=>false,
+                    'msg'=>'Error: '.$e->getMessage()
                 ))); 
         }
 	} 

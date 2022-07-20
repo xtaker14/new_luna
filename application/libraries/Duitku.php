@@ -191,19 +191,19 @@ class Duitku {
         return false;
     }
 
-    public function paymentCallback(Request $request)
+    public function paymentCallback()
     {
         try {
-            // $amount = $request->input('amount');
-            // $merchantOrderId = $request->input('merchantOrderId');
-            // $productDetail = $request->input('productDetail');
-            // $additionalParam = $request->input('additionalParam');
-            // $paymentMethod = $request->input('paymentCode');
-            // $resultCode = $request->input('resultCode');
-            // $merchantUserId = $request->input('merchantUserId');
-            // $reference = $request->input('reference');
-            // $signature = $request->input('signature');
-            // $spUserHash = $request->input('spUserHash'); // Shopee only
+            // $amount = $this->input->post('amount');
+            // $merchantOrderId = $this->input->post('merchantOrderId');
+            // $productDetail = $this->input->post('productDetail');
+            // $additionalParam = $this->input->post('additionalParam');
+            // $paymentMethod = $this->input->post('paymentCode');
+            // $resultCode = $this->input->post('resultCode');
+            // $merchantUserId = $this->input->post('merchantUserId');
+            // $reference = $this->input->post('reference');
+            // $signature = $this->input->post('signature');
+            // $spUserHash = $this->input->post('spUserHash'); // Shopee only
 
             $get_callback = \Duitku\Pop::callback($this->config);
 
