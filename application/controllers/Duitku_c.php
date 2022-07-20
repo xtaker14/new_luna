@@ -124,7 +124,7 @@ class Duitku_c extends FrontLib
         }
 	} 
 
-    private function onPaymentSuccess($post_data){
+    protected function onPaymentSuccess($post_data){
         $this->db = dbloader("default");
         
         $g_duitku_log = $this->db->query("
@@ -194,7 +194,7 @@ class Duitku_c extends FrontLib
         return true;
 	} 
 
-	private function onPaymentFailed($post_data){
+	protected function onPaymentFailed($post_data){
         $this->db = dbloader("default");
         
         $g_duitku_log = $this->db->query("
