@@ -1003,6 +1003,14 @@ class MY_Controller extends CI_Controller  {
 		return $result;
 	}
 
+	protected function onlyAllowAccessFromPost(){
+		if(!($this->input->method() === 'post'))
+		{
+			return show_404();
+		}
+		return true;
+	}
+
 	protected function insertAutoDonate($g_donate, $ins_donate, $t_type){
 		$this->load->model("member_model"); 
 		$this->db = dbloader("default");
