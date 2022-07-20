@@ -210,7 +210,7 @@ class Duitku {
             header('Content-Type: application/json');
             $res_callback = json_decode($get_callback);
 
-            $res_callback->input_post = $this->input->post();
+            $res_callback->input_post = $_POST;
 
             // var_dump($get_callback);
         
