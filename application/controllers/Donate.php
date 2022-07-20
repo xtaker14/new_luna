@@ -663,7 +663,8 @@ class Donate extends FrontLib {
             $additional_param    = ''; // optional
             $merchant_user_info   = ''; // optional
             $callback_url        = base_url('duitku/callback/new_luna_classic'); // url for callback
-            $return_url          = base_url('duitku/return/new_luna_classic'); // url for redirect
+            // $return_url          = base_url('duitku/return/new_luna_classic'); // url for redirect
+            $return_url          = base_url(''); // url for redirect
             $expiry_period       = 60; // set the expired time in minutes
 
             // Customer Detail
