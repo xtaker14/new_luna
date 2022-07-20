@@ -226,14 +226,8 @@ class Duitku {
                 // );
 
                 if (is_callable($onPaymentSuccess)) {
-                    call_user_func($onPaymentSuccess, $res_callback);
+                    return call_user_func($onPaymentSuccess, $res_callback);
                 }
-        
-                return array(
-                    'result'=>true,
-                    'msg'=>'success', 
-                    'data'=>$res_callback, 
-                );
             } else if ($res_callback->resultCode == "01") {
                 // FAILED
                 // Payment failed or expired
@@ -248,22 +242,16 @@ class Duitku {
                 // );
 
                 if (is_callable($onPaymentFailed)) {
-                    call_user_func($onPaymentFailed, $res_callback);
+                    return call_user_func($onPaymentFailed, $res_callback);
                 }
-        
-                return array(
-                    'result'=>true,
-                    'msg'=>'failed or expired', 
-                    'data'=>$res_callback, 
-                );
-            } else {
-                // FAILED
-                // Bad parameter
-                return array(
-                    'result'=>false,
-                    'msg' => 'Bad parameter', 
-                );
             }
+            
+            // FAILED
+            // Bad parameter
+            return array(
+                'result'=>false,
+                'msg' => 'Bad parameter', 
+            );
 
         } catch (\Exception $ex) {
             return array(
