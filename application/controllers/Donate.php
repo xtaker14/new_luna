@@ -16,65 +16,7 @@ class Donate extends FrontLib {
 
         // require_once dirname(__FILE__) . '/Duitku.php';
         $this->load->library('duitku');
-	} 
-
-    
-    function popup($case){
-        if(!$this->onlyAllowAccessFromAjax()){
-            return $this->output
-                ->set_content_type('application/json')
-                ->set_status_header(200)
-                ->set_output(json_encode(array(
-                    'result'=>'Error: Only Allow Access From Ajax'
-                )));
-        }
-
-        $this->load->model("frontpage_model");
-        $id = $this->securePost('id',true,false);
-        if(empty($id)){
-            return $this->output
-                ->set_content_type('application/json')
-                ->set_status_header(200)
-                ->set_output(json_encode(array(
-                    'result'=>'Error: ID is not found'
-                )));
-        }
-        $user_id = $this->propid;
-        $web_config = $this->getConfigWeb(); 
-
-        switch ($case) {
-            case 'check_status':
-                $get_donate = $this->frontpage_model->donate_list($user_id, array('d.id'=>$id));
-                if(empty($get_donate)){
-                    return $this->output
-                        ->set_content_type('application/json')
-                        ->set_status_header(200)
-                        ->set_output(json_encode(array(
-                            'result'=>'Error: Donate Data is not found'
-                        )));
-                }
-                
-                $xepo_name = $this->global['xepo_secure']['name'];
-                $xepo_value = $this->global['xepo_secure']['hash'];  
-
-                return $this->output
-                    ->set_content_type('application/json')
-                    ->set_status_header(200)
-                    ->set_output(json_encode(array(
-                        'result'=>$get_donate[0], 
-                        'xepo_name'=>$xepo_name,
-                        'xepo_value'=>$xepo_value, 
-                    )));
-                break; 
-        }
-
-        return $this->output
-            ->set_content_type('application/json')
-            ->set_status_header(200)
-            ->set_output(json_encode(array(
-                'result'=>'Error: Request not found'
-            ))); 
-    }
+	}
 
     function popup_backup($case){
         if(!$this->onlyAllowAccessFromAjax()){
@@ -141,212 +83,7 @@ class Donate extends FrontLib {
                 'xepo_name'=>$xepo_name,
                 'xepo_value'=>$xepo_value, 
             ))); 
-    }
-    // function backup_popup($case){
-    //     if(!$this->onlyAllowAccessFromAjax()){
-    //         return $this->output
-    //             ->set_content_type('application/json')
-    //             ->set_status_header(200)
-    //             ->set_output(json_encode(array(
-    //                 'result'=>'Error: Only Allow Access From Ajax'
-    //             )));
-    //     }
-
-    //     $this->load->model("frontpage_model");
-    //     $id = $this->securePost('id',true,false);
-    //     if(empty($id)){
-    //         return $this->output
-    //             ->set_content_type('application/json')
-    //             ->set_status_header(200)
-    //             ->set_output(json_encode(array(
-    //                 'result'=>'Error: ID is not found'
-    //             )));
-    //     }
-    //     $user_id = $this->propid;
-    //     $web_config = $this->getConfigWeb(); 
-    //     $get_donate = $this->frontpage_model->donate_list($user_id, array('d.id'=>$id));
-    //     if(empty($get_donate)){
-    //         return $this->output
-    //             ->set_content_type('application/json')
-    //             ->set_status_header(200)
-    //             ->set_output(json_encode(array(
-    //                 'result'=>'Error: Donate Data is not found'
-    //             )));
-    //     }
-        
-    //     $xepo_name = $this->global['xepo_secure']['name'];
-    //     $xepo_value = $this->global['xepo_secure']['hash'];
-
-    //     $midtrans_status = (array)$this->midtrans->status($get_donate[0]['midtrans_order_id']); 
-
-    //     $view_popup = '';
-    //     switch($midtrans_status['transaction_status']){
-    //         case "settlement":
-    //         case "capture":
-    //             $view_popup = 'app/_main/_donate/_part/paid_popup.php';
-    //             break;
-    //         case "pending":
-    //             $view_popup = 'app/_main/_donate/_part/pending_popup.php';
-    //             break;
-    //         case "deny":
-    //             $view_popup = 'app/_main/_donate/_part/denied_popup.php';
-    //             break;
-    //         case "expire":
-    //             $view_popup = 'app/_main/_donate/_part/expired_popup.php';
-    //             break;
-    //         case "cancel":
-    //             $view_popup = 'app/_main/_donate/_part/cancelled_popup.php';
-    //             break;
-    //     }
-        
-    //     $view = $this->load->view($view_popup, array(
-    //         'midtrans_status' => $midtrans_status,
-    //         'xepo_name'=>$xepo_name,
-    //         'xepo_value'=>$xepo_value,
-    //         'get_donate' => $get_donate[0],
-    //     ), true);
-
-    //     return $this->output
-    //         ->set_content_type('application/json')
-    //         ->set_status_header(200)
-    //         ->set_output(json_encode(array(
-    //             'result'=>$view, 
-    //             'xepo_name'=>$xepo_name,
-    //             'xepo_value'=>$xepo_value, 
-    //         ))); 
-    // }
-
-    // public function get_token_donate()
-    // { 
-    //     if(!$this->onlyAllowAccessFromAjax()){
-    //         return $this->output
-    //             ->set_content_type('application/json')
-    //             ->set_status_header(200)
-    //             ->set_output(json_encode(array(
-    //                 'result'=>'Error: Only Allow Access From Ajax'
-    //             )));
-    //     } 
-    //     $user_id = $this->propid;
-    //     $usr_code = $this->usr_code; 
-    //     $donate_id = $this->secureGet('donate_id',true,false);
-    //     $order_id = $this->secureGet('order_id',true,[
-    //         '-',
-    //     ]);
-
-    //     if(empty($order_id) || empty($donate_id)){
-    //         return $this->output
-    //             ->set_content_type('application/json')
-    //             ->set_status_header(200)
-    //             ->set_output(json_encode(array(
-    //                 'result'=>'Error: Order ID is not found'
-    //             )));
-    //     }
-
-    //     $get_donate = $this->db->get_where('donate',array(
-    //         'id'=>$donate_id
-    //     ))->row_array();
-    //     if(count($get_donate)==0){ 
-    //         return $this->output
-    //             ->set_content_type('application/json')
-    //             ->set_status_header(200)
-    //             ->set_output(json_encode(array(
-    //                 'result'=>'Error: Please try again, Donate data is not found'
-    //             )));
-    //     }
-
-    //     $get_donate_price = $this->db->get_where('donate_price_list',array(
-    //         'id'=>$get_donate['donate_price_id']
-    //     ))->row_array();
-    //     if(count($get_donate_price)==0){ 
-    //         return $this->output
-    //             ->set_content_type('application/json')
-    //             ->set_status_header(200)
-    //             ->set_output(json_encode(array(
-    //                 'result'=>'Error: Please try again, Donate Price data is not found'
-    //             )));
-    //     }
-
-	// 	// Required
-	// 	$transaction_details = array(
-	// 	  'order_id' => $order_id,
-	// 	  'gross_amount' => $get_donate_price['price'], // no decimal allowed for creditcard
-	// 	);
-        
-    //     $currency = $get_donate_price['currency'];
-    //     $float_num = 0;
-    //     if($currency === 'USD'){
-    //         $float_num = 2;
-    //     }
-    //     $value = number_format($get_donate_price['value'],0,',','.');
-    //     $price = number_format($get_donate_price['price'],$float_num,',','.');
-    //     $item_name = $value.' Diamonds - '.$currency.' '.$price;
-
-	// 	$item1_details = array(
-	// 	  'id' => $get_donate['donate_price_id'],
-	// 	  'price' => $get_donate_price['price'],
-	// 	  'quantity' => 1,
-	// 	  'name' => $item_name
-	// 	);
-
-	// 	// Optional
-	// 	$item_details = array($item1_details); 
-
-	// 	// Optional
-	// 	$customer_details = array(
-	// 	  'first_name'    => $get_donate['username'],
-	// 	  'last_name'     => "",
-	// 	  'email'         => $this->id_email,
-	// 	//   'phone'         => "", 
-	// 	); 
-    //     $credit_card['secure'] = true; 
-
-    //     $time = time();
-    //     $custom_expiry = array(
-    //         'start_time' => date("Y-m-d H:i:s O",$time),
-    //         'unit' => 'minute', 
-    //         'duration'  => 2
-    //     );
-        
-    //     $transaction_data = array(
-    //         'transaction_details'=> $transaction_details,
-    //         'item_details'       => $item_details,
-    //         'customer_details'   => $customer_details,
-    //         'credit_card'        => $credit_card,
-    //         'expiry'             => $custom_expiry
-    //     );
-
-	// 	error_log(json_encode($transaction_data));
-	// 	$snapToken = $this->midtrans->getSnapToken($transaction_data);
-	// 	error_log($snapToken);
-	// 	echo $snapToken;
-    // }
-
-    // public function process_payment(){
-    //     if(!$this->onlyAllowAccessFromAjax()){
-    //         return $this->output
-    //             ->set_content_type('application/json')
-    //             ->set_status_header(200)
-    //             ->set_output(json_encode(array(
-    //                 'result'=>'Error: Only Allow Access From Ajax'
-    //             )));
-    //     } 
-        
-    //     $xepo_name = $this->global['xepo_secure']['name'];
-    //     $xepo_value = $this->global['xepo_secure']['hash'];
-    //     $user_id = $this->propid;
-    //     $usr_code = $this->usr_code; 
-         
-    //     $result = $this->donate_process_payment();
-
-    //     return $this->output
-    //             ->set_content_type('application/json')
-    //             ->set_status_header(200)
-    //             ->set_output(json_encode(array(
-    //                 'result'=>$result,
-    //                 'xepo_name'=>$xepo_name,
-    //                 'xepo_value'=>$xepo_value, 
-    //             )));
-    // } 
+    } 
 
     public function delete_temp_order(){
         if(!$this->onlyAllowAccessFromAjax()){
@@ -477,6 +214,63 @@ class Donate extends FrontLib {
                     'xepo_value'=>$xepo_value, 
                 )));
         }
+    }
+    
+    function popup($case){
+        if(!$this->onlyAllowAccessFromAjax()){
+            return $this->output
+                ->set_content_type('application/json')
+                ->set_status_header(200)
+                ->set_output(json_encode(array(
+                    'result'=>'Error: Only Allow Access From Ajax'
+                )));
+        }
+
+        $this->load->model("frontpage_model");
+        $id = $this->securePost('id',true,false);
+        if(empty($id)){
+            return $this->output
+                ->set_content_type('application/json')
+                ->set_status_header(200)
+                ->set_output(json_encode(array(
+                    'result'=>'Error: ID is not found'
+                )));
+        }
+        $user_id = $this->propid;
+        $web_config = $this->getConfigWeb(); 
+
+        switch ($case) {
+            case 'check_status':
+                $get_donate = $this->frontpage_model->donate_list($user_id, array('d.id'=>$id));
+                if(empty($get_donate)){
+                    return $this->output
+                        ->set_content_type('application/json')
+                        ->set_status_header(200)
+                        ->set_output(json_encode(array(
+                            'result'=>'Error: Donate Data is not found'
+                        )));
+                }
+                
+                $xepo_name = $this->global['xepo_secure']['name'];
+                $xepo_value = $this->global['xepo_secure']['hash'];  
+
+                return $this->output
+                    ->set_content_type('application/json')
+                    ->set_status_header(200)
+                    ->set_output(json_encode(array(
+                        'result'=>$get_donate[0], 
+                        'xepo_name'=>$xepo_name,
+                        'xepo_value'=>$xepo_value, 
+                    )));
+                break; 
+        }
+
+        return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header(200)
+            ->set_output(json_encode(array(
+                'result'=>'Error: Request not found'
+            ))); 
     }
 
     public function get_bonus_items(){
@@ -998,6 +792,212 @@ class Donate extends FrontLib {
         }
     }
 
+    
+    // function backup_popup($case){
+    //     if(!$this->onlyAllowAccessFromAjax()){
+    //         return $this->output
+    //             ->set_content_type('application/json')
+    //             ->set_status_header(200)
+    //             ->set_output(json_encode(array(
+    //                 'result'=>'Error: Only Allow Access From Ajax'
+    //             )));
+    //     }
+
+    //     $this->load->model("frontpage_model");
+    //     $id = $this->securePost('id',true,false);
+    //     if(empty($id)){
+    //         return $this->output
+    //             ->set_content_type('application/json')
+    //             ->set_status_header(200)
+    //             ->set_output(json_encode(array(
+    //                 'result'=>'Error: ID is not found'
+    //             )));
+    //     }
+    //     $user_id = $this->propid;
+    //     $web_config = $this->getConfigWeb(); 
+    //     $get_donate = $this->frontpage_model->donate_list($user_id, array('d.id'=>$id));
+    //     if(empty($get_donate)){
+    //         return $this->output
+    //             ->set_content_type('application/json')
+    //             ->set_status_header(200)
+    //             ->set_output(json_encode(array(
+    //                 'result'=>'Error: Donate Data is not found'
+    //             )));
+    //     }
+        
+    //     $xepo_name = $this->global['xepo_secure']['name'];
+    //     $xepo_value = $this->global['xepo_secure']['hash'];
+
+    //     $midtrans_status = (array)$this->midtrans->status($get_donate[0]['midtrans_order_id']); 
+
+    //     $view_popup = '';
+    //     switch($midtrans_status['transaction_status']){
+    //         case "settlement":
+    //         case "capture":
+    //             $view_popup = 'app/_main/_donate/_part/paid_popup.php';
+    //             break;
+    //         case "pending":
+    //             $view_popup = 'app/_main/_donate/_part/pending_popup.php';
+    //             break;
+    //         case "deny":
+    //             $view_popup = 'app/_main/_donate/_part/denied_popup.php';
+    //             break;
+    //         case "expire":
+    //             $view_popup = 'app/_main/_donate/_part/expired_popup.php';
+    //             break;
+    //         case "cancel":
+    //             $view_popup = 'app/_main/_donate/_part/cancelled_popup.php';
+    //             break;
+    //     }
+        
+    //     $view = $this->load->view($view_popup, array(
+    //         'midtrans_status' => $midtrans_status,
+    //         'xepo_name'=>$xepo_name,
+    //         'xepo_value'=>$xepo_value,
+    //         'get_donate' => $get_donate[0],
+    //     ), true);
+
+    //     return $this->output
+    //         ->set_content_type('application/json')
+    //         ->set_status_header(200)
+    //         ->set_output(json_encode(array(
+    //             'result'=>$view, 
+    //             'xepo_name'=>$xepo_name,
+    //             'xepo_value'=>$xepo_value, 
+    //         ))); 
+    // }
+
+    // public function get_token_donate()
+    // { 
+    //     if(!$this->onlyAllowAccessFromAjax()){
+    //         return $this->output
+    //             ->set_content_type('application/json')
+    //             ->set_status_header(200)
+    //             ->set_output(json_encode(array(
+    //                 'result'=>'Error: Only Allow Access From Ajax'
+    //             )));
+    //     } 
+    //     $user_id = $this->propid;
+    //     $usr_code = $this->usr_code; 
+    //     $donate_id = $this->secureGet('donate_id',true,false);
+    //     $order_id = $this->secureGet('order_id',true,[
+    //         '-',
+    //     ]);
+
+    //     if(empty($order_id) || empty($donate_id)){
+    //         return $this->output
+    //             ->set_content_type('application/json')
+    //             ->set_status_header(200)
+    //             ->set_output(json_encode(array(
+    //                 'result'=>'Error: Order ID is not found'
+    //             )));
+    //     }
+
+    //     $get_donate = $this->db->get_where('donate',array(
+    //         'id'=>$donate_id
+    //     ))->row_array();
+    //     if(count($get_donate)==0){ 
+    //         return $this->output
+    //             ->set_content_type('application/json')
+    //             ->set_status_header(200)
+    //             ->set_output(json_encode(array(
+    //                 'result'=>'Error: Please try again, Donate data is not found'
+    //             )));
+    //     }
+
+    //     $get_donate_price = $this->db->get_where('donate_price_list',array(
+    //         'id'=>$get_donate['donate_price_id']
+    //     ))->row_array();
+    //     if(count($get_donate_price)==0){ 
+    //         return $this->output
+    //             ->set_content_type('application/json')
+    //             ->set_status_header(200)
+    //             ->set_output(json_encode(array(
+    //                 'result'=>'Error: Please try again, Donate Price data is not found'
+    //             )));
+    //     }
+
+	// 	// Required
+	// 	$transaction_details = array(
+	// 	  'order_id' => $order_id,
+	// 	  'gross_amount' => $get_donate_price['price'], // no decimal allowed for creditcard
+	// 	);
+        
+    //     $currency = $get_donate_price['currency'];
+    //     $float_num = 0;
+    //     if($currency === 'USD'){
+    //         $float_num = 2;
+    //     }
+    //     $value = number_format($get_donate_price['value'],0,',','.');
+    //     $price = number_format($get_donate_price['price'],$float_num,',','.');
+    //     $item_name = $value.' Diamonds - '.$currency.' '.$price;
+
+	// 	$item1_details = array(
+	// 	  'id' => $get_donate['donate_price_id'],
+	// 	  'price' => $get_donate_price['price'],
+	// 	  'quantity' => 1,
+	// 	  'name' => $item_name
+	// 	);
+
+	// 	// Optional
+	// 	$item_details = array($item1_details); 
+
+	// 	// Optional
+	// 	$customer_details = array(
+	// 	  'first_name'    => $get_donate['username'],
+	// 	  'last_name'     => "",
+	// 	  'email'         => $this->id_email,
+	// 	//   'phone'         => "", 
+	// 	); 
+    //     $credit_card['secure'] = true; 
+
+    //     $time = time();
+    //     $custom_expiry = array(
+    //         'start_time' => date("Y-m-d H:i:s O",$time),
+    //         'unit' => 'minute', 
+    //         'duration'  => 2
+    //     );
+        
+    //     $transaction_data = array(
+    //         'transaction_details'=> $transaction_details,
+    //         'item_details'       => $item_details,
+    //         'customer_details'   => $customer_details,
+    //         'credit_card'        => $credit_card,
+    //         'expiry'             => $custom_expiry
+    //     );
+
+	// 	error_log(json_encode($transaction_data));
+	// 	$snapToken = $this->midtrans->getSnapToken($transaction_data);
+	// 	error_log($snapToken);
+	// 	echo $snapToken;
+    // }
+
+    // public function process_payment(){
+    //     if(!$this->onlyAllowAccessFromAjax()){
+    //         return $this->output
+    //             ->set_content_type('application/json')
+    //             ->set_status_header(200)
+    //             ->set_output(json_encode(array(
+    //                 'result'=>'Error: Only Allow Access From Ajax'
+    //             )));
+    //     } 
+        
+    //     $xepo_name = $this->global['xepo_secure']['name'];
+    //     $xepo_value = $this->global['xepo_secure']['hash'];
+    //     $user_id = $this->propid;
+    //     $usr_code = $this->usr_code; 
+         
+    //     $result = $this->donate_process_payment();
+
+    //     return $this->output
+    //             ->set_content_type('application/json')
+    //             ->set_status_header(200)
+    //             ->set_output(json_encode(array(
+    //                 'result'=>$result,
+    //                 'xepo_name'=>$xepo_name,
+    //                 'xepo_value'=>$xepo_value, 
+    //             )));
+    // }
 
     // public function _backup_buy() {
     //     if(!$this->onlyAllowAccessFromAjax()){

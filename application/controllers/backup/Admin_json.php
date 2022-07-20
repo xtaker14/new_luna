@@ -107,12 +107,7 @@ class Admin_json extends AdminController {
                                 )));
                         } 
                         $silver_point = $diamonds * ($this->referral_bonus_points / 100);
-
-                        // $ref_update = array(
-                        //     'modified_date' => $GLOBALS['date_now'],
-                        //     'silver_point' => "silver_point + $silver_point",
-                        // );
-                        // $this->db->update('referral_code',$ref_update,$where_referral);
+                        
                         $this->db->query("UPDATE referral_code SET modified_date = '".$GLOBALS['date_now']."', silver_point = silver_point + $silver_point WHERE referral_code = '$referral_code' ");
                         if($this->db->trans_status() === FALSE) {
                             $this->db->trans_rollback(); 
@@ -124,7 +119,6 @@ class Admin_json extends AdminController {
                                 )));
                         }
 
-                        // $this->referral_bonus_points
                         $ref_history_insert = array(
                             'donate_id' => $donate_id,
                             'admin_id' => $admin_id,
@@ -143,9 +137,6 @@ class Admin_json extends AdminController {
                                 )));
                         }
                         
-                        // $this->db->update('tbl_user',array(
-                        //     'silver_point'=> "silver_point + $silver_point",
-                        // ),$where_referral);
                         $this->db->query("UPDATE tbl_user SET silver_point = silver_point + $silver_point WHERE referral_code = '$referral_code' ");
                         if($this->db->trans_status() === FALSE) {
                             $this->db->trans_rollback(); 
@@ -156,12 +147,7 @@ class Admin_json extends AdminController {
                                     'result'=>'Error: Failed To Update Silver Point By Referral Code'
                                 )));
                         }
-
-                        // $this->db->update('tbl_user',array(
-                        //     'silver_point'=> "silver_point + $silver_point",
-                        // ),array(
-                        //     'id'=>$user_id
-                        // ));
+                        
                         $this->db->query("UPDATE tbl_user SET silver_point = silver_point + $silver_point WHERE id = $user_id ");
                         if($this->db->trans_status() === FALSE) {
                             $this->db->trans_rollback(); 
@@ -182,26 +168,7 @@ class Admin_json extends AdminController {
                     ->set_output(json_encode(array(
                         'result'=>true, 
                     )));
-
-                // $web_config = $this->getConfigWeb();
-                // $email_account_number = $web_config['email_account_number'];
-				// $send_email = $this->sendEmailStatus(array(
-                //     'title'=>'[Paid] Donate Order',
-                //     'from'=>$email_account_number,
-                //     'to'=>$user_email,
-                //     'subject'=>'[Luna Zone] Payment has been sent',
-                //     'pars_view'=>array('get_donate'=>$get_donate[0])
-                // ),'paid');
-
-                // if($send_email){
-                //     $this->db->trans_commit();
-                //     setFlashData('success', 'Successfully submitted recheck to our staff');
-                // }else{
-                //     $this->db->trans_rollback();
-                //     setFlashData('error', 'Error: Failed to send email');
-                // }
-                // redirect(base_url('adm/donate'));
-                // return $send_email;
+                    
                 break;
         }
     }

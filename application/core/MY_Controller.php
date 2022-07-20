@@ -1011,6 +1011,150 @@ class MY_Controller extends CI_Controller  {
 		return true;
 	}
 
+	protected function insertAutoDonateDuitku($g_donate){
+		$this->load->model("member_model"); 
+
+		$this->db = dbloader("default");
+		$this->db_mssql = dbloader("LUNA_GAMEDB");
+		
+		$this->db->trans_begin();
+		$this->db_mssql->trans_begin();
+
+		$this->db->update('donate_duitku', array(
+			'complete_date' => $GLOBALS['date_now'],
+			'status' => 'paid',
+		),array(
+			'id'=>$g_donate['id']
+		));
+		if($this->db->trans_status() === FALSE) {
+			$this->db->trans_rollback();
+			return false;
+		}
+
+		$donate_id = $g_donate['id'];  
+		$user_id = $g_donate['user_id'];
+		$user_data = $this->member_model->getWhereUser(array(
+			'id'=>$user_id
+		))->row_array();
+		if(empty($user_data)){ 
+			return false;
+		} 
+			
+		$cash_points = (int)$g_donate['donate_point'];
+		$this->db->update('tbl_user',array(
+			'star_point'=> ((int)$user_data['star_point'] + $cash_points),
+		),array(
+			'id'=>$user_id
+		));
+		if($this->db->trans_status() === FALSE) {
+			$this->db->trans_rollback(); 
+			return false;
+		}
+
+		if(!empty($g_donate['items'])){
+			$get_items = json_decode($g_donate['items'], true);
+			if(!empty($get_items)){ 
+
+				foreach ($get_items as $key => $val) {
+					$this->db_mssql->query("
+						INSERT INTO TB_ITEM 
+						(
+							CHARACTER_IDX,
+							ITEM_IDX,
+							ITEM_POSITION,
+							ITEM_DURABILITY,
+							ITEM_SHOPIDX
+						) VALUES (
+							0,
+							'".$val['items_source']."',
+							280,
+							'".$val['items_qty']."',
+							$user_id
+						)
+					");
+					if($this->db_mssql->trans_status() === FALSE) {
+						$this->db->trans_rollback();
+						$this->db_mssql->trans_rollback();
+						return false;
+					}
+				}
+			}
+		}
+
+		// when used referral code
+		$referral_code = $g_donate['referral_code'];
+		if(!empty($referral_code)){ 
+
+			$where_referral = array(
+				'referral_code'=>$referral_code
+			);
+			$data_referral_code = $this->db->get_where('referral_code',$where_referral)->row_array();
+			if(count($data_referral_code)==0){ 
+				return false;
+			} 
+			$bonus_point = $cash_points * ($this->referral_bonus_points / 100);
+			
+			$this->db->query("
+				UPDATE 
+					referral_code 
+				SET 
+					modified_date = '".$GLOBALS['date_now']."', 
+					silver_point = silver_point + $bonus_point 
+				WHERE 
+					referral_code = '$referral_code' 
+			");
+			if($this->db->trans_status() === FALSE) {
+				$this->db->trans_rollback(); 
+				$this->db_mssql->trans_rollback();
+				return false;
+			}
+
+			$ref_history_insert = array(
+				'donate_id' => $donate_id, 
+				'from_user_id' => $user_id,
+				'referral_code' => $referral_code,
+				'silver_point' => $bonus_point,
+			);
+			$this->db->insert('referral_code_history',$ref_history_insert);
+			if($this->db->trans_status() === FALSE) {
+				$this->db->trans_rollback(); 
+				$this->db_mssql->trans_rollback();
+				return false;
+			}
+			
+			$this->db->query("
+				UPDATE 
+					tbl_user 
+				SET 
+					star_point = star_point + $bonus_point 
+				WHERE 
+					referral_code = '$referral_code' 
+			");
+			if($this->db->trans_status() === FALSE) {
+				$this->db->trans_rollback(); 
+				$this->db_mssql->trans_rollback();
+				return false;
+			}
+
+			$this->db->query("
+				UPDATE 
+					tbl_user 
+				SET 
+					star_point = star_point + $bonus_point 
+				WHERE id = $user_id 
+			");
+			if($this->db->trans_status() === FALSE) {
+				$this->db->trans_rollback(); 
+				$this->db_mssql->trans_rollback();
+				return false;
+			} 
+		}
+		$this->db->trans_commit();
+		$this->db_mssql->trans_commit();
+		
+		return true;
+	}
+
 	protected function insertAutoDonate($g_donate, $ins_donate, $t_type){
 		$this->load->model("member_model"); 
 		$this->db = dbloader("default");

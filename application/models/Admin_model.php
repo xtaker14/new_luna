@@ -387,7 +387,7 @@ class Admin_model extends MY_Model
 				$where[$key]=$val;
 			}
 		}
-		return $this->db->get_where('donate d',$where)->result_array();
+		return $this->db->get_where('donate_duitku d',$where)->result_array();
 	}
 
     function insert_im($data){

@@ -11,9 +11,7 @@
                 <table id="donate_table" class="table table-striped table-sm dt-responsive nowrap" style="width:100%">
                     <thead>
                         <tr> 
-                            <th scope="col">ID</th> 
-                            <th scope="col">ByAdmin?</th>
-                            <th scope="col">Reason</th>
+                            <th scope="col" style="text-align: center;">ID</th> 
                             <th scope="col">Username</th>
                             <th scope="col">Bill</th>
                             <th scope="col">Points</th>
@@ -29,10 +27,11 @@
                             <?php 
                                 $currency = $val['currency'];
                                 $float_num = 0;
-                                $total_bill = $val['total_bill'];
+                                $total_bill = $val['bill'] + $val['payment_fee'];
                                 if($currency === 'USD'){
                                     $float_num = 2; 
                                 } 
+
                                 $order_status = 0;
                                 switch ($val['status']) {
                                     case 'paid':
@@ -44,8 +43,11 @@
                                     case 'complete':
                                         $order_status = 3;
                                         break;
-                                    case 'canceled':
+                                    case 'denied':
                                         $order_status = 4;
+                                        break;
+                                    case 'canceled':
+                                        $order_status = 5;
                                         break;
                                 }  
                                 
@@ -55,13 +57,9 @@
                                 }
                             ?>
                             <tr> 
-                                <td><?= $val['id']; ?></td> 
-                                <td>
-                                    <span style="color:<?= $byadmin_color; ?>;"><?= ucwords($val['is_acc_by_admin']); ?></span>
-                                </td> 
-                                <td><?= $val['admin_description']; ?></td>
+                                <td rowspan="2" style="text-align: center; vertical-align: middle;"><?= $val['id']; ?></td>  
                                 <td><?= $val['username']; ?></td>
-                                <td><?= $currency.' '.number_format($total_bill,$float_num,',','.'); ?></td>
+                                <td><?= $currency.' '.number_format($total_bill, $float_num,',','.'); ?></td>
                                 <td><?= number_format($val['donate_point'],0,',','.'); ?></td>
                                 <td>
                                     <?php 
@@ -73,46 +71,16 @@
                                     ?>
                                 </td> 
                                 <td>
-                                    <?php if($val['payment_method']==='qris') : ?>
-                                        ShopeePay
-                                    <?php elseif($val['payment_method']==='bank_transfer') : ?>
-                                        Bank 
-                                        <?php if(!empty($val['midtrans_va_bank'])) : ?>
-                                        (<?= strtoupper($val['midtrans_va_bank']); ?>)
-                                        <?php endif; ?>
-                                    <?php elseif($val['payment_method']==='gopay') : ?>
-                                        Gopay
-                                    <?php elseif($val['payment_method']==='echannel') : ?>
-                                        Bank (MANDIRI)
-                                    <?php elseif($val['payment_method']==='credit_card') : ?>
-                                        Credit Card
-                                    <?php else: ?>
-                                        <?php 
-                                            echo $val['payment_method']; 
-                                            if(!empty($val['cekmutasi_service_name'])){
-                                                echo '<br> With '.$val['cekmutasi_service_name']; 
-                                            }
-                                        ?>
-                                    <?php endif; ?>
+                                    <?= $val['payment_name']; ?>
                                 </td>
                                 <td data-order="<?= $order_status; ?>"> 
-                                    <?php if($val['status'] == 'unpaid'): ?>
+                                    <?php if($val['status'] == 'unpaid' || $val['status'] == 'pending'): ?>
                                         <button onclick="popPaidDonate(<?= $val['id']; ?>);" class="btn-sm btn btn-primary" type="button">
                                             <?= ucwords($val['status']); ?>
                                         </button>
-                                    <?php endif; ?>
-
-                                    <?php if($val['status'] == 'paid'): ?>
-                                        <span style="color:green;"><?= ucwords($val['status']); ?></span>
-                                    <?php endif; ?>
-
-                                    <?php if($val['status'] == 'canceled'): ?>
-                                        <span style="color:red;"><?= ucwords($val['status']); ?></span>
-                                    <?php endif; ?>
-                                    
-                                    <?php if($val['midtrans_fraud_status'] == 'challenge'): ?>
-                                        <small style="color:red;">Challenge by FDS</small>
-                                    <?php endif; ?>
+                                    <?php else: ?>
+                                        <?= ucwords($val['status']); ?>
+                                    <?php endif; ?> 
                                 </td>
                                 <td><?= (!empty($val['created_date'])) ? date('d M Y H:i:s', strtotime($val['created_date'])) : '-- Empty --'; ?></td>
                                 <td>
@@ -124,6 +92,22 @@
                                     }
                                     ?>
                                 </td> 
+                            </tr>
+                            <tr>
+                                <td colspan="8">
+                                    <b>Merchant Order ID</b> : <?= $val['merchant_order_id']; ?>
+                                    <br>
+
+                                    <b>Reference</b> : <?= $val['reference']; ?>
+                                    <br>
+
+                                    <b>By Admin</b> : <span style="color:<?= $byadmin_color; ?>;"><?= ucwords($val['is_acc_by_admin']); ?></span>
+                                    <br>
+
+                                    <b>Reason</b> :
+                                    <br> 
+                                    <?= $val['admin_description']; ?>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

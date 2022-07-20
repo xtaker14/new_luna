@@ -191,7 +191,7 @@ class Duitku {
         return false;
     }
 
-    public function paymentCallback()
+    public function paymentCallback($onPaymentSuccess, $onPaymentFailed)
     {
         try {
             // $amount = $this->input->post('amount');
@@ -209,8 +209,6 @@ class Duitku {
 
             header('Content-Type: application/json');
             $res_callback = json_decode($get_callback);
-
-            $res_callback->input_post = $_POST;
 
             // var_dump($get_callback);
         
@@ -232,6 +230,10 @@ class Duitku {
                 //     $reference,
                 //     $additionalParam
                 // );
+
+                if (is_callable($onPaymentSuccess)) {
+                    call_user_func($onPaymentSuccess, $res_callback);
+                }
             } else if ($res_callback->resultCode == "01") {
                 // FAILED
                 // Payment failed or expired
@@ -244,6 +246,10 @@ class Duitku {
                 //     $reference,
                 //     $additionalParam
                 // );
+
+                if (is_callable($onPaymentFailed)) {
+                    call_user_func($onPaymentFailed, $res_callback);
+                }
             } else {
                 // FAILED
                 // Bad parameter
@@ -261,47 +267,47 @@ class Duitku {
         }
     }
 
-    /**
-     * @param string $orderId Nomor transaksi dari merchant
-     * @param string $productDetail Keterangan detil produk
-     * @param int $amount Jumlah nominal transaksi
-     * @param string $paymentCode Metode Pembayaran
-     * @param string|null $shopeeUserHash Jika menggunakan ShopeePay
-     * @param string $reference Nomor referensi transaksi dari DuitkuProcessor
-     * @param string|null $additionalParam
-     */
-    protected function onPaymentSuccess(
-        string $orderId,
-        string $productDetail,
-        int $amount,
-        string $paymentCode,
-        ?string $shopeeUserHash,
-        string $reference,
-        ?string $additionalParam
-    ): void
-    {
-        //
-    }
+    // /**
+    //  * @param string $orderId Nomor transaksi dari merchant
+    //  * @param string $productDetail Keterangan detil produk
+    //  * @param int $amount Jumlah nominal transaksi
+    //  * @param string $paymentCode Metode Pembayaran
+    //  * @param string|null $shopeeUserHash Jika menggunakan ShopeePay
+    //  * @param string $reference Nomor referensi transaksi dari DuitkuProcessor
+    //  * @param string|null $additionalParam
+    //  */
+    // protected function onPaymentSuccess(
+    //     string $orderId,
+    //     string $productDetail,
+    //     int $amount,
+    //     string $paymentCode,
+    //     ?string $shopeeUserHash,
+    //     string $reference,
+    //     ?string $additionalParam
+    // ): void
+    // {
+    //     //
+    // }
 
-    /**
-     * @param string $orderId Nomor transaksi dari merchant
-     * @param string $productDetail Keterangan detil produk
-     * @param int $amount Jumlah nominal transaksi
-     * @param string $paymentCode Metode Pembayaran
-     * @param string|null $shopeeUserHash Jika menggunakan ShopeePay
-     * @param string $reference Nomor referensi transaksi dari DuitkuProcessor
-     * @param string|null $additionalParam
-     */
-    protected function onPaymentFailed(
-        string $orderId,
-        string $productDetail,
-        int $amount,
-        string $paymentCode,
-        ?string $shopeeUserHash,
-        string $reference,
-        ?string $additionalParam
-    ): void
-    {
-        //
-    }
+    // /**
+    //  * @param string $orderId Nomor transaksi dari merchant
+    //  * @param string $productDetail Keterangan detil produk
+    //  * @param int $amount Jumlah nominal transaksi
+    //  * @param string $paymentCode Metode Pembayaran
+    //  * @param string|null $shopeeUserHash Jika menggunakan ShopeePay
+    //  * @param string $reference Nomor referensi transaksi dari DuitkuProcessor
+    //  * @param string|null $additionalParam
+    //  */
+    // protected function onPaymentFailed(
+    //     string $orderId,
+    //     string $productDetail,
+    //     int $amount,
+    //     string $paymentCode,
+    //     ?string $shopeeUserHash,
+    //     string $reference,
+    //     ?string $additionalParam
+    // ): void
+    // {
+    //     //
+    // }
 }

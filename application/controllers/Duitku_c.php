@@ -77,7 +77,7 @@ class Duitku_c extends FrontLib
         $this->db = dbloader("default");
         
         try {
-            $res_callback = $this->duitku->paymentCallback();
+            $res_callback = $this->duitku->paymentCallback(onPaymentSuccess, onPaymentFailed);
 
             $this->db->trans_begin();
             $this->db->insert('dumptable',array(
@@ -118,5 +118,154 @@ class Duitku_c extends FrontLib
                     'msg'=>'Error: '.$e->getMessage()
                 ))); 
         }
+	} 
+
+    private function onPaymentSuccess($post_data){
+        $this->db = dbloader("default");
+        
+        $g_duitku_log = $this->db->query("
+            SELECT 
+                * 
+            FROM 
+                duitku_log 
+            WHERE 
+                reference = '".$post_data['reference']."' AND 
+                merchant_code = '".$post_data['merchantCode']."' AND 
+                merchant_order_id = '".$post_data['merchantOrderId']."' AND 
+                payment_code = '".$post_data['paymentCode']."' 
+            LIMIT 1
+        ")->row_array(); 
+        // amount = '".$this->escape_str($amount)."' 
+        
+        if(empty($g_duitku_log)){ 
+            $this->db->trans_begin();
+            $this->db->insert('duitku_log',array(
+                'amount' => $post_data[''],
+                'reference' => $post_data['reference'],
+                'merchant_code' => $post_data['merchantCode'],
+                'merchant_order_id' => $post_data['merchantOrderId'],
+                'product_detail' => $post_data['productDetail'],
+                'payment_code' => $post_data['paymentCode'],
+                'status_code' => 'paid',
+                'created_date' => $GLOBALS['date_now'], 
+            ));
+            if($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                return false; 
+            } 
+            $this->db->trans_commit();
+        } 
+ 
+        $g_donate = $this->db->query("
+            SELECT 
+                dl.price as bill, 
+                dl.currency, 
+                dl.items, 
+                d.* 
+            FROM 
+                donate_duitku d
+            INNER JOIN 
+                donate_price_list dl 
+            ON 
+                d.donate_price_id = dl.id 
+            WHERE 
+                DATE(d.created_date) = CURDATE() AND 
+                d.status = 'pending' AND 
+                d.reference = '".$post_data['reference']."' AND 
+                d.merchant_order_id = '".$post_data['merchantOrderId']."'  
+            LIMIT 1
+        ")->row_array();
+
+        if(!empty($g_donate) && is_array($g_donate)){ 
+            if(count($g_donate)>0){
+                $result_callback = $this->insertAutoDonateDuitku($g_donate);
+                if(!$result_callback){
+                    return false;
+                }
+            }
+        }else{
+            $this->db->trans_rollback();
+            return false;
+        }
+        
+        return true;
+	} 
+
+	private function onPaymentFailed($post_data){
+        $this->db = dbloader("default");
+        
+        $g_duitku_log = $this->db->query("
+            SELECT 
+                * 
+            FROM 
+                duitku_log 
+            WHERE 
+                reference = '".$post_data['reference']."' AND 
+                merchant_code = '".$post_data['merchantCode']."' AND 
+                merchant_order_id = '".$post_data['merchantOrderId']."' AND 
+                payment_code = '".$post_data['paymentCode']."' 
+            LIMIT 1
+        ")->row_array(); 
+        // amount = '".$this->escape_str($amount)."' 
+        
+        $this->db->trans_begin();
+        if(empty($g_duitku_log)){ 
+            $this->db->insert('duitku_log',array(
+                'amount' => $post_data[''],
+                'reference' => $post_data['reference'],
+                'merchant_code' => $post_data['merchantCode'],
+                'merchant_order_id' => $post_data['merchantOrderId'],
+                'product_detail' => $post_data['productDetail'],
+                'payment_code' => $post_data['paymentCode'],
+                'status_code' => 'denied',
+                'created_date' => $GLOBALS['date_now'], 
+            ));
+            if($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                return false; 
+            } 
+        } 
+ 
+        $g_donate = $this->db->query("
+            SELECT 
+                dl.price as bill, 
+                dl.currency, 
+                dl.items, 
+                d.* 
+            FROM 
+                donate_duitku d
+            INNER JOIN 
+                donate_price_list dl 
+            ON 
+                d.donate_price_id = dl.id 
+            WHERE 
+                DATE(d.created_date) = CURDATE() AND 
+                d.status = 'pending' AND 
+                d.reference = '".$post_data['reference']."' AND 
+                d.merchant_order_id = '".$post_data['merchantOrderId']."'  
+            LIMIT 1
+        ")->row_array();
+
+        if(!empty($g_donate) && is_array($g_donate)){ 
+            if(count($g_donate)>0){
+                $this->db->update('donate_duitku', array(
+                    'complete_date' => $GLOBALS['date_now'],
+                    'status' => 'denied',
+                ),array(
+                    'id'=>$g_donate['id']
+                ));
+                if($this->db->trans_status() === FALSE) {
+                    $this->db->trans_rollback();
+                    return false;
+                }
+            }
+        }else{
+            $this->db->trans_rollback();
+            return false;
+        }
+
+        $this->db->trans_commit();
+        return true;
+
 	} 
 }

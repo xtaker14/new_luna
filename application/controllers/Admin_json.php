@@ -39,309 +39,201 @@ class Admin_json extends AdminController {
     
 
     function donate_process(){ 
-
         $this->load->model("admin_model");
-
         $this->load->model("member_model");
 
         $donate_id = $this->input->post('donate_id',true);
-
         $to_status = $this->input->post('to_status',true);
-
         $description = $this->input->post('description',true);
-
         $get_donate = $this->admin_model->donate_list(array('d.id'=>$donate_id));
-
-            
-
+        
         if(empty($get_donate)){ 
-
             return $this->output
-
-                ->set_content_type('application/json')
-
+            ->set_content_type('application/json')
                 ->set_status_header(200)
-
                 ->set_output(json_encode(array(
-
                     'result'=>'Error: Donate Data is not found'
-
-                )));
-
+                ))); 
         }
 
         $admin_id = $this->userId;
-
         $user_id = $get_donate[0]['user_id'];
-
         $user_data = $this->member_model->getWhereUser(array(
-
             'id'=>$user_id
-
         ))->row_array();
 
-        if(empty($user_data)){ 
-
+        if(empty($user_data)){  
             return $this->output
-
                 ->set_content_type('application/json')
-
                 ->set_status_header(200)
-
-                ->set_output(json_encode(array(
-
-                    'result'=>'Error: User Data is not found'
-
-                )));
-
-        }
-
-
+                ->set_output(json_encode(array( 
+                    'result'=>'Error: User Data is not found' 
+                ))); 
+        } 
 
         $this->db = dbloader("default");
 
         $donate_update = array(  
-
             'admin_id' => $admin_id,
-
         ); 
 
         $where_update = array(
-
             'id'=>$donate_id
-
         );
 
         $donate_update['status'] = $to_status;
-
         $donate_update['is_acc_by_admin'] = 'yes';
-
         $donate_update['admin_description'] = $description;
 
         if($to_status == 'paid'){
-
             $donate_update['complete_date'] = $GLOBALS['date_now'];
-
         }else{
-
             $donate_update['canceled_date'] = $GLOBALS['date_now'];
-
         }
-
-
 
         $this->db->trans_begin();
-
-        $this->db->update('donate',$donate_update,$where_update);
+        $this->db->update('donate_duitku',$donate_update,$where_update);
 
         if($this->db->trans_status() === FALSE) {
-
             $this->db->trans_rollback(); 
-
             return $this->output
-
                 ->set_content_type('application/json')
-
                 ->set_status_header(200)
-
                 ->set_output(json_encode(array(
-
                     'result'=>'Error: Failed To Update Status'
-
                 )));
+        } 
 
-        }
-
-
-
-        if($to_status == 'paid'){
-
-            
-
+        if($to_status == 'paid'){ 
             $cash_points = (int)$get_donate[0]['donate_point'];
 
             $this->db->update('tbl_user',array(
-
                 'star_point'=> ((int)$user_data['star_point'] + $cash_points),
-
             ),array(
-
                 'id'=>$user_id
-
             ));
 
             if($this->db->trans_status() === FALSE) {
-
                 $this->db->trans_rollback(); 
-
                 return $this->output
-
                     ->set_content_type('application/json')
-
                     ->set_status_header(200)
-
                     ->set_output(json_encode(array(
-
                         'result'=>'Error: Failed To Update Diamond'
-
                     )));
-
             }
 
             $referral_code = $get_donate[0]['referral_code'];
 
             if(!empty($referral_code)){
-
                 $where_referral = array(
-
                     'referral_code'=>$referral_code
-
                 );
 
                 $data_referral_code = $this->db->get_where('referral_code',$where_referral)->row_array();
-
                 if(count($data_referral_code)==0){ 
-
                     return $this->output
-
                         ->set_content_type('application/json')
-
                         ->set_status_header(200)
-
                         ->set_output(json_encode(array(
-
                             'result'=>'Error: Referral Code is not found'
-
                         )));
-
                 } 
 
                 $bonus_point = $cash_points * ($this->referral_bonus_points / 100);
-
                 
-
-                $this->db->query("UPDATE referral_code SET modified_date = '".$GLOBALS['date_now']."', silver_point = silver_point + $bonus_point WHERE referral_code = '$referral_code' ");
+                $this->db->query("
+                    UPDATE 
+                        referral_code 
+                    SET 
+                        modified_date = '".$GLOBALS['date_now']."', 
+                        silver_point = silver_point + $bonus_point 
+                    WHERE 
+                        referral_code = '$referral_code' 
+                ");
 
                 if($this->db->trans_status() === FALSE) {
-
                     $this->db->trans_rollback(); 
-
                     return $this->output
-
                         ->set_content_type('application/json')
-
                         ->set_status_header(200)
-
                         ->set_output(json_encode(array(
-
                             'result'=>'Error: Failed To Update Refferal Code'
-
                         )));
-
-                }
-
-
+                } 
 
                 // $this->referral_bonus_points
 
                 $ref_history_insert = array(
-
                     'donate_id' => $donate_id,
-
                     'admin_id' => $admin_id,
-
                     'from_user_id' => $user_id,
-
                     'referral_code' => $referral_code,
-
                     'silver_point' => $bonus_point,
-
                 );
 
                 $this->db->insert('referral_code_history',$ref_history_insert);
 
                 if($this->db->trans_status() === FALSE) {
-
                     $this->db->trans_rollback(); 
-
                     return $this->output
-
                         ->set_content_type('application/json')
-
                         ->set_status_header(200)
-
                         ->set_output(json_encode(array(
-
                             'result'=>'Error: Failed To Update Refferal Code History'
-
                         )));
-
                 }
 
-                
-
-                $this->db->query("UPDATE tbl_user SET star_point = star_point + $bonus_point WHERE referral_code = '$referral_code' ");
+                $this->db->query("
+                    UPDATE 
+                        tbl_user 
+                    SET 
+                        star_point = star_point + $bonus_point 
+                    WHERE 
+                        referral_code = '$referral_code' 
+                ");
 
                 if($this->db->trans_status() === FALSE) {
-
                     $this->db->trans_rollback(); 
-
                     return $this->output
-
                         ->set_content_type('application/json')
-
                         ->set_status_header(200)
-
                         ->set_output(json_encode(array(
-
                             'result'=>'Error: Failed To Update Silver Point By Referral Code'
-
                         )));
-
                 }
 
-                
-
-                $this->db->query("UPDATE tbl_user SET star_point = star_point + $bonus_point WHERE id = $user_id ");
+                $this->db->query("
+                    UPDATE 
+                        tbl_user 
+                    SET 
+                        star_point = star_point + $bonus_point 
+                    WHERE 
+                        id = $user_id 
+                ");
 
                 if($this->db->trans_status() === FALSE) {
-
                     $this->db->trans_rollback(); 
-
                     return $this->output
-
                         ->set_content_type('application/json')
-
                         ->set_status_header(200)
-
                         ->set_output(json_encode(array(
-
                             'result'=>'Error: Failed To Update Silver Point'
-
                         )));
-
                 }
 
             }
 
         }
 
-        
-
         $this->db->trans_commit();
 
         return $this->output
-
             ->set_content_type('application/json')
-
             ->set_status_header(200)
-
             ->set_output(json_encode(array(
-
                 'result'=>true, 
-
             )));  
-
     }
 
     
