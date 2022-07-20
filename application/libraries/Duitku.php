@@ -191,7 +191,7 @@ class Duitku {
         return false;
     }
 
-    public function paymentCallback($onPaymentSuccess, $onPaymentFailed)
+    public function paymentCallback(callable $onPaymentSuccess, callable $onPaymentFailed)
     {
         try {
             // $amount = $this->input->post('amount');

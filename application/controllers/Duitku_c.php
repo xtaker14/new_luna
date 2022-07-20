@@ -77,12 +77,13 @@ class Duitku_c extends FrontLib
         $this->db = dbloader("default");
         
         try {
-            $res_callback = $this->duitku->paymentCallback(onPaymentSuccess, onPaymentFailed);
+            $res_callback = $this->duitku->paymentCallback(array($this, 'onPaymentSuccess'), array($this, 'onPaymentFailed'));
 
             $this->db->trans_begin();
             $this->db->insert('dumptable',array(
                 'name' => 'test callback', 
                 'test' => json_encode($res_callback), 
+                'created_date' => $GLOBALS['date_now'], 
             ));
             if($this->db->trans_status() === FALSE) {
                 $this->db->trans_rollback();
@@ -184,10 +185,9 @@ class Duitku_c extends FrontLib
                 }
             }
         }else{
-            $this->db->trans_rollback();
             return false;
         }
-        
+
         return true;
 	} 
 
