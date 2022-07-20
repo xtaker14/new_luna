@@ -187,6 +187,21 @@ class Duitku_c extends FrontLib
                 }
             }
         }else{
+            $this->db->trans_begin();
+            $this->db->insert('dumptable',array(
+                'name' => 'test 1', 
+                'test' => '-', 
+                'created_date' => $GLOBALS['date_now'], 
+            ));
+            if($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                return array(
+                    'result'=>false,
+                    'msg'=>'error : test 1', 
+                ); 
+            } 
+            $this->db->trans_commit();
+            
             return array(
                 'result'=>false,
                 'msg'=>'error : data donate not found', 
