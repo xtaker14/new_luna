@@ -20,7 +20,7 @@
                 .then((value) => {
                     switch (value) {
                         default: 
-                            // window.location.href = '<?= base_url(); ?>acc_history';
+                            window.location.href = '<?= base_url(); ?>acc_history';
                             break;
                         }
                 });
@@ -42,7 +42,7 @@
                 .then((value) => {
                     switch (value) {
                         default:  
-                            // window.location.href = '<?= base_url(); ?>acc_history';
+                            window.location.href = '<?= base_url(); ?>acc_history';
                             break;
                     }
                 });
@@ -65,7 +65,7 @@
                     .then((value) => {
                         switch (value) {
                             default:  
-                                // window.location.href = '<?= base_url(); ?>acc_history';
+                                window.location.href = '<?= base_url(); ?>acc_history';
                                 break;
                         }
                     });
@@ -81,7 +81,7 @@
                     .then((value) => {
                         switch (value) {
                             default:  
-                                // window.location.href = '<?= base_url(); ?>acc_history';
+                                window.location.href = '<?= base_url(); ?>acc_history';
                                 break;
                         }
                     });

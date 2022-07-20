@@ -104,20 +104,20 @@ class Duitku_c extends FrontLib
     public function onPaymentSuccess($post_data){
         $this->db = dbloader("default"); 
 
-        $this->db->trans_begin();
-        $this->db->insert('dumptable',array(
-            'name' => 'callback onPaymentSuccess 1', 
-            'test' => json_encode($post_data), 
-            'created_date' => $GLOBALS['date_now'], 
-        ));
-        if($this->db->trans_status() === FALSE) {
-            $this->db->trans_rollback();
-            return array(
-                'result'=>false,
-                'msg'=>'error : insert dumptable', 
-            ); 
-        } 
-        $this->db->trans_commit();
+        // $this->db->trans_begin();
+        // $this->db->insert('dumptable',array(
+        //     'name' => 'callback onPaymentSuccess 1', 
+        //     'test' => json_encode($post_data), 
+        //     'created_date' => $GLOBALS['date_now'], 
+        // ));
+        // if($this->db->trans_status() === FALSE) {
+        //     $this->db->trans_rollback();
+        //     return array(
+        //         'result'=>false,
+        //         'msg'=>'error : insert dumptable', 
+        //     ); 
+        // } 
+        // $this->db->trans_commit();
  
         $g_donate = $this->db->query("
             SELECT 
