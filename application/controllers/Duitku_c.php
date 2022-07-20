@@ -11,6 +11,15 @@ class Duitku_c extends FrontLib
 	}
     
 	public function return($pars=''){
+        if(!$this->onlyAllowAccessFromPost()){
+            return $this->output
+                ->set_content_type('application/json')
+                ->set_status_header(200)
+                ->set_output(json_encode(array(
+                    'result'=>'Error: Only Allow Access From Post'
+                )));
+        }
+
         echo 'test';
         return false;
 
