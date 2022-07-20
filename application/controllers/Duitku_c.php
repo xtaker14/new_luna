@@ -57,9 +57,6 @@ class Duitku_c extends FrontLib
 	} 
 
 	public function callback($pars=''){
-        $res_callback = $this->duitku->paymentCallback(array($this, 'onPaymentSuccess'), array($this, 'onPaymentFailed'));
-        return;
-
 		if($pars != getenv('KEY_EXTERNAL_ACCESS')){
             return $this->output
 				->set_content_type('application/json')
