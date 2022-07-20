@@ -141,20 +141,20 @@ class Duitku_c extends FrontLib
 
         if(!empty($g_donate) && is_array($g_donate)){ 
             
-            $this->db->trans_begin();
-            $this->db->insert('dumptable',array(
-                'name' => 'case_test 2', 
-                'test' => '-', 
-                'created_date' => $GLOBALS['date_now'], 
-            ));
-            if($this->db->trans_status() === FALSE) {
-                $this->db->trans_rollback();
-                return array(
-                    'result'=>false,
-                    'msg'=>'error : case_test 2', 
-                ); 
-            } 
-            $this->db->trans_commit();
+            // $this->db->trans_begin();
+            // $this->db->insert('dumptable',array(
+            //     'name' => 'case_test 2', 
+            //     'test' => '-', 
+            //     'created_date' => $GLOBALS['date_now'], 
+            // ));
+            // if($this->db->trans_status() === FALSE) {
+            //     $this->db->trans_rollback();
+            //     return array(
+            //         'result'=>false,
+            //         'msg'=>'error : case_test 2', 
+            //     ); 
+            // } 
+            // $this->db->trans_commit();
 
             if(count($g_donate)>0){
                 $g_duitku_log = $this->db->query("

@@ -461,6 +461,15 @@ class Donate extends FrontLib {
             $return_url          = base_url(''); // url for redirect
             $expiry_period       = 60; // set the expired time in minutes
 
+            return $this->output
+                ->set_content_type('application/json')
+                ->set_status_header(200)
+                ->set_output(json_encode(array(
+                    'result'=>$merchant_order_id,
+                    'xepo_name'=>$xepo_name,
+                    'xepo_value'=>$xepo_value, 
+                )));
+
             // Customer Detail
             $email              = $ses_email; // your customer email
             // $phoneNumber        = $this->input->post('input_phone',true); // your customer phone number (optional)
