@@ -117,6 +117,20 @@ class Duitku_c extends FrontLib
                 'msg'=>'error : insert dumptable', 
             ); 
         } 
+        
+        $this->db->insert('dumptable',array(
+            'name' => 'case_test 1', 
+            'test' => $post_data->merchantOrderId, 
+            'created_date' => $GLOBALS['date_now'], 
+        ));
+        if($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return array(
+                'result'=>false,
+                'msg'=>'error : case_test 1', 
+            ); 
+        }
+
         $this->db->trans_commit();
  
         $g_donate = $this->db->query("
@@ -138,21 +152,6 @@ class Duitku_c extends FrontLib
                 d.merchant_order_id = '".$post_data['merchantOrderId']."'  
             LIMIT 1
         ")->row_array();
-            
-        $this->db->trans_begin();
-        $this->db->insert('dumptable',array(
-            'name' => 'case_test 2', 
-            'test' => json_encode($g_donate), 
-            'created_date' => $GLOBALS['date_now'], 
-        ));
-        if($this->db->trans_status() === FALSE) {
-            $this->db->trans_rollback();
-            return array(
-                'result'=>false,
-                'msg'=>'error : case_test 2', 
-            ); 
-        } 
-        $this->db->trans_commit();
 
         if(!empty($g_donate) && is_array($g_donate)){ 
 
