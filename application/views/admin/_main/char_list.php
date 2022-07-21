@@ -19,7 +19,15 @@
 				        <tbody>
                             <?php foreach($tbl_user as $key => $val) : ?>
 								<tr>
-									<th><?= $val['username']; ?></th> 
+									<th>
+										<?php 
+											echo $val['username']; 
+											if(!empty($val['referral_code'])){
+												echo '<hr style="margin-top: 5px;margin-bottom: 5px;">';
+												echo '<span style="color:#268006;">Ref Code : '.$val['referral_code'].'</span>';
+											}	
+										?>
+									</th> 
 									<th><?= $val['email']; ?></th>  
 									<th><?= number_format($val['star_point'],0,',','.'); ?></th>  
 									<th>

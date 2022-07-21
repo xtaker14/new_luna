@@ -77,7 +77,9 @@ class Admin extends AdminController {
 			*
 		'); 
 		$this->db->order_by('star_point','desc');
-		$this->global['tbl_user'] = $this->db->get("tbl_user")->result_array();
+		$this->db->select('u.*, rc.referral_code');
+		$this->db->join('referral_code rc','rc.user_id=u.id','left');
+		$this->global['tbl_user'] = $this->db->get("tbl_user u")->result_array();
 		$this->global['php_name'] = 'char_list';
 	    $this->loadPage();
 	} 
