@@ -12,6 +12,7 @@
 				            <tr>
                                 <th>Username</th> 
                                 <th>Email</th>  
+                                <th>Point</th>  
 				                <th>Action</th>
 				            </tr>
 				        </thead>
@@ -20,6 +21,7 @@
 								<tr>
 									<th><?= $val['username']; ?></th> 
 									<th><?= $val['email']; ?></th>  
+									<th><?= number_format($val['star_point'],0,',','.'); ?></th>  
 									<th>
 										<a target="_blank" href="<?= base_url('adm/char/'.$val['id']) ?>" class="btn btn-sm btn-primary">
 											<i class="fa fa-edit"></i> Edit
