@@ -656,6 +656,8 @@ class MY_Controller extends CI_Controller  {
 			);
 			$data_referral_code = $this->db->get_where('referral_code',$where_referral)->row_array();
 			if(count($data_referral_code)==0){ 
+				$this->db->trans_rollback(); 
+				$this->db_mssql->trans_rollback();
 				return false;
 			} 
 			$bonus_point = $cash_points * ($this->referral_bonus_points / 100);

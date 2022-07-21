@@ -70,6 +70,11 @@ class Admin_json extends AdminController {
         } 
 
         $this->db = dbloader("default");
+        $this->db_mssql = dbloader("LUNA_GAMEDB");
+
+        $this->db->trans_begin();
+		$this->db_mssql->trans_begin();
+
 
         $donate_update = array(  
             'admin_id' => $admin_id,
@@ -89,7 +94,6 @@ class Admin_json extends AdminController {
             $donate_update['canceled_date'] = $GLOBALS['date_now'];
         }
 
-        $this->db->trans_begin();
         $this->db->update('donate_duitku',$donate_update,$where_update);
 
         if($this->db->trans_status() === FALSE) {
@@ -121,13 +125,51 @@ class Admin_json extends AdminController {
                     )));
             }
 
+            if(!empty($get_donate[0]['items'])){
+                $get_items = json_decode($get_donate[0]['items'], true);
+                if(!empty($get_items)){ 
+
+                    foreach ($get_items as $key => $val) {
+                        $this->db_mssql->query("
+                            INSERT INTO TB_ITEM 
+                            (
+                                CHARACTER_IDX,
+                                ITEM_IDX,
+                                ITEM_POSITION,
+                                ITEM_DURABILITY,
+                                ITEM_SHOPIDX
+                            ) VALUES (
+                                0,
+                                '".$val['items_source']."',
+                                280,
+                                '".$val['items_qty']."',
+                                $user_id
+                            )
+                        ");
+                        if($this->db_mssql->trans_status() === FALSE) {
+                            $this->db->trans_rollback();
+                            $this->db_mssql->trans_rollback();
+                            return $this->output
+                                ->set_content_type('application/json')
+                                ->set_status_header(200)
+                                ->set_output(json_encode(array(
+                                    'result'=>'Error: Failed To Insert bonus items'
+                                )));
+                        }
+                    }
+                }
+            }
+
             $referral_code = $get_donate[0]['referral_code'];
             if(!empty($referral_code)){
                 $where_referral = array(
                     'referral_code'=>$referral_code
                 );
-                $data_referral_code = $this->db->get_where('referral_code',$where_referral)->row_array();
+                $data_referral_code = $this->db->get_where('referral_code',$where_referral)->row_array(); 
+
                 if(count($data_referral_code)==0){ 
+                    $this->db->trans_rollback(); 
+                    $this->db_mssql->trans_rollback();
                     return $this->output
                         ->set_content_type('application/json')
                         ->set_status_header(200)
@@ -141,12 +183,14 @@ class Admin_json extends AdminController {
                     UPDATE 
                         referral_code 
                     SET 
-                        modified_date = '".$GLOBALS['date_now']."', point = point + $bonus_point 
+                        modified_date = '".$GLOBALS['date_now']."', 
+                        point = point + $bonus_point 
                     WHERE 
                         referral_code = '$referral_code' 
                 ");
                 if($this->db->trans_status() === FALSE) {
                     $this->db->trans_rollback(); 
+                    $this->db_mssql->trans_rollback();
                     return $this->output
                         ->set_content_type('application/json')
                         ->set_status_header(200)
@@ -166,6 +210,7 @@ class Admin_json extends AdminController {
                 $this->db->insert('referral_code_history',$ref_history_insert);
                 if($this->db->trans_status() === FALSE) {
                     $this->db->trans_rollback(); 
+                    $this->db_mssql->trans_rollback();
                     return $this->output
                         ->set_content_type('application/json')
                         ->set_status_header(200)
@@ -184,6 +229,7 @@ class Admin_json extends AdminController {
                 ");
                 if($this->db->trans_status() === FALSE) {
                     $this->db->trans_rollback(); 
+                    $this->db_mssql->trans_rollback();
                     return $this->output
                         ->set_content_type('application/json')
                         ->set_status_header(200)
@@ -202,6 +248,7 @@ class Admin_json extends AdminController {
                 ");
                 if($this->db->trans_status() === FALSE) {
                     $this->db->trans_rollback(); 
+                    $this->db_mssql->trans_rollback();
                     return $this->output
                         ->set_content_type('application/json')
                         ->set_status_header(200)
@@ -214,6 +261,7 @@ class Admin_json extends AdminController {
         }
 
         $this->db->trans_commit();
+        $this->db_mssql->trans_commit();
 
         return $this->output
             ->set_content_type('application/json')
