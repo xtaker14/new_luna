@@ -120,39 +120,7 @@
 
 <script> 
 
-	// $(document).ready(function(){
-
-	// 	$.ajax({
-
-	// 		type : "POST",
-
-	// 		dataType : "json",
-
-	// 		data : {},
-
-	// 		url : baseURL+"api/refresh_point",
-
-	// 		success:function(res){
-
-	// 			let star_point = res.result.star_point;
-
-	// 			let silver_point = res.result.silver_point;
-
-	// 			// console.log(res);
-
-	// 			$(".star_point").text(f_main.numberFormatAlias(star_point));
-
-	// 			$(".star_point").parent().attr('title','Balance : '+f_main.formatNumber(star_point,'.'));
-
-
-
-	// 			$(".silver_point").text(f_main.numberFormatAlias(silver_point));
-
-	// 			$(".silver_point").parent().attr('title','Balance : '+f_main.formatNumber(silver_point,'.'));
-
-	// 		}
-
-	// 	});
+	// $(document).ready(function(){ 
 
 	// });
 

@@ -45,7 +45,7 @@
                                                 <td><?= $val['from_username']; ?></td>
                                                 <td><?= $val['username']; ?></td>
                                                 <td><?= $val['referral_code']; ?></td>
-                                                <td><?= number_format($val['silver_point'],0,',','.'); ?></td>
+                                                <td><?= number_format($val['point'],0,',','.'); ?></td>
                                                 <td><?= (!empty($val['created_date'])) ? date('d M Y H:i:s', strtotime($val['created_date'])) : '-- Empty --'; ?></td>
                                             </tr>
                                         <?php endforeach; ?>

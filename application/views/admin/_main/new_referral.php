@@ -3,13 +3,13 @@
     $is_deleted = '';
     $referral_code = '';
     $username = '';
-    $silver_point = '0';
+    $bonus_point = '0';
     if(!empty($get_referral)){
         $id = $get_referral['id'];
         $is_deleted = $get_referral['is_deleted'];
         $referral_code = $get_referral['referral_code'];
         $username = $get_referral['username'];
-        $silver_point = $get_referral['silver_point'];
+        $bonus_point = $get_referral['point'];
     }
 ?>
 <div class="col-md-10 offset-md-1">
@@ -39,8 +39,8 @@
                     </label>
 		        </div> 
 	        	<!-- <div class="col-md-12 my-2">
-	                <input type="text" class="form-control" placeholder="Point" value="<?= $silver_point; ?>" name="silver_point" id="silver_point">
-                    <label for="silver_point">
+	                <input type="text" class="form-control" placeholder="Point" value="<?= $bonus_point; ?>" name="bonus_point" id="bonus_point">
+                    <label for="bonus_point">
                         <small><span style="color:red;">*</span> Defult Point adalah 0</small>
                     </label>
 		        </div>  -->
@@ -116,9 +116,9 @@ $(document).ready(function(){
         delay: 100,
     });
 
-    f_main.setInputFilter($("input#silver_point"), function(value) {
-        return /^\d*$/.test(value); 
-    });
+    // f_main.setInputFilter($("input#bonus_point"), function(value) {
+    //     return /^\d*$/.test(value); 
+    // });
     console.clear();
 })
 </script>

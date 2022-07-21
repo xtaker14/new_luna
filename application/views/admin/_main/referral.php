@@ -33,7 +33,7 @@
                                 <td><?= !empty($val['admin_id']) ? $val['admin_id'] : '<small>Not Yet</small>' ; ?></td>
                                 <td><?= $val['username']; ?></td>
                                 <td><?= $val['referral_code']; ?></td>
-                                <td><?= number_format($val['silver_point'],0,',','.'); ?></td>
+                                <td><?= number_format($val['point'],0,',','.'); ?></td>
                                 <td>
                                     <?php if($val['is_deleted'] == 'yes'): ?>
                                         <button data-id="<?= $val['id']; ?>" onclick="setStatusRef($(this));" type="button" class="btn btn-sm btn-danger">

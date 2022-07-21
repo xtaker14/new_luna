@@ -110,7 +110,7 @@ class Donate extends FrontLib {
             $this->db = dbloader("default");
 
             $this->db->trans_begin();
-            $this->db->delete('donate',array(
+            $this->db->delete('donate_duitku',array(
                 'id'=>$donate_id
             )); 
             if($this->db->trans_status() === FALSE) {
@@ -160,7 +160,7 @@ class Donate extends FrontLib {
         }else{
             $this->db = dbloader("default"); 
             
-            $get_donate = $this->db->get_where('donate',array(
+            $get_donate = $this->db->get_where('donate_duitku',array(
                 'id'=>$id,
                 'user_id'=>$user_id,
                 'status'=>'unpaid',
@@ -175,7 +175,7 @@ class Donate extends FrontLib {
             }
 
             $this->db->trans_begin();
-            $this->db->delete('donate',array(
+            $this->db->delete('donate_duitku',array(
                 'id'=>$id,
             ));
             if($this->db->trans_status() === FALSE) {
@@ -188,7 +188,7 @@ class Donate extends FrontLib {
                     )));
             }
             // $this->db->delete('unique_numbers',array(
-            //     'name'=>'donate',
+            //     'name'=>'donate_duitku',
             //     'value'=>$get_donate['code_price'],
             //     'created_date'=>$GLOBALS['cur_date'],
             // )); 

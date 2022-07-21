@@ -1533,7 +1533,8 @@ main {
     /* background-color: #f1f1f1; */
     /* background-color: rgb(163, 208, 248); */
     /* background-color: rgb(233 247 255); */
-    background-color: rgb(151, 213, 253);
+    /* background-color: rgb(151, 213, 253); */
+    background-color: rgb(61, 201, 239);
 }
 
 p {

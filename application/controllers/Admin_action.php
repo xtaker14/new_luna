@@ -83,7 +83,6 @@ class Admin_action extends AdminController {
 			$is_deleted = $this->input->post('is_deleted',true); 
 			$referral_code = $this->input->post('referral_code',true); 
 			$username = $this->input->post('username',true);
-			// $silver_point = toggle_to_int($this->input->post('silver_point',true)); 
 			$admin_id = $this->userId;
 
 			if(isset($is_deleted)){
@@ -124,7 +123,6 @@ class Admin_action extends AdminController {
 				$data = array(
 					'is_deleted'=>$is_deleted,
 					'referral_code'=>$referral_code,
-					// 'silver_point'=>$silver_point,
 					'admin_id'=>$admin_id,
 				);
 
@@ -140,7 +138,6 @@ class Admin_action extends AdminController {
 
 				$this->db->update('tbl_user',array(
 					'referral_code'=>$referral_code,
-					// 'silver_point'=>$silver_point,
 				),array(
 					'id'=>$data_user['id']
 				));
@@ -155,8 +152,7 @@ class Admin_action extends AdminController {
 					'referral_code'=>$referral_code,
 					'user_id'=>$data_user['id'],
 					'user_code'=>$data_user['code'],
-					// 'silver_point'=>$silver_point,
-					'silver_point'=>0,
+					'point'=>0,
 					'admin_id'=>$admin_id,
 				);
 	
@@ -170,7 +166,6 @@ class Admin_action extends AdminController {
 	
 				$this->db->update('tbl_user',array(
 					'referral_code'=>$referral_code,
-					// 'silver_point'=>$silver_point,
 				),array(
 					'id'=>$data_user['id']
 				));

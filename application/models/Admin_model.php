@@ -30,7 +30,7 @@ class Admin_model extends MY_Model
 		$this->db->select('u.username as username, rc.*');
         $this->db->join('tbl_user as u', 'u.referral_code = rc.referral_code', 'inner');
         
-        $this->db->order_by('rc.silver_point','DESC');
+        $this->db->order_by('rc.point','DESC');
         $this->db->order_by('u.username','ASC');
 
 		$where = array(); 

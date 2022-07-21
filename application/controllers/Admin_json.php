@@ -36,8 +36,6 @@ class Admin_json extends AdminController {
 
     }
 
-    
-
     function donate_process(){ 
         $this->load->model("admin_model");
         $this->load->model("member_model");
@@ -124,12 +122,10 @@ class Admin_json extends AdminController {
             }
 
             $referral_code = $get_donate[0]['referral_code'];
-
             if(!empty($referral_code)){
                 $where_referral = array(
                     'referral_code'=>$referral_code
                 );
-
                 $data_referral_code = $this->db->get_where('referral_code',$where_referral)->row_array();
                 if(count($data_referral_code)==0){ 
                     return $this->output
@@ -139,19 +135,16 @@ class Admin_json extends AdminController {
                             'result'=>'Error: Referral Code is not found'
                         )));
                 } 
-
                 $bonus_point = $cash_points * ($this->referral_bonus_points / 100);
                 
                 $this->db->query("
                     UPDATE 
                         referral_code 
                     SET 
-                        modified_date = '".$GLOBALS['date_now']."', 
-                        silver_point = silver_point + $bonus_point 
+                        modified_date = '".$GLOBALS['date_now']."', point = point + $bonus_point 
                     WHERE 
                         referral_code = '$referral_code' 
                 ");
-
                 if($this->db->trans_status() === FALSE) {
                     $this->db->trans_rollback(); 
                     return $this->output
@@ -160,20 +153,17 @@ class Admin_json extends AdminController {
                         ->set_output(json_encode(array(
                             'result'=>'Error: Failed To Update Refferal Code'
                         )));
-                } 
+                }
 
                 // $this->referral_bonus_points
-
                 $ref_history_insert = array(
                     'donate_id' => $donate_id,
                     'admin_id' => $admin_id,
                     'from_user_id' => $user_id,
                     'referral_code' => $referral_code,
-                    'silver_point' => $bonus_point,
+                    'point' => $bonus_point,
                 );
-
                 $this->db->insert('referral_code_history',$ref_history_insert);
-
                 if($this->db->trans_status() === FALSE) {
                     $this->db->trans_rollback(); 
                     return $this->output
@@ -183,7 +173,7 @@ class Admin_json extends AdminController {
                             'result'=>'Error: Failed To Update Refferal Code History'
                         )));
                 }
-
+                
                 $this->db->query("
                     UPDATE 
                         tbl_user 
@@ -192,7 +182,6 @@ class Admin_json extends AdminController {
                     WHERE 
                         referral_code = '$referral_code' 
                 ");
-
                 if($this->db->trans_status() === FALSE) {
                     $this->db->trans_rollback(); 
                     return $this->output
@@ -202,7 +191,7 @@ class Admin_json extends AdminController {
                             'result'=>'Error: Failed To Update Silver Point By Referral Code'
                         )));
                 }
-
+                
                 $this->db->query("
                     UPDATE 
                         tbl_user 
@@ -211,7 +200,6 @@ class Admin_json extends AdminController {
                     WHERE 
                         id = $user_id 
                 ");
-
                 if($this->db->trans_status() === FALSE) {
                     $this->db->trans_rollback(); 
                     return $this->output
@@ -221,7 +209,6 @@ class Admin_json extends AdminController {
                             'result'=>'Error: Failed To Update Silver Point'
                         )));
                 }
-
             }
 
         }
