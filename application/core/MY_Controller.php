@@ -440,13 +440,13 @@ class MY_Controller extends CI_Controller  {
 	}
 	
     public function edit_encrypt( $s ) {
-        $cryptKey  = 'seelunasecret';
+        $cryptKey  = 'newluna';
         $qEncoded      = base64_encode( mcrypt_encrypt( MCRYPT_RIJNDAEL_256, md5( $cryptKey ), $s, MCRYPT_MODE_CBC, md5( md5( $cryptKey ) ) ) );
         return( $qEncoded );
     }
     
     public function edit_decrypt($s) {
-        $cryptKey  = 'seelunasecret';
+        $cryptKey  = 'newluna';
         $qDecoded  = rtrim( mcrypt_decrypt( MCRYPT_RIJNDAEL_256, md5( $cryptKey ), base64_decode( $s ), MCRYPT_MODE_CBC, md5( md5( $cryptKey ) ) ), "\0");
         return( $qDecoded );
     } 

@@ -11,6 +11,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
 
 
+<script type="text/javascript" src="<?= base_url('assets/frontpage/js/slick.min.js'); ?>"></script>
 
 <script type="text/javascript" src="<?= base_url('assets/frontpage/js/funct_main.js'); ?>"></script>
 
@@ -393,7 +394,7 @@
 
 			setTimeout(function(){
 
-				console.clear();
+				// console.clear();
 
 			},200);
 

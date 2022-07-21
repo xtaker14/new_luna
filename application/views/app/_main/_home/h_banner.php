@@ -21,11 +21,15 @@
         </div>
       </div>
       <a class="carousel-control-prev" href="#h_carousel" role="button" data-slide="prev">
-        <i class="fas fa-angle-left fa-2x text-primary"></i>
+        <span class="animate_scale">
+          <i class="fas fa-angle-left fa-2x text-primary"></i>
+        </span>
         <span class="sr-only">Previous</span>
       </a>
       <a class="carousel-control-next" href="#h_carousel" role="button" data-slide="next">
-        <i class="fas fa-angle-right fa-2x text-primary"></i>
+        <span class="animate_scale">
+          <i class="fas fa-angle-right fa-2x text-primary"></i>
+        </span>
         <span class="sr-only">Next</span>
       </a>
   </div>   

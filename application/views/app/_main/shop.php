@@ -47,21 +47,156 @@
 	margin-bottom:auto;
 	color:gray;
 }
+
+.link_hot_items{
+    transition: all 0.2s ease-in-out;
+}
+.link_hot_items:hover{
+	opacity: 0.7;
+}
 </style>
 
 <div class="card p-1" style="height: 100%;" data-aos="fade-left" data-aos-delay="200">
 	<div class="card-body" style="height: 100%; background: #2a88ed; border-radius:4px;">
-		<div id="menu_cover" class="card shadow-sm mb-4" data-aos="fade-left" data-aos-delay="300" style="background: #fffde8;">
+
+	<?php if(empty($open_to)): ?>
+		<?php  
+
+		$total_hot_items = count($shop_hot_items);
+		$start_count = 1;
+		$end_count = $total_hot_items;
+
+		$show_res_hot_items_count = "Showing " . $start_count . " - " . $end_count . " of " . $total_hot_items . " Results";
+
+		?>
+		<div class="row">
+			<div class="col-md-12" style="margin-top:15px;">
+				<h3 class="title-bg" style="display: flex;justify-content: space-between;align-items: baseline; color: #fff;">
+					<div>Hot Items</div>
+					<div style="font-size: 16px;" id="show_count_hot_items">
+						<?= $show_res_hot_items_count; ?>
+					</div>
+				</h3>
+			</div>
+		</div> 
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="parent_hot_items">
+					<?= implode('', $shop_hot_items); ?>
+				</div>
+			</div>
+
+			<div class="col-md-12">
+				<div style="display:flex; align-items:center; justify-content: end;">
+					<a href="<?= base_url('shop/hot-items'); ?>" class="link_hot_items" style="font-size: 14px; color: #fff;">
+						<b>
+							View All <i class="fas fa-angle-right" style="padding-top:2px;"></i>
+						</b>
+					</a>
+				</div>
+			</div>
+		</div> 
+
+		<hr style="border:1px dashed #D8D5C7;width:100%;max-width:100%;background-color:transparent;margin-top:5px;margin-bottom:5px;"> 
+		<!-- --------------------------------------------------------------------------------- -->
+
+		<div id="menu_cover" class="card shadow-sm mb-4" data-aos="fade-left" data-aos-delay="300" style="background: #fffde8; margin-top: 15px;">
 			<?php $this->load->view("app/_main/_shop/menu.php");?>
 		</div>  
 
 		<div id="im_list" class="form-row" align="center" data-aos="fade-left" data-aos-delay="400">
 		</div>
+
+	<?php elseif($open_to == 'hot-items'): ?>
+		<?php  
+
+		$total_hot_items = count($shop_hot_items);
+		$start_count = 1;
+		$end_count = $total_hot_items;
+
+		$show_res_hot_items_count = "Showing " . $end_count . " - " . $end_count . " of " . $total_hot_items . " Results";
+
+		?>
+
+		<div class="row">
+			<div class="col-md-12" style="margin-top:15px;">
+				<h3 class="title-bg" style="display: flex;justify-content: space-between;align-items: baseline; color: #fff;">
+					<div>Hot Items</div>
+					<div style="font-size: 16px;" id="show_count_hot_items">
+						<?= $show_res_hot_items_count; ?>
+					</div>
+				</h3>
+			</div>
+		</div> 
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="row parent_im_list">
+					<?= implode('', $shop_hot_items); ?>
+				</div>
+			</div>
+
+			<div class="col-md-12">
+				<div style="display:flex; align-items:center; justify-content: start;">
+					<a href="<?= base_url('shop'); ?>" class="link_hot_items" style="font-size: 14px; color: #fff;">
+						<b>
+							<i class="fas fa-angle-left" style="padding-top:2px;"></i> Back
+						</b>
+					</a>
+				</div>
+			</div>
+		</div> 
+	<?php else: ?>
+
+	<?php endif ?>
+
 	</div>
 </div> 
 
 <script type="text/javascript">
 $(document).ready(function(){
+	if($('.parent_hot_items').length>0){
+		
+		var slick_show = 4;
+		var slick_to_scroll = 4;
+
+		$('.parent_hot_items').slick({
+			arrows: false,
+			slidesToShow: slick_show,
+			slidesToScroll: slick_to_scroll,
+			autoplay: true,
+			autoplaySpeed: 1500,
+			infinite: true,
+			responsive: [{
+					breakpoint: 768,
+					settings: {
+						slidesToShow: 2,
+						slidesToScroll: 2,
+					}
+				},
+				{
+					breakpoint: 480,
+					settings: {
+						slidesToShow: 1,
+						slidesToScroll: 1,
+					}
+				}
+			]
+		});
+
+		$('.parent_hot_items').on('afterChange', function(event, slick, currentSlide, nextSlide){
+			//currentSlide is undefined on init -- set it to 0 in this case (currentSlide is 0 based)
+			let slic_from = (currentSlide ? currentSlide : 0) + 1;
+			let slic_to = (slic_from + (slick_show-1));
+			if(slic_to > slick.slideCount){
+				slic_to = slick.slideCount;
+			}
+
+			$('#show_count_hot_items').html("Showing " + slic_from + " - " + slic_to + " of " + slick.slideCount);
+		});
+	}
+	
 	get_list(<?= $im_category[0]['id']; ?>);
 	$('html').removeClass('no-js');
 	$(document).on('click','.cat_icon',function(){

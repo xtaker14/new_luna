@@ -73,7 +73,7 @@ class Admin_model extends MY_Model
         $this->db->order_by('SUM(d.donate_point)','DESC'); 
         $this->db->order_by('DATE(d.created_date)','DESC'); 
         
-		return $this->db->get('donate d')->result_array();
+		return $this->db->get('donate_duitku d')->result_array();
 	}
     
     function create_dump_item_name(){
@@ -370,7 +370,7 @@ class Admin_model extends MY_Model
         $this->db->order_by('SUM(d.donate_point)','DESC'); 
         $this->db->order_by('DATE(d.created_date)','DESC'); 
         
-		return $this->db->get('donate d')->result_array();
+		return $this->db->get('donate_duitku d')->result_array();
 	}
 
     function donate_list($where_data=false){

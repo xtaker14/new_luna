@@ -29,6 +29,7 @@ $route['go_change_pin'] = 'member_action/go_change_pin';
 $route['go_change_pwd'] = 'member_action/go_change_pwd';
 //FRONTPAGE IM
 $route['shop'] = 'frontpage/shop';
+$route['shop/(:any)'] = 'frontpage/shop/$1';
 $route['im_list/(:num)'] = 'item_mall/im_list/$1';
 $route['im_detail/(:num)'] = 'item_mall/im_detail/$1';
 $route['go_buy'] = 'item_mall/buy';

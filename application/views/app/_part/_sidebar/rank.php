@@ -26,7 +26,7 @@
 			</table>
 		</div>
 		<div class="d-block p-2" align="center">
-			<a href="<?= base_url('rank') ?>" class="btn-one" style="width:100% !important; position: relative; display: block;">View all</a>
+			<a href="<?= base_url('rank') ?>" class="btn-one" style="width:100% !important; position: relative; display: block;">View All</a>
 		</div>
 	</div>
 </div>

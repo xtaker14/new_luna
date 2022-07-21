@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 <link rel='stylesheet' id='rs-plugin-settings-css'  href='<?= base_url(); ?>assets/plugins/revslider/public/assets/css/rs6.css?ver=6.2.8' type='text/css' media='all' />
+<link rel="stylesheet" href="<?= base_url(); ?>assets/frontpage/css/slick.css">
 
 <style type="text/css">
 .swal-overlay {
@@ -63,6 +64,7 @@
 	margin-right:7.5px;
 }
 
+.parent_im_list .im_list_item,
 #im_list .im_list_item {
 	border: 1px dashed #fff;
 }
@@ -300,6 +302,7 @@
 	display: inline-flex;
 }
 #preloader .dots--animate .dot.z {
+    -webkit-animation: scale 0.8s 0.2s forwards;
 	animation: scale 0.8s 0.2s forwards;
 }
 #preloader .dots--animate .dot.f, .dots--animate .dot.s {
@@ -322,7 +325,8 @@
 #preloader .dot.z {
 	position: absolute;
 	transform: scale(0);
-}
+} 
+
 @keyframes scale {
 	100% {
 		transform: scale(1);
@@ -415,6 +419,22 @@
 @keyframes moveUpDown {
     0% { transform: translateY(0); }
     100% { transform: translateY(-12px); }
+}
+
+.animate_scale{ 
+    -webkit-animation: a_scale 1.2s infinite alternate;
+	animation: a_scale 1.2s infinite alternate;
+}
+
+@keyframes a_scale {
+    0% { 
+		transform: scale(0.7); 
+		opacity: 0.7;
+	}
+	100% {
+		transform: scale(1);
+		opacity: 1;
+	}
 }
 
 /* start clock */

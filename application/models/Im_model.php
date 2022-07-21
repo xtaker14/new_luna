@@ -15,6 +15,40 @@ class Im_model extends MY_Model{
 		return $get;
 	}
 
+	function imAll(){
+		$get = $this->db->query("SELECT itemid,itemname,itemimage,itemtype,isDiscount FROM itemmall WHERE  status = 1 ORDER BY itemid DESC")->result_array();
+		return $get;
+	}
+
+	function im_best_list_by($count,$order,$where=array()){
+		$g_category = $this->db->get_where('itemcategory', array(
+			'is_active'=>'yes'
+		))->result_array();
+
+		$res = array();
+		foreach($g_category as $idx => $val){
+			$this->db->select('
+				itemid, 
+				itemname, 
+				itemimage, 
+				itemtype, 
+				isDiscount
+			');
+			$this->db->where('status',1);
+			$this->db->where('itemtype',$val['id']);
+			if(!empty($where)){
+				$this->db->where($where);
+			}
+			$this->db->order_by($order,"DESC");
+			$this->db->limit($count);
+			$g_item = $this->db->get('itemmall')->result_array();
+
+			$res[$val['id']] = $g_item;
+		}
+
+		return $res;
+	}
+
 	function im_byCategory($cat_id){
 		$get = $this->db->query("SELECT itemid,itemname,itemimage,itemtype,isDiscount FROM itemmall WHERE itemtype = '$cat_id' AND status = 1 ORDER BY itemid DESC")->result_array();
 		return $get;

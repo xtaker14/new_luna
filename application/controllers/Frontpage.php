@@ -85,13 +85,30 @@ class Frontpage extends FrontLib {
 		$download_url = $result['downloadUrl']."&access_token=".$token;
 		header("Location:".$download_url);
 	}
-	function shop(){
+	function shop($open_to=null){
 		//setFlashData('popup', 'berhasil membeli item..');
 		//setFlashData('shop', 'error');
 		//setFlashData('shop', 'success');
-			
+
+		$this->load->library('shop_lib');
+		$this->load->model("im_model");
 		$this->load->model("frontpage_model");
+
+		// $get_new = $this->im_model->im_best_list_by(3,'itemid');
+		$get_hot = $this->im_model->im_best_list_by(5,'counter');
+
+		$shop_hot_items = array();
+		foreach ($get_hot as $idx => $val) {
+			foreach ($val as $idx2 => $val2) {
+				$mark_name = "hot";
+				$id_item = $val2['itemid'];
+				$shop_hot_items[] = $this->shop_lib->im_maker($val2, $mark_name);
+			}
+		}
+
 		$this->global['im_category'] = $this->frontpage_model->getIMCategory();
+		$this->global['shop_hot_items'] = $shop_hot_items;
+		$this->global['open_to'] = $open_to;
 
 		$this->global['php_name'] = "shop";
 		$this->loadViews();

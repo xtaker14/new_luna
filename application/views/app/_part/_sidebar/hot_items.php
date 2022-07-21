@@ -45,11 +45,15 @@ foreach ($hot_items as $key => $val) {
           <?= $a ?>
         </div>
         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-          <i class="fas fa-angle-left text-primary fa-2x"></i>
+          <span class="animate_scale">
+            <i class="fas fa-angle-left text-primary fa-2x"></i>
+          </span> 
           <span class="sr-only">Previous</span>
         </a>
         <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-          <i class="fas fa-angle-right text-primary fa-2x"></i>
+          <span class="animate_scale">
+            <i class="fas fa-angle-right text-primary fa-2x"></i>
+          </span> 
           <span class="sr-only">Next</span>
         </a>
     </div>    
