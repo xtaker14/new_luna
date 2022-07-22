@@ -191,6 +191,13 @@ class Duitku {
         return false;
     }
 
+    public function checkStatus($merchantOrderId){
+        $resp_pop = \Duitku\Pop::transactionStatus($merchantOrderId, $this->config); 
+        $resp_pop = json_decode($resp_pop);
+        
+        return $resp_pop;
+    }
+
     public function paymentCallback(callable $onPaymentSuccess, callable $onPaymentFailed)
     {
         try {

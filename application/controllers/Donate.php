@@ -250,6 +250,8 @@ class Donate extends FrontLib {
                             'result'=>'Error: Donate Data is not found'
                         )));
                 }
+                $get_donate = $get_donate[0];
+                $duitku_status = $this->duitku->checkStatus($get_donate['merchant_order_id']);
                 
                 $xepo_name = $this->global['xepo_secure']['name'];
                 $xepo_value = $this->global['xepo_secure']['hash'];  
@@ -258,7 +260,9 @@ class Donate extends FrontLib {
                     ->set_content_type('application/json')
                     ->set_status_header(200)
                     ->set_output(json_encode(array(
-                        'result'=>$get_donate[0], 
+                        'result'=>true, 
+                        'reference'=>$get_donate['reference'],
+                        'test'=>[$duitku_status, $get_donate['status']],
                         'xepo_name'=>$xepo_name,
                         'xepo_value'=>$xepo_value, 
                     )));

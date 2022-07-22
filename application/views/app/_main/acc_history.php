@@ -121,9 +121,26 @@ $(document).ready(function(){
                 xepo_secure_name = res.xepo_name;
                 xepo_secure_value = res.xepo_value;
 
-                f_main.loading(false,function(){
-                    checkoutProcess(res.result.reference); 
-                });
+                if(res.result===true){
+                    f_main.loading(false,function(){
+                        checkoutProcess(res.reference); 
+                    });
+                }else{
+                    swal("Error:",
+                        res.result,
+                        "warning",
+                    {
+                        buttons: {  
+                        button_1: "OK", 
+                        },
+                    })
+                    .then((value) => {
+                        switch (value) {
+                        default:  
+                            break;
+                        }
+                    });
+                }
             },
             error : function(xhr, textStatus, errorThrown ) {
                 if (textStatus == 'timeout') {
