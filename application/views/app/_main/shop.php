@@ -166,7 +166,7 @@ $(document).ready(function(){
 			slidesToShow: slick_show,
 			slidesToScroll: slick_to_scroll,
 			autoplay: true,
-			autoplaySpeed: 1500,
+			autoplaySpeed: 3000,
 			infinite: true,
 			responsive: [{
 					breakpoint: 768,

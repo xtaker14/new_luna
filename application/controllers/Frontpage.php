@@ -102,7 +102,10 @@ class Frontpage extends FrontLib {
 			foreach ($val as $idx2 => $val2) {
 				$mark_name = "hot";
 				$id_item = $val2['itemid'];
-				$shop_hot_items[] = $this->shop_lib->im_maker($val2, $mark_name);
+				$get_im = $this->shop_lib->im_maker($val2, $mark_name);
+				if(!empty($get_im)){
+					$shop_hot_items[] = $get_im;
+				}
 			}
 		}
 

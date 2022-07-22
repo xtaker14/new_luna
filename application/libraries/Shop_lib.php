@@ -44,6 +44,9 @@ class Shop_lib extends MY_Controller {
         $price_max = max(array_column($ar_price, 'price'));
         $price_min = number_format($price_min,0, ',', '.');
         $price_max = number_format($price_max,0, ',', '.');
+        if(empty($price_min) && empty($price_max)){
+            return '';
+        }
         $price_range = $price_min;
         if($price_min != $price_max){
             // $price_range .= ' <i class="fas fa-angle-right" style="padding-top:2px;"></i> '. $price_max;
