@@ -11,7 +11,7 @@ $db['default'] = array(
     'hostname' => 'localhost',
     'username' => 'root',
     'password' => '',
-    'database' => 'star_luna',
+    'database' => 'luna',
     
     'dbdriver' => 'mysqli',
     'dbprefix' => '',
@@ -32,9 +32,9 @@ $db['default'] = array(
 $sql_conf = array(
     'dsn'   => '',  
 
-    'hostname' => 'NS544566\SQLEXPRESS',
-    'username' => 'GameSrvZone',//username SQL
-    'password' => '2GIcGb3lZaBRSQR32aOR9BDGEaGbD140PTdinhunehfKb8B3MurabtBSDgGbme',//password SQL
+    'hostname' => '.\SQLEXPRESS',
+    'username' => 'username1',//username SQL
+    'password' => 'pass1',//password SQL
     'database' => 'LUNA_MEMBERDB',
     'dbdriver' => 'sqlsrv',  
 
