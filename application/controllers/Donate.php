@@ -274,7 +274,7 @@ class Donate extends FrontLib {
                 }
 
                 if($duitku_status->statusCode == '02' && $duitku_status->statusMessage == 'EXPIRED'){
-                    if($get_donate == 'pending'){
+                    if($get_donate['status'] == 'pending'){
                         $this->db = dbloader("default"); 
                         $this->db->trans_begin();
 
