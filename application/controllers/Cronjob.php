@@ -224,22 +224,22 @@ class Cronjob extends FrontLib {
             }
         }
 
-        $this->db->insert('dumptable',array(
-            'name' => 'test cronjob', 
-            'test' => '-', 
-            'created_date' => $GLOBALS['date_now'], 
-        ));
+        // $this->db->insert('dumptable',array(
+        //     'name' => 'test cronjob', 
+        //     'test' => '-', 
+        //     'created_date' => $GLOBALS['date_now'], 
+        // ));
 
-        if($this->db->trans_status() === FALSE) {
-            $this->db->trans_rollback();
-            return $this->output
-                ->set_content_type('application/json')
-                ->set_status_header(403)
-                ->set_output(json_encode(array(
-                    'result'=>false,
-                    'msg'=>'Failed to test cronjob'
-                )));
-        } 
+        // if($this->db->trans_status() === FALSE) {
+        //     $this->db->trans_rollback();
+        //     return $this->output
+        //         ->set_content_type('application/json')
+        //         ->set_status_header(403)
+        //         ->set_output(json_encode(array(
+        //             'result'=>false,
+        //             'msg'=>'Failed to test cronjob'
+        //         )));
+        // } 
  
         $this->db->trans_commit();
 
