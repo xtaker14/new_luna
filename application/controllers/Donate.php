@@ -268,6 +268,7 @@ class Donate extends FrontLib {
                         ->set_status_header(200)
                         ->set_output(json_encode(array(
                             'result'=>'Error: ' . $duitku_status->msg->title,
+                            'test'=>$duitku_status,
                             'xepo_name'=>$xepo_name,
                             'xepo_value'=>$xepo_value,
                         )));
