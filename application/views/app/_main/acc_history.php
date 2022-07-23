@@ -149,7 +149,7 @@ $(document).ready(function(){
                             });
                             return false;
                         }
-                        checkoutProcess(res.reference); 
+                        checkoutProcess(res.reference, true); 
                     }else{
                         swal("Error:",
                             res.result,

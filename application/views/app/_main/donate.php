@@ -476,7 +476,7 @@ $(document).ready(function(){
                                 // } 
                                 
                                 f_main.loading(false,function(){
-                                    checkoutProcess(result.reference, result);
+                                    checkoutProcess(result.reference);
                                 });
                             }
                         },
