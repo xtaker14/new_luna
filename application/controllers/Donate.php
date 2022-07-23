@@ -262,13 +262,12 @@ class Donate extends FrontLib {
                 $get_donate = $get_donate[0];
                 $duitku_status = $this->duitku->checkStatus($get_donate['merchant_order_id']);
 
-                if($duitku_status->result == false){
+                if($duitku_status->result === false){
                     return $this->output
                         ->set_content_type('application/json')
                         ->set_status_header(200)
                         ->set_output(json_encode(array(
                             'result'=>'Error: ' . $duitku_status->msg->title,
-                            'test'=>$duitku_status,
                             'xepo_name'=>$xepo_name,
                             'xepo_value'=>$xepo_value,
                         )));
