@@ -130,6 +130,20 @@ $(document).ready(function(){
                         if(res.status == 'EXPIRED'){
                             t_ele.text(res.status);
                             t_ele.removeClass('btn-three').addClass('btn-two');
+                            swal("Notification",
+                                'This invoice has expired',
+                                "warning",
+                            {
+                                buttons: {  
+                                button_1: "OK", 
+                                },
+                            })
+                            .then((value) => {
+                                switch (value) {
+                                default:  
+                                    break;
+                                }
+                            });
                             return false;
                         }
                         checkoutProcess(res.reference); 
