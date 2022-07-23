@@ -154,19 +154,21 @@ class Cronjob extends FrontLib {
             SELECT 
                 * 
             from 
-                donate 
+                donate_duitku 
             where 
-                status = 'unpaid' AND 
-                DATE(created_date) <= SUBDATE(CURDATE(),2)
+                status = 'pending' AND 
+                NOW() >= expiry_period 
         ");
-        // SUBDATE(CURDATE(),2) 2 hari yg lalu
         
         $res_donate = $get_donate->result_array();
         $count_donate = count($res_donate);
 
         if($count_donate>0){
             foreach ($res_donate as $key) {
-                $this->db->delete('donate',array(
+                $this->db->update('donate_duitku', array(
+                    'canceled_date' => $GLOBALS['date_now'],
+                    'status' => 'expired',
+                ),array(
                     'id'=>$key['id']
                 ));
             }
@@ -181,37 +183,7 @@ class Cronjob extends FrontLib {
                     'result'=>false,
                     'msg'=>'Failed To Delete (1)'
                 )));
-        } 
-
-        $get_unique_numbers = $this->db->query("
-            select 
-                * 
-            from 
-                unique_numbers 
-            where 
-                created_date <= SUBDATE(CURDATE(),1)
-        ");
-        $res_unique_numbers = $get_unique_numbers->result_array();
-        $count_unique_numbers = count($res_unique_numbers);
-
-        if($count_unique_numbers>0){
-            foreach ($res_unique_numbers as $key) {
-                $this->db->delete('unique_numbers',array(
-                    'id'=>$key['id']
-                ));
-            }
-        }
-
-        if($this->db->trans_status() === FALSE) {
-            $this->db->trans_rollback();
-            return $this->output
-                ->set_content_type('application/json')
-                ->set_status_header(403)
-                ->set_output(json_encode(array(
-                    'result'=>false,
-                    'msg'=>'Failed To Delete (2)'
-                )));
-        } 
+        }  
         $this->db->trans_commit();
 
         return $this->output

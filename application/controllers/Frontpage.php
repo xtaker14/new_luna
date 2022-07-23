@@ -200,6 +200,41 @@ class Frontpage extends FrontLib {
 		} 
 
 		$this->load->model("frontpage_model");
+		
+		$this->db = dbloader("default"); 
+		$this->db->trans_begin();
+
+        $get_donate = $this->db->query("
+            SELECT 
+                * 
+            from 
+                donate_duitku 
+            where 
+                user_id = '".$user_id."' AND 
+                status = 'pending' AND 
+                NOW() >= expiry_period 
+        ");
+        
+        $res_donate = $get_donate->result_array();
+        $count_donate = count($res_donate);
+
+        if($count_donate>0){
+            foreach ($res_donate as $key) {
+                $this->db->update('donate_duitku', array(
+                    'canceled_date' => $GLOBALS['date_now'],
+                    'status' => 'expired',
+                ),array(
+                    'id'=>$key['id']
+                ));
+            }
+        }
+
+        if($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+        	$this->session->set_flashdata('error', 'Failed to update donate history.');
+        }  
+        $this->db->trans_commit();
+		
       	$this->global['donate_list'] = $this->frontpage_model->donate_list($user_id);
 		$this->global['account_number'] = $this->getConfigWeb()['account_number'];
 		$this->global['php_name'] = "acc_history";

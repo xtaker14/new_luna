@@ -611,6 +611,8 @@ class Donate extends FrontLib {
                             )));
                     } 
                 }
+
+                $date_expiry_period = date('Y-m-d H:i:s', strtotime($GLOBALS['date_now']. ' +'.$expiry_period.' minutes'));
                 
                 $donate_insert = array(
                     'user_id' => $user_id,
@@ -618,6 +620,7 @@ class Donate extends FrontLib {
                     'username' => $ses_username,
                     'donate_price_id' => $donate_price_id,
                     'donate_point' => $donate_point,
+                    'expiry_period' => $date_expiry_period,
                     'reference' => $resp_pop->reference,
                     'merchant_code' => $resp_pop->merchantCode,
                     'merchant_name' => '',

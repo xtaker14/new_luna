@@ -265,7 +265,7 @@ class Duitku_c extends FrontLib
                         'merchant_order_id' => $post_data->merchantOrderId,
                         'product_detail' => $post_data->productDetail,
                         'payment_code' => $post_data->paymentCode,
-                        'status_code' => 'expired',
+                        'status_code' => 'canceled',
                         'created_date' => $GLOBALS['date_now'], 
                     ));
                     if($this->db->trans_status() === FALSE) {
@@ -280,7 +280,7 @@ class Duitku_c extends FrontLib
                 
                 $this->db->update('donate_duitku', array(
                     'canceled_date' => $GLOBALS['date_now'],
-                    'status' => 'expired',
+                    'status' => 'canceled',
                 ),array(
                     'id'=>$g_donate['id']
                 ));
