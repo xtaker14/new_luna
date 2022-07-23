@@ -136,7 +136,47 @@ class Cronjob extends FrontLib {
                 'result'=>true,
                 'msg'=>'success'
             )));  
-	} 
+	}
+    
+    function testDump($pars){ 
+        if($pars != getenv('KEY_EXTERNAL_ACCESS')){
+            return $this->output
+                ->set_content_type('application/json')
+                ->set_status_header(403)
+                ->set_output(json_encode(array(
+                    'result'=>false
+                )));
+        }
+        $this->db = dbloader("default");
+
+        $this->db->trans_begin();
+
+        $this->db->insert('dumptable',array(
+            'name' => 'test cronjob', 
+            'test' => '-', 
+            'created_date' => $GLOBALS['date_now'], 
+        ));
+
+        if($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return $this->output
+                ->set_content_type('application/json')
+                ->set_status_header(403)
+                ->set_output(json_encode(array(
+                    'result'=>false,
+                    'msg'=>'Failed to test cronjob'
+                )));
+        }  
+        $this->db->trans_commit();
+
+        return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header(200)
+            ->set_output(json_encode(array(
+                'result'=>true,
+                'msg'=>'Success'
+            )));
+    } 
 
     function checkDailyDonate($pars){ 
         if($pars != getenv('KEY_EXTERNAL_ACCESS')){
@@ -181,7 +221,7 @@ class Cronjob extends FrontLib {
                 ->set_status_header(403)
                 ->set_output(json_encode(array(
                     'result'=>false,
-                    'msg'=>'Failed To Delete (1)'
+                    'msg'=>'Failed to update donate (1)'
                 )));
         }  
         $this->db->trans_commit();
