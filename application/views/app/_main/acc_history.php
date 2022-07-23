@@ -59,7 +59,7 @@
                                                     <td>
                                                         <?php 
                                                             $cls_btn_status = 'btn-three';
-                                                            if($val['status'] == 'canceled' || $val['status'] == 'pending'){
+                                                            if($val['status'] == 'expired' || $val['status'] == 'canceled' || $val['status'] == 'pending'){
                                                                 $cls_btn_status = 'btn-two';
                                                             }
                                                         ?>
