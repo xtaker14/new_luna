@@ -217,12 +217,17 @@ class Donate extends FrontLib {
     }
     
     function popup($case){
+        $xepo_name = $this->global['xepo_secure']['name'];
+        $xepo_value = $this->global['xepo_secure']['hash']; 
+        
         if(!$this->onlyAllowAccessFromAjax()){
             return $this->output
                 ->set_content_type('application/json')
                 ->set_status_header(200)
                 ->set_output(json_encode(array(
-                    'result'=>'Error: Only Allow Access From Ajax'
+                    'result'=>'Error: Only Allow Access From Ajax',
+                    'xepo_name'=>$xepo_name,
+                    'xepo_value'=>$xepo_value,
                 )));
         }
 
@@ -233,12 +238,14 @@ class Donate extends FrontLib {
                 ->set_content_type('application/json')
                 ->set_status_header(200)
                 ->set_output(json_encode(array(
-                    'result'=>'Error: ID is not found'
+                    'result'=>'Error: ID is not found',
+                    'xepo_name'=>$xepo_name,
+                    'xepo_value'=>$xepo_value,
                 )));
         }
         $user_id = $this->propid;
         $web_config = $this->getConfigWeb(); 
-
+        
         switch ($case) {
             case 'check_status':
                 $get_donate = $this->frontpage_model->donate_list($user_id, array('d.id'=>$id));
@@ -247,14 +254,51 @@ class Donate extends FrontLib {
                         ->set_content_type('application/json')
                         ->set_status_header(200)
                         ->set_output(json_encode(array(
-                            'result'=>'Error: Donate Data is not found'
+                            'result'=>'Error: Donate Data is not found',
+                            'xepo_name'=>$xepo_name,
+                            'xepo_value'=>$xepo_value,
                         )));
                 }
                 $get_donate = $get_donate[0];
                 $duitku_status = $this->duitku->checkStatus($get_donate['merchant_order_id']);
-                
-                $xepo_name = $this->global['xepo_secure']['name'];
-                $xepo_value = $this->global['xepo_secure']['hash'];  
+
+                if($duitku_status->result == false){
+                    return $this->output
+                        ->set_content_type('application/json')
+                        ->set_status_header(200)
+                        ->set_output(json_encode(array(
+                            'result'=>'Error: ' . $duitku_status->msg->title,
+                            'xepo_name'=>$xepo_name,
+                            'xepo_value'=>$xepo_value,
+                        )));
+                }
+
+                if($duitku_status->statusCode == '02' && $duitku_status->statusMessage == 'EXPIRED'){
+                    if($get_donate == 'pending'){
+                        $this->db = dbloader("default"); 
+                        $this->db->trans_begin();
+
+                        $this->db->update('donate_duitku', array(
+                            'canceled_date' => $GLOBALS['date_now'],
+                            'status' => 'expired',
+                        ),array(
+                            'id'=>$get_donate['id']
+                        ));
+                        if($this->db->trans_status() === FALSE) {
+                            $this->db->trans_rollback();
+                            
+                            return $this->output
+                                ->set_content_type('application/json')
+                                ->set_status_header(200)
+                                ->set_output(json_encode(array(
+                                    'result'=>'Error: Update Donate',
+                                    'xepo_name'=>$xepo_name,
+                                    'xepo_value'=>$xepo_value,
+                                )));
+                        }
+                        $this->db->trans_commit();
+                    }
+                } 
 
                 return $this->output
                     ->set_content_type('application/json')
@@ -262,7 +306,7 @@ class Donate extends FrontLib {
                     ->set_output(json_encode(array(
                         'result'=>true, 
                         'reference'=>$get_donate['reference'],
-                        'test'=>[$duitku_status, $get_donate['status']],
+                        'status'=>$duitku_status->statusMessage,
                         'xepo_name'=>$xepo_name,
                         'xepo_value'=>$xepo_value, 
                     )));
@@ -273,7 +317,9 @@ class Donate extends FrontLib {
             ->set_content_type('application/json')
             ->set_status_header(200)
             ->set_output(json_encode(array(
-                'result'=>'Error: Request not found'
+                'result'=>'Error: Request not found',
+                'xepo_name'=>$xepo_name,
+                'xepo_value'=>$xepo_value,
             ))); 
     }
 

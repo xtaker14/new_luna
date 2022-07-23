@@ -44,7 +44,12 @@ class Request
         self::writeDuitkuLogs($setLogFunction, $url, "POST", $params, $response, $config);
 
         if ($httpCode >= 400) {
-            throw new \Exception('Duitku Error: ' . $httpCode . ' response: ' . $response);
+            // throw new \Exception('Duitku Error: ' . $httpCode . ' response: ' . $response);
+            return json_encode(array(
+                'result' => false,
+                'http_code' => $httpCode,
+                'msg' => json_decode($response),
+            ));
         } else {
             return $response;
         }

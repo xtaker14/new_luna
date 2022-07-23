@@ -102,10 +102,14 @@ $(document).ready(function(){
     $(".btn_donate_status").click(function(ev){
         let t = $(this);
         let t_id = t.data('id'); 
-        popCheckDonate(t_id);
+        popCheckDonate(t_id, t);
     });
 
-    function popCheckDonate(id){ 
+    function popCheckDonate(id, t_ele){ 
+        if(t_ele.text().trim() == 'EXPIRED'){
+            return false;
+        }
+        
         f_main.loading(true);
         $.ajax({
             type : "POST",
@@ -121,26 +125,31 @@ $(document).ready(function(){
                 xepo_secure_name = res.xepo_name;
                 xepo_secure_value = res.xepo_value;
 
-                if(res.result===true){
-                    f_main.loading(false,function(){
-                        checkoutProcess(res.reference); 
-                    });
-                }else{
-                    swal("Error:",
-                        res.result,
-                        "warning",
-                    {
-                        buttons: {  
-                        button_1: "OK", 
-                        },
-                    })
-                    .then((value) => {
-                        switch (value) {
-                        default:  
-                            break;
+                f_main.loading(false,function(){
+                    if(res.result===true){
+                        if(res.status == 'EXPIRED'){
+                            t_ele.text(res.status);
+                            t_ele.removeClass('btn-three').addClass('btn-two');
+                            return false;
                         }
-                    });
-                }
+                        checkoutProcess(res.reference); 
+                    }else{
+                        swal("Error:",
+                            res.result,
+                            "warning",
+                        {
+                            buttons: {  
+                            button_1: "OK", 
+                            },
+                        })
+                        .then((value) => {
+                            switch (value) {
+                            default:  
+                                break;
+                            }
+                        });
+                    }
+                });
             },
             error : function(xhr, textStatus, errorThrown ) {
                 if (textStatus == 'timeout') {
