@@ -1049,6 +1049,37 @@ ul.social-icons li:nth-last-child(1) {
 	font-weight: 700;
 } 
 
+.btn-four {
+	border: none;
+	border-radius: 4px;
+	text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.48);
+	overflow: hidden;
+	padding: 5px 5px 5px 5px;
+	/* margin-bottom: 10px; */
+	font-size: 16px;
+	position: relative;
+	color: white;
+	outline: none;
+	cursor: pointer;
+	width: 100%;
+	-webkit-transition: background-position .7s,box-shadow .4s;
+	transition: background-position .7s,box-shadow .4s;
+	background-size: 110%;
+	font-family: 'Oswald', sans-serif;
+	height: 100%;
+	
+	box-shadow: 0px 0px 0px 2px rgba(255, 255, 255, 0.16) inset, 0px 0px 5px 0px #edc76e;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#f78b18), to(rgba(245, 161, 161, 0.24))), url("#");
+	background-image: linear-gradient(to bottom, #f78b18, rgba(245, 161, 161, 0.24)), url("#"); 
+} 
+.btn-four:hover {
+  	background-position: 0% 30%;
+  	box-shadow: 0px 0px 0px 2px rgba(255, 255, 255, 0.16) inset, 0px 0px 20px 0px #edc76e;
+}
+.btn-four b {
+  	color: #1CF4FF;
+	font-weight: 700;
+} 
 /* .btn-one:hover:after{
 	right: -20px;
 	-webkit-transition: right .4s,-webkit-transform 30s .2s linear;
