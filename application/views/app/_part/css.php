@@ -1387,6 +1387,52 @@ ul.social-icons li:nth-last-child(1) {
 	background-color: transparent !important;
 }
 
+.card_side{
+	z-index: 1;
+	position: relative;
+	margin-bottom: 20px;
+	margin-top: -117px;
+}
+.card_side .face_side{
+	width: 100%;
+	height: 60px;
+	transition:.4s; 
+}
+
+.card_side .card_side_img{
+	position: relative;
+	z-index: 1;
+	margin-bottom: 15px;
+}
+
+.card_side .card_side_img a{
+	position: relative;
+	text-align: center;
+	display: flex;
+	justify-content:center;
+	align-items:center; 
+}
+
+.card_side .card_side_img a img{
+	/* transition: 1s; */
+}
+.card_side .card_side_img a .img_play_in,
+.card_side .card_side_img a:hover .img_play_out{
+	display: none;
+	opacity: 0;
+}
+.card_side .card_side_img a .img_play_out, 
+.card_side .card_side_img a:hover .img_play_in{
+	display: block;
+	opacity: 1;
+}
+
+.card_side .card_side_img a span{
+	position: absolute;
+	font-size: 18px;
+	font-weight: bold;
+	color: #ede9e9;
+}
 
 .card_side .face_side.face_side1{
 	position: relative;
