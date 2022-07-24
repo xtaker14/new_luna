@@ -56,10 +56,13 @@ $favico = CDN_IMG.($upload_path.'/'.$config_web['favico_img']);
 </div>
 
 <script type="text/javascript">
-	$(document).ready(function(){
+	$('.img_play_out').ready(function(){
 		$(".face_side.face_side1").css({
 			'display' : 'flex',
 		});
+	});
+	
+	$(document).ready(function(){ 
 		$('html').removeClass('no-js'); 
 	});
 </script>
