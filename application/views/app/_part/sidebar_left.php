@@ -8,7 +8,7 @@ $favico = CDN_IMG.($upload_path.'/'.$config_web['favico_img']);
 	<div class="main_left_section">
 		<div class="text-center mb-2 p-0 main_child_left_section" data-aos="fade-left">
 			
-			<div style="position: relative; min-height: 290px;">
+			<div class="parent_main_logo_download" style="position: relative; min-height: 290px;">
 				<div class="parent_img_fly_city" style="">
 					<img src="<?= CDN_IMG.('assets/frontpage/img/fly_city.png'); ?>" style="margin-top: -25px;margin-right: -30px;" />
 				</div>
@@ -44,10 +44,7 @@ $favico = CDN_IMG.($upload_path.'/'.$config_web['favico_img']);
 
 		$this->load->view("app/_part/_sidebar/".$user_panel.".php");
 		$this->load->view("app/_part/_sidebar/hot_items.php");
-
-		// if($php_name=='homepage'){		
-		// 	$this->load->view("app/_part/_sidebar/server_stat.php");
-		// }
+ 
 		if($php_name !=='rank'){		
 			$this->load->view("app/_part/_sidebar/rank.php");
 		}

@@ -103,11 +103,11 @@ $favico = CDN_IMG.($upload_path.'/'.$config_web['favico_img']);
 			?>
 
 			<div class="row">
-				<div class="col-md-8 <?= $mb_main_content; ?> pt-3 parent_right_main_content">
-					<!-- $this->load->view("app/_part/navbar.php") -->
+				<div class="col-md-8 <?= $mb_main_content; ?> parent_right_main_content" style="padding-top: 1rem;">
+					<?php //$this->load->view("app/_part/navbar.php"); ?>
 					<?php $this->load->view("app/_main/".$php_name.".php") ?>	
 				</div>
-				<div class="col-md-4 <?= $mb_main_content; ?> pt-3 parent_left_main_content"> 
+				<div class="col-md-4 <?= $mb_main_content; ?> parent_left_main_content" style="padding-top: 1rem;"> 
 					<?php $this->load->view("app/_part/sidebar_left.php") ?>
 				</div>
 			</div>

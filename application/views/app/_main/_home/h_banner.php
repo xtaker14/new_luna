@@ -1,4 +1,4 @@
-<div data-aos="fade-left" data-aos-delay="0" class="card d-none d-md-block shadow-sm mb-2" >
+<div data-aos="fade-left" data-aos-delay="0" class="card d-md-block shadow-sm mb-2 parent_main_banner">
   <div id="h_carousel" class="carousel slide" align="center" data-ride="carousel">
       <ul class="carousel-indicators">
         <li data-target="#h_carousel" data-slide-to="0" class="active"></li>

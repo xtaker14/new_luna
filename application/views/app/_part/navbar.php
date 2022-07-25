@@ -92,105 +92,71 @@
 
   <nav class="navbar navbar-expand-md navbar-dark" align="center">
 
-    <div style="position: absolute;">
+    <div class="parent_nav_clock" style="position: absolute;">
 
       <div class="clock-container">
-
         <div class="clock-col">
-
-          <p class="clock-day clock-timer">
-
-          </p>
-
+          <p class="clock-day clock-timer"></p>
           <!-- <p class="clock-label">
-
-          Day
-
+            Day
           </p> -->
-
         </div>
 
         <div class="clock-connector"><p>, </p></div>
 
         <div class="clock-col">
-
-          <p class="clock-hours clock-timer">
-
-          </p>
-
+          <p class="clock-hours clock-timer"></p>
           <!-- <p class="clock-label">
-
-          Hrs
-
+            Hrs
           </p> -->
-
         </div>
 
         <div class="clock-connector"><p>:</p></div>
 
         <div class="clock-col">
-
-          <p class="clock-minutes clock-timer">
-
-          </p>
-
+          <p class="clock-minutes clock-timer"></p>
           <!-- <p class="clock-label">
-
-          Mins
-
+            Mins
           </p> -->
-
         </div>
 
         <div class="clock-connector"><p>:</p></div>
 
         <div class="clock-col">
-
-          <p class="clock-seconds clock-timer">
-
-          </p>
-
+          <p class="clock-seconds clock-timer"></p>
           <!-- <p class="clock-label">
-
-          Secs
-
+            Secs
           </p> -->
-
         </div>
-
       </div>
-
       
       <h5 style="margin-bottom: 0px; margin-top: 4px; text-align:center; background: -webkit-linear-gradient(#fff, #36d1dc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 16px;"><?= date('d M Y'); ?></h5>
     </div>
 
-
-
     <ul class="navbar-nav m-auto">
-
       <li data-aos="fade-right" data-aos-delay="100" class="nav-item active p-2 <?= empty($this->uri->segment(1)) ? 'current' : ''; ?>">
-
         <a class="nav-link text-center" href="<?= base_url() ?>">
-
           <!-- <i class="fas fa-home mr-1"></i> -->
-          HOME
           <img class="nav-img" src="<?= CDN_IMG.('assets/frontpage/img/nav/slime.png'); ?>">
-
+          HOME
         </a>
-
       </li> 
 
       <li data-aos="fade-right" data-aos-delay="200" class="nav-item active p-2 <?= $this->uri->segment(1) == 'shop' ? 'current' : ''; ?>">
-
         <a class="nav-link text-center" href="<?= base_url('shop') ?>">
-
           <!-- <i class="fas fa-shopping-basket mr-1"></i> -->
-          SHOP
           <img class="nav-img" src="<?= CDN_IMG.('assets/frontpage/img/nav/slime.png'); ?>">
-
+          SHOP
         </a>
-
       </li> 
+
+      <li data-aos="fade-right" data-aos-delay="300" class="nav-item active p-2 <?= $this->uri->segment(1) == 'donate' ? 'current' : ''; ?>">
+        <a class="nav-link text-center" href="<?= base_url('donate') ?>">
+          <!-- <i class="far fa-money-bill-alt mr-1"></i> -->
+          <img class="nav-img" src="<?= CDN_IMG.('assets/frontpage/img/nav/slime.png'); ?>">
+          DONATE
+        </a>
+      </li>
 
       <li data-aos="fade-down" data-aos-delay="700" class="nav-item-center" style="">
         <?php 
@@ -212,48 +178,31 @@
       </li> 
 
       <li data-aos="fade-left" data-aos-delay="400" class="nav-item active p-2 <?= $this->uri->segment(1) == 'rank' ? 'current' : ''; ?>">
-
         <a class="nav-link text-center" href="<?= base_url('rank') ?>">
-
           <!-- <i class="fas fa-crown mr-1" ></i> -->
-          RANK
           <img class="nav-img" src="<?= CDN_IMG.('assets/frontpage/img/nav/slime.png'); ?>">
-
+          RANK
         </a>
-
       </li> 
 
-      
+      <li data-aos="fade-left" data-aos-delay="600" class="nav-item active p-2 <?= $this->uri->segment(1) == 'p' && $this->uri->segment(2) == 'help-contact' ? 'current' : ''; ?>">
+        <a class="nav-link text-center" href="<?= base_url('p/help-contact') ?>">
+          <img class="nav-img" src="<?= CDN_IMG.('assets/frontpage/img/nav/slime.png'); ?>">
+          HELP
+        </a>
+      </li>
 
+      <li data-aos="fade-left" data-aos-delay="600" class="nav-item active p-2 <?= $this->uri->segment(1) == 'p' && $this->uri->segment(2) == 'terms-of-services' ? 'current' : ''; ?>">
+        <a class="nav-link text-center" href="<?= base_url('p/terms-of-services') ?>">
+          <!-- <i class="fas fa-balance-scale mr-1"></i> -->
+          <img class="nav-img" src="<?= CDN_IMG.('assets/frontpage/img/nav/slime.png'); ?>">
+          T.O.S
+        </a>
+      </li>
+      
       <?php if(!empty($this->session->userdata('usr_session'))): ?>
 
-        <li data-aos="fade-right" data-aos-delay="300" class="nav-item active p-2 <?= $this->uri->segment(1) == 'donate' ? 'current' : ''; ?>">
-
-          <a class="nav-link text-center" href="<?= base_url('donate') ?>">
-
-            <!-- <i class="far fa-money-bill-alt mr-1"></i> -->
-            DONATE
-            <img class="nav-img" src="<?= CDN_IMG.('assets/frontpage/img/nav/slime.png'); ?>">
-
-          </a>
-
-        </li>
-
-      <?php else: ?>
-
-        <li data-aos="fade-left" data-aos-delay="600" class="nav-item active p-2 <?= $this->uri->segment(1) == 'p' && $this->uri->segment(2) == 'terms-of-services' ? 'current' : ''; ?>">
-
-          <a class="nav-link text-center" href="<?= base_url('p/terms-of-services') ?>">
-
-            <!-- <i class="fas fa-balance-scale mr-1"></i> -->
-
-            T.O.S
-
-            <img class="nav-img" src="<?= CDN_IMG.('assets/frontpage/img/nav/slime.png'); ?>">
-
-          </a>
-
-        </li> 
+      <?php else: ?> 
 
       <?php endif; ?>
 

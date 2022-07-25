@@ -2,8 +2,8 @@
 	<div class="card-body" style="padding-top: 10px; background: #2a88ed; border-radius:4px;">   
 		<div class="d-md-flex p-2" style="padding-top: 0px !important; padding-bottom: 7px !important;"> 
 			<div class="d-block" style="width: 100%;">
-				<img class="float-left mr-2" src="<?= CDN_IMG.('assets/frontpage/img/nav/wing.png'); ?>" style="width: 45px;height: 40px;margin-top:-9px;">    
 				<h3 style="padding-bottom:5px;margin:0px;color:#fff;" class="border-bottom">
+					<img class="float-left mr-2" src="<?= CDN_IMG.('assets/frontpage/img/nav/wing.png'); ?>" style="width: 45px;height: 40px;margin-top:-9px;">    
 					<b>Server Info</b>
 				</h3>
 			</div>

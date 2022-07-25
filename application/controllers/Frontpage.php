@@ -262,6 +262,9 @@ class Frontpage extends FrontLib {
 		$url = urldecode($url);
 		$this->load->model('frontpage_model');
 		$this->global['data'] = $this->frontpage_model->page($url);
+		if(empty($this->global['data'])){
+            redirect(base_url());
+		}
 		$this->global['php_name'] = "page";
 		$this->loadViews();
 	}

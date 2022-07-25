@@ -1,4 +1,4 @@
-<div data-aos="fade-left" data-aos-delay="200" class="card d-none d-md-block shadow-sm mb-2" >
+<div data-aos="fade-left" data-aos-delay="200" class="card d-md-block shadow-sm mb-2 parent_news_and_updates">
     <div class="d-md-flex p-2" style="padding-top: 15px !important; padding-bottom: 2px !important;"> 
         <div class="d-block" style="width: 100%;">
             <img class="float-left mr-2" src="<?= CDN_IMG.('assets/frontpage/img/nav/wing.png'); ?>" style="width: 50px;height: 45px;margin-top:-10px;">    
@@ -28,7 +28,7 @@
 </div>
 
 <div class="row">
-    <div class="col-7" style="padding-right: 0px;"> 
+    <div class="col-7 parent_server_hot_news" style="padding-right: 0px;"> 
         <section class="tabs project-tab hot_news_tab" data-aos="fade-right" data-aos-delay="300" style="height: 100%;">
             <div class="card shadow-sm p-1" style="height: 100%;">
                 <div style="background: #2a88ed; border-radius: 4px; height: 100%;">
@@ -58,7 +58,7 @@
                                             <!-- <img class="mini-notice rounded-circle" src="<?= $val['img']; ?>" alt="<?= $val['title']; ?>" style="margin:auto;"> -->
                                             <div class="col-md-3" style="padding: 0px;">
                                                 <div style="padding:5px;background:#267ad5;padding-bottom:10px;padding-top:10px;">
-                                                    <img src="<?= $val['img']; ?>" style="width: 100%;max-height:150px;" alt="<?= $val['title']; ?>">
+                                                    <img class="img_notice_news_event" src="<?= $val['img']; ?>" style="width: 100%;max-height:150px;" alt="<?= $val['title']; ?>">
                                                 </div>
                                             </div>
                                             <div class="col-md-9" style="display:flex;flex-wrap:wrap;padding: 0px;">
@@ -107,7 +107,7 @@
                                         <div class="row" style="margin: 0px;">
                                             <div class="col-md-3" style="padding: 0px;">
                                                 <div style="padding:5px;background:#267ad5;padding-bottom:10px;padding-top:10px;">
-                                                    <img src="<?= $val['img']; ?>" style="width: 100%;max-height:150px;" alt="<?= $val['title']; ?>">
+                                                    <img class="img_notice_news_event" src="<?= $val['img']; ?>" style="width: 100%;max-height:150px;" alt="<?= $val['title']; ?>">
                                                 </div>
                                             </div>
                                             <div class="col-md-9" style="display:flex;flex-wrap:wrap;padding: 0px;">
@@ -150,7 +150,7 @@
         </section>  
     </div>
     
-    <div class="col-5" style="">
+    <div class="col-5 parent_server_stat" style="">
         <?php 
 			$this->load->view("app/_part/_sidebar/server_stat.php");
         ?>
