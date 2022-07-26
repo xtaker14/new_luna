@@ -111,7 +111,7 @@ class Member_login extends CI_Controller {
                     }else{
                         setFlashData('error', 'Username or password mismatch');                
                         // redirect(base_url('login'));
-                        redirect(base_url(''));
+                        redirect(base_url('login'));
                     }
                 }
             }

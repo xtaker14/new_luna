@@ -283,8 +283,8 @@
 			});
 		}
 
-		if($("#btn_userpanel").length>0){
-			$('#go_logout').click(function(){
+		if($(".btn_logout").length>0){
+			$('.btn_logout').click(function(){
 				window.location.href = baseURL+ "go_logout";
 			});
 		}

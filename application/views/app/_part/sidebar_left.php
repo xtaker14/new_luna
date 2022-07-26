@@ -26,12 +26,15 @@ $favico = CDN_IMG.($upload_path.'/'.$config_web['favico_img']);
 						<img class="img_play_in" src="<?= CDN_IMG.('assets/frontpage/img/nav/blue_button_active.png'); ?>" alt="">
 					</a>
 				</div>
-				<div class="face_side face_side1" style="display: none;" onclick="window.location.href='<?= base_url('register') ?>';">
-					<div class="content">
-						<!-- <i class="fab fa-windows"></i> -->
-						<h3>REGISTER</h3>
-					</div>
-				</div> 
+
+				<?php if(empty($usr_session)): ?>
+					<div class="face_side face_side1" style="display: none;" onclick="window.location.href='<?= base_url('register') ?>';">
+						<div class="content">
+							<!-- <i class="fab fa-windows"></i> -->
+							<h3>REGISTER</h3>
+						</div>
+					</div> 
+				<?php endif; ?>
 			</div>
 		</div>
 		
@@ -42,7 +45,9 @@ $favico = CDN_IMG.($upload_path.'/'.$config_web['favico_img']);
 			$user_panel = "user_info";	
 		}
 
-		$this->load->view("app/_part/_sidebar/".$user_panel.".php");
+		if(!($php_name == 'usr_login' && empty($usr_session))){
+			$this->load->view("app/_part/_sidebar/".$user_panel.".php");
+		}
 		$this->load->view("app/_part/_sidebar/hot_items.php");
  
 		if($php_name !=='rank'){		

@@ -99,15 +99,11 @@
 		</div>		
 		<div class="d-flex">
 			<button id="btn_userpanel" type="button" class="btn-one btn-darker w-50 m-1">
-
 				SERVICES
-
 			</button>
 
-			<button id="go_logout" type="button" class="btn-two w-50 m-1">
-
+			<button type="button" class="btn_logout btn-two w-50 m-1">
 				LOGOUT
-
 			</button>
 
 		</div>		

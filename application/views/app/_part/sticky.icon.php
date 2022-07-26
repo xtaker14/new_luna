@@ -8,27 +8,43 @@
 		top: 5px;
 		left: 50% !important;
 		transform: translateX(-50%);
+		display:table-row;
 	}
 	.list_mobile_menu.open_mobile_menu{
 		display: block !important;
 	}
 	.list_mobile_menu li{
 		cursor: pointer;
+		/* float: left; */
+		display: table-cell;
+		vertical-align: middle;
+	}
+	.list_mobile_menu .img_mobile_menu_left{
+		-webkit-filter: drop-shadow(-5px 3px 4px rgba(0,0,0,0.4));
+  		filter: drop-shadow(-5px 3px 4px rgba(0,0,0,0.4));
+	}
+	.list_mobile_menu .img_mobile_menu_right{
+		-webkit-filter: drop-shadow(5px 3px 4px rgba(0,0,0,0.4));
+  		filter: drop-shadow(5px 3px 4px rgba(0,0,0,0.4));
 	}
 	.list_mobile_menu .list_icon_menu{
 		background: #3dc9ef !important;
-		box-shadow: 0 0.150rem 0.50rem rgba(0,0,0,.2) !important;
+		box-shadow: 0 0.150rem 0.50rem rgba(0,0,0,.3) !important;
 		border: 1px solid aliceblue;
 	}
 	.list_mobile_menu .list_icon_menu,
 	.list_mobile_menu .list_icon_menu a{
     	transition: all 0.3s ease-in-out;
 	}
-	.list_mobile_menu .list_icon_menu:hover{
-		border-color: black;
+	.list_mobile_menu .list_icon_menu:hover,
+	.list_mobile_menu .list_icon_menu:active{
+		border-color: black !important;
+		opacity: 0.8;
 	}
-	.list_mobile_menu .list_icon_menu:hover a{
+	.list_mobile_menu .list_icon_menu:hover a,
+	.list_mobile_menu .list_icon_menu:active a{
 		color: black !important;
+		opacity: 0.8;
 	}
 
 	#parent_menu_mobile{
@@ -46,7 +62,7 @@
 		text-align: center;
 		padding: 5px;
 		background-color: #3dc9ef !important;
-		box-shadow: 0 0.150rem 0.50rem rgba(0,0,0,.2) !important;
+		box-shadow: 0 0.150rem 0.50rem rgba(0,0,0,.3) !important;
 		border: 1px solid aliceblue;
 		color: white;
 	}
@@ -59,11 +75,15 @@
 	#parent_menu_mobile .child_menu_mobile a{
     	transition: all 0.3s ease-in-out;
 	}
-	#parent_menu_mobile .child_menu_mobile:hover{
-		border-color: black;
+	#parent_menu_mobile .child_menu_mobile:hover,
+	#parent_menu_mobile .child_menu_mobile:active{
+		/* border-color: black; */
+		opacity: 0.8;
 	}
-	#parent_menu_mobile .child_menu_mobile:hover a{
-		color: black;
+	#parent_menu_mobile .child_menu_mobile:hover a,
+	#parent_menu_mobile .child_menu_mobile:active a{
+		/* color: black; */
+		opacity: 0.8;
 	}
 	#btn_open_mobile_menu{
 		width: 36px;
@@ -93,12 +113,18 @@
 			<a class="text-white" href="<?= base_url() ?>"><i class="fas fa-home fa-2x"></i></a>
 		</li> -->
 	<?php //endif; ?>
-
+	
+	<li>
+		<img class="img_mobile_menu_left" src="<?= CDN_IMG.('assets/frontpage/img/nav/wing.png'); ?>" style="width: 50px;height: 45px;margin-top:-10px;"> 
+	</li>
 	<li class="rounded-circle list_icon_menu text-center mt-2 p-2">
 		<a id="btn_open_mobile_menu" class="" href="javascript:;">
 			<i class="fas fa-home fa-2x"></i>
 			<i class="fas fa-times fa-2x" style="display:none; margin-top:2px; margin-left:2px;"></i>
 		</a>
+	</li>
+	<li>
+		<img class="img_mobile_menu_right" src="<?= CDN_IMG.('assets/frontpage/img/nav/wing_right.png'); ?>" style="width: 50px;height: 45px;margin-top:-10px;"> 
 	</li>
 </ul>
 
@@ -153,6 +179,35 @@
 			</div>
 		</div>
 	</div>
+	<div class="row">
+		<?php if(empty($usr_session)) : ?>
+			<div class="col-4" style="margin-left: auto;">
+				<div class="child_menu_mobile">
+					<a href="<?= base_url('login'); ?>">
+						<img class="nav-img" src="<?= CDN_IMG; ?>assets/frontpage/img/nav/slime.png" style="visibility: visible; margin-bottom: 5px;">
+						LOGIN
+					</a>
+				</div>
+			</div>
+			<div class="col-4" style="margin-right: auto;">
+				<div class="child_menu_mobile">
+					<a href="<?= base_url('register'); ?>">
+						<img class="nav-img" src="<?= CDN_IMG; ?>assets/frontpage/img/nav/slime.png" style="visibility: visible; margin-bottom: 5px;">
+						REGISTER
+					</a>
+				</div>
+			</div>
+		<?php else: ?>
+			<div class="col-4" style="margin-left: auto; margin-right: auto;">
+				<div class="child_menu_mobile" style="background-color: #bd3434 !important;">
+					<a href="javascript:;" class="btn_logout" style="">
+						<img class="nav-img" src="<?= CDN_IMG; ?>assets/frontpage/img/nav/slime.png" style="visibility: visible; margin-bottom: 5px;">
+						LOGOUT
+					</a>
+				</div>
+			</div>
+		<?php endif; ?> 
+	</div>
 </div>
 
 <script>
@@ -163,10 +218,12 @@
 				$("#parent_menu_mobile").fadeIn('fast', function(){
 					t.parents('.list_mobile_menu').addClass('open_mobile_menu'); 
 					t.css({
-						'color': '#c92424',
+						// 'color': '#c92424',
+						'color': '#000',
 					});
 					t.parents('.list_icon_menu').css({
-						'border-color': '#c92424',
+						// 'border-color': '#c92424',
+						'border-color': '#000',
 					});
 					t.find('svg.fa-home').hide();
 					t.find('svg.fa-times').show();

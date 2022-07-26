@@ -59,12 +59,21 @@ class Frontpage extends FrontLib {
 		$this->loadViews();
 	}
 	function register(){
+		$user_id = $this->propid;
+		if(!empty($user_id)){
+        	$this->session->set_flashdata('error', 'Please logout first.');
+            redirect(base_url());
+		} 
+		
 		$this->global['php_name'] = "usr_register";
 		$this->loadViews();
 	}
 	function login(){
-		// redirect to home
-		redirect(base_url());
+		$user_id = $this->propid;
+		if(!empty($user_id)){
+        	$this->session->set_flashdata('error', 'Please logout first.');
+            redirect(base_url());
+		} 
 
 		$this->global['php_name'] = "usr_login";
 		$this->loadViews();
