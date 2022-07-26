@@ -47,7 +47,7 @@
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="tbl_news_table" role="tabpanel" aria-labelledby="nav-news-tab">
                             <?php if(count($news)==0 || count($news)==1): ?> 
-                                <h4 style="color:#0b2eb6;text-align:center;">--Coming Soon--</h4>
+                                <h4 style="color:#fff;text-align:center;">--Coming Soon--</h4>
                             <?php endif; ?>
                             <div class="row" style="margin: 0px;">
                                 <?php  
@@ -97,9 +97,9 @@
                                 ?>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="tbl_events_table" role="tabpanel" aria-labelledby="nav-events-tab" style="padding-top: 10px;">
+                        <div class="tab-pane fade" id="tbl_events_table" role="tabpanel" aria-labelledby="nav-events-tab" style="">
                             <?php if(count($news_event)==0 || count($news_event)==1): ?>
-                                <h4 style="color:#0b2eb6;text-align:center;">--Coming Soon--</h4>
+                                <h4 style="color:#fff;text-align:center;">--Coming Soon--</h4>
                             <?php endif; ?>
                             <div class="row" style="margin: 0px;">
                                 <?php foreach ($news_event as $key => $val) : ?>
