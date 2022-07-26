@@ -575,7 +575,8 @@
     mask-image: -webkit-gradient(linear, center top, center bottom, color-stop(0.00, rgba(0,0,0,0)), color-stop(0.20, rgba(0,0,0,1)));
     -webkit-mask-image: -webkit-gradient(linear, center top, center bottom, color-stop(0.00, rgba(0,0,0,0)), color-stop(0.20, rgba(0,0,0,1)));
 
-    width: calc(100% + 120px);
+    /* width: calc(100% + 120px); */
+    width: 100%;
     height: 700px;
     background: url(<?= base_url('assets/frontpage/img/bottom_bg.jpg') ?>);
     background-size:cover;
@@ -586,7 +587,8 @@
     background-repeat: no-repeat;
     position: absolute;
     bottom: 0;
-    left: -55px;
+    /* left: -55px; */
+    left: 0px;
     z-index: 0;
 }
 /***
@@ -1562,7 +1564,8 @@ img.image_logo{
 
 html {
 	height: 100%;
-	margin: 0
+	margin: 0;
+	overflow-x: hidden;
 }
 
 body {
@@ -1578,6 +1581,7 @@ body {
 	background-size: cover;
 	padding-right: 0 !important;
     position: relative;
+    /* overflow: hidden; */
     overflow-x: hidden;
 }
 

@@ -1,9 +1,10 @@
 <?php 
-header('Content-Type: text/html; charset=utf-8');
+// header('Content-Type: text/html; charset=utf-8');
 $upload_path = "assets/frontpage/img/web_config";
 $logo_img = CDN_IMG.($upload_path.'/'.$config_web['logo_img']);
 $favico = CDN_IMG.($upload_path.'/'.$config_web['favico_img']); 
 ?>
+
 <!DOCTYPE html>
 <html lang="en" class="no-js">
 <head>
@@ -17,6 +18,8 @@ $favico = CDN_IMG.($upload_path.'/'.$config_web['favico_img']);
 	<meta content='#000000' name='theme-color'/>
 	<meta content='#000000' name='msapplication-navbutton-color'/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
 	<link rel="shortcut icon" type="image/x-icon" href="<?= $favico; ?>" />
 	<meta name="Language" content="en" />
 	<meta http-equiv="content-language" content="en" />
@@ -27,10 +30,6 @@ $favico = CDN_IMG.($upload_path.'/'.$config_web['favico_img']);
 	<?php $this->load->view("app/_part/css.php") ?>
 </head>
 <body>
-	<!-- <div class="cover_loading">
-		<div class="fa-4x"><i class="fas fa-cog fa-spin text-white"></i></div>
-		<div class="fa-2x"><i class="fas fa-cog fa-spin text-white"></i></div>
-	</div> -->
 	
 	<div id="preloader">
 		<div style="position: relative;"> 
@@ -57,41 +56,15 @@ $favico = CDN_IMG.($upload_path.'/'.$config_web['favico_img']);
 		
 		<!-- <div class="container">  -->
 		<div class="">
-
-			<!-- <div class="col-md-12" style="background-color: rgb(000000);">
-				<img src="<?php print_r(base_url('assets/frontpage/img/top_banner.png')) ?>" class="img-fluid" />
-			</div> -->
 			<div class="col-md-12 parent_banner">
 				<a href="<?= base_url(); ?>">
 					<img src="<?= $logo_img; ?>" class="img-fluid image_logo_mobile" data-no-retina />
 				</a>
-
-				<!-- <img src="<?= base_url('assets/frontpage/img/characters.png'); ?>" class="img-fluid image_logo_char" data-aos="fade-down-left" /> -->
-
-				<!-- <div class="clouds">
-					<img style="--i:1;" src="<?= base_url('assets/frontpage/img/clouds/cloud1.png'); ?>">
-					<img style="--i:2;" src="<?= base_url('assets/frontpage/img/clouds/cloud2.png'); ?>">
-					<img style="--i:3;" src="<?= base_url('assets/frontpage/img/clouds/cloud3.png'); ?>">
-					<img style="--i:4;" src="<?= base_url('assets/frontpage/img/clouds/cloud4.png'); ?>">
-					<img style="--i:5;" src="<?= base_url('assets/frontpage/img/clouds/cloud5.png'); ?>">
-				</div> -->
 			</div> 
 		</div>
-
-		<!-- <div class="d-block bg-blue-gradient parent_main_navbar" align="center">
-			<div class="container" style="display: flex;position:relative">
-				<div class="col-md-8 right_main_navbar" style="margin:0; padding:0;">
-					<?php //$this->load->view("app/_part/navbar.php") ?>	
-				</div>
-				<div class="col-md-4 left_main_navbar" style="margin:0; padding:0;"> 
-				</div>
-			</div>
-		</div> -->
 		
 		<?php if($this->session->flashdata('success') || $this->session->flashdata('error')): ?>
-			<!-- <div class="d-block" align="center"> -->
 			<?php $this->load->view("app/_part/sess_flash.php"); ?>
-			<!-- </div> -->
 		<?php endif; ?>
 	
 		<div class="container main_content mb-4" style="margin-bottom: 100px !important;">
