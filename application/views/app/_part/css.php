@@ -1997,6 +1997,11 @@ a:visited {
 		/* margin-top: -10px; */
 	}
 }
+@media (max-width: 360px) {
+	.parent_right_main_content .card h3{
+		font-size: 1.45rem;
+	}
+}
 
 @keyframes click-wave {
 	0% {

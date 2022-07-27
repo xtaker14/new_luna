@@ -49,7 +49,9 @@
                                                     <td style="/*! word-wrap: break-word; word-break: break-all; white-space: normal; */">
                                                         <?= $val['reference']; ?>
                                                         <hr style="border:1px dashed #D8D5C7;width:100%;max-width:100%;background-color:transparent;margin-top:5px;margin-bottom:5px;"> 
-                                                        <?= date('H:m, d M Y', strtotime($val['created_date'])); ?>
+                                                        <?= date('H:i, d M Y', strtotime($val['created_date'])); ?>
+                                                        <hr style="border:1px dashed #D8D5C7;width:100%;max-width:100%;background-color:transparent;margin-top:5px;margin-bottom:5px;"> 
+                                                        <b>Expiry date: </b><?= date('H:i, d M Y', strtotime($val['expiry_period'])); ?>
                                                     </td>
                                                     <td><?= $currency.' '.number_format($total_bill,$float_num,',','.'); ?></td>
                                                     <td><?= number_format($val['donate_point'],0,',','.'); ?></td>

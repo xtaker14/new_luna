@@ -21,14 +21,6 @@
     background-image: url('<?= CDN_IMG.('assets/frontpage/img/shop/HOT.png') ?>');
 }
 
-@media screen and (min-width: 768px) {
-	.im_card{
-		transition: transform .4s;
-	}
-	.im_card:hover {
-	  transform: scale(1.1);
-	}
-}
 .opt-box {
     font-size: 13px;
     color: #33ff33;
@@ -53,6 +45,19 @@
 }
 .link_hot_items:hover{
 	opacity: 0.7;
+}
+@media screen and (min-width: 768px) {
+	.im_card{
+		transition: transform .4s;
+	}
+	.im_card:hover {
+	  transform: scale(1.1);
+	}
+}
+@media (max-width: 620px) {
+	.category-menu li{
+		margin-top: 5px;
+	}
 }
 </style>
 

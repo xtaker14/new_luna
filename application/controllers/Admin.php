@@ -63,6 +63,11 @@ class Admin extends AdminController {
 	} 
 	
 	function web_config(){
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+			return;
+		}
+		
 		$this->load->model("admin_model");
 		$this->global['config_web'] = $this->getConfigWeb();
 		$this->global['php_name'] = 'web_config';
@@ -100,6 +105,11 @@ class Admin extends AdminController {
 	} 
 	
 	function send_item_log(){
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+			return;
+		}
+		
 		$this->load->model("admin_model");
 		$this->global['config_web'] = $this->getConfigWeb();
 
@@ -121,6 +131,10 @@ class Admin extends AdminController {
 	}
 	
 	function im_log(){
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+			return;
+		}
 		$this->global['php_name'] = 'im_log';
 		$this->db->order_by('id','desc');
 		$this->db->select('
@@ -154,11 +168,19 @@ class Admin extends AdminController {
 	    $this->loadPage();
 	}
 	function new_im(){
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+			return;
+		}
 		$this->global['php_name'] = 'new_im';
 		$this->global['category'] = $this->db->query("SELECT * FROM itemcategory where is_active='yes'")->result_array(); 
 	    $this->loadPage();
 	}
 	function im_edit($im_id){
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+			return;
+		}
 		$this->global['php_name'] = 'edit_im';
 		$this->global['category'] = $this->db->query("SELECT * FROM itemcategory where is_active='yes'")->result_array(); 
 
@@ -170,6 +192,10 @@ class Admin extends AdminController {
 	}
 
 	function im_list(){
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+			return;
+		}
 		$this->global['php_name'] = 'im_list';
 		$on = "im.itemtype = ic.id";
 		$cat = "ic.categoryname";
@@ -178,6 +204,10 @@ class Admin extends AdminController {
 	}
 
 	function im_piece_list(){
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+			return;
+		}
 		$this->global['php_name'] = 'im_piece_list';
 		$on = "pc.itemid = im.itemid";
 		$im_name = "im.itemname";
@@ -186,12 +216,20 @@ class Admin extends AdminController {
 	}
 
 	function new_im_piece($im_id){
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+			return;
+		}
 		$this->global['php_name'] = 'new_im_piece';
 		$this->global['im_id'] = $im_id;
 	    $this->loadPage();
 	}
 	
 	function im_piece_edit($id){
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+			return;
+		}
 		$this->global['php_name'] = 'edit_im_piece';
 		$on = "pc.itemid = im.itemid";
 		$im_name = "im.itemname";
@@ -201,6 +239,10 @@ class Admin extends AdminController {
 	}
 	
 	function donate(){ 
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+			return;
+		}
 		$this->load->model("admin_model");
       	$this->global['donate_price_list'] = $this->admin_model->donate_price_list();
       	$this->global['donate_list'] = $this->admin_model->donate_list(); 
@@ -295,6 +337,10 @@ class Admin extends AdminController {
 	}
 
 	function top_donate($case='week',$t_val1='',$t_val2=''){  
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+			return;
+		}
 		
 		$this->load->model("admin_model"); 
 		$this->global['list_month'] = array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
@@ -348,6 +394,10 @@ class Admin extends AdminController {
 	} 
 
 	function donate_price(){ 
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+			return;
+		}
 		$this->load->model("admin_model");
       	$this->global['donate_price_list'] = $this->admin_model->donate_price_list();
 		$this->global['config_web'] = $this->getConfigWeb();
@@ -358,11 +408,19 @@ class Admin extends AdminController {
 	} 
 	
 	function new_donate_price(){
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+			return;
+		}
 		$this->global['php_name'] = 'new_donate_price';
 	    $this->loadPage();
 	}
 
 	function edit_donate_price($id){
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+			return;
+		}
 		$this->global['php_name'] = 'new_donate_price';
 		$this->global['get_dp'] = $this->db->get_where("donate_price_list",array(
 			"id"=>$id
@@ -372,6 +430,10 @@ class Admin extends AdminController {
 	}
 
 	function referral(){
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+			return;
+		}
 		$this->load->model("admin_model"); 
       	$this->global['referral_list'] = $this->admin_model->referral_list();
 		$this->global['config_web'] = $this->getConfigWeb();
@@ -380,6 +442,10 @@ class Admin extends AdminController {
 	}
 
 	function referral_history(){
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+			return;
+		}
 		$this->load->model("admin_model"); 
       	$this->global['referral_history_list'] = $this->admin_model->referral_history_list();
 		$this->global['config_web'] = $this->getConfigWeb();
@@ -388,6 +454,10 @@ class Admin extends AdminController {
 	}
 
 	function new_referral(){
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+			return;
+		}
 		$this->load->model("admin_model");
 		$this->global['config_web'] = $this->getConfigWeb();
 		$this->global['php_name'] = 'new_referral';
@@ -395,6 +465,10 @@ class Admin extends AdminController {
 	}
 
 	function edit_referral($id){
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+			return;
+		}
 		if(empty($id)){
 			setFlashData('error', 'ID tidak boleh kosong..');
 			redirect('adm/referral');
@@ -414,11 +488,19 @@ class Admin extends AdminController {
 	}
 
 	function topup(){
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+			return;
+		}
 		$this->global['php_name'] = 'topup';
 	    $this->loadPage();
 	}
 
 	function topup_log(){
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+			return;
+		}
 		$this->global['php_name'] = 'topup_log';
 		$this->load->model('im_model');
 		$this->global['topup_log'] = $this->im_model->topup_log();
@@ -426,6 +508,10 @@ class Admin extends AdminController {
 	}
 
 	function send_item(){
+		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
+			json(false);
+			return;
+		}
 		$this->global['php_name'] = 'send_item';
 	    $this->loadPage();
 	}
@@ -481,7 +567,8 @@ class Admin extends AdminController {
 
 	function account_list(){
 		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
-			$this->denied();
+			json(false);
+			return;
 		}else{
 			$this->global['account_list'] = $this->db->query('SELECT * FROM tbl_admin')->result();
 			$this->global['php_name'] = 'account_list';
@@ -491,7 +578,8 @@ class Admin extends AdminController {
 
 	function g_account_list(){
 		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
-			$this->denied();
+			json(false);
+			return;
 		}else{
     		$this->db = dbloader("LUNA_MEMBERDB");
     		$this->global['adm_list'] = $this->db->query("SELECT * FROM game_role")->result();
@@ -504,7 +592,8 @@ class Admin extends AdminController {
 
 	function add_source(){
 		if($this->checker(ROLE_DEVELOPER,DEV)==FALSE){
-			$this->denied();
+			json(false);
+			return;
 		}else{
 			$this->global['php_name'] = 'add_source';
 		    $this->loadPage();

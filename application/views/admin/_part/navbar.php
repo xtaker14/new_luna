@@ -10,7 +10,7 @@
         <i class="fas fa-user-circle fa-fw"></i>
       </a>
       <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-        <a class="dropdown-item" href="<?php print_r(site_url('adm/logout')) ?>" ><i class="fa fa-power-off text-danger"></i> Logout ya^^</a>
+        <a class="dropdown-item" href="<?php print_r(site_url('adm/logout')) ?>" ><i class="fa fa-power-off text-danger"></i> Logout</a>
       </div>
     </li>
   </ul>

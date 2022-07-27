@@ -91,6 +91,16 @@
 		display: block;
 		color: #fff;
 	}
+
+	@media (max-width: 360px) {
+		#parent_menu_mobile .col-4{ 
+			-ms-flex: 0 0 41.666667%;
+			flex: 0 0 41.666667%;
+			max-width: 41.666667%;
+			margin-left: auto;
+			margin-right: auto;
+		}
+	}
 </style>
 
 <ul class="list_none list_mobile_menu d-block d-md-none">
