@@ -645,11 +645,13 @@ class Donate extends FrontLib {
                 $donate_id = $this->db->insert_id();
                 if($this->db->trans_status() === FALSE) {
                     $this->db->trans_rollback();
+                    $err_no = $this->db->_error_number();
+                    $err_mess = $this->db->_error_message();
                     return $this->output
                         ->set_content_type('application/json')
                         ->set_status_header(200)
                         ->set_output(json_encode(array(
-                            'result'=>'Error: Failed To Insert Donate',
+                            'result'=>'Error: Failed To Insert Donate, '.$err_no.' '.$err_mess,
                             'xepo_name'=>$xepo_name,
                             'xepo_value'=>$xepo_value, 
                         )));
