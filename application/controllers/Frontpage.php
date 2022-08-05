@@ -147,7 +147,7 @@ class Frontpage extends FrontLib {
 
 	function daily_login(){
 		// redirect to home
-		redirect(base_url());
+		// redirect(base_url());
 
 		$user_id = $this->propid;
 		if(empty($user_id)){
@@ -155,15 +155,29 @@ class Frontpage extends FrontLib {
             redirect(base_url());
 		} 
 		$this->load->model("frontpage_model");
-		$this->global['php_name'] = "daily_login";
-		$this->db->order_by('checkin_day','ASC');
-		$this->global['daily_checkin_items'] = $this->db->get_where("daily_checkin_item",array(
-			'is_active'=>'yes',
+		$config_web = $this->getConfigWeb(true);
+		$this->global['config_web'] = $config_web;
+		
+		$this->db->select('dci.*, dcc.is_claimed');
+        $this->db->join('daily_checkin_counter as dcc', 'dci.id = dcc.checkin_item_id', 'left');
+		$this->db->order_by('dci.checkin_day','ASC');
+		$this->global['daily_checkin_items'] = $this->db->get_where("daily_checkin_item dci",array(
+			'dci.checkin_month'=>$config_web['daily_checkin_month'],
+			'dci.checkin_year'=>$config_web['daily_checkin_year'],
+			'dci.is_active'=>'yes',
 		))->result_array(); 
+
 		$this->global['get_user'] = $this->main_m->getWhereUser(array(
 			'id'=>$user_id
 		))->row_array();
-		
+		if($this->global['get_user']['last_checkin_month'] != $config_web['daily_checkin_month'] && $this->global['get_user']['last_checkin_year'] != $config_web['daily_checkin_year']){
+			$this->global['get_user']['last_checkin_day'] = 0;
+			$this->global['get_user']['last_checkin_date'] = null;
+			$this->global['get_user']['last_checkin_month'] = $config_web['daily_checkin_month'];
+			$this->global['get_user']['last_checkin_year'] = $config_web['daily_checkin_year'];
+		}
+		$this->global['get_user']['last_checkin_day']++; 
+
       	$get_char = $this->frontpage_model->getCharacter(array(
 			'USER_IDX' => $user_id,
 			'CHARACTER_MAXGRADE >=' => 120,
@@ -171,25 +185,63 @@ class Frontpage extends FrontLib {
 		if(count($get_char) == 0){
         	// $this->session->set_flashdata('error', 'If you want daily check in at least you must have char level 120.');
             // redirect(base_url());
-		} 
-		
-		$check_available_checkin_item = $this->db->query("SELECT * FROM daily_checkin_item where checkin_day > ".$this->global['get_user']['last_checkin_day']." and is_active='yes' order by checkin_day ASC LIMIT 1")->row_array();
-		if(count($check_available_checkin_item) == 0){ 
-        	// $this->session->set_flashdata('error', 'Daily Checkin Item is not found.');
-            // redirect(base_url());
 		}
-		$this->global['count_daily_checkin_item'] = count($check_available_checkin_item);
+		
+		$get_daily_checkin_item = $this->db->query("
+			SELECT 
+				* 
+			FROM 
+				daily_checkin_item 
+			WHERE 
+				checkin_day >= ".$this->global['get_user']['last_checkin_day']." 
+				and checkin_month = '".$this->global['get_user']['last_checkin_month']."' 
+				and checkin_year = '".$this->global['get_user']['last_checkin_year']."' 
+				and is_active = 'yes' 
+			order by 
+				checkin_day ASC 
+			LIMIT 1
+		")->result_array();
+
+		$date_now = date('Y-m-d H:i', strtotime($GLOBALS['date_now'])); 
+		$row_daily_checkin_item = array();
+		$this->global['check_exist_daily_checkin'] = false;
+		// $this->global['checkin_day'] = $this->global['get_user']['last_checkin_day'] + 1; 
+		$this->global['checkin_day'] = $this->global['get_user']['last_checkin_day']; 
 		$this->global['available_checkin'] = true;
-		$date_now = date('Y-m-d', strtotime($GLOBALS['date_now'])); 
-		$available_checkin_date = $this->plus_min_date($this->global['get_user']['last_checkin_date'],["+1 day","Y-m-d"]);
-		$this->global['available_checkin_date'] = date('d M Y', strtotime($available_checkin_date));
-		if(!empty($this->global['get_user']['last_checkin_date'])){
-			if($available_checkin_date > $date_now){
-				$this->global['available_checkin'] = false;
+		$this->global['available_checkin_date'] = null;
+		$this->global['checkin_counter'] = 0;
+
+		// dump('test'); exit;
+		foreach($get_daily_checkin_item as $idx => $val){
+			if($val['checkin_day'] == $this->global['checkin_day']){
+				$row_daily_checkin_item = $val;
+				
+				$get_daily_checkin_counter = $this->db->get_where("daily_checkin_counter",array(
+					'checkin_item_id'=>$row_daily_checkin_item['id'],
+					'user_id'=>$user_id,
+				))->row_array(); 
+				
+				$this->global['check_exist_daily_checkin'] = true;
+				if(!empty($get_daily_checkin_counter)){
+					$this->global['checkin_counter'] = $get_daily_checkin_counter['counter_checkin'];
+
+					$available_checkin_date = $this->plus_min_date($get_daily_checkin_counter['modified_date'],["+2 hours","Y-m-d H:i"]);
+					if($this->global['checkin_counter'] == 3){
+						$available_checkin_date = $this->plus_min_date($get_daily_checkin_counter['modified_date'],["+1 day","Y-m-d"]);
+						$this->global['available_checkin_date'] = date('d M Y', strtotime($available_checkin_date));
+					}else{
+						$this->global['available_checkin_date'] = date('H:i, d M Y', strtotime($available_checkin_date));
+					}
+
+					// dump($this->global['get_user']['last_checkin_day'], $this->global['checkin_counter'], $available_checkin_date, $date_now); exit;
+					if($available_checkin_date > $date_now){
+						$this->global['available_checkin'] = false;
+					}
+				}
 			}
 		}
 		
-		$this->global['checkin_day'] = $this->global['get_user']['last_checkin_day'];
+		$this->global['php_name'] = "daily_login";
 		
 		$this->loadViews();
 	}

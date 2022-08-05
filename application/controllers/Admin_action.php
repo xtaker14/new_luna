@@ -922,6 +922,8 @@ class Admin_action extends AdminController {
 			$input_bin_code = $this->input->post('input_bin_code',true);
 			$input_qty = $this->input->post('input_qty',true);
 			$input_checkin_day = $this->input->post('input_checkin_day',true);
+			$input_checkin_month = $this->input->post('input_checkin_month',true);
+			$input_checkin_year = $this->input->post('input_checkin_year',true);
 			$input_description = $this->input->post('input_description',true);
 			$item_image = 'input_img';
 			if(isset($input_is_active)){
@@ -937,6 +939,8 @@ class Admin_action extends AdminController {
 				'bin_code' => $input_bin_code,
 				'qty' => $input_qty,
 				'checkin_day' => $input_checkin_day,
+				'checkin_month' => $input_checkin_month,
+				'checkin_year' => $input_checkin_year,
 				'description' => $input_description,
 			);
 
@@ -949,6 +953,23 @@ class Admin_action extends AdminController {
 					setFlashData('error', 'Daily Checkin Item is not found');
 					redirect('adm/checkin_item/'.$id);
 				}
+			}
+
+			$curr_checkin_day = array(
+				'checkin_day'=>$input_checkin_day,
+				'checkin_month'=>$input_checkin_month,
+				'checkin_year'=>$input_checkin_year,
+			);
+			if(isset($id) && !empty($id)){
+				$curr_checkin_day['id !='] = $id;
+			}
+			$get_curr_checkin_day = $this->db->get_where('daily_checkin_item',$curr_checkin_day)->row_array();
+			if(!empty($get_curr_checkin_day)){
+				setFlashData('error', 'Checkin day on the month and year already available');
+				if(isset($id) && !empty($id)){
+					redirect('adm/checkin_item/'.$id);
+				}
+				redirect('adm/checkin_item');
 			}
 
 			$image_name = false;

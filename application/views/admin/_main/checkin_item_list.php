@@ -33,7 +33,11 @@
                                 
                             <tr data-id="<?= $val['id']; ?>">
                                 <td><?= $val['checkin_day']; ?></td>
-                                <td><input data-id="<?= $val['id']; ?>" min="1" class="form-control input_checkin_day" style="width:100px;" type="text" value="<?= $val['checkin_day']; ?>"></td>
+                                <td>
+									<input data-id="<?= $val['id']; ?>" min="1" class="form-control input_checkin_day" style="width:100px;" type="text" value="<?= $val['checkin_day']; ?>">
+									<b>Month: </b><?= getListMonth($val['checkin_month']); ?><br>
+									<b>Year: </b><?= $val['checkin_year']; ?><br>
+								</td>
                                 <td><?= $val['name']; ?></td>
                                 <td><?= $val['qty']; ?>x</td> 
                                 <td>
@@ -54,7 +58,18 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript">    
+<script type="text/javascript">  
+	const delayCallEvent = (callback, ms) => {
+		var timer = 0;
+		return function () {
+			var context = this, args = arguments;
+			clearTimeout(timer);
+			timer = setTimeout(function () {
+				callback.apply(context, args);
+			}, ms || 0);
+		};
+	}  
+
 	$(document).ready(function(){   
 		var table = $('#checkin_item_list').DataTable({
 			//aaSorting: [ [0,'desc'] ],
@@ -92,7 +107,7 @@
 			}
 		});
 
-		$('.input_checkin_day').on('keyup', f_main.delayCallEvent(function (e) { 
+		$('.input_checkin_day').on('keyup', delayCallEvent(function (e) { 
 			let t = $(this); 
 			let t_id = t.data('id'); 
 			let t_tr = t.parents('tr[data-id="'+t_id+'"]'); 
@@ -115,8 +130,13 @@
 							t_tr.find('td').eq(6).text(data.modified_date);
 							console.log('Update Success');
 						}else{
-        					f_main.notifyDangerBox(t, 'Update Failed',false,2000);
-							console.log('Update Failed');
+							if(data.msg != undefined){
+								f_main.notifyDangerBox(t, data.msg,false,4000);
+								console.log(data.msg);
+							}else{
+								f_main.notifyDangerBox(t, 'Update Failed',false,4000);
+								console.log('Update Failed');
+							}
 						}
 						$('.input_checkin_day').attr('readonly',false);
 					}

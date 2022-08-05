@@ -1,7 +1,14 @@
 
+<?php 
+
+exit;
+
+?>
+
 <!-- <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">  -->
 <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> -->
-<script src="https://app-sandbox.duitku.com/lib/js/duitku.js"></script> 
+<!-- <script src="https://app-sandbox.duitku.com/lib/js/duitku.js"></script>  -->
+<script src="https://app-prod.duitku.com/lib/js/duitku.js"></script> 
 
 <div class="bg-light p-4 border shadow">
     <!-- Form -->

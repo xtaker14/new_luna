@@ -79,6 +79,7 @@ $csrf_pages = array(
     "/cekmutasi2/",
     "/duitku/",
     "/donate/get_bonus_items",
+    "/checkin_now/",
 );
 $config['csrf_protection'] = TRUE;
 if (isset($_SERVER["REQUEST_URI"])) {

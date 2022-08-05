@@ -1,4 +1,5 @@
-<script src="https://app-sandbox.duitku.com/lib/js/duitku.js"></script> 
+<!-- <script src="https://app-sandbox.duitku.com/lib/js/duitku.js"></script>  -->
+<script src="https://app-prod.duitku.com/lib/js/duitku.js"></script> 
 
 <script>
     function checkoutProcess(reference, is_check=false) { 

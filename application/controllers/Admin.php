@@ -11,7 +11,18 @@ class Admin extends AdminController {
 
 	function checkin_item($id=null){
 		$this->global['php_name'] = 'checkin_item';
-		$get_last_checkin_day = $this->db->query('SELECT checkin_day FROM daily_checkin_item order by checkin_day desc LIMIT 1')->row_array(); 
+		$get_last_checkin_day = $this->db->query('
+			SELECT 
+				checkin_day 
+			FROM 
+				daily_checkin_item 
+			WHERE 
+				checkin_month = "'.date('m').'" 
+				AND checkin_year = "'.date('Y').'" 
+			ORDER BY 
+				checkin_day DESC 
+			LIMIT 1
+		')->row_array(); 
 		$this->global['get_last_checkin_day'] = 1;
 		if(count($get_last_checkin_day)>0){
 			$this->global['get_last_checkin_day'] = $get_last_checkin_day['checkin_day']+1;
@@ -343,7 +354,11 @@ class Admin extends AdminController {
 		}
 		
 		$this->load->model("admin_model"); 
-		$this->global['list_month'] = array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
+		// $this->global['list_month'] = array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
+		$this->global['list_month'] = [];
+		foreach(getListMonth() as $key => $val){
+			$this->global['list_month'][] = $val;
+		}
 
 		$where_donate=[
 			'd.show_log = ' => "'yes'" // start mulai tanggal 11 agustus 2021

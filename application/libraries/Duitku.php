@@ -141,7 +141,8 @@ class Duitku {
         $this->config = new \Duitku\Config(getenv('DUITKU_MERCHANT_KEY'), getenv('DUITKU_MERCHANT_CODE')); // 'YOUR_MERCHANT_KEY' and 'YOUR_MERCHANT_CODE' 
         $this->config->setApiKey(getenv("DUITKU_MERCHANT_KEY")); //'YOUR_MERCHANT_KEY';
         $this->config->setMerchantCode(getenv("DUITKU_MERCHANT_CODE")); //'YOUR_MERCHANT_CODE';
-        $this->config->setSandboxMode(true);
+        // $this->config->setSandboxMode(true);
+        $this->config->setSandboxMode(false);
         // $this->config->setDuitkuLogs(false); 
 	}
 

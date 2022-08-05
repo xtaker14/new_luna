@@ -157,7 +157,7 @@ $route['adm/go_update_im_piece/(:num)'] = 'admin_action/go_update_im_piece/$1';
 $route['adm/im_log'] = 'admin/im_log';
 
 // API
-$route['api/checkin_now'] = 'frontpage_json/checkin_now';
+// $route['api/checkin_now'] = 'frontpage_json/checkin_now';
 $route['api/donate_process_payment'] = 'frontpage_json/process_payment';
 $route['api/checkin_item_status_update/(:any)/(:any)'] = 'admin_action/checkin_item_status_update/$1/$2';
 $route['api/checkin_item_delete/(:num)'] = 'admin_action/checkin_item_delete/$1';

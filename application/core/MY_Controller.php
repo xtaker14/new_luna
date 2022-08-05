@@ -56,6 +56,7 @@ class MY_Controller extends CI_Controller  {
 		if($get_admin_key){
 			$this->session->set_userdata('admin-key', $get_admin_key);
 		} 
+		$this->routesAPI();
 		$GLOBALS['check_allowed_ip'] = $this->checkAllowedIp();
 		$this->isOtherLinkMT();
 		$is_allowed_admin = $this->allowedAdmin(); 
@@ -159,6 +160,40 @@ class MY_Controller extends CI_Controller  {
         return false;
 	}
 
+	private function routesAPI() {
+		// $this->session->unset_userdata('ROUTES-API');
+		// $this->session->unset_userdata('TIMER-ROUTES-API');
+
+		if(!$this->session->userdata('ROUTES-API')){
+			$routes_api = array(
+				'test'=> array(
+					'encrypt' => 'aa/'.randomNumber(), 
+					'decrypt' => 'aa/test'
+				),
+				'checkin_now'=> array(
+					'encrypt' => 'checkin/'.randomNumber(), 
+					'decrypt' => 'checkin/checkin_now'
+				),
+			);
+			$i=0;
+			foreach ($routes_api as $key => $val) {
+				$i++;
+				$GLOBALS['ROUTES-API'][$key]['encrypt'] = $val['encrypt'].$i;
+				$GLOBALS['ROUTES-API'][$key]['decrypt'] = $val['decrypt'];
+			}
+			$this->session->set_userdata('ROUTES-API', $GLOBALS['ROUTES-API']);
+		}else{
+			$GLOBALS['ROUTES-API'] = $this->session->userdata('ROUTES-API');
+		}
+		if (
+			$this->session->userdata('TIMER-ROUTES-API') && 
+			(time() - $this->session->userdata('TIMER-ROUTES-API') > 1800)
+		) { // 30 min
+			$this->session->unset_userdata('ROUTES-API');
+		}
+		$this->session->set_userdata('TIMER-ROUTES-API', time());
+		// dump(array($GLOBALS['ROUTES-API']));
+	}
 
 	protected function midtrans_update_status($order_id, $t_midtrans){
 		$midtrans_data_new = (array)$t_midtrans->status($order_id);

@@ -7,6 +7,8 @@ $input_is_active = '';
 $input_name = '';
 $input_bin_code = '';
 $input_qty = '1'; 
+$input_checkin_month = date('m');
+$input_checkin_year = date('Y');
 $input_img = '';
 $input_description = '';
 if(isset($get_checkin)){
@@ -16,6 +18,8 @@ if(isset($get_checkin)){
     $input_name = $get_checkin['name'];
     $input_bin_code = $get_checkin['bin_code'];
     $input_qty = $get_checkin['qty']; 
+    $input_checkin_month = $get_checkin['checkin_month'];
+    $input_checkin_year = $get_checkin['checkin_year'];
     $input_img = $get_checkin['img'];
     $input_description = $get_checkin['description'];
 }
@@ -56,6 +60,22 @@ if(isset($get_checkin)){
                     <input type="text" class="form-control" placeholder="<?= ucwords('Checkin Day'); ?>" name="input_checkin_day" id="input_checkin_day" value="<?= $get_last_checkin_day; ?>" required>
                 </div> 
             </div> 
+            <div class="row">
+                <div class="col-md-6 form-group"> 
+                    <label for="input_checkin_month"><?= ucwords('Checkin Month'); ?></label>
+                    <select class="form-control" name="input_checkin_month" id="input_checkin_month">
+                        <?php foreach(getListMonth() as $key => $val): ?>
+                            <option class="" value="<?= $key; ?>" <?= $key == $input_checkin_month ? 'selected' : ''; ?>>
+                                <?= $val; ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div> 
+                <div class="col-md-6 form-group"> 
+                    <label for="input_checkin_year"><?= ucwords('Checkin Year'); ?></label>
+                    <input type="text" class="form-control" placeholder="<?= ucwords('Checkin Year'); ?>" name="input_checkin_year" id="input_checkin_year" value="<?= $input_checkin_year; ?>" required>
+                </div> 
+            </div>
             <div class="row">
                 <div class="col-md-6 col-sm-12 form-group">  
                     <label for="input_img" >
